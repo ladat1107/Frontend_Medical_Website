@@ -1,28 +1,17 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
-import { authenService } from "@/services/authenService";
 import { MODAL_TYPE } from "@/constant/general";
 import { localToken } from "@/utils/token";
 import { useNavigate } from "react-router-dom";
-import {PATHS} from "@/constant/path";
+import { PATHS } from "@/constant/path";
 import { message } from "antd";
 const AuthenContext = createContext({});
 
 export const AuthenContextProvider = ({ children }) => {
-  
   const [showModal, setShowMadal] = useState("");
-
-  const [privateRegister, setPrivateRegister] = useState(false);
-
-  const [redirectPath, setRedirectPath] = useState(null);
 
   const [profile, setProfile] = useState({});
 
-
   const navigate = useNavigate();
-
-  const handlePrivateRegister = (state) => {
-    setPrivateRegister(state);
-  };
 
   useEffect(() => {
     if (!!localToken.get()?.accessToken) {
@@ -32,61 +21,49 @@ export const AuthenContextProvider = ({ children }) => {
 
   const handleShowModal = (type_modal, path = null) => {
     setShowMadal(type_modal || "");
-    setRedirectPath(path);
   };
 
   const handleModalClose = () => {
-   // Tìm thẻ có class .modal-backdrop.fade.show và thêm class .hide
-  const backdrop = document.querySelector('.modal-backdrop.fade.show');
-  if (backdrop) {
-    backdrop.classList.add('hide');
-  }
-
-  setShowMadal("")
-  document.body.style.overflow = '';
- 
+    setShowMadal("");
   };
 
   const handleLogin = async (loginData, callBack) => {
-    const payload = { ...loginData };
+    // const payload = { ...loginData };
 
-    try {
-      const res = await authenService.login(payload);
+    // try {
+    //   // call API
+    //   // const res = await authenService.login(payload);
+    //   const res = true;
 
-      if (res?.data.data) {
-        const { token: accessToken, refreshToken } = res?.data.data || {};
-        // save token on client storage
-        localToken.set({
-          accessToken,
-          refreshToken,
-        });
+    //   if (res?.data.data) {
+    //     const { token: accessToken, refreshToken } = res?.data.data || {};
+    //     // save token on client storage
+    //     localToken.set({
+    //       accessToken,
+    //       refreshToken,
+    //     });
 
-        // get infor profile
-        handleGetProfile?.();
+    //     // get infor profile
+    //     handleGetProfile?.();
 
-        handleModalClose?.();
-        message.success("Đăng nhập thành công");
+    //     handleModalClose?.();
+    //     message.success("Đăng nhập thành công");
 
-        if (redirectPath) {
-          navigate(redirectPath);
-          setRedirectPath(null);
-        } else {
-          // redirect home page after login if user not access on private route (origin login)
-          navigate(PATHS.HOME);
-        }
-        // use toast
-      } else {
-       message.error("Login fail ! please try again")
-      }
-    } catch (error) {
-      console.log("error", error);
-      message.error("Login fail ! please try again")
-      //use toast
-    } finally {
-      callBack?.();
-    }
+    //     // redirect home page after login if user not access on private route (origin login)
+    //     navigate(PATHS.HOME);
+
+    //     // use toast
+    //   } else {
+    //     message.error("Login fail ! please try again");
+    //   }
+    // } catch (error) {
+    //   console.log("error", error);
+    //   message.error("Login fail ! please try again");
+    //   //use toast
+    // } finally {
+    //   callBack?.();
+    // }
   };
- 
 
   const handleRegister = async (registerData, callBack) => {
     const payload = {
@@ -97,7 +74,9 @@ export const AuthenContextProvider = ({ children }) => {
     };
 
     try {
-      const res = await authenService.register(payload);
+      // call API
+      // const res = await authenService.register(payload);
+      const res = true;
       if (res?.data?.data?.id) {
         // call handle login after finish register
         // call handleLogin here and push email & password for login after register
@@ -123,7 +102,9 @@ export const AuthenContextProvider = ({ children }) => {
 
   const handleGetProfile = async () => {
     try {
-      const res = await authenService.getProfile();
+      // call API
+      const res = true;
+      // const res = await authenService.getProfile();
       if (res?.data?.data) {
         setProfile(res.data.data);
       }
@@ -133,19 +114,16 @@ export const AuthenContextProvider = ({ children }) => {
     }
   };
 
- 
   return (
     <AuthenContext.Provider
       value={{
-        showModal,
         handleShowModal,
         handleModalClose,
         handleLogin,
         handleRegister,
         handleLogout,
+        showModal,
         profile,
-        handlePrivateRegister,
-        privateRegister,
         
       }}
     >

@@ -1,139 +1,74 @@
-// import { useAuthenContext } from "@/contexts/AuthenContext";
-import Input from "../Input";
-import { useForm } from "react-hook-form";
-import { useState } from "react";
-import { MESSAGE } from "@/constant/validate";
-import { REGEX } from "@/constant/validate";
-import { useDispatch } from "react-redux";
-import { handleRegister } from "@/store/Reducer/authReducer";
+import { useAuthenContext } from "@/contexts/AuthenContext";
+import React, { useState } from "react";
+import { Modal, Button, Form } from "react-bootstrap";
+
 const RegisterForm = () => {
-  const dispatch = useDispatch();
+  const { handleModalClose, showModal } = useAuthenContext();
 
-  // const { handleRegister} =  useAuthenContext();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [phone, setPhone] = useState();
 
-  const {
-    register,
-    handleSubmit,
-    watch,
-    formState: { errors },
-  } = useForm();
-
-  console.log('🚀1---->', 1);
-
-  const password = watch("password");
-
-  const [loading, setLoading] = useState(false);
-
-  const onSubmit = async (data) => {
-    console.log('data', data)
-    if (data) {
-      setLoading(true);
-      const { name, email, password } = data;
-      const payload = {
-        firstName: name || "",
-        lastName: "",
-        email,
-        password,
-      };
-      console.log('payload', payload)
-
-      const res = await dispatch(handleRegister(payload)).unwrap();
-
-      if (res) {
-        setTimeout(() => {
-          setLoading(false);
-        }, 300);
-      }
-    }
+  const _onSubmit = (e) => {
+    e.preventDefault();
+    // Xử lý đăng nhập tại đây (Ví dụ: gọi API)
+    console.log("Email:", email);
+    console.log("Password:", password);
+    handleModalClose(); // Đóng modal sau khi đăng nhập
   };
 
   return (
     <>
-      <form onSubmit={handleSubmit(onSubmit)} style={{ position: "relative" }}>
-        <Input
-          label="Your email address"
-          required
-          {...register("email", {
-            required: MESSAGE.required,
-            pattern: {
-              value: REGEX.email,
-              message: MESSAGE.email,
-            },
-          })}
-          error={errors?.email?.message || ""}
-        />
-        <Input
-          label="Your name"
-          required
-          {...register("name", {
-            required: MESSAGE.required,
-          })}
-          error={errors?.name?.message || ""}
-        />
-        {/* End .form-group */}
-        <Input
-          label="Your password"
-          type="password"
-          required
-          {...register("password", {
-            required: MESSAGE.required,
-          })}
-          error={errors?.password?.message || ""}
-        />
-        <Input
-          label="Your confirm password"
-          type="password"
-          required
-          {...register("confirmPassword", {
-            required: MESSAGE.required,
-            validate: (value) => value === password || "Passwords do not match",
-          })}
-          error={errors?.confirmPassword?.message || ""}
-        />
-        {/* End .form-group */}
-        <div className="form-footer">
-          <button type="submit" className="btn btn-outline-primary-2">
-            <span>SIGN UP</span>
-            <i className="icon-long-arrow-right" />
-          </button>
-          <div className="custom-control custom-checkbox">
-            <input
-              type="checkbox"
-              className="custom-control-input"
-              id="register-policy"
-              {...register("isAgree", {
-                required: MESSAGE.policy,
-              })}
-            />
-            <label className="custom-control-label" htmlFor="register-policy">
-              I agree to the <a href="privacy-policy.html">privacy policy</a> *
-            </label>
-            {errors?.isAgree?.message && (
-              <p className="form-error">{errors?.isAgree?.message}</p>
-            )}
-          </div>
-          {/* End .custom-checkbox */}
-        </div>
-        {/* End .form-footer */}
-      </form>
-      <div className="form-choice">
-        <p className="text-center">or sign in with</p>
-        <div className="row">
-          <div className="col-sm-6">
-            <a href="#" className="btn btn-login btn-g">
-              <i className="icon-google" />
-              Login With Google
-            </a>
-          </div>
-          {/* End .col-6 */}
-          <div className="col-sm-6">
-            <a href="#" className="btn btn-login  btn-f">
-              <i className="icon-facebook-f" />
-              Login With Facebook
-            </a>
-          </div>
-        </div>
-      </div>
+      <Modal show={!!showModal}>
+        <Modal.Header closeButton onClick={handleModalClose}>
+          <Modal.Title>Register</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Form
+            onSubmit={() => {
+              console.log("login");
+            }}
+          >
+            <Form.Group controlId="formBasicEmail">
+              <Form.Label>Email address</Form.Label>
+              <Form.Control
+                type="email"
+                placeholder="Enter email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+            </Form.Group>
+
+            <Form.Group controlId="formBasicPassword">
+              <Form.Label>Password</Form.Label>
+              <Form.Control
+                type="password"
+                placeholder="Password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+            </Form.Group>
+            <Form.Group controlId="formBasicPassword">
+              <Form.Label>Phone</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="Password"
+                value={phone}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+            </Form.Group>
+
+            <Button
+              variant="primary"
+              type="submit"
+              onClick={_onSubmit}
+              style={{ marginTop: "20px" }}
+            >
+              Submit
+            </Button>
+          </Form>
+        </Modal.Body>
+      </Modal>
     </>
   );
 };

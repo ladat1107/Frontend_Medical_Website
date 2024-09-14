@@ -1,19 +1,16 @@
 import "./App.css";
 import MainLayout from "./layouts/MainLayout";
+import HomePage from "./Pages/Home";
+import ContactPage from "./Pages/Contact";
+import { Routes, Route } from "react-router-dom";
 
 function App() {
  
   return (
     <Routes>
-      <Route  element={<MainLayout />}>
-        {/* <Route index element={<Home />} />
-        <Route path={PATHS.ABOUT} element={<About />} />
-        <Route path={PATHS.CONTACT} element={<Contact />} />
-        <Route path={PATHS.PRODUCTS} element={<Product />} />
-        <Route path={PATHS.PRODUCT_DETAIL} element={<ProductDetail />} />
-        <Route path={PATHS.BLOG} element={<Blog />} />
-        <Route path={PATHS.CART} element={<Cart />} />
-        <Route path={PATHS.CHECKOUT} element={<Checkout />} /> */}
+      <Route  element={<MainLayout/>}>
+        <Route index element={<HomePage/>} />
+        <Route path='/contact' element={<ContactPage/>} />
       </Route>
     </Routes>
   );

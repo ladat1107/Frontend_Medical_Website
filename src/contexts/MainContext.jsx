@@ -12,7 +12,7 @@ const MainContextProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    handleCloseMobileMenu();
+   
     const myTimeout = setTimeout(() => {
       scrollTop();
     }, 100);
@@ -24,23 +24,11 @@ const MainContextProvider = ({ children }) => {
 
   
 
-  const handleShowMobileMenu = (e) => {
-    e?.stopPropagation();
-    e?.preventDefault();
-    $("body").addClass("mmenu-active");
-    
-  };
-
-  const handleCloseMobileMenu = (e) => {
-    e?.stopPropagation();
-    e?.preventDefault();
-    $("body").removeClass("mmenu-active");
-   
-  };
+  
 
   return (
     <MainContext.Provider
-      value={{ handleCloseMobileMenu, handleShowMobileMenu }}
+      value={{}}
     >
       {children}
     </MainContext.Provider>
