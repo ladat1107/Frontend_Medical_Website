@@ -1,11 +1,10 @@
 import "./App.css";
 import 'flowbite';
 import MainLayout from "./layouts/MainLayout";
-import HomePage from "./pages/Home/index";
 import ContactPage from "./pages/Contact/index";
-import AdminHomePage from "./pages/adminPages/Home";
+import HomePage from "./pages/Admin/pages/HomePage/index";
 import { Routes, Route } from "react-router-dom";
-import AdminLayout from "./layouts/AdminLayout";
+import AdminLayout from "./pages/Admin/index";
 function App() {
 
   return (
@@ -15,7 +14,7 @@ function App() {
         <Route path='/contact' element={<ContactPage />} />
       </Route>
       <Route element={<AdminLayout />}>
-        <Route path='/admin' element={<AdminHomePage />} />
+        <Route path='/admin' element={<HomePage />} />
 
       </Route>
     </Routes>

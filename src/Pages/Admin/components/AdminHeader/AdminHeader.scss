@@ -1,0 +1,18 @@
+.bg-nav {
+    background-color: black;
+
+    .nav-link {
+        color: rgba(255, 255, 255, 0.933);
+
+        &:hover {
+            color: white;
+        }
+
+        .active {
+            color: white;
+            font-weight: 600;
+            font-size: 15px;
+        }
+    }
+
+}
