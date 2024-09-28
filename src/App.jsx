@@ -2,7 +2,8 @@ import "./App.css";
 import 'flowbite';
 import MainLayout from "./layouts/MainLayout";
 import ContactPage from "./pages/Contact/index";
-import HomePage from "./pages/Admin/pages/HomePage/index";
+import AdminHomePage from "./pages/Admin/pages/HomePage/index";
+import HomePage from "./pages/Home/index";
 import { Routes, Route } from "react-router-dom";
 import PrivateRoute from "./components/PrivateRoute";
 import AdminLayout from "./pages/Admin/index";
@@ -16,7 +17,7 @@ function App() {
         <Route path='/contact' element={<ContactPage />} />
       </Route>
       <Route element={<AdminLayout />}>
-        <Route path='/admin' element={<HomePage />} />
+        <Route path='/admin' element={<AdminHomePage />} />
         <Route path='/adminUserManage' element={<UserManage />} />
       </Route>
     </Routes>

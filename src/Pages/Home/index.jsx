@@ -11,8 +11,8 @@ const HomePage = () => {
   return (
     <>
       <ImageSlider />
-      <DoctorSearch/>
-      <CustomService/>
+      <DoctorSearch />
+      <CustomService />
     </>
   );
 };
