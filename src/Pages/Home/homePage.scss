@@ -1,0 +1,226 @@
+.icon-container {
+  width: 300px;
+  height: 150px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  background-color: #f9f9f9;
+  margin: 0 auto;
+}
+
+.ambulance-icon {
+  color: white;
+  font-size: 48px;
+}
+
+// Doctor Search section
+.doctor-search-container {
+  display: flex;
+  justify-content: space-evenly;
+  margin-bottom: 100px;
+}
+.item-doctor-search {
+  border-radius: 15px;
+  padding: 25px 15px;
+  background-color: #00baa3;
+  width: 30%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 20px;
+  text-align: center;
+  color: white;
+  // Thêm hiệu ứng box-shadow
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+
+  span {
+    width: 25%;
+    height: 3px;
+    background-color: white;
+    margin: 0 auto;
+  }
+  .content {
+    font-size: 20px;
+  }
+  button {
+    padding: 8px 30px;
+    background-color: #00baa3; // Màu nền ban đầu
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease; // Hiệu ứng mượt khi thay đổi màu nền
+    border: solid 1px white;
+  
+    &:hover {
+      background-color: white; // Màu nền khi hover
+      color: #00baa3;
+
+    }
+  }
+  
+}
+
+// customer service section
+
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Lora:wght@400;700&display=swap');
+
+$body: 'Arial', sans-serif; // Font chữ dễ đọc cho body
+$big: 'Georgia', serif; // Font chữ dễ đọc cho tiêu đề
+
+$white: #ffffff;
+$primary: #F2DAD7;
+$secondary: #D1A39E;
+$light: #CECDCA;
+$dark: #474545;
+
+$ease: all 0.3s ease-in-out;
+
+body {
+  font-family: $body;
+  margin: 0;
+}
+
+button {
+  cursor: pointer;
+}
+.custom-service-container{
+    margin-bottom: 100px;
+}
+#portfolio {
+  width: 70%;
+  margin: auto;
+  min-height: 70vh;
+  
+  padding: 0 100px;
+  background: $white;
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(200px, 1fr));
+  grid-template-rows: 1fr 1fr;
+  grid-gap: 35px;
+
+  .project {
+    position: relative;
+    background: $primary;
+    border: solid 2px #00baa3 ;
+    overflow: hidden;
+    background-image: url('http://benhvienhuunghi.vn/wp-content/uploads/2020/08/bao-hiem-3.png');
+    img {
+      position: absolute;
+      opacity: 0.9;
+    }
+
+    p {
+      position: absolute;
+      text-align: center;
+      width: 100%;
+      padding: 1em 0;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      z-index: 3;
+    }
+
+    .grid__title {
+      position: absolute;
+      width: 100%;
+      text-align: center;
+      white-space: nowrap;
+      bottom: 0;
+      font-weight: 100;
+      font-size: 0.8em;
+      z-index: 3;
+      text-transform: uppercase;
+      color: $dark;
+      letter-spacing: 2px;
+    }
+
+    // Project hover overlay
+    &:hover .grid__overlay {
+      transform: translateY(0%);
+    }
+
+    .grid__overlay {
+    //   background: rgba(darken($primary, 10%), 0.9);
+      height: 100%;
+      grid-column: 1 / -1;
+      grid-row: 1 / -1;
+      position: relative;
+      display: grid;
+      justify-items: center;
+      align-items: center;
+      transform: translateY(101%);
+      transition: $ease;
+
+      button {
+        background: none;
+        outline: none;
+        font-weight: 100;
+        letter-spacing: 2px;
+        border: 1px solid $white;
+        color: $white;
+        text-transform: uppercase;
+        padding: 10px;
+
+        &:hover {
+          transition: $ease;
+          background: $white;
+          color: $secondary;
+          transform: scale(1.05);
+        }
+      }
+    }
+  }
+}
+
+// Project popup overlay
+.overlay {
+  position: fixed;
+  background: rgba($dark, 0.7);
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: none;
+  z-index: 3;
+
+  &.open {
+    display: grid;
+    align-items: center;
+    justify-items: center;
+  }
+
+  .overlay__inner {
+    background: $white;
+    width: 700px;
+    padding: 20px;
+    position: relative;
+    opacity: 1;
+
+    .close {
+      position: absolute;
+      top: 3px;
+      right: 10px;
+      background: none;
+      outline: 0;
+      color: $dark;
+      border: 0;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+
+      &:hover {
+        color: $secondary;
+      }
+    }
+  }
+}
+
+.project__image {
+  margin-left: -50%;
+}
+
+
+

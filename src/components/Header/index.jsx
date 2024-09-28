@@ -64,7 +64,7 @@ function Header() {
                   onClick={(e) => {
                     e.preventDefault(); // Ngăn hành vi mặc định
                     handleShowModal(MODAL_TYPE.register); // Xử lý logic sau khi ngăn hành vi mặc định
-                    console.log('🚀1---->', 1);
+                   
                   }}
                   className="me-2"
                 >

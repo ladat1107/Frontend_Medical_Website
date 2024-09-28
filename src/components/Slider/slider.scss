@@ -1,0 +1,54 @@
+.full-screen-slider {
+    width: 100vw; // Chiều rộng toàn màn hình
+    height: 90vh; // Chiều cao toàn màn hình
+    margin: 0;
+    overflow: hidden; // Đảm bảo không có thanh cuộn
+  
+    .slick-slide {
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover; // Đảm bảo hình ảnh vừa với khung slider
+    }
+  
+    // Media queries cho responsive
+    @media (max-width: 1400px) {
+      height: 80vh; // Giảm chiều cao trên màn hình nhỏ
+    }
+  
+    @media (max-width: 1200px) {
+      height: 70vh; // Giảm chiều cao trên màn hình nhỏ (có thể xóa nếu đã định nghĩa ở 1400px)
+    }
+  
+    @media (max-width: 1000px) {
+      height: 58vh; // Giảm chiều cao hơn nữa cho màn hình nhỏ hơn
+    }
+    @media (max-width: 940px) {
+        height: 52vh; // Giảm chiều cao hơn nữa cho màn hình nhỏ hơn
+      }
+      @media (max-width: 800px) {
+        height: 45vh; // Giảm chiều cao hơn nữa cho màn hình nhỏ hơn
+      }
+  
+    @media (max-width: 700px) {
+      height: 40vh; // Giảm chiều cao cho màn hình tablet
+    }
+  
+    @media (max-width: 576px) {
+      height: 35vh; // Giảm chiều cao cho màn hình điện thoại
+    }
+    @media (max-width: 476px) {
+        height: 29vh; // Giảm chiều cao cho màn hình điện thoại
+      }
+      @media (max-width: 390px) {
+        height: 25vh; // Giảm chiều cao cho màn hình điện thoại
+      } 
+     
+  }
+  

@@ -4,6 +4,7 @@ import MainLayout from "./layouts/MainLayout";
 import ContactPage from "./pages/Contact/index";
 import HomePage from "./pages/Admin/pages/HomePage/index";
 import { Routes, Route } from "react-router-dom";
+import PrivateRoute from "./components/PrivateRoute";
 import AdminLayout from "./pages/Admin/index";
 import UserManage from "./pages/Admin/pages/UserManage";
 function App() {
