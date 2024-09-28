@@ -114,6 +114,14 @@ export const AuthenContextProvider = ({ children }) => {
     }
   };
 
+  const handleDropdown = (id) => {
+    const element = document.getElementById(id);
+    if (element.classList.contains('hidden')) {
+      element.classList.remove('hidden')
+    } else {
+      element.classList.add('hidden')
+    }
+  };
   return (
     <AuthenContext.Provider
       value={{
@@ -122,9 +130,10 @@ export const AuthenContextProvider = ({ children }) => {
         handleLogin,
         handleRegister,
         handleLogout,
+        handleDropdown,
         showModal,
         profile,
-        
+
       }}
     >
       {children}

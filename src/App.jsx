@@ -5,6 +5,7 @@ import ContactPage from "./pages/Contact/index";
 import HomePage from "./pages/Admin/pages/HomePage/index";
 import { Routes, Route } from "react-router-dom";
 import AdminLayout from "./pages/Admin/index";
+import UserManage from "./pages/Admin/pages/UserManage";
 function App() {
 
   return (
@@ -15,7 +16,7 @@ function App() {
       </Route>
       <Route element={<AdminLayout />}>
         <Route path='/admin' element={<HomePage />} />
-
+        <Route path='/adminUserManage' element={<UserManage />} />
       </Route>
     </Routes>
   );

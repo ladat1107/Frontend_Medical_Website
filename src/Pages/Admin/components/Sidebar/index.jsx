@@ -1,17 +1,13 @@
 
 import React from 'react'
+import { useAuthenContext } from "@/contexts/AuthenContext";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChartArea, faUserPen, faChevronDown, faHouseChimneyMedical, faRightFromBracket } from '@fortawesome/free-solid-svg-icons';
 import "./SideBar.scss"
+import { NavLink } from 'react-router-dom';
 const SideBar = () => {
-  const handleToggle = (id) => {
-    const element = document.getElementById(id);
-    if (element.classList.contains('hidden')) {
-      element.classList.remove('hidden')
-    } else {
-      element.classList.add('hidden')
-    }
-  }
+  const { handleDropdown } = useAuthenContext();
+  
   return (
     <>
       <button data-drawer-target="separator-sidebar" data-drawer-toggle="separator-sidebar" aria-controls="separator-sidebar" type="button" className="inline-flex items-center p-2 mt-2 ms-3 text-sm text-gray-500 rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600">
@@ -30,25 +26,26 @@ const SideBar = () => {
           <hr />
           <ul>
             <li>
-              <a href="#" className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+
+              <NavLink to="/admin" className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                 <FontAwesomeIcon className='icon' icon={faChartArea} style={{ color: "#82868c", }} />
                 <span className="ms-3">Quản lý chung</span>
-              </a>
+              </NavLink>
             </li>
             <li >
-              <button onClick={() => { handleToggle("dropdown-user") }} type="button" className="flex items-center w-full p-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg group" aria-controls="dropdown-example" data-collapse-toggle="dropdown-user">
+              <button onClick={() => { handleDropdown("dropdown-user") }} type="button" className="flex items-center w-full p-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg group" aria-controls="dropdown-example" data-collapse-toggle="dropdown-user">
                 <FontAwesomeIcon className='icon' icon={faUserPen} style={{ color: "#82868c", }} />
                 <span className="flex-1 ml-3 text-left whitespace-nowrap" sidebar-toggle-item="true">Người dùng</span>
                 <FontAwesomeIcon icon={faChevronDown} style={{ color: "#82868c", }} />
               </button>
               <ul id="dropdown-user" className="hidden py-2 space-y-2" >
                 <li>
-                  <a href="#"
-                    className="flex items-center w-full p-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 pl-11">Khách hàng</a>
+                  <NavLink to="/adminUserManage"
+                    className="flex items-center w-full p-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 pl-11">Khách hàng</NavLink>
                 </li>
                 <li>
-                  <a href="#"
-                    className="flex items-center w-full p-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 pl-11">Nhân viên</a>
+                  <NavLink href="#"
+                    className="flex items-center w-full p-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 pl-11">Nhân viên</NavLink>
                 </li>
               </ul>
             </li>
