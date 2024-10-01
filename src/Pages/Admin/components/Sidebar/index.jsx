@@ -7,7 +7,7 @@ import "./Sidebar.scss"
 import { NavLink } from 'react-router-dom';
 const SideBar = () => {
   const { handleDropdown } = useAuthenContext();
-  
+
   return (
     <>
       <button data-drawer-target="separator-sidebar" data-drawer-toggle="separator-sidebar" aria-controls="separator-sidebar" type="button" className="inline-flex items-center p-2 mt-2 ms-3 text-sm text-gray-500 rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600">
@@ -19,7 +19,7 @@ const SideBar = () => {
 
       <aside id="separator-sidebar" className="fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full sm:translate-x-0" aria-label="Sidebar">
         <div className="adminHeader h-full py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800">
-          <div className="logo-image d-none d-sm-block">
+          <div className="logo-image d-none d-lg-block">
             <div className='logo mb-2'>
             </div>
           </div>
@@ -38,13 +38,13 @@ const SideBar = () => {
                 <span className="flex-1 ml-3 text-left whitespace-nowrap" sidebar-toggle-item="true">Người dùng</span>
                 <FontAwesomeIcon icon={faChevronDown} style={{ color: "#82868c", }} />
               </button>
-              <ul id="dropdown-user" className="hidden py-2 space-y-2" >
+              <ul id="dropdown-user" className="hidden py-2 space-y-2">
                 <li>
-                  <NavLink to="/adminUserManage"
-                    className="flex items-center w-full p-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 pl-11">Khách hàng</NavLink>
+                  <NavLink to="/adminPatientManage"
+                    className="flex items-center w-full p-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 pl-11">Bệnh nhân</NavLink>
                 </li>
                 <li>
-                  <NavLink href="#"
+                  <NavLink to="/adminStaffManage"
                     className="flex items-center w-full p-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 pl-11">Nhân viên</NavLink>
                 </li>
               </ul>

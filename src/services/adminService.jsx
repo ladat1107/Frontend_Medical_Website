@@ -10,8 +10,8 @@ const logoutUser = () => {
     return axios.post(`/api/handleLogout`)
 }
 
-const getUser = (page, limit, search) => {
-    return axios.get(`/api/admin/getAllUser?page=${+page}&limit=${+limit}&search=${search}`)
+const getUser = (page, limit, search, position) => {
+    return axios.get(`/api/admin/getAllUser?page=${+page}&limit=${+limit}&position=[${position}]&search=${search}`)
 }
 const deleteUser = (data) => {
     return axios.delete(`/api/user/delete`, { data: { id: data.id } })
