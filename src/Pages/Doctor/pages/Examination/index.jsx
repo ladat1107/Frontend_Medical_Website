@@ -1,7 +1,8 @@
-import { getAppointments } from "@/services/doctorService";
+import { getAppointments, searchAppointments } from "@/services/doctorService";
 import React, { useEffect, useState } from 'react'
 import { getTimeSlotById } from "@/utils/formatTimeSlots";
 import { convertDateTime } from "@/utils/formartDate";
+import {convertStartDateToTimestamp, convertEndDateToTimestamp} from "@/utils/convertToTimestamp";
 import SearchBar from "@/components/Search";
 import SelectBox from "@/components/Combobox";
 import CustomDatePicker from "@/components/DatePicker";
@@ -10,31 +11,51 @@ import "./Examination.scss";
 const Examination = () => {
     const [listAppointments, setListAppointments] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
-    const [selectedValue, setSelectedValue] = useState(1);
-    const [selectedDate, setSelectedDate] = useState(null);
+    const [selectedValue, setSelectedValue] = useState('1');
+    const [startDate, setStartDate] = useState(new Date()); 
+    const [endDate, setEndDate] = useState(new Date());
 
     const fetchAppointment = async () => {
         let response = await getAppointments();
-        console.log("asdhajdhasjdasdasd");  
-        console.log(response);
         if (response && response.data && response.data.DT) {
             setListAppointments(response.data.DT);
         }
     }
 
-    const handleDateChange = (date) => {
-        setSelectedDate(date); // Cập nhật ngày đã chọn
+    const fetchAppointmentAppointments = async () => {
+        let response = await searchAppointments(1, 10, searchTerm, convertStartDateToTimestamp(startDate), convertEndDateToTimestamp(endDate));
+        if (response && response.data && response.data.DT) {
+            setListAppointments(response.data.DT);
+        } else {
+            setListAppointments([]);
+        }
+    }
+
+    const handleStartDateChange = (date) => {
+        setStartDate(date);
+    };
+
+    const handleEndDateChange = (date) => {
+        setEndDate(date);
     };
 
     const handleSelectedChange = (event) => {
         setSelectedValue(event.target.value); // Cập nhật giá trị đã chọn
     };
 
+    const handleClear = () => {
+        setSearchTerm('');
+        setSelectedValue(1);
+        setStartDate(new Date());
+        setEndDate(new Date());
+    }
+
     const options = [
         { value: '1', label: 'Tất cả' },
         { value: '2', label: 'Đang chờ khám' },
         { value: '3', label: 'Đã khám' },
-      ];
+        { value: '4', label: 'Đã hủy' },
+    ];
 
     useEffect(() => {
         fetchAppointment();
@@ -53,6 +74,21 @@ const Examination = () => {
                             />
                     </div>
                     <div className="search-container">
+                        <p className="search-title">Ngày khám</p>
+                        <div className="date-picker">
+                            Từ <CustomDatePicker
+                                selectedDate={startDate}
+                                onDateChange={handleStartDateChange}
+                                placeholder="Chọn ngày..."
+                            /> 
+                            đến <CustomDatePicker
+                                selectedDate={endDate}
+                                onDateChange={handleEndDateChange}
+                                placeholder="Chọn ngày..."
+                            />
+                        </div>
+                    </div>
+                    <div className="status-container">
                         <p className="search-title">Trạng thái</p>
                         <SelectBox
                             options={options}
@@ -60,14 +96,10 @@ const Examination = () => {
                             onChange={handleSelectedChange}
                         />
                     </div>
-                    <div className="search-container">
-                        <p className="search-title">Ngày khám</p>
-                        <CustomDatePicker
-                            selectedDate={selectedDate}
-                            onDateChange={handleDateChange}
-                            placeholder="Chọn ngày..."
-                        />
-                    </div>
+                    <div className="button-container">
+                        <button className="clear-button" onClick={() => { handleClear(); fetchAppointment(); }}>Làm sạch</button>
+                        <button className="search-button" onClick={fetchAppointmentAppointments}>Tìm kiếm</button>
+                    </div>  
                 </div>
                 <div className="examination-container">
                     <div className="header">

@@ -3,7 +3,7 @@ import React from 'react'
 import { useAuthenContext } from "@/contexts/AuthenContext";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChartArea, faUserPen, faChevronDown, faHouseChimneyMedical, faRightFromBracket } from '@fortawesome/free-solid-svg-icons';
-import "./SideBar.scss"
+import "./Sidebar.scss"
 import { NavLink } from 'react-router-dom';
 const SideBar = () => {
   const { handleDropdown } = useAuthenContext();

@@ -9,6 +9,17 @@
     font-weight: 700;
 }
 
+.examination-search{
+    display: flex;
+    width: 100%;
+    padding: 20px;
+    border-radius: 20px;
+    background: white;
+    box-shadow:  4px 4px 8px #e5ebef,
+             -4px -4px 8px #e5ebef;
+    margin-bottom: 20px;
+}
+
 .search-title{
     font-family: 'Nunito', sans-serif;
     font-size: 16px;
@@ -17,18 +28,63 @@
 
 .search-container{
     padding: 10px;
-    width: 100%;
+    width: 90%;
 }
 
-.examination-search{
+.status-container{
+    padding: 10px;
+    width: 50%;
+}
+
+.button-container{
+    padding: 10px;
     display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 30%;
+}   
+
+.date-picker{
+    display: flex;  
+    font-family: 'Nunito', sans-serif;
+    align-items: center;
+    gap: 10px;  
+}
+
+.search-button{
+    font-family: 'Nunito', sans-serif;
+    font-size: 14px;
+    background-color: #438EF3;
+    color: white;
+    font-weight: bold;
+    border: none;
+    border-radius: 10px;
+    padding: 10px 20px;
     width: 100%;
-    padding: 30px;
-    border-radius: 20px;
-    background: white;
-    box-shadow:  4px 4px 8px #e5ebef,
-             -4px -4px 8px #e5ebef;
-    margin-bottom: 20px;
+    height: 40%;
+    cursor: pointer;
+
+    &:hover{
+        background-color: #557fa6;
+    }
+}
+
+.clear-button{
+    font-family: 'Nunito', sans-serif;
+    background-color: #3AA472;
+    font-size: 14px;
+    color: white;
+    font-weight: bold;
+    border: none;
+    border-radius: 10px;
+    padding: 10px 20px;
+    width: 100%;
+    height: 40%;
+    cursor: pointer;
+
+    &:hover{
+        background-color: #297853;
+    }
 }
 
 .examination-container {
@@ -45,7 +101,8 @@
 }
 
 .table-header {
-    background-color: #edf6ff;
+    background-color: #438EF3;
+    color: white;
 }
 
 th,
@@ -56,6 +113,13 @@ td {
 
 td{
     border-bottom: 1px solid #c8c8c8;
+}
+
+tbody{
+    tr:hover{
+        background-color: #EDF6FF;
+        cursor: pointer;
+    }
 }
 
 .w0 {

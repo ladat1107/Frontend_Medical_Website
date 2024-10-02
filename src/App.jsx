@@ -8,9 +8,9 @@ import { Routes, Route } from "react-router-dom";
 import PrivateRoute from "./components/PrivateRoute";
 import AdminLayout from "./pages/Admin/index";
 import UserManage from "./pages/Admin/pages/UserManage";
-import DoctorLayout from "./Pages/Doctor";
-import DoctorHomePage from "./Pages/Doctor/pages/HomePage";
-import Examination from "./Pages/Doctor/pages/Examination";
+import DoctorLayout from "./pages/Doctor";
+import DoctorHomePage from "./pages/Doctor/pages/HomePage";
+import Examination from "./pages/Doctor/pages/Examination";
 function App() {
 
   return (

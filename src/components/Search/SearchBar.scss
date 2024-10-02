@@ -25,21 +25,17 @@
       border-radius: 12px;
       background-color: #edf6ff;
       outline: none;
-      color: #bdbecb;
+      color: #000000;
       transition: all 0.25s cubic-bezier(0.19, 1, 0.22, 1);
       cursor: text;
       z-index: 0;
   
       &::placeholder {
-        color: #bdbecb;
+        color: #6B7280;
       }
   
       &:hover {
         box-shadow: 0 0 0 2px #83BDF4, 0px 0px 25px -15px #000;
-      }
-  
-      &:active {
-        transform: scale(0.95);
       }
   
       &:focus {
