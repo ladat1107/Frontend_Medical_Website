@@ -7,7 +7,6 @@ export const useMutation = (promise) => {
 
   const execute = async (payload, { onSuccess, onFail } = {}) => {
     setLoading(true);
-
     try {
       const res = await promise(payload);
 
