@@ -8,6 +8,9 @@ import { Routes, Route } from "react-router-dom";
 import PrivateRoute from "./components/PrivateRoute";
 import AdminLayout from "./pages/Admin/index";
 import UserManage from "./pages/Admin/pages/UserManage";
+import DoctorLayout from "./Pages/Doctor";
+import DoctorHomePage from "./Pages/Doctor/pages/HomePage";
+import Examination from "./Pages/Doctor/pages/Examination";
 function App() {
 
   return (
@@ -19,6 +22,10 @@ function App() {
       <Route element={<AdminLayout />}>
         <Route path='/admin' element={<AdminHomePage />} />
         <Route path='/adminUserManage' element={<UserManage />} />
+      </Route>
+      <Route element={<DoctorLayout />}>
+        <Route path='/doctor' element={<DoctorHomePage />} />
+        <Route path='/doctorExamination' element={<Examination />} />
       </Route>
     </Routes>
   );

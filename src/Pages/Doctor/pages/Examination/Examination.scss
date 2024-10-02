@@ -1,0 +1,72 @@
+.content {
+    padding: 30px;
+    background-color: #f8faff;
+}
+
+.title {
+    font-family: 'Nunito', sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+}
+
+.search-title{
+    font-family: 'Nunito', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.search-container{
+    padding: 10px;
+    width: 100%;
+}
+
+.examination-search{
+    display: flex;
+    width: 100%;
+    padding: 30px;
+    border-radius: 20px;
+    background: white;
+    box-shadow:  4px 4px 8px #e5ebef,
+             -4px -4px 8px #e5ebef;
+    margin-bottom: 20px;
+}
+
+.examination-container {
+    padding: 30px;
+    border-radius: 20px;
+    background: white;
+    box-shadow:  4px 4px 8px #e5ebef,
+             -4px -4px 8px #e5ebef;
+}
+
+.examination-table{
+    font-family: 'Nunito', sans-serif;
+    width: 100%;
+}
+
+.table-header {
+    background-color: #edf6ff;
+}
+
+th,
+td {
+    padding: 10px;
+    text-align: center;
+}
+
+td{
+    border-bottom: 1px solid #c8c8c8;
+}
+
+.w0 {
+    width: 50px;
+}
+
+.w1 {
+    width: 100px;
+}
+
+.w2 {
+    width: 200px;
+}
+

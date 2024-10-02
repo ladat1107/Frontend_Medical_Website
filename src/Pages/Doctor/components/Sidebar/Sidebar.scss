@@ -1,0 +1,57 @@
+.adminHeader {
+    scrollbar-width: none;
+
+    &::-webkit-scrollbar {
+        display: none;
+    }
+
+    .logo-image {
+        .logo {
+            background-image: url('../../../../../public/assets/images/LogoHoaSen1.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            width: 100%;
+            height: 80px;
+        }
+    }
+
+    ul {
+        padding-left: 1rem;
+
+        li {
+
+            a,
+            button {
+                text-decoration: none !important;
+
+                &:hover {
+                    color: #54b1f9;
+                    font-weight: 700;
+                    background-color: #e8f7fa;
+
+
+                    .icon {
+                        color: #54b1f9 !important;
+                        transform: scale(1.2);
+                        /* Phóng to icon khi hover */
+                        transition: color 0.3s ease, transform 0.3s ease;
+                    }
+                }
+
+            }
+
+            ul {
+                li {
+                    a {
+                        padding-left: 2rem !important;
+                    }
+                }
+            }
+        }
+    }
+
+
+
+
+}

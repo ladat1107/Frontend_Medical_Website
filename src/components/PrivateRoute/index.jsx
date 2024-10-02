@@ -10,13 +10,13 @@ function PrivateRoute() {
 
   useEffect(() => {
     if (!localToken.get()?.accessToken) {
-     
+     //handle something
     } else {
       setIsAuthChecked(true);
-      
     }
-  }, [location, handleShowModal]);
-
+  }, [
+      location, handleShowModal, 
+    ]); 
   return <Outlet />;
 }
 
