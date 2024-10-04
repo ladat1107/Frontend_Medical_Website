@@ -129,17 +129,14 @@ $bg-service-color: 868686;
 $body: 'Open Sans', sans-serif; // Font chữ dễ đọc cho body
 $big: 'Georgia', serif; // Font chữ dễ đọc cho tiêu đề
 
-$white: #ffffff;
-$primary: #F2DAD7;
-$secondary: #D1A39E;
-$light: #CECDCA;
-$dark: #474545;
+  .text-body {
+    color: rgb(134, 134, 134);
+    font-size: 20px;
+    margin-top: 20px;
+    font-weight: 500;
+  }
 
-$ease: all 0.3s ease-in-out;
-
-body {
-  font-family: $body;
-  margin: 0;
+ 
 }
 
 // Blog section
@@ -211,6 +208,13 @@ body {
           }
         }
       }
+      .position-title {
+        position: absolute;
+        bottom: 10px;
+        left: 10px;
+        color: $primary-text-color;
+        font-size: 20px;
+      }
     }
   }
 }
@@ -227,5 +231,6 @@ body {
   }
   
 }
+// slider department section
 
 
