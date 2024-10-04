@@ -1,20 +1,14 @@
-.icon-container {
-  width: 300px;
-  height: 150px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  border: 1px solid #ddd;
-  border-radius: 10px;
-  background-color: #f9f9f9;
-  margin: 0 auto;
-}
+// Variables for colors
+$primary-text-color: white; // Màu văn bản chính
+$secondary-text-color: #868686; // Màu văn bản phụ
+$background-color: #f5f5f5; // Màu nền
+$primary-heading-color: #2c3e50; // Màu tiêu đề chính
+$button-bg-color: #008bf8; // Màu nền của nút
+$button-text-color: #ffffff; // Màu văn bản của nút
+$border-color: #c3c6ce; // Màu viền
+$bg-service-color: 868686;
 
-.ambulance-icon {
-  color: white;
-  font-size: 48px;
-}
+// OurService section
 
 // Doctor Search section
 .doctor-search-container {
@@ -36,194 +30,191 @@
   color: white;
   // Thêm hiệu ứng box-shadow
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+.ourService {
+  margin-top: 50px;
+  .container-service {
+    display: flex;
+    justify-content: space-evenly;
 
-  span {
-    width: 25%;
-    height: 3px;
-    background-color: white;
-    margin: 0 auto;
+    padding: 0 150px;
   }
 
-  .content {
-    font-size: 20px;
-  }
+  .card {
+    width: 24%;
+    height: 200px;
+    background: $bg-service-color;
+    position: relative;
+    padding: 1.8rem;
+    border: 2px solid $bg-service-color;
+    transition: 0.5s ease-out;
+    overflow: visible;
+    
+    .fa-user-doctor {
+      color: #4aa0fb; /* Chỉnh màu cho icon */
+    }
+    .card-details {
+      color: black;
+      height: 100%;
+      gap: 0.5em;
+      display: grid;
+      place-content: center;
+    }
 
-  button {
-    padding: 8px 30px;
-    background-color: #00baa3; // Màu nền ban đầu
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease; // Hiệu ứng mượt khi thay đổi màu nền
-    border: solid 1px white;
+    .card-button {
+      transform: translate(-50%, 125%);
+      width: 60%;
+      border-radius: 1rem;
+      border: none;
+      background-color: #008bf8;
+      color: #fff;
+      font-size: 1rem;
+      padding: 0.5rem 1rem;
+      position: absolute;
+      left: 50%;
+      bottom: 0;
+      opacity: 0;
+      transition: 0.3s ease-out;
+    }
 
     &:hover {
-      background-color: white; // Màu nền khi hover
-      color: #00baa3;
+      border-color: #088df3;
+      box-shadow: 0 8px 22px 0 rgba(0, 0, 0, 0.25);
+      transform: scale(1.01);
 
+      .card-button {
+        transform: translate(-50%, 50%);
+        opacity: 1;
+      }
     }
   }
 
+  .text-body {
+    color: rgb(134, 134, 134);
+    font-size: 20px;
+    margin-top: 20px;
+    font-weight: 500;
+  }
+
+ 
 }
 
-// customer service section
+// Introduce service section
 
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Lora:wght@400;700&display=swap');
+.introduce {
+  background-color: #008bf8;
+  margin-top: 100px;
+  color: $primary-text-color;
+  font-size: 20px;
+  text-align: center;
+  .container-introduce {
+    padding: 50px 0;
+    .top {
+      display: flex;
+      justify-content: space-evenly;
+      margin-bottom: 30px;
+      .title-top {
+      }
+      .description {
+        width: 50%;
+      }
+    }
+  }
+  .bottom {
+    display: flex;
+    margin: auto;
+    .item {
+      padding: 0 20px;
+      flex-grow: 1;
 
-$body: 'Nunito', sans-serif; // Font chữ dễ đọc cho body
-$big: 'Georgia', serif; // Font chữ dễ đọc cho tiêu đề
-
-$white: #ffffff;
-$primary: #F2DAD7;
-$secondary: #D1A39E;
-$light: #CECDCA;
-$dark: #474545;
-
-$ease: all 0.3s ease-in-out;
-
-body {
-  font-family: $body;
-  margin: 0;
+      border-right: solid 1px white;
+    }
+  }
 }
 
-button {
-  cursor: pointer;
-}
+// Blog section
 
-.custom-service-container {
-  margin-bottom: 100px;
-}
+.blog {
+  margin-top: 100px;
+  h3 {
+    text-align: center;
+  }
 
-#portfolio {
-  width: 70%;
-  margin: auto;
-  min-height: 70vh;
+  .container-blog {
+    display: flex;
+    padding: 30px 100px;
+    justify-content: space-evenly;
+    align-items: center;
 
-  padding: 0 100px;
-  background: $white;
-  position: relative;
-  display: grid;
-  grid-template-columns: repeat(2, minmax(200px, 1fr));
-  grid-template-rows: 1fr 1fr;
-  grid-gap: 35px;
-
-  .project {
-    position: relative;
-    background: $primary;
-    border: solid 2px #00baa3;
-    overflow: hidden;
-    background-image: url('http://benhvienhuunghi.vn/wp-content/uploads/2020/08/bao-hiem-3.png');
-
-    img {
-      position: absolute;
-      opacity: 0.9;
-    }
-
-    p {
-      position: absolute;
-      text-align: center;
-      width: 100%;
-      padding: 1em 0;
-      text-transform: uppercase;
-      letter-spacing: 2px;
-      z-index: 3;
-    }
-
-    .grid__title {
-      position: absolute;
-      width: 100%;
-      text-align: center;
-      white-space: nowrap;
-      bottom: 0;
-      font-weight: 100;
-      font-size: 0.8em;
-      z-index: 3;
-      text-transform: uppercase;
-      color: $dark;
-      letter-spacing: 2px;
-    }
-
-    // Project hover overlay
-    &:hover .grid__overlay {
-      transform: translateY(0%);
-    }
-
-    .grid__overlay {
-      //   background: rgba(darken($primary, 10%), 0.9);
-      height: 100%;
-      grid-column: 1 / -1;
-      grid-row: 1 / -1;
+    .main-blog {
+      width: 40%;
       position: relative;
-      display: grid;
-      justify-items: center;
-      align-items: center;
-      transform: translateY(101%);
-      transition: $ease;
+      img {
+        width: 100%;
+      }
+      .position-title {
+        position: absolute;
+        bottom: 10px;
+        left: 10px;
+        color: $primary-text-color;
+        font-size: 20px;
+      }
+    }
+    .list-blog {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      // width: 50%;
 
-      button {
-        background: none;
-        outline: none;
-        font-weight: 100;
-        letter-spacing: 2px;
-        border: 1px solid $white;
-        color: $white;
-        text-transform: uppercase;
-        padding: 10px;
+      .blog-item {
+        display: flex;
+        padding: 20px 0;
+        width: 500px;
 
-        &:hover {
-          transition: $ease;
-          background: $white;
-          color: $secondary;
-          transform: scale(1.05);
+        &:nth-child(2) {
+          border-top: 1px solid rgba(89, 89, 89, 0.5);
+          border-bottom: 1px solid rgba(89, 89, 89, 0.5);
+        }
+
+        .item-img {
+          img {
+            width: 100%;
+            height: 100%;
+          }
+
+          width: 200px;
+          height: auto;
+          margin-right: 20px;
+        }
+        .item-text {
+          p {
+            font-size: 17px;
+            font-weight: 650;
+          }
+          span {
+            font-size: 17px;
+            font-weight: 500;
+          }
+
+          .item-text-title {
+            margin-bottom: 10px;
+          }
         }
       }
     }
   }
 }
+// slider department section
 
-// Project popup overlay
-.overlay {
-  position: fixed;
-  background: rgba($dark, 0.7);
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  display: none;
-  z-index: 3;
 
-  &.open {
-    display: grid;
-    align-items: center;
-    justify-items: center;
-  }
-
-  .overlay__inner {
-    background: $white;
-    width: 700px;
+.container-department{
+ 
+  
+  .department-slider {
+    width: 100%;
     padding: 20px;
-    position: relative;
-    opacity: 1;
-
-    .close {
-      position: absolute;
-      top: 3px;
-      right: 10px;
-      background: none;
-      outline: 0;
-      color: $dark;
-      border: 0;
-      text-transform: uppercase;
-      letter-spacing: 2px;
-
-      &:hover {
-        color: $secondary;
-      }
-    }
+    // overflow: hidden;
   }
+  
 }
 
-.project__image {
-  margin-left: -50%;
-}
+

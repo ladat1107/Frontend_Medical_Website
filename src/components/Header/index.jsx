@@ -18,9 +18,9 @@ function Header() {
     <Navbar
       expand="lg"
       className="bg-body-tertiary"
-      style={{ padding: "20px 30px" }}
+      style={{ padding: "30px 30px" }}
     >
-      <Container fluid>
+      <Container fluid  >
         <Navbar.Brand href="#">Hospital Management</Navbar.Brand>
         <Navbar.Toggle aria-controls="navbarScroll" />
         <Navbar.Collapse id="navbarScroll">
