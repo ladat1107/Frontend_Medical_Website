@@ -25,7 +25,7 @@ export default defineConfig({
     },
   },
   server: {
-    port:300,
+    port: 3000,
     open: true, // Mở trình duyệt khi chạy dev
   },
   optimizeDeps: {
