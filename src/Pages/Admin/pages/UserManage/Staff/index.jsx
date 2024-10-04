@@ -2,20 +2,19 @@ import React, { useEffect, useState } from 'react'
 import { useAuthenContext } from "@/contexts/AuthenContext";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlus, faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons'
-
-import { getUser } from "@/services/adminService";
-
-import Checkbox from '@mui/material/Checkbox';
+import DropdownPaginate from '@/pages/Admin/components/Dropdown/DropdownPaginate';
 import DropdownAction from '@/pages/Admin/components/Dropdown/DropdownAction';
 import DropdownPosition from './DropDownPosition';
-import DropdownPaginate from '@/pages/Admin/components/Dropdown/DropdownPaginate';
 import useDebounce from '@/hooks/useDebounce';
+import Checkbox from '@mui/material/Checkbox';
 
 import PaginateCustom from '@/pages/Admin/components/Paginate/PaginateCustom';
+import { getUser, deleteUser } from "@/services/adminService";
 import Loading from '@/components/Loading/Loading';
 import { useMutation } from '@/hooks/useMutation';
+
 import "./StaffManage.scss";
-import CustomScrollbars from '@/components/Scrollbars/CustomScrollbars';
+import { TABLE } from '@/constant/value';
 const StaffManage = () => {
     //let { handleDropdown } = useAuthenContext();
     let [currentPage, setCurrentPage] = useState(1);
@@ -34,6 +33,9 @@ const StaffManage = () => {
     } = useMutation((query) =>
         getUser(currentPage, rowsPerPage.id, searchDebounce, positionArr)
     )
+    let refresh = () => {
+        fetchUsers();
+    }
     useEffect(() => {
         if (dataUser && dataUser.DT && dataUser.DT.rows && dataUser.DT.count) {
             let _listUser = [...dataUser.DT.rows];
@@ -44,6 +46,7 @@ const StaffManage = () => {
             setTotalPage(dataUser.DT.count / rowsPerPage.value);
         }
     }, [dataUser])
+
     useEffect(() => {
         fetchUsers();
     }, [currentPage, useDebounce(search, 500), positionArr, rowsPerPage]);
@@ -181,7 +184,11 @@ const StaffManage = () => {
                                                         </td>
                                                         <td className="px-1 py-4">
                                                             <div className='iconDetail'>
-                                                                <DropdownAction />
+                                                                <DropdownAction
+                                                                    data={item}
+                                                                    refresh={refresh}
+                                                                    table={TABLE.USER}
+                                                                />
                                                             </div>
                                                         </td>
                                                     </tr>
@@ -195,7 +202,6 @@ const StaffManage = () => {
                                             <span className="text-gray-500">Không có dữ liệu</span>
                                         </td>
                                     </tr>
-
                                 }
                             </tbody>
                         </table>
@@ -208,11 +214,9 @@ const StaffManage = () => {
                             <PaginateCustom totalPageCount={totalPages}
                                 setPage={setCurrentPage} />
                         </div>
-
                     </div>
                 </div >
             </div >
-
         </>
 
 

@@ -16,6 +16,10 @@ export const PAGINATE = [
         value: 100
     }
 ]
+export const TABLE = {
+    USER: "USER",
+    DEPARTMENT: "DEPARTMENT",
+}
 
 export const TIMESLOTS = [
     {

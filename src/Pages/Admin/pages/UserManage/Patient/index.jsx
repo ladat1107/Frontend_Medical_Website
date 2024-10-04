@@ -2,14 +2,17 @@ import { useEffect, useState } from "react";
 import DropdownPaginate from "@/pages/Admin/components/Dropdown/DropdownPaginate";
 import { faMagnifyingGlass, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
 import { getUser } from "@/services/adminService";
 import Checkbox from '@mui/material/Checkbox';
 import PaginateCustom from "@/pages/Admin/components/Paginate/PaginateCustom";
 import DropdownAction from "@/pages/Admin/components/Dropdown/DropdownAction";
+import CreateUserModal from "@/pages/Admin/components/Modal/CreateUserModal";
 import Loading from "@/components/Loading/Loading";
 import "./PatientManage.scss";
 import { useMutation } from "@/hooks/useMutation";
 import useDebounce from "@/hooks/useDebounce";
+import { TABLE } from "@/constant/value";
 
 const PatientManage = () => {
     let [currentPage, setCurrentPage] = useState(1);
@@ -18,6 +21,8 @@ const PatientManage = () => {
     let [totalPages, setTotalPage] = useState(0);
     let [checkAll, setCheckAll] = useState(false);
     let [search, setSearch] = useState("");
+    let [showCreateUserModal, setShowCreateUserModal] = useState(false);
+    
     let arr = [2]
     let searchDebounce = "";
     let {
@@ -26,8 +31,8 @@ const PatientManage = () => {
         error: listUserError,
         execute: fetchUsers,
     } = useMutation((query) =>
-        getUser(currentPage, rowsPerPage.id, searchDebounce, arr)
-    )
+        getUser(currentPage, rowsPerPage.id, searchDebounce, arr))
+
     useEffect(() => {
         if (dataUser && dataUser.DT && dataUser.DT.rows && dataUser.DT.count) {
             let _listUser = [...dataUser.DT.rows];
@@ -39,6 +44,7 @@ const PatientManage = () => {
             setTotalPage(dataUser.DT.count / rowsPerPage.value);
         }
     }, [dataUser])
+
     useEffect(() => {
         fetchUsers();
     }, [currentPage, useDebounce(search, 500), rowsPerPage]);
@@ -63,13 +69,26 @@ const PatientManage = () => {
         setRowPaper(item);
         setCurrentPage(1);
     }
+    let refresh = () => {
+        fetchUsers();
+    }
+
+    let handleShow = (value) => {
+        setShowCreateUserModal(value)
+    }
+    let hanldeCreateUser = () => {
+        setShowCreateUserModal(true)
+    }
     return (
         listUserLoading ? <Loading /> :
             <div className='staff-manage'>
                 <div className='container'>
                     <div className='d-flex align-items-center mb-3'>
                         <h3>Bệnh nhân</h3>
-                        <button className='btn ml-auto px-3  btn-add-user'><FontAwesomeIcon className='me-2 icon' icon={faPlus} style={{ color: "#6ae1f9", }} /> Thêm mới</button>
+                        <button className='btn ml-auto px-3  btn-add-user' onClick={() => { hanldeCreateUser() }}>
+                            <FontAwesomeIcon className='me-2 icon' icon={faPlus} style={{ color: "#6ae1f9", }} />
+                            Thêm mới
+                        </button>
                     </div>
                     <div className='table-responsive'>
                         <div className='table-head d-flex align-items-center'>
@@ -78,11 +97,6 @@ const PatientManage = () => {
                                 <input type="text" className='head border-0 no-outline' placeholder='Tìm kiếm'
                                     value={search}
                                     onChange={(event) => { setSearch(event.target.value); setCurrentPage(1) }} />
-                            </div>
-                            <div className='select-page'>
-                                <span className='me-2'>Hiển thị: </span>
-                                <DropdownPaginate page={rowsPerPage}
-                                    setPage={handleChangePaginate} />
                             </div>
                         </div>
 
@@ -159,7 +173,11 @@ const PatientManage = () => {
                                                         </td>
                                                         <td className="px-6 py-4">
                                                             <div className='iconDetail'>
-                                                                <DropdownAction />
+                                                                <DropdownAction
+                                                                    data={item}
+                                                                    refresh={refresh}
+                                                                    table={TABLE.USER}
+                                                                />
                                                             </div>
                                                         </td>
                                                     </tr>
@@ -177,13 +195,25 @@ const PatientManage = () => {
 
                             </tbody>
                         </table>
-                        <PaginateCustom totalPageCount={totalPages}
-                            setPage={setCurrentPage} />
+                        <div className='footer-table d-flex justify-content-end mx-2'>
+                            <div className='select-page'>
+                                <div className='me-2 text'>Hiển thị: </div>
+                                <DropdownPaginate page={rowsPerPage}
+                                    setPage={handleChangePaginate} />
+                            </div>
+                            <PaginateCustom totalPageCount={totalPages}
+                                setPage={setCurrentPage} />
+                        </div>
                     </div>
 
 
 
                 </div >
+                <CreateUserModal
+                    show={showCreateUserModal}
+                    isShow={handleShow}
+                    refresh={refresh}
+                    table={TABLE.USER} />
             </div >
     );
 }

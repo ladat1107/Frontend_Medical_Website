@@ -152,6 +152,54 @@
 
             }
 
+
+            .footer-table {
+                display: flex;
+                justify-content: end;
+                align-items: center;
+
+                .select-page {
+                    display: flex;
+                    justify-content: left;
+                    align-items: center;
+
+                    .text {
+                        width: 4rem;
+                        font-size: 0.9rem;
+                    }
+
+                    span {
+                        font-size: 0.9rem;
+                    }
+
+                    .css-mnqnbf {
+                        background: none;
+
+                        span {
+                            font-size: 0.9rem;
+                            font-weight: 600;
+                            color: black;
+                        }
+                    }
+
+                    .css-1izobnm {
+                        background: none;
+                        color: black;
+                        font-size: 0.7rem;
+                        font-weight: 600;
+                    }
+                }
+
+                .paginationContainer {
+                    font-size: 0.9rem;
+                    margin: 0 1rem;
+                    display: flex;
+                    justify-content: end;
+                    align-items: center;
+                    width: max-content;
+                }
+            }
+
             .css-mnqnbf {
                 background: none;
                 text-align: left;
