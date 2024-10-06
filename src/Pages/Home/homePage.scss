@@ -22,6 +22,7 @@
   justify-content: space-evenly;
   margin-bottom: 100px;
 }
+
 .item-doctor-search {
   border-radius: 15px;
   padding: 25px 15px;
@@ -42,9 +43,11 @@
     background-color: white;
     margin: 0 auto;
   }
+
   .content {
     font-size: 20px;
   }
+
   button {
     padding: 8px 30px;
     background-color: #00baa3; // Màu nền ban đầu
@@ -54,21 +57,21 @@
     cursor: pointer;
     transition: background-color 0.3s ease; // Hiệu ứng mượt khi thay đổi màu nền
     border: solid 1px white;
-  
+
     &:hover {
       background-color: white; // Màu nền khi hover
       color: #00baa3;
 
     }
   }
-  
+
 }
 
 // customer service section
 
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Lora:wght@400;700&display=swap');
 
-$body: 'Arial', sans-serif; // Font chữ dễ đọc cho body
+$body: 'Nunito', sans-serif; // Font chữ dễ đọc cho body
 $big: 'Georgia', serif; // Font chữ dễ đọc cho tiêu đề
 
 $white: #ffffff;
@@ -87,14 +90,16 @@ body {
 button {
   cursor: pointer;
 }
-.custom-service-container{
-    margin-bottom: 100px;
+
+.custom-service-container {
+  margin-bottom: 100px;
 }
+
 #portfolio {
   width: 70%;
   margin: auto;
   min-height: 70vh;
-  
+
   padding: 0 100px;
   background: $white;
   position: relative;
@@ -106,9 +111,10 @@ button {
   .project {
     position: relative;
     background: $primary;
-    border: solid 2px #00baa3 ;
+    border: solid 2px #00baa3;
     overflow: hidden;
     background-image: url('http://benhvienhuunghi.vn/wp-content/uploads/2020/08/bao-hiem-3.png');
+
     img {
       position: absolute;
       opacity: 0.9;
@@ -144,7 +150,7 @@ button {
     }
 
     .grid__overlay {
-    //   background: rgba(darken($primary, 10%), 0.9);
+      //   background: rgba(darken($primary, 10%), 0.9);
       height: 100%;
       grid-column: 1 / -1;
       grid-row: 1 / -1;
@@ -221,6 +227,3 @@ button {
 .project__image {
   margin-left: -50%;
 }
-
-
-

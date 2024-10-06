@@ -81,7 +81,7 @@ const StaffManage = () => {
     }
     return (
         listUserLoading ? <Loading /> : <>
-            <div className='user-manage'>
+            <div className='staff-manage'>
                 <div className='container'>
                     <div className='d-flex align-items-center mb-3'>
                         <h3>Nhân viên</h3>

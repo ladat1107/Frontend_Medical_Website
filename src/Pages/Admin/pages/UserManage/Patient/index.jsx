@@ -22,7 +22,7 @@ const PatientManage = () => {
     let [checkAll, setCheckAll] = useState(false);
     let [search, setSearch] = useState("");
     let [showCreateUserModal, setShowCreateUserModal] = useState(false);
-    
+
     let arr = [2]
     let searchDebounce = "";
     let {
@@ -81,7 +81,7 @@ const PatientManage = () => {
     }
     return (
         listUserLoading ? <Loading /> :
-            <div className='staff-manage'>
+            <div className='user-manage'>
                 <div className='container'>
                     <div className='d-flex align-items-center mb-3'>
                         <h3>Bệnh nhân</h3>

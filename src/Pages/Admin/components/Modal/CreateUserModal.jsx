@@ -1,20 +1,42 @@
 
 import React, { useEffect, useState } from 'react';
 import { Button, Modal } from 'react-bootstrap';
-import { TABLE } from '@/constant/value';
+import { Controller, useForm } from "react-hook-form";
+import { GENDER, TABLE } from '@/constant/value';
 import { message } from "antd";
+import { Select } from "antd";
 import { deleteUser, blockUser } from "@/services/adminService";
+import "./Modal.scss"
+import Input from '../Input/index';
+import { MESSAGE, REGEX } from '@/constant/validate';
+import useAddress from '@/hooks/useAddress';
+import { ALL_ROLE } from '@/constant/role';
 
 const CreateUser = (props) => {
     let [messageContent, setMessageContent] = useState("")
-
-    // Khởi tạo useForm
-    //let { register, handleSubmit, formState: { errors } } = useForm();
+    let optionGender = GENDER;
+    let optionPosition = ALL_ROLE;
+    let [gender, setGender] = useState(0);
+    let [position, setPosition] = useState(0);
+    const {
+        provinceId,
+        districtId,
+        wardId,
+        provinces,
+        districts,
+        wards,
+        handleDistrictChange,
+        handleProvinceChange,
+        handleWardChange,
+    } = useAddress();
+    //Khởi tạo useForm
+    let { register, handleSubmit, control, formState: { errors, isSubmitted } } = useForm();
 
     // Hàm xử lý khi submit thành công
-    // const onSubmit = data => {
-    //     console.log(data);
-    // };
+    const onSubmit = data => {
+        console.log("data");
+
+    };
     const handleClose = () => {
         props.isShow(false)
     }
@@ -44,21 +66,147 @@ const CreateUser = (props) => {
                 onHide={handleClose}
                 backdrop="static"
                 keyboard={false}
-                size='lg'
+                size='xl'
+                centered
             >
                 <Modal.Header closeButton>
                     <Modal.Title>Thêm người dùng</Modal.Title>
                 </Modal.Header>
-                <Modal.Body>
-                    {messageContent}
-                </Modal.Body>
-                <Modal.Footer>
-                    <Button variant="secondary" onClick={handleClose}>
-                        Đóng
-                    </Button>
-                    <Button variant="primary" onClick={() => { handleCreateUser() }}>Thêm</Button>
-                </Modal.Footer>
-            </Modal>
+                <form onSubmit={handleSubmit(onSubmit)} >
+                    <Modal.Body>
+                        <div className='row'>
+                            <Input
+                                label="Email"
+                                col="col-lg-4"
+                                placeholder="Nhập email"
+                                required
+                                {...register("email", {
+                                    required: MESSAGE.required,
+                                    pattern: {
+                                        value: REGEX.email,
+                                        message: MESSAGE.email,
+                                    },
+                                })}
+                                error={errors?.email?.message || ""}
+                            />
+                            <Input
+                                label="Số điện thoại"
+                                type="number"
+                                col="col-lg-4"
+                                placeholder="Nhập số điện thoại"
+                                required
+                                {...register("phoneNumber", {
+                                    required: MESSAGE.required,
+                                })}
+                                error={errors?.phoneNumber?.message || ""}
+                            />
+                            <Input
+                                label="Căn cước công dân"
+                                col="col-lg-4"
+                                required
+                                {...register("cid", {
+                                    required: MESSAGE.required,
+                                })}
+                                error={errors?.cid?.message || ""}
+                            />
+                        </div>
+                        <div className='row'>
+                            <Input
+                                label="Họ và tên"
+                                col="col-lg-4"
+                                placeholder="Nhập họ và tên"
+                                required
+                                {...register("name", {
+                                    required: MESSAGE.required,
+                                })}
+                                error={errors?.name?.message || ""}
+                            />
+                            <Input
+                                label="Nhập mật khẩu"
+                                type="password"
+                                col="col-lg-4"
+                                placeholder="Nhập mật khẩu"
+                                required
+                                {...register("password", {
+                                    required: MESSAGE.required,
+                                })}
+                                error={errors?.password?.message || ""}
+                            />
+                            <Input
+                                label="Nhập lại mật khẩu"
+                                type="password"
+                                col="col-lg-4"
+                                required
+                                {...register("confirmPassword", {
+                                    required: MESSAGE.required,
+                                    validate: (value) => value === password || "Passwords do not match",
+                                })}
+                                error={errors?.confirmPassword?.message || ""}
+                            />
+                        </div>
+                        <div className='row'>
+                            <Input
+                                label="Ngày sinh"
+                                type="date"
+                                col="col-lg-4"
+                                required
+                                {...register("dob", {
+                                    required: MESSAGE.required,
+                                })}
+                                error={errors?.dob?.message || ""}
+                            />
+                            <Input
+                                label="Giới tính"
+                                col="col-lg-4"
+                                required
+                                {
+                                ...register("dob", {
+                                    required: MESSAGE.required,
+                                })
+                                }
+                                error={errors?.dob?.message || ""}
+                            />
+                            <div className="col-lg-4">
+                                <Controller
+                                    name="gender"
+                                    control={control}
+                                    rules={{ required: MESSAGE.required }}
+                                    render={({ field }) => (
+                                        <>
+                                            <label>Giới tính</label>
+                                            <Select
+                                                className="customSelect"
+                                                suffixIcon={<></>}
+                                                showSearch
+                                                placeholder="Chọn giới tính"
+                                                optionFilterProp="children"
+                                                value={field.value}
+                                                onChange={(value) => {
+                                                    field.onChange(value);
+                                                    setGender(value); // Cập nhật giá trị giới tính
+                                                }}
+                                                options={optionGender.map(g => ({ label: g.value, value: g.id }))}
+                                            />
+                                            <p className="form-error" style={{ minHeight: 23, marginTop: "10px" }}>
+                                                {errors?.gender?.message}
+                                            </p>
+                                        </>
+                                    )}
+                                />
+                            </div>
+                        </div>
+
+
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button variant="secondary" onClick={handleClose}>
+                            Đóng
+                        </Button>
+
+                        <Button type='submit' variant="primary" onClick={() => { handleSubmit(onSubmit) }}>Thêm</Button>
+                    </Modal.Footer>
+                </form>
+            </Modal >
         </>
     );
 };

@@ -16,6 +16,16 @@ export const PAGINATE = [
         value: 100
     }
 ]
+export const GENDER = [
+    {
+        id: 0,
+        value: "Nam"
+    },
+    {
+        id: 1,
+        value: "Nữ"
+    },
+]
 export const TABLE = {
     USER: "USER",
     DEPARTMENT: "DEPARTMENT",
