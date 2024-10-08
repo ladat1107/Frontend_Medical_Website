@@ -49,15 +49,15 @@ const Appointment = () => {
         { value: '3', label: 'Đã khám' },
         { value: '4', label: 'Đã hủy' },
     ];
-    console.log(dataAppointments);
+    
     useEffect(() => {
         fetchAppointment();
     },[]);
 
     useEffect(() => {
-            if (dataAppointments && dataAppointments.DT) {
-                setListAppointments(dataAppointments.DT);
-            }
+        if (dataAppointments && dataAppointments.DT) {
+            setListAppointments(dataAppointments.DT);
+        }
     },[dataAppointments]);
 
     return (

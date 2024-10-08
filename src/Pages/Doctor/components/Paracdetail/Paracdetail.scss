@@ -1,0 +1,27 @@
+.parac-container{
+    font-family: 'Nunito', sans-serif;
+    font-size: 14px;
+
+    .row{
+        display: flex;
+        align-items: center;
+        margin-top: 10px;
+    }
+
+    .row-button{
+        gap: 10px;
+        display: flex;
+    }
+
+    p{
+        margin: 0;
+    }
+
+    .empty-list-message{
+        font-family: 'Nunito', sans-serif;
+        font-style: italic;
+        font-size: 16px;
+        color: gray;
+        margin: 0;
+    }
+}

@@ -5,17 +5,36 @@ import ExamInfo from "../../components/Examinfo";
 import VitalSign from "../../components/Vitalsign";
 import Paraclinical from "../../components/paraclinical";
 import Prescription from "../../components/Prescription";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Presdetail from "../../components/Presdetail";
+import { getUserByCid } from "@/services/doctorService";
+import { useMutation } from "@/hooks/useMutation";
+import { convertDateTime } from "@/utils/formartDate";
+import { convertGender } from "@/utils/convertGender";
 
 const Examination = () => {
 
     const [selectedRadio, setSelectedRadio] = useState('info');
-    const [examDate, setExamDate] = useState(new Date()); 
+    const [patientData, setPatientData] = useState({});
 
-    const handleExamDateChange = (date) => {
-        setExamDate(date);
-    };
+    let {
+        data: dataPatient,
+        loading: patientLoading,
+        error: patientError,
+        execute: fetchPatientData,
+    } = useMutation((query) => 
+        getUserByCid(123456789)
+    );
+
+    useEffect(() => {
+        fetchPatientData();
+    },[]);
+
+    useEffect(() => {
+        if (dataPatient && dataPatient.DT) {
+            setPatientData(dataPatient.DT);
+        }
+    },[dataPatient]);
 
     const handleRadioChange = (e) => {
         setSelectedRadio(e.target.value);
@@ -28,58 +47,64 @@ const Examination = () => {
                     <p className="exam-header">Thông tin bệnh nhân</p>
                     <hr />
                     <div className="row">
-                        <div className="col-5 mb-0">
-                            <div className="row">
-                                <div className="col-4">
-                                    <p className="title">Họ tên</p>
+                        {patientData && patientData.cid &&
+                            <> 
+                                <div className="col-5 mb-0">
+                                    <div className="row">
+                                        <div className="col-4">
+                                            <p className="title">Họ tên</p>
+                                        </div>
+                                        <div className="col-8">
+                                            <p className="info">
+                                                {patientData.lastName + " " + patientData.firstName}
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div className="row">
+                                        <div className="col-4">
+                                            <p className="title">Ngày sinh</p>
+                                        </div>
+                                        <div className="col-8">
+                                            <p className="info">{convertDateTime(patientData.dob)}</p>
+                                        </div>
+                                    </div>
+                                    <div className="row">
+                                        <div className="col-4">
+                                            <p className="title">Giới tính</p>
+                                        </div>
+                                        <div className="col-8">
+                                            <p className="info">{convertGender(patientData.gender)}</p>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div className="col-8">
-                                    <p className="info">Nguyễn Văn A</p>
+                                <div className="col-5 mb-0">
+                                    <div className="row">
+                                        <div className="col-4">
+                                            <p className="title">Số điện thoại</p>
+                                        </div>
+                                        <div className="col-8">
+                                            <p className="info">{patientData.phoneNumber}</p>
+                                        </div>
+                                    </div>
+                                    <div className="row">
+                                        <div className="col-4">
+                                            <p className="title">CCCD</p>
+                                        </div>
+                                        <div className="col-8">
+                                            <p className="info">{patientData.cid}</p>
+                                        </div>
+                                    </div>
+                                    <div className="row">
+                                        <div className="col-4">
+                                            <p className="title">Ghi chú</p>
+                                        </div>
+                                        <div className="col-8">
+                                            <p className="info">??????</p>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                            <div className="row">
-                                <div className="col-4">
-                                    <p className="title">Ngày sinh</p>
-                                </div>
-                                <div className="col-8">
-                                    <p className="info">1 / 1 / 2000</p>
-                                </div>
-                            </div>
-                            <div className="row">
-                                <div className="col-4">
-                                    <p className="title">Giới tính</p>
-                                </div>
-                                <div className="col-8">
-                                    <p className="info">Nam</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="col-5 mb-0">
-                            <div className="row">
-                                <div className="col-4">
-                                    <p className="title">Số điện thoại</p>
-                                </div>
-                                <div className="col-8">
-                                    <p className="info">0123456789</p>
-                                </div>
-                            </div>
-                            <div className="row">
-                                <div className="col-4">
-                                    <p className="title">CCCD</p>
-                                </div>
-                                <div className="col-8">
-                                    <p className="info">012345678910</p>
-                                </div>
-                            </div>
-                            <div className="row">
-                                <div className="col-4">
-                                    <p className="title">Ghi chú</p>
-                                </div>
-                                <div className="col-8">
-                                    <p className="info">Người tàn tật</p>
-                                </div>
-                            </div>
-                        </div>
+                            </>
+                        }
                     </div>
                 </div>
                 <div className="exam-content">
@@ -120,8 +145,7 @@ const Examination = () => {
                             <VitalSign />
                         )}
                         {selectedRadio === 'paraclinical' && (
-                            //<Paraclinical />
-                            <Presdetail  />
+                            <Paraclinical />
                         )}
                         {selectedRadio === 'prescription' && (
                             <Prescription />

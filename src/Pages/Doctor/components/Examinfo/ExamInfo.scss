@@ -55,13 +55,46 @@
     border: none;
     border-radius: 10px;
     padding: 10px 20px;
-    width: 100%;
-    height: 36px;
+    width: 80%;
     cursor: pointer;
     transition: background-color 0.3s ease;
 
     &:hover {
         background-color: #297853;
+    }
+}
+
+.delete-button {
+    font-family: 'Nunito', sans-serif;
+    background-color: #f44343;
+    font-size: 14px;
+    color: white;
+    font-weight: bold;
+    border: none;
+    border-radius: 10px;
+    padding: 10px 20px;
+    width: 80%;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+
+    &:hover {
+        background-color: #c71212;
+    }
+}
+
+.add-button{
+    font-family: 'Nunito', sans-serif;
+    font-size: 14px;
+    background-color: #438EF3;
+    color: white;
+    font-weight: bold;
+    border: none;
+    border-radius: 10px;
+    padding: 10px 20px;
+    cursor: pointer;
+
+    &:hover{
+        background-color: #1060ca;
     }
 }
 

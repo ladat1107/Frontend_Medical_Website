@@ -1,0 +1,50 @@
+.select-box2 {
+    position: relative;
+    width: 100%;
+    font-family: "Nunito", sans-serif;
+    border-radius: 8px;
+    font-size: 14px;
+    background-color: #edf6ff;
+    border: 1.5px solid #91c5f5;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+  
+    .select-input {
+      width: 100%;
+      border: 0px solid #ccc;
+      border-radius: 8px;
+      background-color: #EDF6FF;
+      font-size: 14px;
+
+      &:focus {
+        box-shadow: 0 0 0 2px #83BDF4;
+        border: 0;
+      }
+    }
+  
+    .options-list {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      background-color: white;
+      border: 1.5px solid #91c5f5;
+      border-top: none;
+      max-height: 200px;
+      overflow-y: auto;
+      list-style: none;
+      padding: 0;
+      margin-top: 3px;
+      z-index: 1000;
+  
+      .option-item {
+        padding: 10px;
+        cursor: pointer;
+  
+        &:hover {
+          background-color: #f0f0f0;
+        }
+      }
+    }
+  }
