@@ -24,31 +24,31 @@ export const STAFF_ROLE = [
 
 export const ALL_ROLE = [
   {
-    id: 1,
-    name: 'Quản trị viên',
+    value: 1,
+    label: 'Quản trị viên',
   },
   {
-    id: 2,
-    name: 'Bệnh nhân',
+    value: 2,
+    label: 'Bệnh nhân',
   },
   {
-    id: 3,
-    name: 'Bác sĩ',
+    value: 3,
+    label: 'Bác sĩ',
   },
   {
-    id: 7,
-    name: 'Kế toán',
+    value: 7,
+    label: 'Kế toán',
   },
   {
-    id: 5,
-    name: 'Dược sĩ',
+    value: 5,
+    label: 'Dược sĩ',
   },
   {
-    id: 4,
-    name: 'Điều dưỡng',
+    value: 4,
+    label: 'Điều dưỡng',
   },
   {
-    id: 6,
-    name: 'Nhân viên tiếp nhận',
+    value: 6,
+    label: 'Nhân viên tiếp nhận',
   },
 ]

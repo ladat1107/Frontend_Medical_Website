@@ -1,4 +1,4 @@
-.staff-manage {
+.patient-manage {
     .container {
         .btn-add-user {
             //margin-right: 1rem;
@@ -89,33 +89,6 @@
             }
 
             .table-head {
-                .select-page {
-                    display: flex;
-                    justify-content: space-between;
-                    align-items: center;
-
-                    span {
-                        font-size: 0.9rem;
-                    }
-
-                    .css-mnqnbf {
-                        background: none;
-
-                        span {
-                            font-size: 0.9rem;
-                            font-weight: 600;
-                            color: black;
-                        }
-                    }
-
-                    .css-1izobnm {
-                        background: none;
-                        color: black;
-                        font-size: 0.7rem;
-                        font-weight: 600;
-                    }
-                }
-
                 .search-content {
                     display: flex;
                     justify-content: space-between;
@@ -129,24 +102,19 @@
                         width: 100%;
                         padding: 0.5rem;
                         margin-left: 0.5rem;
+                        border: 0;
+                        outline: 0;
+                        box-shadow: none;
 
                         &:focus {
-                            border: none !important;
-                            outline: none !important;
-                        }
-
-                        &:active {
-                            border: none !important;
-                            outline: none !important;
+                            border: 0;
+                            outline: 0;
+                            box-shadow: none;
                         }
                     }
 
                     &:hover {
                         border: #000000 1px solid;
-                    }
-
-                    &:focus {
-                        border: #f80101 1px solid;
                     }
                 }
 
@@ -221,3 +189,21 @@
         }
     }
 }
+
+// .input1 {
+//     width: 100%;
+//     margin-left: 0.5rem;
+//     border: 0;
+//     outline: 2px;
+
+//     &:hover {
+//         border: #c23939 1px solid !important;
+//         outline: #1ce923 1px dashed !important;
+//     }
+
+//     &:focus {
+//         border: #c23939 5px solid !important;
+
+//         border-radius: 15px;
+//     }
+// }

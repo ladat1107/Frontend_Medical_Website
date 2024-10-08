@@ -1,3 +1,17 @@
-.modal-xl {
-    --bs-modal-width: 90vw;
+.create-modal {
+
+    .modal-xl {
+        --bs-modal-width: 90vw;
+    }
+
+    .select-custom {
+        ///-index: 200000;
+    }
+
+
+
+}
+
+.ant-select-dropdown {
+    z-index: 1501 !important;
 }

@@ -81,7 +81,7 @@ const PatientManage = () => {
     }
     return (
         listUserLoading ? <Loading /> :
-            <div className='user-manage'>
+            <div className='patient-manage'>
                 <div className='container'>
                     <div className='d-flex align-items-center mb-3'>
                         <h3>Bệnh nhân</h3>
@@ -94,7 +94,7 @@ const PatientManage = () => {
                         <div className='table-head d-flex align-items-center'>
                             <div className='search-content d-flex align-items-center'>
                                 <FontAwesomeIcon icon={faMagnifyingGlass} size="xl" style={{ color: "#d1d1d1", }} />
-                                <input type="text" className='head border-0 no-outline' placeholder='Tìm kiếm'
+                                <input type="text" className='input-head' placeholder='Tìm kiếm'
                                     value={search}
                                     onChange={(event) => { setSearch(event.target.value); setCurrentPage(1) }} />
                             </div>
@@ -205,15 +205,13 @@ const PatientManage = () => {
                                 setPage={setCurrentPage} />
                         </div>
                     </div>
-
-
-
+                    <CreateUserModal
+                        show={showCreateUserModal}
+                        isShow={handleShow}
+                        refresh={refresh}
+                        table={TABLE.USER} />
                 </div >
-                <CreateUserModal
-                    show={showCreateUserModal}
-                    isShow={handleShow}
-                    refresh={refresh}
-                    table={TABLE.USER} />
+
             </div >
     );
 }

@@ -4,7 +4,7 @@ import SideBar from './components/Sidebar'
 import CustomScrollbars from '@/components/Scrollbars/CustomScrollbars'
 import AdminHeader from './components/AdminHeader';
 import { AuthenContextProvider } from '@/contexts/AuthenContext';
-
+import "./Admin.scss"
 const AdminLayout = () => {
   return (
     <AuthenContextProvider>
