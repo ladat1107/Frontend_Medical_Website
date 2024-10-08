@@ -1,5 +1,5 @@
 
-import React, { useEffect } from 'react'
+import React from 'react'
 
 import { useAuthenContext } from "@/contexts/AuthenContext";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';

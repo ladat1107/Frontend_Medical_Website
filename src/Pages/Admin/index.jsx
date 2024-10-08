@@ -7,19 +7,15 @@ import { AuthenContextProvider } from '@/contexts/AuthenContext';
 
 const AdminLayout = () => {
   return (
-    <>
-      <AuthenContextProvider>
-        <CustomScrollbars>
-          <SideBar />
-          <div className="p-4 sm:ml-64" >
-            <AdminHeader />
-            <Outlet />
-          </div>
-        </CustomScrollbars>
-      </AuthenContextProvider>
-    </>
-
-
+    <AuthenContextProvider>
+      <CustomScrollbars>
+        <SideBar />
+        <div className="p-4 sm:ml-64" >
+          <AdminHeader />
+          <Outlet />
+        </div>
+      </CustomScrollbars>
+    </AuthenContextProvider>
   )
 }
 
