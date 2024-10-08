@@ -26,10 +26,15 @@ const SideBar = () => {
           <hr />
           <ul>
             <li>
-
+              <NavLink to="/doctorAppointment" className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                <FontAwesomeIcon className='icon' icon={faChartArea} style={{ color: "#82868c", }} />
+                <span className="ms-3">Lịch hẹn</span>
+              </NavLink>
+            </li>
+            <li>
               <NavLink to="/doctorExamination" className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                 <FontAwesomeIcon className='icon' icon={faChartArea} style={{ color: "#82868c", }} />
-                <span className="ms-3">Khám chữa bệnh</span>
+                <span className="ms-3">Khám bệnh</span>
               </NavLink>
             </li>
             <li >

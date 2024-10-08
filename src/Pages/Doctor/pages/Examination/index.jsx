@@ -1,137 +1,131 @@
-import { getAppointments, searchAppointments } from "@/services/doctorService";
-import React, { useEffect, useState } from 'react'
-import { getTimeSlotById } from "@/utils/formatTimeSlots";
-import { convertDateTime } from "@/utils/formartDate";
-import {convertStartDateToTimestamp, convertEndDateToTimestamp} from "@/utils/convertToTimestamp";
-import SearchBar from "@/components/Search";
-import SelectBox from "@/components/Combobox";
-import CustomDatePicker from "@/components/DatePicker";
 import "./Examination.scss";
+import CustomDatePicker from "@/components/DatePicker";
+import SelectBox from "@/components/Combobox";
+import ExamInfo from "../../components/Examinfo";
+import VitalSign from "../../components/Vitalsign";
+import Paraclinical from "../../components/paraclinical";
+import Prescription from "../../components/Prescription";
+import { useState } from "react";
+import Presdetail from "../../components/Presdetail";
 
 const Examination = () => {
-    const [listAppointments, setListAppointments] = useState([]);
-    const [searchTerm, setSearchTerm] = useState('');
-    const [selectedValue, setSelectedValue] = useState('1');
-    const [startDate, setStartDate] = useState(new Date()); 
-    const [endDate, setEndDate] = useState(new Date());
 
-    const fetchAppointment = async () => {
-        let response = await getAppointments();
-        if (response && response.data && response.data.DT) {
-            setListAppointments(response.data.DT);
-        }
-    }
+    const [selectedRadio, setSelectedRadio] = useState('info');
+    const [examDate, setExamDate] = useState(new Date()); 
 
-    const fetchAppointmentAppointments = async () => {
-        let response = await searchAppointments(1, 10, searchTerm, convertStartDateToTimestamp(startDate), convertEndDateToTimestamp(endDate));
-        if (response && response.data && response.data.DT) {
-            setListAppointments(response.data.DT);
-        } else {
-            setListAppointments([]);
-        }
-    }
-
-    const handleStartDateChange = (date) => {
-        setStartDate(date);
+    const handleExamDateChange = (date) => {
+        setExamDate(date);
     };
 
-    const handleEndDateChange = (date) => {
-        setEndDate(date);
+    const handleRadioChange = (e) => {
+        setSelectedRadio(e.target.value);
     };
-
-    const handleSelectedChange = (event) => {
-        setSelectedValue(event.target.value); // Cập nhật giá trị đã chọn
-    };
-
-    const handleClear = () => {
-        setSearchTerm('');
-        setSelectedValue(1);
-        setStartDate(new Date());
-        setEndDate(new Date());
-    }
-
-    const options = [
-        { value: '1', label: 'Tất cả' },
-        { value: '2', label: 'Đang chờ khám' },
-        { value: '3', label: 'Đã khám' },
-        { value: '4', label: 'Đã hủy' },
-    ];
-
-    useEffect(() => {
-        fetchAppointment();
-    },[]);
 
     return (
         <>
-            <div className="content">
-                <div className="examination-search">
-                    <div className="search-container">
-                        <p className="search-title">Tìm kiếm lịch khám</p>
-                        <SearchBar
-                            placeholder="Nhập tên bệnh nhân để tìm kiếm..."
-                            value={searchTerm}
-                            onChange={(e) => setSearchTerm(e.target.value)} // Cập nhật từ khóa tìm kiếm
-                            />
-                    </div>
-                    <div className="search-container">
-                        <p className="search-title">Ngày khám</p>
-                        <div className="date-picker">
-                            Từ <CustomDatePicker
-                                selectedDate={startDate}
-                                onDateChange={handleStartDateChange}
-                                placeholder="Chọn ngày..."
-                            /> 
-                            đến <CustomDatePicker
-                                selectedDate={endDate}
-                                onDateChange={handleEndDateChange}
-                                placeholder="Chọn ngày..."
-                            />
+            <div className="container">
+                <div className="exam-content">
+                    <p className="exam-header">Thông tin bệnh nhân</p>
+                    <hr />
+                    <div className="row">
+                        <div className="col-5 mb-0">
+                            <div className="row">
+                                <div className="col-4">
+                                    <p className="title">Họ tên</p>
+                                </div>
+                                <div className="col-8">
+                                    <p className="info">Nguyễn Văn A</p>
+                                </div>
+                            </div>
+                            <div className="row">
+                                <div className="col-4">
+                                    <p className="title">Ngày sinh</p>
+                                </div>
+                                <div className="col-8">
+                                    <p className="info">1 / 1 / 2000</p>
+                                </div>
+                            </div>
+                            <div className="row">
+                                <div className="col-4">
+                                    <p className="title">Giới tính</p>
+                                </div>
+                                <div className="col-8">
+                                    <p className="info">Nam</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="col-5 mb-0">
+                            <div className="row">
+                                <div className="col-4">
+                                    <p className="title">Số điện thoại</p>
+                                </div>
+                                <div className="col-8">
+                                    <p className="info">0123456789</p>
+                                </div>
+                            </div>
+                            <div className="row">
+                                <div className="col-4">
+                                    <p className="title">CCCD</p>
+                                </div>
+                                <div className="col-8">
+                                    <p className="info">012345678910</p>
+                                </div>
+                            </div>
+                            <div className="row">
+                                <div className="col-4">
+                                    <p className="title">Ghi chú</p>
+                                </div>
+                                <div className="col-8">
+                                    <p className="info">Người tàn tật</p>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <div className="status-container">
-                        <p className="search-title">Trạng thái</p>
-                        <SelectBox
-                            options={options}
-                            value={selectedValue}
-                            onChange={handleSelectedChange}
-                        />
-                    </div>
-                    <div className="button-container">
-                        <button className="clear-button" onClick={() => { handleClear(); fetchAppointment(); }}>Làm sạch</button>
-                        <button className="search-button" onClick={fetchAppointmentAppointments}>Tìm kiếm</button>
-                    </div>  
                 </div>
-                <div className="examination-container">
-                    <div className="header">
-                        <p className="title">Danh sách lịch khám</p>
+                <div className="exam-content">
+                    <p className="exam-header">Thông tin khám bệnh</p>
+                    <div className="radio-inputs">
+                        <label className="radio">
+                            <input type="radio" name="radio" 
+                                value="info"
+                                defaultChecked={selectedRadio === 'info'}
+                                onChange={handleRadioChange}/>
+                            <span className="name">Thông tin khám</span>
+                        </label>
+                        <label className="radio">
+                            <input type="radio" name="radio" 
+                                value="vitalsign"
+                                onChange={handleRadioChange}/>
+                            <span className="name">Sinh hiệu</span>
+                        </label>
+                        <label className="radio">
+                            <input type="radio" name="radio" 
+                                value="paraclinical"
+                                onChange={handleRadioChange}/>
+                            <span className="name">Cận lâm sàng</span>
+                        </label>
+                        <label className="radio">
+                            <input type="radio" name="radio" 
+                                value="prescription"
+                                onChange={handleRadioChange}/>
+                            <span className="name">Đơn thuốc</span>
+                        </label>
                     </div>
-                    <div className="examination-content">
-                        <table className="examination-table">
-                            <thead className="table-header">
-                                <tr>
-                                    <th className="w0">STT</th>
-                                    <th className="w2">Tên bệnh nhân</th>
-                                    <th className="w1">Ngày khám</th>
-                                    <th className="w1">Giờ khám</th>
-                                    <th className="w2">Triệu Chứng</th>
-                                    <th className="w2">Ghi chú</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {listAppointments.length > 0 && listAppointments.map((item, index) => {
-                                    return (
-                                        <tr key={index}>
-                                            <td>{index + 1}</td>
-                                            <td>{item.appointmentUserData.lastName + " " + item.appointmentUserData.firstName}</td>
-                                            <td>{convertDateTime(item.date)}</td>
-                                            <td>{getTimeSlotById(item.time)}</td>
-                                            <td>{item.symptom}</td>
-                                            <td>{item.specialNote}</td>
-                                        </tr>
-                                    )
-                                })}
-                            </tbody>
-                        </table>
+                    <hr />
+                    <div className="radio-content">
+                        {selectedRadio === 'info' && (
+                            <ExamInfo />
+                        )}
+                        {selectedRadio === 'vitalsign' && (
+                            <VitalSign />
+                        )}
+                        {selectedRadio === 'paraclinical' && (
+                            //<Paraclinical />
+                            <Presdetail  />
+                        )}
+                        {selectedRadio === 'prescription' && (
+                            <Prescription />
+                        )}
                     </div>
                 </div>
             </div>
@@ -139,4 +133,4 @@ const Examination = () => {
     )
 }
 
-export default Examination
+export default Examination;

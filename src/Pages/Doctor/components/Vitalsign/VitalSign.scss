@@ -1,0 +1,14 @@
+.vital-container{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    background-color: white;
+    padding-top: 20px;
+
+    font-family: 'Nunito', sans-serif;
+    font-size: 14px;
+
+    p{
+        margin: 0;
+    }
+}

@@ -10,6 +10,7 @@ import AdminLayout from "./pages/Admin/index";
 import UserManage from "./pages/Admin/pages/UserManage";
 import DoctorLayout from "./pages/Doctor";
 import DoctorHomePage from "./pages/Doctor/pages/HomePage";
+import Appointment from "./pages/Doctor/pages/Appointment";
 import Examination from "./pages/Doctor/pages/Examination";
 function App() {
 
@@ -25,6 +26,7 @@ function App() {
       </Route>
       <Route element={<DoctorLayout />}>
         <Route path='/doctor' element={<DoctorHomePage />} />
+        <Route path='/doctorAppointment' element={<Appointment />} />
         <Route path='/doctorExamination' element={<Examination />} />
       </Route>
     </Routes>
