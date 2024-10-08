@@ -11,13 +11,21 @@ import Input from '../Input/index';
 import { MESSAGE, REGEX } from '@/constant/validate';
 import useAddress from '@/hooks/useAddress';
 import { ALL_ROLE } from '@/constant/role';
+import removeVietnameseAccent from '@/utils/removeAccent';
 
 const CreateUser = (props) => {
+
     let [messageContent, setMessageContent] = useState("")
-    let optionGender = GENDER;
-    let optionPosition = ALL_ROLE;
     let [gender, setGender] = useState(0);
     let [position, setPosition] = useState(0);
+
+    let optionGender = GENDER;
+    let optionPosition = ALL_ROLE;
+
+
+    //Khởi tạo useForm
+    let { register, handleSubmit, control, watch, formState: { errors, isSubmitted } } = useForm();
+    const password = watch("password");
     const {
         provinceId,
         districtId,
@@ -29,12 +37,12 @@ const CreateUser = (props) => {
         handleProvinceChange,
         handleWardChange,
     } = useAddress();
-    //Khởi tạo useForm
-    let { register, handleSubmit, control, formState: { errors, isSubmitted } } = useForm();
+
 
     // Hàm xử lý khi submit thành công
-    const onSubmit = data => {
+    const onSubmit = (data) => {
         console.log("data");
+        console.log("data", data);
 
     };
     const handleClose = () => {
@@ -59,6 +67,7 @@ const CreateUser = (props) => {
             props.isShow(false)
         }
     }
+    console.log("check gander: ", optionGender)
     return (
         <>
             <Modal
@@ -155,37 +164,35 @@ const CreateUser = (props) => {
                                 })}
                                 error={errors?.dob?.message || ""}
                             />
-                            <Input
-                                label="Giới tính"
-                                col="col-lg-4"
-                                required
-                                {
-                                ...register("dob", {
-                                    required: MESSAGE.required,
-                                })
-                                }
-                                error={errors?.dob?.message || ""}
-                            />
+
                             <div className="col-lg-4">
                                 <Controller
                                     name="gender"
                                     control={control}
                                     rules={{ required: MESSAGE.required }}
-                                    render={({ field }) => (
+                                    render={({ field, formState: { errors } }) => (
                                         <>
                                             <label>Giới tính</label>
                                             <Select
-                                                className="customSelect"
+                                                className=""
                                                 suffixIcon={<></>}
                                                 showSearch
                                                 placeholder="Chọn giới tính"
                                                 optionFilterProp="children"
-                                                value={field.value}
+                                                // value={field.value}
                                                 onChange={(value) => {
                                                     field.onChange(value);
-                                                    setGender(value); // Cập nhật giá trị giới tính
+                                                    console.log("value", value)
+                                                    //setGender(value); // Cập nhật giá trị giới tính
                                                 }}
-                                                options={optionGender.map(g => ({ label: g.value, value: g.id }))}
+                                                filterOption={(input, option) => {
+                                                    return removeVietnameseAccent(option?.label ?? "")
+                                                        .toLowerCase()
+                                                        .includes(
+                                                            removeVietnameseAccent(input).toLowerCase()
+                                                        );
+                                                }}
+                                                options={optionGender} //.map(g => ({ label: g.value, value: g.id }))
                                             />
                                             <p className="form-error" style={{ minHeight: 23, marginTop: "10px" }}>
                                                 {errors?.gender?.message}
@@ -196,7 +203,28 @@ const CreateUser = (props) => {
                             </div>
                         </div>
 
-
+                        <Select
+                            className=""
+                            suffixIcon={<></>}
+                            showSearch
+                            defaultValue="Nam"
+                            placeholder="Chọn giới tính"
+                            optionFilterProp="children"
+                            // value={field.value}
+                            onChange={(value) => {
+                                field.onChange(value);
+                                console.log("value", value)
+                                //setGender(value); // Cập nhật giá trị giới tính
+                            }}
+                            filterOption={(input, option) => {
+                                return removeVietnameseAccent(option?.label ?? "")
+                                    .toLowerCase()
+                                    .includes(
+                                        removeVietnameseAccent(input).toLowerCase()
+                                    );
+                            }}
+                            options={optionGender} //.map(g => ({ label: g.value, value: g.id }))
+                        />
                     </Modal.Body>
                     <Modal.Footer>
                         <Button variant="secondary" onClick={handleClose}>

@@ -7,14 +7,14 @@ import DropdownAction from '@/pages/Admin/components/Dropdown/DropdownAction';
 import DropdownPosition from './DropDownPosition';
 import useDebounce from '@/hooks/useDebounce';
 import Checkbox from '@mui/material/Checkbox';
-
+import CreateUserModal from '@/pages/Admin/components/Modal/CreateUserModal';
 import PaginateCustom from '@/pages/Admin/components/Paginate/PaginateCustom';
 import { getUser, deleteUser } from "@/services/adminService";
 import Loading from '@/components/Loading/Loading';
 import { useMutation } from '@/hooks/useMutation';
-
-import "./StaffManage.scss";
 import { TABLE } from '@/constant/value';
+import "./StaffManage.scss";
+
 const StaffManage = () => {
     //let { handleDropdown } = useAuthenContext();
     let [currentPage, setCurrentPage] = useState(1);
@@ -24,6 +24,7 @@ const StaffManage = () => {
     let [checkAll, setCheckAll] = useState(false);
     let [search, setSearch] = useState("");
     let [positionArr, setPositionArr] = useState([1, 3, 4, 5, 6, 7]);
+    let [showCreateUserModal, setShowCreateUserModal] = useState(false);
     let searchDebounce = "";
     let {
         data: dataUser,
@@ -79,13 +80,20 @@ const StaffManage = () => {
         setSearch(event.target.value);
         setCurrentPage(1)
     }
+    let handleShow = (value) => {
+        setShowCreateUserModal(value)
+    }
+    let hanldeCreateUser = () => {
+        setShowCreateUserModal(true)
+    }
     return (
         listUserLoading ? <Loading /> : <>
             <div className='staff-manage'>
                 <div className='container'>
                     <div className='d-flex align-items-center mb-3'>
                         <h3>Nhân viên</h3>
-                        <button className='btn ml-auto px-3  btn-add-user'><FontAwesomeIcon className='me-2 icon' icon={faPlus} style={{ color: "#6ae1f9", }} /> Thêm mới</button>
+                        <button className='btn ml-auto px-3  btn-add-user' onClick={() => { hanldeCreateUser() }}>
+                            <FontAwesomeIcon className='me-2 icon' icon={faPlus} style={{ color: "#6ae1f9", }} /> Thêm mới</button>
                     </div>
 
                     <div className='table-responsive'>
@@ -216,6 +224,11 @@ const StaffManage = () => {
                         </div>
                     </div>
                 </div >
+                <CreateUserModal
+                    show={showCreateUserModal}
+                    isShow={handleShow}
+                    refresh={refresh}
+                    table={TABLE.USER} />
             </div >
         </>
 

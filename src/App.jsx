@@ -1,6 +1,4 @@
 import "./App.css";
-import 'flowbite';
-import Snackbar from '@mui/material/Snackbar';
 import MainLayout from "./layouts/MainLayout";
 import ContactPage from "./pages/Contact/index";
 import AdminHomePage from "./pages/Admin/pages/HomePage/index";

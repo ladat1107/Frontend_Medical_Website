@@ -1,13 +1,15 @@
 
-import React from 'react'
+import React, { useEffect } from 'react'
+
 import { useAuthenContext } from "@/contexts/AuthenContext";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChartArea, faUserPen, faChevronDown, faHouseChimneyMedical, faRightFromBracket } from '@fortawesome/free-solid-svg-icons';
+
+
 import "./Sidebar.scss"
 import { NavLink } from 'react-router-dom';
 const SideBar = () => {
   const { handleDropdown } = useAuthenContext();
-
   return (
     <>
       <button data-drawer-target="separator-sidebar" data-drawer-toggle="separator-sidebar" aria-controls="separator-sidebar" type="button" className="inline-flex items-center p-2 mt-2 ms-3 text-sm text-gray-500 rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600">
