@@ -2,19 +2,18 @@ import React, { useEffect, useState } from 'react'
 import { useAuthenContext } from "@/contexts/AuthenContext";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlus, faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons'
-import DropdownPaginate from '@/pages/Admin/components/Dropdown/DropdownPaginate';
-import DropdownAction from '@/pages/Admin/components/Dropdown/DropdownAction';
+import DropdownPaginate from '@/pages/Admin1/components/Dropdown/DropdownPaginate';
+import DropdownAction from '@/pages/Admin1/components/Dropdown/DropdownAction';
 import DropdownPosition from './DropDownPosition';
 import useDebounce from '@/hooks/useDebounce';
 import Checkbox from '@mui/material/Checkbox';
-import CreateUserModal from '@/pages/Admin/components/Modal/CreateUserModal';
-import PaginateCustom from '@/pages/Admin/components/Paginate/PaginateCustom';
+import CreateUserModal from '@/pages/Admin1/components/Modal/CreateUserModal';
+import PaginateCustom from '@/pages/Admin1/components/Paginate/PaginateCustom';
 import { getUser, deleteUser } from "@/services/adminService";
 import Loading from '@/components/Loading/Loading';
 import { useMutation } from '@/hooks/useMutation';
 import { TABLE } from '@/constant/value';
 import "./StaffManage.scss";
-
 const StaffManage = () => {
     //let { handleDropdown } = useAuthenContext();
     let [currentPage, setCurrentPage] = useState(1);

@@ -11,5 +11,7 @@ export const MESSAGE = {
     email: "please enter your email with fomart abc@def.com",
     phoneNumber: "Please enter a valid phone number in the format +84xxxxxxxxx or 0xxxxxxxxx",
     policy: "Please agree with our policy",
-    confirm: "Your confirm password is not correct"
+    confirm: "Your confirm password is not correct",
+    password: "Password must contain at least 8 characters, including uppercase, lowercase letters, numbers and special characters",
+    
 }

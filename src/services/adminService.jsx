@@ -9,7 +9,6 @@ const handleLogin = (data) => {
 const logoutUser = () => {
     return axios.post(`/api/handleLogout`)
 }
-
 const getUser = (page, limit, search, position) => {
     return axios.get(`/api/admin/getAllUser?page=${+page}&limit=${+limit}&position=[${position}]&search=${search}`)
 }
@@ -22,9 +21,11 @@ const updateUser = (data) => {
 const blockUser = (data) => {
     return axios.put(`/api/admin/blockUser`, data)
 }
-
 const deleteRole = (data) => {
     return axios.delete(`/api/role/delete`, { data: { id: data.id } })
+}
+const getNameDepartment = () => {
+    return axios.get(`/api/getAllNameDepartment`)
 }
 export {
     handleRegisterUser,
@@ -35,4 +36,5 @@ export {
     updateUser,
     blockUser,
     deleteRole,
+    getNameDepartment,
 }

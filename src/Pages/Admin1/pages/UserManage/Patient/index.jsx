@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
-import DropdownPaginate from "@/pages/Admin/components/Dropdown/DropdownPaginate";
+import DropdownPaginate from "@/pages/Admin1/components/Dropdown/DropdownPaginate";
 import { faMagnifyingGlass, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import { getUser } from "@/services/adminService";
 import Checkbox from '@mui/material/Checkbox';
-import PaginateCustom from "@/pages/Admin/components/Paginate/PaginateCustom";
-import DropdownAction from "@/pages/Admin/components/Dropdown/DropdownAction";
-import CreateUserModal from "@/pages/Admin/components/Modal/CreateUserModal";
+import PaginateCustom from "@/pages/Admin1/components/Paginate/PaginateCustom";
+import DropdownAction from "@/pages/Admin1/components/Dropdown/DropdownAction";
+import CreateUserModal from "@/pages/Admin1/components/Modal/CreateUserModal";
 import Loading from "@/components/Loading/Loading";
 import "./PatientManage.scss";
 import { useMutation } from "@/hooks/useMutation";
