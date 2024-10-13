@@ -1,10 +1,37 @@
 import './Prescription.scss';
 import Presdetail from '../Presdetail';
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
+import { useMutation } from '@/hooks/useMutation';
+import { getAllMedicinesForExam } from '@/services/doctorService';
 
 const Prescription = () => {
 
     const [presDetails, setPresDetails] = useState([{ id: 0 }]);
+    const [medicineOptions, setMedicineOptions] = useState([]);
+    useEffect(() => {
+        fetchMedicines();
+    }, []);
+
+    let {
+        data: dataMedicines,
+        loading: comorbiditiesLoading,
+        error: comorbiditiesError,
+        execute: fetchMedicines,
+    } = useMutation((query) => 
+        getAllMedicinesForExam()  
+    );
+
+    useEffect(() => {
+        if (dataMedicines && dataMedicines.DT) {
+            const medicineOptions = dataMedicines.DT.map(item => ({
+                value: item.id,
+                label: item.name,
+                price: item.price, 
+                unit: item.unit,
+            }));
+            setMedicineOptions(medicineOptions);
+        }        
+    }, [dataMedicines]);
 
     const handleAddPresdetail = useCallback(() => {
         setPresDetails(prevDetails => [
@@ -33,6 +60,7 @@ const Prescription = () => {
                     presDetails.map(detail => (
                         <Presdetail 
                             key={detail.id} 
+                            options={medicineOptions}
                             onDelete={() => handleDeletePresdetail(detail.id)} 
                         />
                     ))

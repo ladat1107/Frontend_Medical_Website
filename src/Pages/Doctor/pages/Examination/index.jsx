@@ -6,16 +6,20 @@ import VitalSign from "../../components/Vitalsign";
 import Paraclinical from "../../components/paraclinical";
 import Prescription from "../../components/Prescription";
 import { useEffect, useState } from "react";
-import Presdetail from "../../components/Presdetail";
-import { getUserByCid } from "@/services/doctorService";
+import { getExaminationById, getUserByCid } from "@/services/doctorService";
 import { useMutation } from "@/hooks/useMutation";
 import { convertDateTime } from "@/utils/formartDate";
 import { convertGender } from "@/utils/convertGender";
+import { set } from "lodash";
 
 const Examination = () => {
 
     const [selectedRadio, setSelectedRadio] = useState('info');
     const [patientData, setPatientData] = useState({});
+    const [examinationData, setExaminationData] = useState({});
+    const [vitalSignData, setVitalSignData] = useState({});
+    const [paraclinicalData, setParaclinicalData] = useState([]);
+    const [prescriptionData, setPrescriptionData] = useState([]);
 
     let {
         data: dataPatient,
@@ -35,6 +39,47 @@ const Examination = () => {
             setPatientData(dataPatient.DT);
         }
     },[dataPatient]);
+
+    let {
+        data: dataExamination,
+        loading: examinationLoading,
+        error: examinationError,
+        execute: fetchExaminationData,
+    } = useMutation((query) => 
+        getExaminationById(26)
+    );
+
+    useEffect(() => {
+        fetchExaminationData();
+    },[]);
+
+    useEffect(() => {
+        if(dataExamination && dataExamination.DT) {
+            const fields = [
+                "id", "userId", "staffId", "symptom", "diseaseName", 
+                "treatmentResult", "admissionDate", "dischargeDate", "status", 
+                "reason", "medicalTreatmentTier", "paymentDoctorStatus", 
+                "price", "special", "insuranceCoverage"
+            ];
+            
+            setExaminationData(Object.fromEntries(
+                fields.map(field => [field, dataExamination.DT[field]])
+            ));
+
+            setVitalSignData(dataExamination.DT.examinationVitalSignData);
+            setParaclinicalData(dataExamination.DT.examinationResultParaclincalData);
+            setPrescriptionData(dataExamination.DT.prescriptionExamData);
+        }
+        console.log("dataExamination:", dataExamination);
+    }, [dataExamination]);
+
+    useEffect(() => {
+        console.log("Examination Data:", examinationData);
+        console.log("Vital Sign Data:", vitalSignData);
+        console.log("Paraclinical Data:", paraclinicalData);
+        console.log("Prescription Data:", prescriptionData);
+    }, [examinationData, vitalSignData, paraclinicalData, prescriptionData]);
+
 
     const handleRadioChange = (e) => {
         setSelectedRadio(e.target.value);
@@ -138,8 +183,10 @@ const Examination = () => {
                     </div>
                     <hr />
                     <div className="radio-content">
-                        {selectedRadio === 'info' && (
-                            <ExamInfo />
+                        {selectedRadio === 'info' && patientData && patientData.id && (
+                            <ExamInfo 
+                                patientId={patientData.id}
+                            />
                         )}
                         {selectedRadio === 'vitalsign' && (
                             <VitalSign />

@@ -15,3 +15,8 @@ export function convertEndDateToTimestamp(dateString) {
     // Trả về giá trị timestamp (tính bằng giây)
     return Math.floor(dateObject.getTime());
 }
+
+export function convertDateTime(dateString) {
+    const dateObject = new Date(dateString);
+    return Math.floor(dateObject.getTime());
+}

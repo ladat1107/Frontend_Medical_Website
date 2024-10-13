@@ -1,29 +1,45 @@
 import SelectBox2 from "@/components/Selectbox";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import PropTypes from 'prop-types';
 import './Paracdetail.scss'
+import { getAllRoomTypes } from "@/services/doctorService";
+import { useMutation } from "@/hooks/useMutation";
 
 
 const Paracdetail = ({ onDelete }) => {
 
-    const [selectedParacOption, setParaclinicalOption] = useState({ value: '', label: '' });
-    const [selectedDoctorOption, setDoctorOption] = useState({ value: '', label: '' });
+    const [paracOptions, setParacOptions] = useState([]);
+    const [paracPrice, setParacPrice] = useState(0);
 
-    const paracOptions = [
-        { value: '1', label: 'Khám bệnh' },
-        { value: '2', label: 'Điều trị ngoại trú' }
-    ];
+    useEffect(() => {
+        fetchParaclinical();
+    }, []);
 
-    const doctorOptions = [
-        { value: '1', label: 'Bác sĩ A' },
-        { value: '2', label: 'Bác sĩ B' }
-    ];
+    let {
+        data: dataParaclinicals,
+        loading: comorbiditiesLoading,
+        error: comorbiditiesError,
+        execute: fetchParaclinical,
+    } = useMutation((query) => 
+        getAllRoomTypes()  
+    );
 
-    const handleParaclinicalChange = (newValue, newLabel) => {
-        setParaclinicalOption({ value: newValue, label: newLabel });
-    };
-    const handleDoctorChange = (newValue, newLabel) => {
-        setDoctorOption({ value: newValue, label: newLabel });
+    useEffect(() => {
+        if (dataParaclinicals && dataParaclinicals.DT) {
+            const paracOptions = dataParaclinicals.DT.map(item => ({
+                value: item.id,
+                label: item.name,
+                price: item.price,
+            }));
+            setParacOptions(paracOptions);
+        }        
+    }, [dataParaclinicals]);
+
+    const handleParacChange = (value) => {
+        const selectedParac = paracOptions.find(paracOptions => paracOptions.value === value);
+        if (selectedParac) {
+            setParacPrice(selectedParac.price || 0);  // Cập nhật giá thuốc
+        }
     };
 
     return (
@@ -37,22 +53,15 @@ const Paracdetail = ({ onDelete }) => {
                         <SelectBox2
                             className="select-box2"
                             options={paracOptions}
-                            value={selectedParacOption}
-                            onChange={handleParaclinicalChange}
                             placeholder="Nhập loại xét nghiệm"
+                            onChange={handleParacChange}
                         />
                     </div>
                     <div className="col-2">
                         <p>Bác sĩ thực hiện:</p>
                     </div>
                     <div className="col-4">
-                        <SelectBox2
-                            className="select-box2"
-                            options={doctorOptions}
-                            value={selectedDoctorOption}
-                            onChange={handleDoctorChange}
-                            placeholder="Nhập bác sĩ thực hiện"
-                        />
+                        <p className="info">Bác sĩ A</p>
                     </div>
                 </div>
                 <div className="row">
@@ -80,7 +89,7 @@ const Paracdetail = ({ onDelete }) => {
                         <p>Giá</p>
                     </div>
                     <div className="col-4">
-                        <p className="info">30.000 VND</p>
+                        <p className="info">{paracPrice.toLocaleString()} VND</p>
                     </div>
                 </div>
                 <div className="row padding0">
