@@ -1,26 +1,38 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './Presdetail.scss';
 import SelectBox2 from '@/components/Selectbox';
 import PropTypes from 'prop-types';
+import QuantityInput from '@/components/QuantityInput';
 
-const Presdetail = ({ onDelete, options }) => {
+const Presdetail = ({ id, onDelete, options, onChange }) => {
     const [selectedPrice, setSelectedPrice] = useState(0);
     const [medicineUnit, setMedicineUnit] = useState('Đơn vị');
+    const [quantity, setQuantity] = useState(0);
 
     const handleMedicineChange = (value) => {
         const selectedMedicine = options.find(option => option.value === value);
         if (selectedMedicine) {
-            setSelectedPrice(selectedMedicine.price || 0);  // Cập nhật giá thuốc
-            setMedicineUnit(selectedMedicine.unit || '');  // Cập nhật đơn vị thuốc
+            setSelectedPrice(selectedMedicine.price || 0);
+            setMedicineUnit(selectedMedicine.unit || '');
+            onChange(id, quantity, selectedMedicine.price || 0);
         }
     };
+
+    const handleQuantityChange = (newQuantity) => {
+        setQuantity(newQuantity);
+        onChange(id, newQuantity, selectedPrice);
+    };
+
+    useEffect(() => {
+        onChange(id, quantity, selectedPrice);
+    }, [id, quantity, selectedPrice, onChange]);
 
     return (
         <div className="presdetail-container">
             <div className="row center-content">
                 <div className='col-3'>
                     <div className='row'>
-                        <p className='info'>Thành phần hoạt tính</p>
+                        <p className='info'>Tên thuốc</p>
                     </div>
                     <div className='row'>
                         <SelectBox2
@@ -36,7 +48,7 @@ const Presdetail = ({ onDelete, options }) => {
                         <p className='title'>Số lượng</p>
                     </div>
                     <div className='row'>
-                        <input type="text" className="input" placeholder="Nhập số lượng"/>
+                        <QuantityInput onChange={handleQuantityChange}/>
                     </div>
                 </div>
                 <div className='col-1'>
@@ -72,8 +84,10 @@ const Presdetail = ({ onDelete, options }) => {
 };
 
 Presdetail.propTypes = {
+    id: PropTypes.number.isRequired,
     onDelete: PropTypes.func.isRequired,
     options: PropTypes.array.isRequired,
+    onChange: PropTypes.func.isRequired,
 };
 
 export default Presdetail;

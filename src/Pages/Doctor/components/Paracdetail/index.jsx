@@ -2,14 +2,20 @@ import SelectBox2 from "@/components/Selectbox";
 import { useEffect, useState } from "react";
 import PropTypes from 'prop-types';
 import './Paracdetail.scss'
-import { getAllRoomTypes } from "@/services/doctorService";
+import { createOrUpdateParaclinical, getAllRoomTypes } from "@/services/doctorService";
 import { useMutation } from "@/hooks/useMutation";
 
 
-const Paracdetail = ({ onDelete }) => {
+const Paracdetail = ({ id, paraclinicalData, onDelete, onSaveResult  }) => {
 
     const [paracOptions, setParacOptions] = useState([]);
-    const [paracPrice, setParacPrice] = useState(0);
+
+    const [paraclinical, setParaclinical] = useState(paraclinicalData.paraclinical || 0);
+    const [doctorId, setDoctorId] = useState(paraclinicalData.doctorId || 1);
+    const [result, setResult] = useState(paraclinicalData.result || '');
+    const [description, setDescription] = useState(paraclinicalData.description || '');
+    const [image, setImage] = useState(paraclinicalData.image || '');
+    const [price, setPrice] = useState(paraclinicalData.price || 0);
 
     useEffect(() => {
         fetchParaclinical();
@@ -38,9 +44,47 @@ const Paracdetail = ({ onDelete }) => {
     const handleParacChange = (value) => {
         const selectedParac = paracOptions.find(paracOptions => paracOptions.value === value);
         if (selectedParac) {
-            setParacPrice(selectedParac.price || 0);  // Cập nhật giá thuốc
+            setPrice(selectedParac.price || 0);  // Cập nhật giá xét nghiệm
+            setParaclinical(selectedParac.value);
         }
     };
+
+    const handleResultChange = (e) => {
+        setResult(e.target.value);
+    };
+
+    const handleDescriptionChange = (e) => {
+        setDescription(e.target.value);
+    }
+
+    const handleImageChange = (e) => {
+        setImage(e.target.value);
+    }
+
+    const handleSaveButton = async () => {
+        const data = {
+            id: id,
+            examinationId: paraclinicalData.examinationId,
+            paraclinical: paraclinical,
+            doctorId: doctorId,
+            result: result,
+            description: description,
+            image: image,
+            price: price,
+        }
+
+        try{
+            const response = await createOrUpdateParaclinical(data);
+            if (response && response.EC === 0 && response.DT === true) { 
+                onSaveResult(data, true);
+            } else {
+                onSaveResult(data, false);
+            }
+        } catch (error) {
+            console.error("Error creating examination:", error.response?.data || error.message);
+            onSaveResult(data, false);
+        }
+    }
 
     return (
         <>
@@ -52,6 +96,7 @@ const Paracdetail = ({ onDelete }) => {
                     <div className="col-4">
                         <SelectBox2
                             className="select-box2"
+                            value={paraclinical}
                             options={paracOptions}
                             placeholder="Nhập loại xét nghiệm"
                             onChange={handleParacChange}
@@ -61,7 +106,7 @@ const Paracdetail = ({ onDelete }) => {
                         <p>Bác sĩ thực hiện:</p>
                     </div>
                     <div className="col-4">
-                        <p className="info">Bác sĩ A</p>
+                        <p className="info">{doctorId}</p>
                     </div>
                 </div>
                 <div className="row">
@@ -69,13 +114,21 @@ const Paracdetail = ({ onDelete }) => {
                         <p>Kết quả:</p>
                     </div>
                     <div className="col-4">
-                        <input type="text" className="input" placeholder="Nhập kết quả xét nghiệm"/>
+                        <input type="text" 
+                            className="input" 
+                            value={result}
+                            onChange={handleResultChange}
+                            placeholder="Nhập kết quả xét nghiệm"/>
                     </div>
                     <div className="col-2">
                         <p>Mô tả:</p>
                     </div>
                     <div className="col-4">
-                        <input type="text" className="input" placeholder="Mô tả chi tiết kết quả"/>
+                        <input type="text" 
+                        className="input" 
+                        value={description}
+                        onChange={handleDescriptionChange}
+                        placeholder="Mô tả chi tiết kết quả"/>
                     </div>
                 </div>
                 <div className="row">
@@ -83,13 +136,17 @@ const Paracdetail = ({ onDelete }) => {
                         <p>Hình ảnh:</p>
                     </div>
                     <div className="col-4">
-                        <input type="text" className="input" placeholder="Thêm hình ảnh"/>
+                        <input type="text" 
+                        className="input" 
+                        value={image}
+                        onChange={handleImageChange}
+                        placeholder="Thêm hình ảnh"/>
                     </div>
                     <div className="col-2">
                         <p>Giá</p>
                     </div>
                     <div className="col-4">
-                        <p className="info">{paracPrice.toLocaleString()} VND</p>
+                        <p className="info">{price.toLocaleString()} VND</p>
                     </div>
                 </div>
                 <div className="row padding0">
@@ -98,7 +155,9 @@ const Paracdetail = ({ onDelete }) => {
                         <button className="delete-button" onClick={onDelete}>Xóa</button>
                     </div>
                     <div className='col-2'>
-                        <button className="save-button">Lưu</button>
+                        <button 
+                            onClick={handleSaveButton}
+                            className="save-button">Lưu</button>
                     </div>
                 </div>
                 <hr />
@@ -107,7 +166,10 @@ const Paracdetail = ({ onDelete }) => {
     )
 }
 Paracdetail.propTypes = {
+    id: PropTypes.number.isRequired,
+    paraclinicalData: PropTypes.object.isRequired,
     onDelete: PropTypes.func.isRequired,
+    onSaveResult: PropTypes.func.isRequired,
 };
 
 export default Paracdetail;

@@ -1,19 +1,20 @@
 import { useState } from "react";
+import PropTypes from 'prop-types';
 import "./VitalSign.scss";
 import { notification } from 'antd';
 import { createOrUpdateVitalSign } from "@/services/doctorService";
 
-const VitalSign = () => {
+const VitalSign = ({vitalSignData}) => {
 
-    const [height, setHeight] = useState('');
-    const [weight, setWeight] = useState('');
-    const [fetalWeight, setFetalWeight] = useState('');
-    const [pulse, setPulse] = useState('');
-    const [hightBloodPressure, setHightBloodPressure] = useState('');
-    const [lowBloodPressure, setLowPressureBottom] = useState('');
-    const [temperature, setTemperature] = useState('');
-    const [breathingRate, setBreathingRate] = useState('');
-    const [glycemicIndex, setGlycemicIndex] = useState('');
+    const [height, setHeight] = useState(vitalSignData.height || '');
+    const [weight, setWeight] = useState(vitalSignData.weight || '');
+    const [fetalWeight, setFetalWeight] = useState(vitalSignData.fetalWeight || '');
+    const [pulse, setPulse] = useState(vitalSignData.pulse || '');
+    const [hightBloodPressure, setHightBloodPressure] = useState(vitalSignData.hightBloodPressure || '');
+    const [lowBloodPressure, setLowPressureBottom] = useState(vitalSignData.lowBloodPressure || '');
+    const [temperature, setTemperature] = useState(vitalSignData.temperature || '');
+    const [breathingRate, setBreathingRate] = useState(vitalSignData.breathingRate || '');
+    const [glycemicIndex, setGlycemicIndex] = useState(vitalSignData.glycemicIndex || '');
 
     const handleHeighChange = (event) => {
         setHeight(event.target.value);
@@ -207,5 +208,8 @@ const VitalSign = () => {
         </>
     )
 }
+VitalSign.propTypes = {
+    vitalSignData: PropTypes.object.isRequired,
+};
 
 export default VitalSign;

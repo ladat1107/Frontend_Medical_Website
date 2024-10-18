@@ -89,6 +89,18 @@ const createOrUpdateVitalSign = async (data) => {
     }
 }
 
+//Paraclinical
+const createOrUpdateParaclinical = async (data) => {
+    try {
+        const response = await axios.post(`/api/createOrUpdateParaclinical`, data);
+        console.log("Response:", response.data);
+        return response.data;
+    } catch (error) {
+        console.error("Error creating paraclinical:", error.response?.data || error.message);
+        throw error; // Ném lỗi để xử lý ở nơi gọi
+    }
+}
+
 export {
     getUserByCid,
 
@@ -98,6 +110,8 @@ export {
     getExaminationById,
     createExamination,
     updateExamination,
+
+    createOrUpdateParaclinical,
 
     getDiseaseByName,
     getAllDisease,

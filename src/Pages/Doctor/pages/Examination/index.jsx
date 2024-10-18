@@ -1,6 +1,4 @@
 import "./Examination.scss";
-import CustomDatePicker from "@/components/DatePicker";
-import SelectBox from "@/components/Combobox";
 import ExamInfo from "../../components/Examinfo";
 import VitalSign from "../../components/Vitalsign";
 import Paraclinical from "../../components/paraclinical";
@@ -13,6 +11,8 @@ import { convertGender } from "@/utils/convertGender";
 import { set } from "lodash";
 
 const Examination = () => {
+
+    const [isLoading, setIsLoading] = useState(true);
 
     const [selectedRadio, setSelectedRadio] = useState('info');
     const [patientData, setPatientData] = useState({});
@@ -69,17 +69,19 @@ const Examination = () => {
             setVitalSignData(dataExamination.DT.examinationVitalSignData);
             setParaclinicalData(dataExamination.DT.examinationResultParaclincalData);
             setPrescriptionData(dataExamination.DT.prescriptionExamData);
+
+            setIsLoading(false);
         }
         console.log("dataExamination:", dataExamination);
     }, [dataExamination]);
 
-    useEffect(() => {
-        console.log("Examination Data:", examinationData);
-        console.log("Vital Sign Data:", vitalSignData);
-        console.log("Paraclinical Data:", paraclinicalData);
-        console.log("Prescription Data:", prescriptionData);
-    }, [examinationData, vitalSignData, paraclinicalData, prescriptionData]);
-
+    // useEffect(() => {
+    //     console.log("examinationData:", examinationData);
+    //     console.log("vitalSignData:", vitalSignData);
+    //     console.log("paraclinicalData:", paraclinicalData);
+    //     console.log("prescriptionData:", prescriptionData);
+    //     console.log("examDataID:", examinationData.id);
+    // }, [examinationData, vitalSignData, paraclinicalData, prescriptionData]);
 
     const handleRadioChange = (e) => {
         setSelectedRadio(e.target.value);
@@ -183,19 +185,31 @@ const Examination = () => {
                     </div>
                     <hr />
                     <div className="radio-content">
-                        {selectedRadio === 'info' && patientData && patientData.id && (
-                            <ExamInfo 
-                                patientId={patientData.id}
-                            />
-                        )}
-                        {selectedRadio === 'vitalsign' && (
-                            <VitalSign />
-                        )}
-                        {selectedRadio === 'paraclinical' && (
-                            <Paraclinical />
-                        )}
-                        {selectedRadio === 'prescription' && (
-                            <Prescription />
+                        {isLoading ? (
+                            <div>Loading...</div>
+                        ) : (
+                            <>
+                                {selectedRadio === 'info' && patientData && patientData.id && (
+                                    <ExamInfo 
+                                        examData={examinationData}
+                                        patientId={patientData.id}
+                                    />
+                                )}
+                                {selectedRadio === 'vitalsign' && (
+                                    <VitalSign 
+                                        vitalSignData={vitalSignData}
+                                    />
+                                )}
+                                {selectedRadio === 'paraclinical' && (
+                                    <Paraclinical 
+                                        listParaclinicals={paraclinicalData}
+                                        examinationId={examinationData.id}
+                                    />
+                                )}
+                                {selectedRadio === 'prescription' && (
+                                    <Prescription />
+                                )}
+                            </>
                         )}
                     </div>
                 </div>

@@ -9,22 +9,22 @@ import MultiSelect from "@/components/MultiSelect";
 import { convertDateTime } from "@/utils/convertToTimestamp";
 import { notification } from 'antd';
 
-const ExamInfo = ({patientId}) => {
+const ExamInfo = ({patientId, examData}) => {
 
-    const [selectedValue, setSelectedValue] = useState('1');
+    const [selectedValue, setSelectedValue] = useState(examData.medicalTreatmentTier || '1');
 
-    const [reason, setReason] = useState('');
-    const [symptom, setSymptom] = useState('');
-    const [diseaseName, setDiseaseName] = useState('');
+    const [reason, setReason] = useState(examData.reason || '');
+    const [symptom, setSymptom] = useState(examData.symptom || '');
+    const [diseaseName, setDiseaseName] = useState(examData.diseaseName || '');
 
     const [comorbiditiesOptions, setComorbiditiesOptions] = useState([]);
     const [selectedComorbidities, setSelectedComorbiditieValue] = useState([]);
 
-    const [treatmentResult, setTreatmentResult] = useState('');
-    const [admissionDate, setAdmissionDate] = useState(new Date());
-    const [dischargeDate, setDischargeDate] = useState(new Date());
-    const [price, setPrice] = useState('30.000 VND');
-    const [special, setSpecial] = useState('');
+    const [treatmentResult, setTreatmentResult] = useState(examData.treatmentResult || '');
+    const [admissionDate, setAdmissionDate] = useState(examData.admissionDate || new Date());
+    const [dischargeDate, setDischargeDate] = useState(examData.dischargeDate || new Date());
+    const [price, setPrice] = useState(examData.price || 0);
+    const [special, setSpecial] = useState(examData.special || '');
 
     //Notification
     const [api, contextHolder] = notification.useNotification();
@@ -256,6 +256,7 @@ const ExamInfo = ({patientId}) => {
 }
 ExamInfo.propTypes = {
     patientId: PropTypes.number.isRequired,
+    examData: PropTypes.object.isRequired,
 };
 
 export default ExamInfo;

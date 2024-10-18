@@ -6,11 +6,13 @@ import { getAllMedicinesForExam } from '@/services/doctorService';
 
 const Prescription = () => {
 
-    const [presDetails, setPresDetails] = useState([{ id: 0 }]);
+    const [presDetails, setPresDetails] = useState([{ id: 0, quantity: 0, price: 0 }]);
     const [medicineOptions, setMedicineOptions] = useState([]);
-    useEffect(() => {
-        fetchMedicines();
-    }, []);
+
+    const [prescriptionPrice, setPrescriptionPrice] = useState(0);
+    const [technicalServicePrice, setTechnicalServicePrice] = useState(0);
+    const [bhytPayment, setBhytPayment] = useState(0);
+    const [patientPayment, setPatientPayment] = useState(0);
 
     let {
         data: dataMedicines,
@@ -20,6 +22,10 @@ const Prescription = () => {
     } = useMutation((query) => 
         getAllMedicinesForExam()  
     );
+
+    useEffect(() => {
+        fetchMedicines();
+    }, []);
 
     useEffect(() => {
         if (dataMedicines && dataMedicines.DT) {
@@ -36,13 +42,27 @@ const Prescription = () => {
     const handleAddPresdetail = useCallback(() => {
         setPresDetails(prevDetails => [
             ...prevDetails,
-            { id: prevDetails.length > 0 ? Math.max(...prevDetails.map(d => d.id)) + 1 : 0 }
+            { id: prevDetails.length > 0 ? Math.max(...prevDetails.map(d => d.id)) + 1 : 0, quantity: 0, price: 0 }
         ]);
     }, []);
 
     const handleDeletePresdetail = useCallback((id) => {
         setPresDetails(prevDetails => prevDetails.filter(detail => detail.id !== id));
     }, []);
+
+    const handlePresdetailChange = useCallback((id, quantity, price) => {
+        setPresDetails(prevDetails => 
+            prevDetails.map(detail => 
+                detail.id === id ? { ...detail, quantity, price } : detail
+            )
+        );
+        console.log(presDetails);
+    }, []);
+
+    useEffect(() => {
+        const totalPrice = presDetails.reduce((sum, detail) => sum + detail.quantity * detail.price, 0);
+        setPrescriptionPrice(totalPrice);
+    }, [presDetails]);
 
     return (
         <>
@@ -60,8 +80,10 @@ const Prescription = () => {
                     presDetails.map(detail => (
                         <Presdetail 
                             key={detail.id} 
+                            id={detail.id}
                             options={medicineOptions}
-                            onDelete={() => handleDeletePresdetail(detail.id)} 
+                            onDelete={() => handleDeletePresdetail(detail.id)}
+                            onChange={handlePresdetailChange}
                         />
                     ))
                 ) : (
@@ -84,7 +106,7 @@ const Prescription = () => {
                         <p className='title'>Chi phí thuốc:</p>
                     </div>
                     <div className='col-10'>
-                        <p className='payment'>0 VND</p>
+                        <p className='payment'>{prescriptionPrice.toLocaleString()} VND</p>
                     </div>
                 </div>
                 <div className="row padding">
