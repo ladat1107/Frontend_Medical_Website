@@ -101,6 +101,39 @@ const createOrUpdateParaclinical = async (data) => {
     }
 }
 
+const deleteParaclinical = async (data) => {
+    try {
+        const response = await axios.delete(`/api/deleteParaclinical`, {
+            params: {
+                id: data.id,
+                examinationId: data.examinationId
+            }
+        });
+        console.log("Response:", response.data);
+        return response.data;
+    } catch (error) {
+        console.error("Error deleting paraclinical:", error.response?.data || error.message);
+        throw error;
+    }
+}
+
+
+//Prescription
+const getPrescriptionByExaminationId = async (examinationId) => {
+    return axios.get(`/api/getPrescriptionByExaminationId?examinationId=${examinationId}`)
+}
+
+const upsertPrescription = async (data) => {
+    try {
+        const response = await axios.post(`/api/upsertPrescription`, data);
+        console.log("Response:", response.data);
+        return response.data;
+    } catch (error) {
+        console.error("Error upserting prescription:", error.response?.data || error.message);
+        throw error; // Ném lỗi để xử lý ở nơi gọi
+    }
+}
+
 export {
     getUserByCid,
 
@@ -112,9 +145,13 @@ export {
     updateExamination,
 
     createOrUpdateParaclinical,
+    deleteParaclinical,
 
     getDiseaseByName,
     getAllDisease,
+
+    getPrescriptionByExaminationId,
+    upsertPrescription,
 
     getAllRoomTypes,
     getAllMedicinesForExam,

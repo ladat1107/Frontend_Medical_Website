@@ -1,27 +1,33 @@
 import './Prescription.scss';
 import Presdetail from '../Presdetail';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useMutation } from '@/hooks/useMutation';
-import { getAllMedicinesForExam } from '@/services/doctorService';
+import { getAllMedicinesForExam, getPrescriptionByExaminationId, upsertPrescription } from '@/services/doctorService';
+import PropTypes from 'prop-types';
+import { notification } from 'antd';
 
-const Prescription = () => {
-
-    const [presDetails, setPresDetails] = useState([{ id: 0, quantity: 0, price: 0 }]);
+const Prescription = ({ examinationId }) => {
+    const [presDetails, setPresDetails] = useState([]);
     const [medicineOptions, setMedicineOptions] = useState([]);
-
+    const [note, setNote] = useState('');
     const [prescriptionPrice, setPrescriptionPrice] = useState(0);
-    const [technicalServicePrice, setTechnicalServicePrice] = useState(0);
-    const [bhytPayment, setBhytPayment] = useState(0);
-    const [patientPayment, setPatientPayment] = useState(0);
+    const [nextId, setNextId] = useState(1);
+
+    const [api, contextHolder] = notification.useNotification();
+
+    const openNotification = (message, type = 'info') => {
+        api[type]({
+            message: message,
+            placement: 'bottomRight',
+        });
+    };
 
     let {
         data: dataMedicines,
         loading: comorbiditiesLoading,
         error: comorbiditiesError,
         execute: fetchMedicines,
-    } = useMutation((query) => 
-        getAllMedicinesForExam()  
-    );
+    } = useMutation(() => getAllMedicinesForExam());
 
     useEffect(() => {
         fetchMedicines();
@@ -39,24 +45,59 @@ const Prescription = () => {
         }        
     }, [dataMedicines]);
 
+    let {
+        data: dataPrescription,
+        loading: prescriptionLoading,
+        error: prescriptionError,
+        execute: fetchPrescription,
+    } = useMutation(() => getPrescriptionByExaminationId(examinationId));
+
+    useEffect(() => {
+        fetchPrescription();
+    }, []);
+
+    useEffect(() => {
+        if (dataPrescription && dataPrescription.DT) {
+            const details = dataPrescription.DT.prescriptionDetails.map((detail, index) => ({
+                id: index,  // Tạo ID duy nhất
+                medicineId: detail.medicineId,
+                quantity: detail.quantity,
+                unit: detail.unit,
+                price: detail.price,
+                dosage: detail.dosage
+            }));
+            setPresDetails(details);
+            setNote(dataPrescription.DT.note);
+            setPrescriptionPrice(dataPrescription.DT.totalMoney);
+            setNextId(details.length + 1);
+        }
+    }, [dataPrescription]);
+
     const handleAddPresdetail = useCallback(() => {
         setPresDetails(prevDetails => [
             ...prevDetails,
-            { id: prevDetails.length > 0 ? Math.max(...prevDetails.map(d => d.id)) + 1 : 0, quantity: 0, price: 0 }
+            { 
+                id: nextId, 
+                medicineId: 0,
+                quantity: 1, 
+                unit: '',
+                price: 0,
+                dosage: ''
+            }
         ]);
-    }, []);
+        setNextId(prevId => prevId + 1);
+    }, [nextId]);
 
     const handleDeletePresdetail = useCallback((id) => {
         setPresDetails(prevDetails => prevDetails.filter(detail => detail.id !== id));
     }, []);
 
-    const handlePresdetailChange = useCallback((id, quantity, price) => {
+    const handlePresdetailChange = useCallback((id, medicineId, quantity, unit, price, dosage) => {
         setPresDetails(prevDetails => 
             prevDetails.map(detail => 
-                detail.id === id ? { ...detail, quantity, price } : detail
+                detail.id === id ? { ...detail, medicineId, quantity, unit, price, dosage } : detail
             )
         );
-        console.log(presDetails);
     }, []);
 
     useEffect(() => {
@@ -64,24 +105,59 @@ const Prescription = () => {
         setPrescriptionPrice(totalPrice);
     }, [presDetails]);
 
+    const handleSaveButton = async () => {
+        const data = {
+            examinationId: examinationId,
+            note: note,
+            totalMoney: prescriptionPrice,
+            prescriptionDetails: presDetails.map(detail => ({
+                medicineId: detail.medicineId,
+                quantity: detail.quantity,
+                unit: detail.unit,
+                price: detail.price,
+                dosage: detail.dosage
+            }))
+        };
+
+        console.log('data', data);
+
+        try {
+            const response = await upsertPrescription(data);
+            if (response && response.EC === 0 && response.DT === true) { 
+                openNotification('Lưu đơn thuốc thành công!', 'success');
+            } else {
+                openNotification('Lưu đơn thuốc thất bại.', 'error');
+            }
+        } catch (error) {
+            console.error("Lỗi khi tạo đơn thuốc:", error.response?.data || error.message);
+            openNotification('Lưu đơn thuốc thất bại.', 'error');
+        }
+    };
+
+    const sortedPresDetails = useMemo(() => {
+        return [...presDetails].sort((a, b) => b.id - a.id);
+    }, [presDetails]);
+
     return (
         <>
+            {contextHolder}
             <div className="pres-container">
                 <div className="row padding">
                     <div className='col-2'>
                         <button className='add-button' onClick={handleAddPresdetail}>Thêm thuốc</button>
                     </div>
                     <div className='col-2'>
-                        <button className='save-button'>Lưu</button>
+                        <button className='save-button' onClick={handleSaveButton}>Lưu</button>
                     </div>
                 </div>
                 <div className="row padding gap">
-                {presDetails.length > 0 ? (
-                    presDetails.map(detail => (
+                {sortedPresDetails.length > 0 ? (
+                    sortedPresDetails.map(detail => (
                         <Presdetail 
-                            key={detail.id} 
+                            key={detail.id}
                             id={detail.id}
                             options={medicineOptions}
+                            presdetailData={detail}
                             onDelete={() => handleDeletePresdetail(detail.id)}
                             onChange={handlePresdetailChange}
                         />
@@ -98,7 +174,12 @@ const Prescription = () => {
                         <p className='title'>Ghi chú:</p>
                     </div>
                     <div className='col-10'>
-                        <input type="text" className="input" placeholder="Nhập ghi chú"/>
+                        <input 
+                            value={note}
+                            onChange={(e) => setNote(e.target.value)}
+                            type="text" 
+                            className="input"
+                            placeholder="Nhập ghi chú"/>
                     </div> 
                 </div>
                 <div className="row padding">
@@ -138,5 +219,8 @@ const Prescription = () => {
         </>
     )
 }
+Prescription.propTypes = {
+    examinationId: PropTypes.number.isRequired,
+};
 
 export default Prescription;

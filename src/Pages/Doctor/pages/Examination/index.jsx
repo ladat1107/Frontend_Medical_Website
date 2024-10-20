@@ -56,7 +56,7 @@ const Examination = () => {
     useEffect(() => {
         if(dataExamination && dataExamination.DT) {
             const fields = [
-                "id", "userId", "staffId", "symptom", "diseaseName", 
+                "id", "userId", "staffId", "symptom", "diseaseName", "comorbidities",
                 "treatmentResult", "admissionDate", "dischargeDate", "status", 
                 "reason", "medicalTreatmentTier", "paymentDoctorStatus", 
                 "price", "special", "insuranceCoverage"
@@ -207,7 +207,9 @@ const Examination = () => {
                                     />
                                 )}
                                 {selectedRadio === 'prescription' && (
-                                    <Prescription />
+                                    <Prescription 
+                                        examinationId={examinationData.id}
+                                    />
                                 )}
                             </>
                         )}

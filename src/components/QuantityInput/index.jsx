@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import './QuantityInput.scss';
 
-const QuantityInput = ({ initialValue = 0, min = 1, max = 100, step = 1, onChange }) => {
-  const [value, setValue] = useState(initialValue);
+const QuantityInput = ({ initialValue, min = 1, max = 100, step = 1, onChange }) => {
+  const [value, setValue] = useState(initialValue || min);
 
   const handleIncrement = () => {
     const newValue = Math.min(value + step, max);

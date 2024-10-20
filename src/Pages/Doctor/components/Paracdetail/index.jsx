@@ -96,7 +96,7 @@ const Paracdetail = ({ id, paraclinicalData, onDelete, onSaveResult  }) => {
                     <div className="col-4">
                         <SelectBox2
                             className="select-box2"
-                            value={paraclinical}
+                            value={paraclinical !== 0 ? paraclinical : undefined}
                             options={paracOptions}
                             placeholder="Nhập loại xét nghiệm"
                             onChange={handleParacChange}
@@ -152,7 +152,7 @@ const Paracdetail = ({ id, paraclinicalData, onDelete, onSaveResult  }) => {
                 <div className="row padding0">
                     <div className='col-8'></div>
                     <div className='col-2'>
-                        <button className="delete-button" onClick={onDelete}>Xóa</button>
+                        <button className="delete-button" onClick={() => onDelete(id)}>Xóa</button>
                     </div>
                     <div className='col-2'>
                         <button 

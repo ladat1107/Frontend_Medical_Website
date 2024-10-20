@@ -18,8 +18,9 @@ const ExamInfo = ({patientId, examData}) => {
     const [diseaseName, setDiseaseName] = useState(examData.diseaseName || '');
 
     const [comorbiditiesOptions, setComorbiditiesOptions] = useState([]);
-    const [selectedComorbidities, setSelectedComorbiditieValue] = useState([]);
-
+    const [selectedComorbidities, setSelectedComorbiditieValue] = useState(
+        examData.comorbidities ? examData.comorbidities.split(',') : []
+    );
     const [treatmentResult, setTreatmentResult] = useState(examData.treatmentResult || '');
     const [admissionDate, setAdmissionDate] = useState(examData.admissionDate || new Date());
     const [dischargeDate, setDischargeDate] = useState(examData.dischargeDate || new Date());
@@ -121,12 +122,14 @@ const ExamInfo = ({patientId, examData}) => {
 
         try {
             const response = await updateExamination(data);
-            if(response && response.DT === 1) { 
-                openNotification('Thêm thông tin thành công!', 'success');
+            if(response && response.DT.includes(1)) { 
+                openNotification('Lưu thông tin khám bệnh thành công!', 'success');
+            } else {
+                openNotification('Lưu thông tin khám bệnh thất bại.', 'error');
             }
         } catch (error) {
             console.error("Error creating examination:", error.response?.data || error.message);
-            openNotification('Thêm thông tin thất bại.', 'error');
+            openNotification('Lưu thông tin khám bệnh thất bại.', 'error');
         }
     }
 

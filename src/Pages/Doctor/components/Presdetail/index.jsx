@@ -2,30 +2,33 @@ import React, { useEffect, useState } from 'react';
 import './Presdetail.scss';
 import SelectBox2 from '@/components/Selectbox';
 import PropTypes from 'prop-types';
-import QuantityInput from '@/components/QuantityInput';
+import QuantityInput from '@/components/QuantityInput'; 
 
-const Presdetail = ({ id, onDelete, options, onChange }) => {
-    const [selectedPrice, setSelectedPrice] = useState(0);
-    const [medicineUnit, setMedicineUnit] = useState('Đơn vị');
-    const [quantity, setQuantity] = useState(0);
+const Presdetail = ({ id, presdetailData, onDelete, options, onChange }) => {
+    const [medicineId, setMedicineId] = useState(presdetailData.medicineId || 0);
+    const [selectedPrice, setSelectedPrice] = useState(presdetailData.price || 0);
+    const [medicineUnit, setMedicineUnit] = useState(presdetailData.unit || '');
+    const [quantity, setQuantity] = useState(presdetailData.quantity || 0);
+    const [dosage, setDosage] = useState(presdetailData.dosage || '');
 
     const handleMedicineChange = (value) => {
         const selectedMedicine = options.find(option => option.value === value);
         if (selectedMedicine) {
+            setMedicineId(selectedMedicine.value);
             setSelectedPrice(selectedMedicine.price || 0);
             setMedicineUnit(selectedMedicine.unit || '');
-            onChange(id, quantity, selectedMedicine.price || 0);
+            onChange(id, medicineId, quantity, medicineUnit, selectedMedicine.price || 0, dosage);
         }
     };
 
     const handleQuantityChange = (newQuantity) => {
         setQuantity(newQuantity);
-        onChange(id, newQuantity, selectedPrice);
+        onChange(id, medicineId, newQuantity, medicineUnit, selectedPrice, dosage);
     };
 
     useEffect(() => {
-        onChange(id, quantity, selectedPrice);
-    }, [id, quantity, selectedPrice, onChange]);
+        onChange(id, medicineId, quantity, medicineUnit, selectedPrice, dosage);
+    }, [id, medicineId, quantity, medicineUnit, selectedPrice, dosage, onChange]);
 
     return (
         <div className="presdetail-container">
@@ -38,6 +41,7 @@ const Presdetail = ({ id, onDelete, options, onChange }) => {
                         <SelectBox2
                             className="select-box2"
                             options={options}
+                            value={medicineId !== 0 ? medicineId : undefined}
                             placeholder="Nhập tên thuốc"
                             onChange={handleMedicineChange} 
                         />
@@ -48,7 +52,9 @@ const Presdetail = ({ id, onDelete, options, onChange }) => {
                         <p className='title'>Số lượng</p>
                     </div>
                     <div className='row'>
-                        <QuantityInput onChange={handleQuantityChange}/>
+                        <QuantityInput 
+                            initialValue={quantity}
+                            onChange={handleQuantityChange}/>
                     </div>
                 </div>
                 <div className='col-1'>
@@ -61,7 +67,7 @@ const Presdetail = ({ id, onDelete, options, onChange }) => {
                 </div>
                 <div className='col-1'>
                     <div className='row'>
-                        <p className='title'>Giá</p>
+                        <p className='title'>Đơn giá</p>
                     </div>
                     <div className='row'>
                         <p className='suptext'>{selectedPrice.toLocaleString()}</p>  {/* Hiển thị giá */}
@@ -72,7 +78,12 @@ const Presdetail = ({ id, onDelete, options, onChange }) => {
                         <p className='title'>Liều dùng</p>
                     </div>
                     <div className='row'>
-                        <input type="text" className="input" placeholder="Nhập liều dùng"/>
+                        <input 
+                            type="text" 
+                            className="input" 
+                            placeholder="Nhập liều dùng"
+                            value={dosage}
+                            onChange={(e) => setDosage(e.target.value)}/>
                     </div>
                 </div>
                 <div className='col-1'>
@@ -85,6 +96,7 @@ const Presdetail = ({ id, onDelete, options, onChange }) => {
 
 Presdetail.propTypes = {
     id: PropTypes.number.isRequired,
+    presdetailData: PropTypes.object.isRequired,
     onDelete: PropTypes.func.isRequired,
     options: PropTypes.array.isRequired,
     onChange: PropTypes.func.isRequired,
