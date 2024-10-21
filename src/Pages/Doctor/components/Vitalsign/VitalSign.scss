@@ -1,0 +1,65 @@
+.vital-container{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    background-color: white;
+    padding-top: 20px;
+
+    font-family: 'Nunito', sans-serif;
+    font-size: 14px;
+
+    p{
+        margin: 0;
+    }
+
+    .col-3{
+        display: flex;
+        align-items: center;
+        gap: 5px;
+    }
+
+    .save-button {
+        font-family: 'Nunito', sans-serif;
+        background-color: #3AA472;
+        font-size: 14px;
+        color: white;
+        font-weight: bold;
+        border: none;
+        border-radius: 5px;
+        padding: 5px 10px;
+        width: 100%;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+
+        &:hover {
+            background-color: #297853;
+        }
+    }
+
+    .save-button.disabled {
+        background-color: #ccc; /* Màu xám khi disabled */
+        cursor: not-allowed; /* Đổi con trỏ thành không thể click */
+    }
+
+    .restore-button{
+        font-family: 'Nunito', sans-serif;
+        font-size: 14px;
+        background-color: #438EF3;
+        color: white;
+        font-weight: bold;
+        border: none;
+        border-radius: 5px;
+        padding: 5px 15px;
+        width: 100%;
+        cursor: pointer;
+
+        &:hover{
+            background-color: #1060ca;
+        }
+    }
+
+    .restore-button.disabled {
+        background-color: #ccc; /* Màu xám khi disabled */
+        cursor: not-allowed; /* Đổi con trỏ thành không thể click */
+    }
+}
