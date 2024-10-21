@@ -29,15 +29,14 @@ const Paraclinical = ({ listParaclinicals, examinationId }) => {
             ...prevDetails,
             { 
                 id: nextId,
-                examinationId: examinationId
+                examinationId: examinationId,
+                isNew: true
             }
         ]);
         setNextId(prevId => prevId + 1);
     }, [nextId, examinationId]);
 
     const handleDeleteParacdetail = useCallback( async (id) => {
-        console.log('Deleted paracdetail with id: ', id);
-        console.log('examinationId: ', examinationId); 
         
         const isExistingParaclinical = listParaclinicals.some(detail => detail.id === id);
     
@@ -62,16 +61,16 @@ const Paraclinical = ({ listParaclinicals, examinationId }) => {
     }, [examinationId, listParaclinicals]);
     
 
-    const handleSaveResult = useCallback((savedData, success) => {
+    const handleSaveResult = useCallback((savedData, success, message) => {
         if (success) {
-            openNotification('Thêm thông tin thành công!', 'success');
+            openNotification(message, 'success');
             setParacDetails(prevDetails => 
                 prevDetails.map(detail => 
                     detail.id === savedData.id ? { ...detail, ...savedData } : detail
                 )
             );
         } else {
-            openNotification('Thêm thông tin thất bại.', 'error');
+            openNotification(message, 'error');
         }
     }, []);
 

@@ -11,8 +11,10 @@ import { notification } from 'antd';
 
 const ExamInfo = ({patientId, examData}) => {
 
-    const [selectedValue, setSelectedValue] = useState(examData.medicalTreatmentTier || '1');
+    const [initialExamination, setInitialExamination] = useState(examData);
+    const [isChanged, setIsChanged] = useState(false);
 
+    const [selectedValue, setSelectedValue] = useState(examData.medicalTreatmentTier.toString() || '1');
     const [reason, setReason] = useState(examData.reason || '');
     const [symptom, setSymptom] = useState(examData.symptom || '');
     const [diseaseName, setDiseaseName] = useState(examData.diseaseName || '');
@@ -22,10 +24,26 @@ const ExamInfo = ({patientId, examData}) => {
         examData.comorbidities ? examData.comorbidities.split(',') : []
     );
     const [treatmentResult, setTreatmentResult] = useState(examData.treatmentResult || '');
-    const [admissionDate, setAdmissionDate] = useState(examData.admissionDate || new Date());
-    const [dischargeDate, setDischargeDate] = useState(examData.dischargeDate || new Date());
+    const [admissionDate, setAdmissionDate] = useState( new Date(examData.admissionDate) || new Date());
+    const [dischargeDate, setDischargeDate] = useState( new Date(examData.dischargeDate) || new Date());
     const [price, setPrice] = useState(examData.price || 0);
-    const [special, setSpecial] = useState(examData.special || '');
+    const [special, setSpecial] = useState(examData.special || 0);
+
+    useEffect(() => {
+        const isDataChanged = (
+            selectedValue !== initialExamination.medicalTreatmentTier.toString() ||
+            reason !== initialExamination.reason ||
+            symptom !== initialExamination.symptom ||
+            diseaseName !== initialExamination.diseaseName ||
+            treatmentResult !== initialExamination.treatmentResult ||
+            admissionDate.getTime() !== new Date(initialExamination.admissionDate).getTime() ||
+            dischargeDate.getTime() !== new Date(initialExamination.dischargeDate).getTime() ||
+            price !== initialExamination.price ||
+            special !== initialExamination.special ||
+            selectedComorbidities.join(',') !== initialExamination.comorbidities
+        );        
+        setIsChanged(isDataChanged);
+    }, [selectedValue, reason, symptom, diseaseName, selectedComorbidities, treatmentResult, admissionDate, dischargeDate, price, special, initialExamination]);
 
     //Notification
     const [api, contextHolder] = notification.useNotification();
@@ -41,6 +59,14 @@ const ExamInfo = ({patientId, examData}) => {
         { value: '1', label: 'Khám bệnh' },
         { value: '2', label: 'Điều trị ngoại trú' }
     ];
+
+    const specialOptions = [
+        { value: '0', label: 'Không' },
+        { value: '1', label: 'Trẻ em' },
+        { value: '2', label: 'Người già' },
+        { value: '3', label: 'Phụ nữ mang thai' },
+        { value: '4', label: 'Người khuyết tật' }
+    ]
 
     useEffect(() => {
         fetchComorbidities();
@@ -98,10 +124,14 @@ const ExamInfo = ({patientId, examData}) => {
 
     const handleComorbiditiesChange = (value) => {
         setSelectedComorbiditieValue(value);
-        console.log(value)
     };
 
     const handleSaveButton = async () => {
+        if(!reason || !symptom) {
+            openNotification('Vui lòng điền đầy đủ tất cả các trường!', 'error');
+            return;
+        }
+
         const data = {
             id: 26,
             userId: patientId,
@@ -124,13 +154,27 @@ const ExamInfo = ({patientId, examData}) => {
             const response = await updateExamination(data);
             if(response && response.DT.includes(1)) { 
                 openNotification('Lưu thông tin khám bệnh thành công!', 'success');
+                setInitialExamination(data);
             } else {
-                openNotification('Lưu thông tin khám bệnh thất bại.', 'error');
+                openNotification(response.EM, 'error');
             }
         } catch (error) {
             console.error("Error creating examination:", error.response?.data || error.message);
             openNotification('Lưu thông tin khám bệnh thất bại.', 'error');
         }
+    }
+
+    const handleRestoreButton = () => {
+        setSelectedValue(initialExamination.medicalTreatmentTier.toString());
+        setReason(initialExamination.reason);
+        setSymptom(initialExamination.symptom);
+        setDiseaseName(initialExamination.diseaseName);
+        setSelectedComorbiditieValue(initialExamination.comorbidities ? initialExamination.comorbidities.split(',') : []);
+        setTreatmentResult(initialExamination.treatmentResult);
+        setAdmissionDate(new Date(initialExamination.admissionDate));
+        setDischargeDate(new Date(initialExamination.dischargeDate));
+        setPrice(initialExamination.price);
+        setSpecial(initialExamination.special);
     }
 
     return (
@@ -241,16 +285,28 @@ const ExamInfo = ({patientId, examData}) => {
                         <p>Đặc biệt:</p>
                     </div>
                     <div className="col-4">
-                        <input type="text" className="input" 
-                            value={special} 
-                            onChange={handleSpecialChange}
-                            placeholder="??"/>
+                        <SelectBox
+                            className="select-box"
+                            options={specialOptions}
+                            value={special}
+                            onChange={handleSpecialChange}/>
                     </div>
                 </div>
                 <div className="row">
-                    <div className="col-10"></div>
-                    <div className="col-2">
-                        <button className="save-button" onClick={handleSaveButton}>Lưu</button>
+                    <div className="col-9"></div>
+                    <div className="col-3 text-end">
+                        <button 
+                            className={`restore-button ${!isChanged ? 'disabled' : ''}`}
+                            onClick={handleRestoreButton}
+                            disabled={!isChanged}>
+                            Hoàn tác
+                        </button>
+                        <button 
+                            className={`save-button ${!isChanged ? 'disabled' : ''}`}
+                            onClick={handleSaveButton}
+                            disabled={!isChanged}>
+                            Lưu
+                        </button>
                     </div>
                 </div>
             </div> 

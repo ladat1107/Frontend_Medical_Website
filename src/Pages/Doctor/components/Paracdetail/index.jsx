@@ -8,14 +8,29 @@ import { useMutation } from "@/hooks/useMutation";
 
 const Paracdetail = ({ id, paraclinicalData, onDelete, onSaveResult  }) => {
 
-    const [paracOptions, setParacOptions] = useState([]);
+    const [isNew, setIsNew] = useState(paraclinicalData.isNew || false);
+    const [initialparaclinical, setInitialParaclinical] = useState(paraclinicalData);
+    const [isChanged, setIsChanged] = useState(false);
 
+    const [paracOptions, setParacOptions] = useState([]);
     const [paraclinical, setParaclinical] = useState(paraclinicalData.paraclinical || 0);
     const [doctorId, setDoctorId] = useState(paraclinicalData.doctorId || 1);
     const [result, setResult] = useState(paraclinicalData.result || '');
     const [description, setDescription] = useState(paraclinicalData.description || '');
     const [image, setImage] = useState(paraclinicalData.image || '');
     const [price, setPrice] = useState(paraclinicalData.price || 0);
+
+    useEffect(() => {
+        const isDataChanged = (
+            paraclinical !== initialparaclinical.paraclinical ||
+            doctorId !== initialparaclinical.doctorId ||
+            result !== initialparaclinical.result ||
+            description !== initialparaclinical.description ||
+            image !== initialparaclinical.image ||
+            price !== initialparaclinical.price
+        );
+        setIsChanged(isDataChanged);
+    }, [paraclinical, doctorId, result, description, image, price, initialparaclinical]);
 
     useEffect(() => {
         fetchParaclinical();
@@ -62,6 +77,11 @@ const Paracdetail = ({ id, paraclinicalData, onDelete, onSaveResult  }) => {
     }
 
     const handleSaveButton = async () => {
+        if (!paraclinical || !doctorId || !result || !description || !price) {
+            alert('Vui lòng điền đầy đủ thông tin xét nghiệm!');
+            return;
+        }
+
         const data = {
             id: id,
             examinationId: paraclinicalData.examinationId,
@@ -76,9 +96,11 @@ const Paracdetail = ({ id, paraclinicalData, onDelete, onSaveResult  }) => {
         try{
             const response = await createOrUpdateParaclinical(data);
             if (response && response.EC === 0 && response.DT === true) { 
-                onSaveResult(data, true);
+                onSaveResult(data, true, response.EM);
+                setInitialParaclinical(data);
+                setIsNew(false);
             } else {
-                onSaveResult(data, false);
+                onSaveResult(data, false, response.EM);
             }
         } catch (error) {
             console.error("Error creating examination:", error.response?.data || error.message);
@@ -86,9 +108,18 @@ const Paracdetail = ({ id, paraclinicalData, onDelete, onSaveResult  }) => {
         }
     }
 
+    const handleRestoreButton = () => {
+        setParaclinical(initialparaclinical.paraclinical);
+        setDoctorId(initialparaclinical.doctorId);
+        setResult(initialparaclinical.result);
+        setDescription(initialparaclinical.description);
+        setImage(initialparaclinical.image);
+        setPrice(initialparaclinical.price);
+    }
+
     return (
         <>
-            <div className="parac-container">
+            <div className="paracdetail-container">
                 <div className="row">
                     <div className="col-2">
                         <p>Loại xét nghiệm:</p>
@@ -151,13 +182,28 @@ const Paracdetail = ({ id, paraclinicalData, onDelete, onSaveResult  }) => {
                 </div>
                 <div className="row padding0">
                     <div className='col-8'></div>
-                    <div className='col-2'>
-                        <button className="delete-button" onClick={() => onDelete(id)}>Xóa</button>
-                    </div>
-                    <div className='col-2'>
+                    <div className='col-4 text-end'>
                         <button 
+                            className="delete-button" 
+                            onClick={() => onDelete(id)}>
+                            Xóa
+                        </button>
+                        {!isNew && (
+                            <>
+                                <button 
+                                    className={`restore-button ${(!isChanged) ? 'disabled' : ''}`}
+                                    onClick={handleRestoreButton}
+                                    disabled={!isChanged}>
+                                    Hoàn tác
+                                </button>
+                            </>
+                        )}
+                        <button 
+                            className={`save-button ${(!isChanged) ? 'disabled' : ''}`}
                             onClick={handleSaveButton}
-                            className="save-button">Lưu</button>
+                            disabled={!isChanged}>
+                            Lưu
+                        </button>
                     </div>
                 </div>
                 <hr />

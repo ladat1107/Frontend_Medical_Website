@@ -8,7 +8,6 @@ import { getExaminationById, getUserByCid } from "@/services/doctorService";
 import { useMutation } from "@/hooks/useMutation";
 import { convertDateTime } from "@/utils/formartDate";
 import { convertGender } from "@/utils/convertGender";
-import { set } from "lodash";
 
 const Examination = () => {
 
@@ -72,7 +71,6 @@ const Examination = () => {
 
             setIsLoading(false);
         }
-        console.log("dataExamination:", dataExamination);
     }, [dataExamination]);
 
     // useEffect(() => {

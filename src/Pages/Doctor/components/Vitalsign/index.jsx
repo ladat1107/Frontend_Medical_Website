@@ -1,10 +1,13 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import PropTypes from 'prop-types';
 import "./VitalSign.scss";
 import { notification } from 'antd';
 import { createOrUpdateVitalSign } from "@/services/doctorService";
 
 const VitalSign = ({vitalSignData}) => {
+
+    const [initialVitalSign, setInitialVitalSign] = useState(vitalSignData);
+    const [isChanged, setIsChanged] = useState(false);
 
     const [height, setHeight] = useState(vitalSignData.height || '');
     const [weight, setWeight] = useState(vitalSignData.weight || '');
@@ -15,6 +18,21 @@ const VitalSign = ({vitalSignData}) => {
     const [temperature, setTemperature] = useState(vitalSignData.temperature || '');
     const [breathingRate, setBreathingRate] = useState(vitalSignData.breathingRate || '');
     const [glycemicIndex, setGlycemicIndex] = useState(vitalSignData.glycemicIndex || '');
+
+    useEffect(() => {
+        const isDataChanged = (
+            height !== initialVitalSign.height ||
+            weight !== initialVitalSign.weight ||
+            fetalWeight !== initialVitalSign.fetalWeight ||
+            pulse !== initialVitalSign.pulse ||
+            hightBloodPressure !== initialVitalSign.hightBloodPressure ||
+            lowBloodPressure !== initialVitalSign.lowBloodPressure ||
+            temperature !== initialVitalSign.temperature ||
+            breathingRate !== initialVitalSign.breathingRate ||
+            glycemicIndex !== initialVitalSign.glycemicIndex
+        );
+        setIsChanged(isDataChanged);
+    }, [height, weight, fetalWeight, pulse, hightBloodPressure, lowBloodPressure, temperature, breathingRate, glycemicIndex, initialVitalSign]);
 
     const handleHeighChange = (event) => {
         setHeight(event.target.value);
@@ -64,6 +82,12 @@ const VitalSign = ({vitalSignData}) => {
 
     //save button
     const handleSaveButton = async () => {
+        if (!height || !weight || !fetalWeight || !pulse || !hightBloodPressure || 
+            !lowBloodPressure || !temperature || !breathingRate || !glycemicIndex) {
+            openNotification('Vui lòng điền đầy đủ tất cả các trường!', 'error');
+            return;
+        }
+
         const data = {
             examinationId: 26,
             height: height,
@@ -81,6 +105,7 @@ const VitalSign = ({vitalSignData}) => {
             const response = await createOrUpdateVitalSign(data);
             if (response && response.DT) {
                 openNotification('Lưu sinh hiệu thành công!', 'success');
+                setInitialVitalSign(data);
             } else {
                 openNotification('Có lỗi trong quá trình lưu sinh hiệu.', 'error');
             }
@@ -89,6 +114,19 @@ const VitalSign = ({vitalSignData}) => {
             openNotification('Lưu sinh hiệu thất bại.', 'error');
         }
     }
+
+    const handleRestoreButton = () => {
+        setHeight(initialVitalSign.height || '');
+        setWeight(initialVitalSign.weight || '');
+        setFetalWeight(initialVitalSign.fetalWeight || '');
+        setPulse(initialVitalSign.pulse || '');
+        setHightBloodPressure(initialVitalSign.hightBloodPressure || '');
+        setLowPressureBottom(initialVitalSign.lowBloodPressure || '');
+        setTemperature(initialVitalSign.temperature || '');
+        setBreathingRate(initialVitalSign.breathingRate || '');
+        setGlycemicIndex(initialVitalSign.glycemicIndex || '');
+        openNotification('Đã khôi phục giá trị ban đầu.', 'info');
+    };
 
     return (
         <>
@@ -195,11 +233,18 @@ const VitalSign = ({vitalSignData}) => {
                     </div>
                 </div>
                 <div className="row">
-                    <div className="col-10"></div>
-                    <div className="col-2">
+                    <div className="col-9"></div>
+                    <div className="col-3 text-end">
                         <button 
-                            className="save-button"
-                            onClick={handleSaveButton}>
+                            className={`restore-button ${!isChanged ? 'disabled' : ''}`}
+                            onClick={handleRestoreButton}
+                            disabled={!isChanged}>
+                            Hoàn tác
+                        </button>
+                        <button 
+                            className={`save-button ${!isChanged ? 'disabled' : ''}`}
+                            onClick={handleSaveButton}
+                            disabled={!isChanged}>
                             Lưu
                         </button>
                     </div>

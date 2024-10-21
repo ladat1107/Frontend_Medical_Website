@@ -34,4 +34,46 @@
         display: flex;
         justify-content: flex-end;
     }
+
+    .button{
+        display: flex;
+        align-items: center;
+        padding: 0;
+        gap: 5px;
+    }    
+
+    .add-button{
+        font-family: 'Nunito', sans-serif;
+        font-size: 14px;
+        background-color: #438EF3;
+        color: white;
+        font-weight: bold;
+        border: none;
+        width: 100%;
+        border-radius: 5px;
+        padding: 5px 15px;
+        cursor: pointer;
+
+        &:hover{
+            background-color: #1060ca;
+        }
+    }
+
+    .save-button {
+        font-family: 'Nunito', sans-serif;
+        background-color: #3AA472;
+        font-size: 14px;
+        color: white;
+        font-weight: bold;
+        border: none;
+        border-radius: 5px;
+        padding: 5px 10px;
+        width: 80%;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+
+        &:hover {
+            background-color: #297853;
+        }
+    }
 }

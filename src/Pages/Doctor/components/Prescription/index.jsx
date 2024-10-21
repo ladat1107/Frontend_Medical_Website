@@ -106,6 +106,13 @@ const Prescription = ({ examinationId }) => {
     }, [presDetails]);
 
     const handleSaveButton = async () => {
+        for (const detail of presDetails) {
+            if (!detail.medicineId || !detail.quantity || !detail.unit || !detail.price || !detail.dosage) {
+                openNotification('Vui lòng điền đầy đủ thông tin thuốc!', 'error');
+                return;
+            }
+        }
+
         const data = {
             examinationId: examinationId,
             note: note,
@@ -143,10 +150,8 @@ const Prescription = ({ examinationId }) => {
             {contextHolder}
             <div className="pres-container">
                 <div className="row padding">
-                    <div className='col-2'>
+                    <div className='col-3 button'>
                         <button className='add-button' onClick={handleAddPresdetail}>Thêm thuốc</button>
-                    </div>
-                    <div className='col-2'>
                         <button className='save-button' onClick={handleSaveButton}>Lưu</button>
                     </div>
                 </div>

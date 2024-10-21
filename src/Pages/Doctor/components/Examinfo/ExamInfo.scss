@@ -11,6 +11,57 @@
     p{
         margin: 0;
     }
+
+    .col-3{
+        display: flex;
+        align-items: center;
+        gap: 5px;
+    }
+
+    .save-button {
+        font-family: 'Nunito', sans-serif;
+        background-color: #3AA472;
+        font-size: 14px;
+        color: white;
+        font-weight: bold;
+        border: none;
+        border-radius: 5px;
+        padding: 5px 10px;
+        width: 100%;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    
+        &:hover {
+            background-color: #297853;
+        }
+    }
+    
+    .save-button.disabled {
+        background-color: #ccc; /* Màu xám khi disabled */
+        cursor: not-allowed; /* Đổi con trỏ thành không thể click */
+    }
+
+    .restore-button{
+        font-family: 'Nunito', sans-serif;
+        font-size: 14px;
+        background-color: #438EF3;
+        color: white;
+        font-weight: bold;
+        border: none;
+        border-radius: 5px;
+        padding: 5px 15px;
+        width: 100%;
+        cursor: pointer;
+
+        &:hover{
+            background-color: #1060ca;
+        }
+    }
+
+    .restore-button.disabled {
+        background-color: #ccc; /* Màu xám khi disabled */
+        cursor: not-allowed; /* Đổi con trỏ thành không thể click */
+    }
 }
 
 .row{
@@ -44,58 +95,6 @@
     &:focus {
         box-shadow: 0 0 0 2px #73b5f2;
         border: 0;
-    }
-}
-
-.save-button {
-    font-family: 'Nunito', sans-serif;
-    background-color: #3AA472;
-    font-size: 14px;
-    color: white;
-    font-weight: bold;
-    border: none;
-    border-radius: 10px;
-    padding: 10px 20px;
-    width: 80%;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-
-    &:hover {
-        background-color: #297853;
-    }
-}
-
-.delete-button {
-    font-family: 'Nunito', sans-serif;
-    background-color: #f44343;
-    font-size: 14px;
-    color: white;
-    font-weight: bold;
-    border: none;
-    border-radius: 10px;
-    padding: 10px 20px;
-    width: 80%;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-
-    &:hover {
-        background-color: #c71212;
-    }
-}
-
-.add-button{
-    font-family: 'Nunito', sans-serif;
-    font-size: 14px;
-    background-color: #438EF3;
-    color: white;
-    font-weight: bold;
-    border: none;
-    border-radius: 10px;
-    padding: 10px 20px;
-    cursor: pointer;
-
-    &:hover{
-        background-color: #1060ca;
     }
 }
 
