@@ -4,71 +4,34 @@ import "./VitalSign.scss";
 import { notification } from 'antd';
 import { createOrUpdateVitalSign } from "@/services/doctorService";
 
-const VitalSign = ({vitalSignData}) => {
+const VitalSign = ({vitalSignData, examId}) => {
 
-    const [initialVitalSign, setInitialVitalSign] = useState(vitalSignData);
+    const [formData, setFormData] = useState({
+        height: vitalSignData.height || '',
+        weight: vitalSignData.weight || '',
+        fetalWeight: vitalSignData.fetalWeight || '',
+        pulse: vitalSignData.pulse || '',
+        hightBloodPressure: vitalSignData.hightBloodPressure || '',
+        lowBloodPressure: vitalSignData.lowBloodPressure || '',
+        temperature: vitalSignData.temperature || '',
+        breathingRate: vitalSignData.breathingRate || '',
+        glycemicIndex: vitalSignData.glycemicIndex || '',
+    });
+
+    const [initialVitalSign, setInitialVitalSign] = useState(formData);
     const [isChanged, setIsChanged] = useState(false);
 
-    const [height, setHeight] = useState(vitalSignData.height || '');
-    const [weight, setWeight] = useState(vitalSignData.weight || '');
-    const [fetalWeight, setFetalWeight] = useState(vitalSignData.fetalWeight || '');
-    const [pulse, setPulse] = useState(vitalSignData.pulse || '');
-    const [hightBloodPressure, setHightBloodPressure] = useState(vitalSignData.hightBloodPressure || '');
-    const [lowBloodPressure, setLowPressureBottom] = useState(vitalSignData.lowBloodPressure || '');
-    const [temperature, setTemperature] = useState(vitalSignData.temperature || '');
-    const [breathingRate, setBreathingRate] = useState(vitalSignData.breathingRate || '');
-    const [glycemicIndex, setGlycemicIndex] = useState(vitalSignData.glycemicIndex || '');
-
     useEffect(() => {
-        const isDataChanged = (
-            height !== initialVitalSign.height ||
-            weight !== initialVitalSign.weight ||
-            fetalWeight !== initialVitalSign.fetalWeight ||
-            pulse !== initialVitalSign.pulse ||
-            hightBloodPressure !== initialVitalSign.hightBloodPressure ||
-            lowBloodPressure !== initialVitalSign.lowBloodPressure ||
-            temperature !== initialVitalSign.temperature ||
-            breathingRate !== initialVitalSign.breathingRate ||
-            glycemicIndex !== initialVitalSign.glycemicIndex
-        );
+        const isDataChanged = JSON.stringify(formData) !== JSON.stringify(initialVitalSign);
         setIsChanged(isDataChanged);
-    }, [height, weight, fetalWeight, pulse, hightBloodPressure, lowBloodPressure, temperature, breathingRate, glycemicIndex, initialVitalSign]);
+    }, [formData, initialVitalSign]);
 
-    const handleHeighChange = (event) => {
-        setHeight(event.target.value);
-    }
-
-    const handleWeightChange = (event) => {
-        setWeight(event.target.value);
-    }
-
-    const handleFetalWeightChange = (event) => {
-        setFetalWeight(event.target.value);
-    }
-
-    const handlePulseChange = (event) => {
-        setPulse(event.target.value);
-    }
-
-    const handleHightBloodPressureChange = (event) => {
-        setHightBloodPressure(event.target.value);
-    }
-
-    const handleLowBloodPressureChange = (event) => {
-        setLowPressureBottom(event.target.value);
-    }
-
-    const handleTemperatureChange = (event) => {
-        setTemperature(event.target.value);
-    }
-
-    const handleBreathingRateChange = (event) => {
-        setBreathingRate(event.target.value);
-    }
-
-    const handleGlycemicIndexChange = (event) => {
-        setGlycemicIndex(event.target.value);
-    }
+    const handleInputChange = (field) => (event) => {
+        setFormData(prev => ({
+            ...prev,
+            [field]: event.target.value
+        }));
+    };
 
     //notification
     const [api, contextHolder] = notification.useNotification();
@@ -82,23 +45,23 @@ const VitalSign = ({vitalSignData}) => {
 
     //save button
     const handleSaveButton = async () => {
-        if (!height || !weight || !fetalWeight || !pulse || !hightBloodPressure || 
-            !lowBloodPressure || !temperature || !breathingRate || !glycemicIndex) {
+        if (!formData.height || !formData.weight || !formData.fetalWeight || !formData.pulse || !formData.hightBloodPressure || 
+            !formData.lowBloodPressure || !formData.temperature || !formData.breathingRate || !formData.glycemicIndex) {
             openNotification('Vui lòng điền đầy đủ tất cả các trường!', 'error');
             return;
         }
 
         const data = {
-            examinationId: 26,
-            height: height,
-            weight: weight,
-            fetalWeight: fetalWeight,
-            pulse: pulse,
-            hightBloodPressure: hightBloodPressure,
-            lowBloodPressure: lowBloodPressure,
-            temperature: temperature,
-            breathingRate: breathingRate,
-            glycemicIndex: glycemicIndex
+            examinationId: examId,
+            height: formData.height,
+            weight: formData.weight,
+            fetalWeight: formData.fetalWeight,
+            pulse: formData.pulse,
+            hightBloodPressure: formData.hightBloodPressure,
+            lowBloodPressure: formData.lowBloodPressure,
+            temperature: formData.temperature,
+            breathingRate: formData.breathingRate,
+            glycemicIndex: formData.glycemicIndex
         }
 
         try {
@@ -116,16 +79,7 @@ const VitalSign = ({vitalSignData}) => {
     }
 
     const handleRestoreButton = () => {
-        setHeight(initialVitalSign.height || '');
-        setWeight(initialVitalSign.weight || '');
-        setFetalWeight(initialVitalSign.fetalWeight || '');
-        setPulse(initialVitalSign.pulse || '');
-        setHightBloodPressure(initialVitalSign.hightBloodPressure || '');
-        setLowPressureBottom(initialVitalSign.lowBloodPressure || '');
-        setTemperature(initialVitalSign.temperature || '');
-        setBreathingRate(initialVitalSign.breathingRate || '');
-        setGlycemicIndex(initialVitalSign.glycemicIndex || '');
-        openNotification('Đã khôi phục giá trị ban đầu.', 'info');
+        setFormData(initialVitalSign);
     };
 
     return (
@@ -138,8 +92,8 @@ const VitalSign = ({vitalSignData}) => {
                     </div>
                     <div className="col-4">
                         <input type="text" 
-                            value={height} 
-                            onChange={handleHeighChange}
+                            value={formData.height} 
+                            onChange={handleInputChange('height')}
                             className="input" 
                             placeholder="Đơn vị: cm"/>
                     </div>
@@ -148,8 +102,8 @@ const VitalSign = ({vitalSignData}) => {
                     </div>
                     <div className="col-4">
                         <input type="text" 
-                            value={weight} 
-                            onChange={handleWeightChange}
+                            value={formData.weight} 
+                            onChange={handleInputChange('weight')}
                             className="input" 
                             placeholder="Đơn vị: kg"/>
                     </div>
@@ -160,8 +114,8 @@ const VitalSign = ({vitalSignData}) => {
                     </div>
                     <div className="col-4">
                         <input type="text" 
-                            value={fetalWeight} 
-                            onChange={handleFetalWeightChange}
+                            value={formData.fetalWeight} 
+                            onChange={handleInputChange('fetalWeight')}
                             className="input" 
                             placeholder="Đơn vị: g"/>
                     </div>
@@ -170,8 +124,8 @@ const VitalSign = ({vitalSignData}) => {
                     </div>
                     <div className="col-4">
                         <input type="text" 
-                            value={pulse} 
-                            onChange={handlePulseChange}
+                            value={formData.pulse} 
+                            onChange={handleInputChange('pulse')}
                             className="input" 
                             placeholder="Đơn vị: Lần/phút"/>
                     </div>
@@ -182,8 +136,8 @@ const VitalSign = ({vitalSignData}) => {
                     </div>
                     <div className="col-4">
                         <input type="text" 
-                            value={hightBloodPressure} 
-                            onChange={handleHightBloodPressureChange}
+                            value={formData.hightBloodPressure} 
+                            onChange={handleInputChange('hightBloodPressure')}
                             className="input" 
                             placeholder="Đơn vị: mmHg"/>
                     </div>
@@ -192,8 +146,8 @@ const VitalSign = ({vitalSignData}) => {
                     </div>
                     <div className="col-4">
                         <input type="text" 
-                            value={lowBloodPressure} 
-                            onChange={handleLowBloodPressureChange}
+                            value={formData.lowBloodPressure} 
+                            onChange={handleInputChange('lowBloodPressure')}
                             className="input" 
                             placeholder="Đơn vị: mmHg"/>
                     </div>
@@ -204,8 +158,8 @@ const VitalSign = ({vitalSignData}) => {
                     </div>
                     <div className="col-4">
                         <input type="text" 
-                            value={temperature} 
-                            onChange={handleTemperatureChange}
+                            value={formData.temperature} 
+                            onChange={handleInputChange('temperature')}
                             className="input" 
                             placeholder="Đơn vị: oC"/>
                     </div>
@@ -214,8 +168,8 @@ const VitalSign = ({vitalSignData}) => {
                     </div>
                     <div className="col-4">
                         <input type="text" 
-                            value={breathingRate}
-                            onChange={handleBreathingRateChange}
+                            value={formData.breathingRate}
+                            onChange={handleInputChange('breathingRate')}
                             className="input" 
                             placeholder="Đơn vị: Lần/phút"/>
                     </div>
@@ -226,8 +180,8 @@ const VitalSign = ({vitalSignData}) => {
                     </div>
                     <div className="col-4">
                         <input type="text" 
-                            value={glycemicIndex}
-                            onChange={handleGlycemicIndexChange}
+                            value={formData.glycemicIndex}
+                            onChange={handleInputChange('glycemicIndex')}
                             className="input" 
                             placeholder="Đơn vị: mg/dl"/>
                     </div>
@@ -254,6 +208,7 @@ const VitalSign = ({vitalSignData}) => {
     )
 }
 VitalSign.propTypes = {
+    examId: PropTypes.number.isRequired,
     vitalSignData: PropTypes.object.isRequired,
 };
 
