@@ -65,7 +65,7 @@ const CreateUser = (props) => {
         <>
             <div className='create-modal'>
                 <Modal
-                    title="Modal 1000px width"
+                    title="Thêm người dùng mới"
                     centered
                     open={props.show}
                     onOk={() => handleCreateUser()}
@@ -74,11 +74,12 @@ const CreateUser = (props) => {
                 >
                     <Form
                         name="basic"
+
                         labelCol={{
-                            span: 8,
+                            span: 24,
                         }}
                         wrapperCol={{
-                            span: 16,
+                            span: 24,
                         }}
                         style={{
                             maxWidth: 600,

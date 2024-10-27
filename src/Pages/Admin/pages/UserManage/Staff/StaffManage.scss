@@ -1,18 +1,22 @@
 .staff-manage {
     .container {
+        padding: 0 2rem;
+        background: #f4f7fe;
+
         .btn-add-user {
-            //margin-right: 1rem;
-            border: 1px solid #6ae1f9;
+            background: #f4f7fe;
+            border: 1px solid #0A8FDC;
             border-radius: 8px;
-            color: #6ae1f9;
+            color: #0A8FDC;
             font-weight: 500;
+            cursor: pointer;
 
             &:hover {
-                background-color: #6ae1f9;
-                color: white;
+                border: #086FAB 1px solid;
+                color: #086FAB;
 
                 .icon {
-                    color: white !important;
+                    color: #086FAB !important;
                 }
             }
         }
@@ -21,6 +25,12 @@
             border-radius: 15px;
             box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
 
+
+            .css-mnqnbf span {
+                text-align: left !important;
+                font-size: 14px !important;
+                color: #6C757D !important;
+            }
 
             .pageNoInactive {
                 border: none !important;
@@ -89,50 +99,53 @@
                 }
             }
 
-            .table-head {
+            .table-head {}
 
-                .search-content {
-                    display: flex;
-                    justify-content: space-between;
-                    align-items: center;
-                    margin: 1rem 2rem;
-                    border: #e9eaeb 1px solid;
-                    border-radius: 10px;
-                    padding: 5px;
-
-                    input {
-                        width: 100%;
-                        padding: 0.5rem;
-                        margin-left: 0.5rem;
-
-                        &:focus {
-                            border: none !important;
-                            outline: none !important;
-                        }
-
-                        &:active {
-                            border: none !important;
-                            outline: none !important;
-                        }
-                    }
-
-                    &:hover {
-                        border: #000000 1px solid;
-                    }
-
-                    &:focus {
-                        border: #f80101 1px solid;
-                    }
+            .row-1 {
+                .flex {
+                    width: min-content !important;
                 }
 
+                .name {
+                    width: 20px;
+                    white-space: nowrap;
+                }
             }
 
             .table-body {
-                max-height: 30vh;
+                max-height: 60vh;
+                overflow-y: auto;
                 scrollbar-width: none;
+
+                td {
+                    border-bottom: none !important;
+                }
+
+                tr {
+                    border-bottom: 1px solid #c8c8c8 !important;
+                }
+
+                .min-content-width {
+
+
+                    .image {
+                        width: 40px;
+                        height: 40px;
+                        border-radius: 50%;
+                    }
+
+                    .email {
+                        display: flex;
+                        flex-direction: column;
+                        align-items: flex-start;
+                    }
+                }
+
+
             }
 
             .footer-table {
+                background: white;
                 display: flex;
                 justify-content: end;
                 align-items: center;

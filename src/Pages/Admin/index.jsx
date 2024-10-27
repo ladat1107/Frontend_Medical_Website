@@ -1,83 +1,53 @@
 import React, { useState } from 'react';
-import { UploadOutlined, UserOutlined, VideoCameraOutlined, MenuUnfoldOutlined, MenuFoldOutlined } from '@ant-design/icons';
-import { Button, Layout, Menu, theme } from 'antd';
-import { set } from 'react-hook-form';
-const { Header, Content, Footer, Sider } = Layout;
-const items = [UserOutlined, VideoCameraOutlined, UploadOutlined, UserOutlined].map(
-    (icon, index) => ({
-        key: String(index + 1),
-        icon: React.createElement(icon),
-        label: `nav ${index + 1}`,
-    }),
-);
+import { Layout, theme } from 'antd';
+import AdminFooter from './components/AdminFooter';
+import AdminHeader from './components/AdminHeader';
+import SideBar from './components/Sidebar';
+import './Admin.scss';
+import { Outlet } from 'react-router-dom';
+const { Content } = Layout;
+
 const AdminLayoutTest = () => {
     const [collapsed, setCollapsed] = useState(false);
 
     const {
         token: { colorBgContainer, borderRadiusLG },
     } = theme.useToken();
+
+    const action = (value) => {
+        setCollapsed(value);
+    }
+
     return (
-        <Layout>
-            <Sider
-                theme="light"
-                collapsed={collapsed}
-                trigger={null}
-                breakpoint="lg"
-                collapsedWidth="0"
-                onBreakpoint={(broken) => {
-                    //console.log(broken);
-                }}
-                onCollapse={(collapsed, type) => {
-                    //console.log(collapsed, type);
-                    setCollapsed(collapsed);
-                }}
-            >
-                <div className="demo-logo-vertical" />
-                <Menu theme="light" mode="inline" defaultSelectedKeys={['4']} items={items} />
-            </Sider>
+        <div className='admin-content'>
             <Layout>
-                <Header
-                    style={{
-                        padding: 0,
-                        background: colorBgContainer,
-                    }}
-                >
-                    <Button
-                        type="text"
-                        icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
-                        onClick={() => setCollapsed(!collapsed)}
-                        style={{
-                            fontSize: '16px',
-                            width: 64,
-                            height: 64,
-                        }}
-                    />
-                </Header>
-                <Content
-                    style={{
-                        margin: '24px 16px 0',
-                    }}
-                >
-                    <div
-                        style={{
-                            padding: 24,
-                            minHeight: 360,
-                            background: colorBgContainer,
-                            borderRadius: borderRadiusLG,
-                        }}
-                    >
-                        content
+                <SideBar open={collapsed}
+                    action={action} />
+                <Layout>
+                    <AdminHeader
+                        open={collapsed}
+                        action={action} />
+                    <div className='content-data'>
+                        <Content
+                            style={{
+                                margin: '24px 16px 0',
+                                borderRadius: borderRadiusLG,
+                                backgroundColor: colorBgContainer,
+                            }}>
+                            <Outlet />
+                            {/* <div className='site-layout-background'
+                                style={{
+                                    padding: 24,
+                                    minHeight: "100vh",
+                                }}>
+                                <Outlet />
+                            </div> */}
+                        </Content>
                     </div>
-                </Content>
-                <Footer
-                    style={{
-                        textAlign: 'center',
-                    }}
-                >
-                    Ant Design ©{new Date().getFullYear()} Created by Ant UED
-                </Footer>
+                    <AdminFooter />
+                </Layout>
             </Layout>
-        </Layout>
+        </div >
     );
 };
 export default AdminLayoutTest;
