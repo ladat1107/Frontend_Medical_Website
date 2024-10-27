@@ -1,0 +1,23 @@
+.admin-header-content {
+    background: white;
+
+    .header {
+        .btn {
+            width: 64px !important;
+        }
+
+        .logo-search {
+            .logo {
+                background-image: url("../../../../../public/assets//images/LogoNgang.png");
+                background-size: contain;
+                background-repeat: no-repeat;
+                width: 35%;
+                height: 40px;
+            }
+        }
+
+        .icon {
+            gap: 15%;
+        }
+    }
+}

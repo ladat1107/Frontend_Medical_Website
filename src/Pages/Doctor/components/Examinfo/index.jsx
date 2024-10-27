@@ -9,15 +9,15 @@ import MultiSelect from "@/components/MultiSelect";
 import { convertDateTime } from "@/utils/convertToTimestamp";
 import { notification } from 'antd';
 
-const ExamInfo = ({examData}) => {
-    
+const ExamInfo = ({ examData, refresh }) => {
+
     const formatSafeDate = (dateString) => {
         if (!dateString) return new Date();
         const date = new Date(dateString);
         return isNaN(date.getTime()) ? new Date() : date;
     };
 
-    
+
     const [formData, setFormData] = useState({
         medicalTreatmentTier: examData.medicalTreatmentTier?.toString() || '1',
         staffName: examData.staffName || '',
@@ -32,7 +32,7 @@ const ExamInfo = ({examData}) => {
         special: examData.special || '0'
     });
 
-    
+
     const [initialFormData, setInitialFormData] = useState(formData);
     const [isChanged, setIsChanged] = useState(false);
     const [comorbiditiesOptions, setComorbiditiesOptions] = useState([]);
@@ -111,7 +111,7 @@ const ExamInfo = ({examData}) => {
     };
 
     const handleSaveButton = async () => {
-        if(!formData.reason || !formData.symptom) {
+        if (!formData.reason || !formData.symptom) {
             openNotification('Vui lòng điền đầy đủ tất cả các trường!', 'error');
             return;
         }
@@ -136,9 +136,10 @@ const ExamInfo = ({examData}) => {
 
         try {
             const response = await updateExamination(data);
-            if(response && response.DT.includes(1)) {
+            if (response && response.DT.includes(1)) {
                 openNotification('Lưu thông tin khám bệnh thành công!', 'success');
                 setInitialFormData(formData);
+                refresh();
             } else {
                 openNotification(response.EM, 'error');
             }
@@ -169,19 +170,19 @@ const ExamInfo = ({examData}) => {
                         <p>Lý do vào viện:</p>
                     </div>
                     <div className="col-4">
-                        <input type="text" className="input" 
-                            value={formData.reason} 
+                        <input type="text" className="input"
+                            value={formData.reason}
                             onChange={handleInputChange('reason')}
-                            placeholder="Mô tả lý do vào viện"/>
+                            placeholder="Mô tả lý do vào viện" />
                     </div>
                     <div className="col-2">
                         <p>Triệu chứng:</p>
                     </div>
                     <div className="col-4">
-                        <input type="text" className="input" 
+                        <input type="text" className="input"
                             value={formData.symptom}
-                            onChange={handleInputChange('symptom')} 
-                            placeholder="Mô tả chi tiết triệu chứng"/>
+                            onChange={handleInputChange('symptom')}
+                            placeholder="Mô tả chi tiết triệu chứng" />
                     </div>
                 </div>
                 <div className="row">
@@ -189,10 +190,10 @@ const ExamInfo = ({examData}) => {
                         <p>Tên bệnh chính:</p>
                     </div>
                     <div className="col-4">
-                        <input type="text" className="input" 
-                            value={formData.diseaseName} 
+                        <input type="text" className="input"
+                            value={formData.diseaseName}
                             onChange={handleInputChange('diseaseName')}
-                            placeholder="Mô tả chi tiết tên bệnh"/>
+                            placeholder="Mô tả chi tiết tên bệnh" />
                     </div>
                     <div className="col-2">
                         <p>Bệnh đi kèm:</p>
@@ -215,16 +216,16 @@ const ExamInfo = ({examData}) => {
                             className="select-box"
                             options={options}
                             value={formData.medicalTreatmentTier}
-                            onChange={handleInputChange('medicalTreatmentTier')}/>
+                            onChange={handleInputChange('medicalTreatmentTier')} />
                     </div>
                     <div className="col-2">
                         <p>Kết quả điều trị:</p>
                     </div>
                     <div className="col-4">
-                        <input type="text" className="input" 
-                            value={formData.treatmentResult} 
+                        <input type="text" className="input"
+                            value={formData.treatmentResult}
                             onChange={handleInputChange('treatmentResult')}
-                            placeholder="Kết quả điều trị"/>
+                            placeholder="Kết quả điều trị" />
                     </div>
                 </div>
                 <div className="row">
@@ -236,7 +237,7 @@ const ExamInfo = ({examData}) => {
                             className="date-picker"
                             selectedDate={formData.admissionDate}
                             onDateChange={handleDateChange('admissionDate')}
-                            placeholder="Chọn ngày..."/>
+                            placeholder="Chọn ngày..." />
                     </div>
                     <div className="col-2">
                         <p>Ngày xuất viện:</p>
@@ -246,7 +247,7 @@ const ExamInfo = ({examData}) => {
                             className="date-picker"
                             selectedDate={formData.dischargeDate}
                             onDateChange={handleDateChange('dischargeDate')}
-                            placeholder="Chọn ngày..."/>
+                            placeholder="Chọn ngày..." />
                     </div>
                 </div>
                 <div className="row">
@@ -264,19 +265,19 @@ const ExamInfo = ({examData}) => {
                             className="select-box"
                             options={specialOptions}
                             value={formData.special}
-                            onChange={handleInputChange('special')}/>
+                            onChange={handleInputChange('special')} />
                     </div>
                 </div>
                 <div className="row">
                     <div className="col-9"></div>
                     <div className="col-3 text-end">
-                        <button 
+                        <button
                             className={`restore-button ${!isChanged ? 'disabled' : ''}`}
                             onClick={handleRestoreButton}
                             disabled={!isChanged}>
                             Hoàn tác
                         </button>
-                        <button 
+                        <button
                             className={`save-button ${!isChanged ? 'disabled' : ''}`}
                             onClick={handleSaveButton}
                             disabled={!isChanged}>
@@ -291,6 +292,7 @@ const ExamInfo = ({examData}) => {
 
 ExamInfo.propTypes = {
     examData: PropTypes.object.isRequired,
+    refresh: PropTypes.func.isRequired
 };
 
 export default ExamInfo;

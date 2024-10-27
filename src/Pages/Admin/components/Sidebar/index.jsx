@@ -31,11 +31,11 @@ const Sidebar = (props) => {
                     </div>
                     <div className='col-8 py-2 ms-3'>
                         <div className='d-flex justify-content-between'>
-                            <span>La Đạt</span>
+                            <span>Minh Dương</span>
                             <FontAwesomeIcon icon={faChevronDown} />
                         </div>
                         <div>
-                            Quản trị viên
+                            Bác sĩ
                         </div>
                     </div>
                 </div>

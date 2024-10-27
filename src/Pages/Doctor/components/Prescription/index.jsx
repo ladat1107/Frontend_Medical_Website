@@ -6,7 +6,7 @@ import { getAllMedicinesForExam, getPrescriptionByExaminationId, upsertPrescript
 import PropTypes from 'prop-types';
 import { notification } from 'antd';
 
-const Prescription = ({ examinationId, paraclinicalPrice }) => {
+const Prescription = ({ examinationId, paraclinicalPrice, refresh }) => {
     const [presDetails, setPresDetails] = useState([]);
     const [medicineOptions, setMedicineOptions] = useState([]);
     const [note, setNote] = useState('');
@@ -40,11 +40,11 @@ const Prescription = ({ examinationId, paraclinicalPrice }) => {
             const medicineOptions = dataMedicines.DT.map(item => ({
                 value: item.id,
                 label: item.name,
-                price: item.price, 
+                price: item.price,
                 unit: item.unit,
             }));
             setMedicineOptions(medicineOptions);
-        }        
+        }
     }, [dataMedicines]);
 
     let {
@@ -80,10 +80,10 @@ const Prescription = ({ examinationId, paraclinicalPrice }) => {
     const handleAddPresdetail = useCallback(() => {
         setPresDetails(prevDetails => [
             ...prevDetails,
-            { 
-                id: nextId, 
+            {
+                id: nextId,
                 medicineId: 0,
-                quantity: 1, 
+                quantity: 1,
                 unit: '',
                 price: 0,
                 dosage: ''
@@ -97,8 +97,8 @@ const Prescription = ({ examinationId, paraclinicalPrice }) => {
     }, []);
 
     const handlePresdetailChange = useCallback((id, medicineId, quantity, unit, price, dosage) => {
-        setPresDetails(prevDetails => 
-            prevDetails.map(detail => 
+        setPresDetails(prevDetails =>
+            prevDetails.map(detail =>
                 detail.id === id ? { ...detail, medicineId, quantity, unit, price, dosage } : detail
             )
         );
@@ -134,8 +134,9 @@ const Prescription = ({ examinationId, paraclinicalPrice }) => {
 
         try {
             const response = await upsertPrescription(data);
-            if (response && response.EC === 0 && response.DT === true) { 
+            if (response && response.EC === 0 && response.DT === true) {
                 openNotification('Lưu đơn thuốc thành công!', 'success');
+                refresh();
             } else {
                 openNotification('Lưu đơn thuốc thất bại.', 'error');
             }
@@ -160,36 +161,36 @@ const Prescription = ({ examinationId, paraclinicalPrice }) => {
                     </div>
                 </div>
                 <div className="row padding gap">
-                {sortedPresDetails.length > 0 ? (
-                    sortedPresDetails.map(detail => (
-                        <Presdetail 
-                            key={detail.id}
-                            id={detail.id}
-                            options={medicineOptions}
-                            presdetailData={detail}
-                            onDelete={() => handleDeletePresdetail(detail.id)}
-                            onChange={handlePresdetailChange}
-                        />
-                    ))
-                ) : (
-                    <div className="empty-list-message">
-                        <div>Đơn thuốc trống</div>
-                        <hr />
-                    </div>
-                )}
+                    {sortedPresDetails.length > 0 ? (
+                        sortedPresDetails.map(detail => (
+                            <Presdetail
+                                key={detail.id}
+                                id={detail.id}
+                                options={medicineOptions}
+                                presdetailData={detail}
+                                onDelete={() => handleDeletePresdetail(detail.id)}
+                                onChange={handlePresdetailChange}
+                            />
+                        ))
+                    ) : (
+                        <div className="empty-list-message">
+                            <div>Đơn thuốc trống</div>
+                            <hr />
+                        </div>
+                    )}
                 </div>
                 <div className="row padding">
                     <div className='col-2'>
                         <p className='title'>Ghi chú:</p>
                     </div>
                     <div className='col-10'>
-                        <input 
+                        <input
                             value={note}
                             onChange={(e) => setNote(e.target.value)}
-                            type="text" 
+                            type="text"
                             className="input"
-                            placeholder="Nhập ghi chú"/>
-                    </div> 
+                            placeholder="Nhập ghi chú" />
+                    </div>
                 </div>
                 <div className="row padding">
                     <div className='col-2'>
@@ -231,6 +232,7 @@ const Prescription = ({ examinationId, paraclinicalPrice }) => {
 Prescription.propTypes = {
     examinationId: PropTypes.number.isRequired,
     paraclinicalPrice: PropTypes.number.isRequired,
+    refresh: PropTypes.func.isRequired,
 };
 
 export default Prescription;

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import './Presdetail.scss';
 import SelectBox2 from '@/components/Selectbox';
 import PropTypes from 'prop-types';
-import QuantityInput from '@/components/QuantityInput'; 
+import QuantityInput from '@/components/QuantityInput';
 
 const Presdetail = ({ id, presdetailData, onDelete, options, onChange }) => {
     const [medicineId, setMedicineId] = useState(presdetailData.medicineId || 0);
@@ -43,7 +43,7 @@ const Presdetail = ({ id, presdetailData, onDelete, options, onChange }) => {
                             options={options}
                             value={medicineId !== 0 ? medicineId : undefined}
                             placeholder="Nhập tên thuốc"
-                            onChange={handleMedicineChange} 
+                            onChange={handleMedicineChange}
                         />
                     </div>
                 </div>
@@ -52,9 +52,9 @@ const Presdetail = ({ id, presdetailData, onDelete, options, onChange }) => {
                         <p className='title'>Số lượng</p>
                     </div>
                     <div className='row'>
-                        <QuantityInput 
+                        <QuantityInput
                             initialValue={quantity}
-                            onChange={handleQuantityChange}/>
+                            onChange={handleQuantityChange} />
                     </div>
                 </div>
                 <div className='col-1'>
@@ -78,12 +78,12 @@ const Presdetail = ({ id, presdetailData, onDelete, options, onChange }) => {
                         <p className='title'>Liều dùng</p>
                     </div>
                     <div className='row'>
-                        <input 
-                            type="text" 
-                            className="input" 
+                        <input
+                            type="text"
+                            className="input"
                             placeholder="Nhập liều dùng"
                             value={dosage}
-                            onChange={(e) => setDosage(e.target.value)}/>
+                            onChange={(e) => setDosage(e.target.value)} />
                     </div>
                 </div>
                 <div className='col-1'>

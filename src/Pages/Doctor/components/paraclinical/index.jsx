@@ -4,7 +4,7 @@ import Paracdetail from '../Paracdetail';
 import { notification } from 'antd';
 import { deleteParaclinical } from '@/services/doctorService';
 
-const Paraclinical = ({ listParaclinicals, examinationId }) => {
+const Paraclinical = ({ listParaclinicals, examinationId, refresh }) => {
     const [paracDetails, setParacDetails] = useState(listParaclinicals);
     const [nextId, setNextId] = useState(0);
 
@@ -27,7 +27,7 @@ const Paraclinical = ({ listParaclinicals, examinationId }) => {
     const handleAddParacdetail = useCallback(() => {
         setParacDetails(prevDetails => [
             ...prevDetails,
-            { 
+            {
                 id: nextId,
                 examinationId: examinationId,
                 isNew: true
@@ -36,13 +36,13 @@ const Paraclinical = ({ listParaclinicals, examinationId }) => {
         setNextId(prevId => prevId + 1);
     }, [nextId, examinationId]);
 
-    const handleDeleteParacdetail = useCallback( async (id) => {
-        
+    const handleDeleteParacdetail = useCallback(async (id) => {
+
         const isExistingParaclinical = listParaclinicals.some(detail => detail.id === id);
-    
-        if(isExistingParaclinical){
-            try{
-                const response = await deleteParaclinical({id, examinationId});
+
+        if (isExistingParaclinical) {
+            try {
+                const response = await deleteParaclinical({ id, examinationId });
                 // Sửa lại điều kiện kiểm tra
                 if (response && response.EC === 0 && response.DT === 1) {
                     openNotification('Xóa xét nghiệm thành công!', 'success');
@@ -59,16 +59,17 @@ const Paraclinical = ({ listParaclinicals, examinationId }) => {
             setParacDetails(prevDetails => prevDetails.filter(detail => detail.id !== id));
         }
     }, [examinationId, listParaclinicals]);
-    
+
 
     const handleSaveResult = useCallback((savedData, success, message) => {
         if (success) {
             openNotification(message, 'success');
-            setParacDetails(prevDetails => 
-                prevDetails.map(detail => 
+            setParacDetails(prevDetails =>
+                prevDetails.map(detail =>
                     detail.id === savedData.id ? { ...detail, ...savedData } : detail
                 )
             );
+            refresh();
         } else {
             openNotification(message, 'error');
         }
@@ -90,8 +91,8 @@ const Paraclinical = ({ listParaclinicals, examinationId }) => {
                 <div className="row">
                     {sortedParacDetails.length > 0 ? (
                         sortedParacDetails.map(detail => (
-                            <Paracdetail 
-                                key={detail.id} 
+                            <Paracdetail
+                                key={detail.id}
                                 id={detail.id}
                                 paraclinicalData={detail}
                                 onSaveResult={handleSaveResult}
@@ -113,6 +114,7 @@ const Paraclinical = ({ listParaclinicals, examinationId }) => {
 Paraclinical.propTypes = {
     listParaclinicals: PropTypes.array.isRequired,
     examinationId: PropTypes.number.isRequired,
+    refresh: PropTypes.func.isRequired,
 };
 
 export default Paraclinical;
