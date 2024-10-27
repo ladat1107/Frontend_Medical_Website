@@ -1,4 +1,4 @@
-import { getAppointments, searchAppointments } from "@/services/doctorService";
+import { getAppointments, searchAppointments, searchAppointmentsWithStaffId } from "@/services/doctorService";
 import React, { useEffect, useState } from 'react'
 import { getTimeSlotById } from "@/utils/formatTimeSlots";
 import { convertDateTime } from "@/utils/formartDate";
@@ -8,8 +8,11 @@ import SelectBox from "@/components/Combobox";
 import CustomDatePicker from "@/components/DatePicker";
 import "./Appointment.scss";
 import { useMutation } from "@/hooks/useMutation";
+import { useNavigate } from "react-router-dom";
 
 const Appointment = () => {
+    const navigate = useNavigate();
+
     const [listAppointments, setListAppointments] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
     const [selectedValue, setSelectedValue] = useState('1');
@@ -22,7 +25,7 @@ const Appointment = () => {
         error: listAppointmentsError,
         execute: fetchAppointment,
     } = useMutation((query) =>
-        searchAppointments(1, 10, searchTerm, convertStartDateToTimestamp(startDate), convertEndDateToTimestamp(endDate)))
+        searchAppointmentsWithStaffId(1, 10, 1, searchTerm, convertStartDateToTimestamp(startDate), convertEndDateToTimestamp(endDate)))
 
     const handleStartDateChange = (date) => {
         setStartDate(date);
@@ -38,7 +41,7 @@ const Appointment = () => {
 
     const handleClear = () => {
         setSearchTerm('');
-        setSelectedValue(1);
+        setSelectedValue('1');
         setStartDate(new Date());
         setEndDate(new Date());
     }
@@ -60,9 +63,13 @@ const Appointment = () => {
         }
     },[dataAppointments]);
 
+    const handleClickRow = (examinationId) => (event) => {
+        navigate(`/doctorExamination/${examinationId}`);
+    }
+
     return (
         <>
-            <div className="content">
+            <div className="appointment-content">
                 <div className="appointment-search">
                     <div className="search-container">
                         <p className="search-title">Tìm kiếm lịch khám</p>
@@ -74,7 +81,7 @@ const Appointment = () => {
                     </div>
                     <div className="search-container">
                         <p className="search-title">Ngày khám</p>
-                        <div className="date-picker">
+                        <div className="date-picker-container">
                             Từ <CustomDatePicker
                                 selectedDate={startDate}
                                 onDateChange={handleStartDateChange}
@@ -96,15 +103,19 @@ const Appointment = () => {
                         />
                     </div>
                     <div className="button-container">
-                        <button className="clear-button" onClick={() => { handleClear(); fetchAppointment(); }}>Làm sạch</button>
-                        <button className="search-button" onClick={fetchAppointment}>Tìm kiếm</button>
+                        <button className="clear-button" onClick={() => { handleClear(); fetchAppointment(); }}>
+                            <i className="fa-solid fa-broom"></i>
+                        </button>
+                        <button className="search-button" onClick={fetchAppointment}>
+                            <i className="fa-solid fa-magnifying-glass"></i>
+                        </button>
                     </div>  
                 </div>
                 <div className="appointment-container">
                     <div className="header">
                         <p className="title">Danh sách lịch khám</p>
                     </div>
-                    <div className="appointment-content">
+                    <div className="schedule-content">
                         <table className="appointment-table">
                             <thead className="table-header">
                                 <tr>
@@ -119,7 +130,8 @@ const Appointment = () => {
                             <tbody>
                                 {listAppointments.length > 0 && listAppointments.map((item, index) => {
                                     return (
-                                        <tr key={index}>
+                                        <tr key={index}
+                                            onClick={handleClickRow(item.examinationId)}>
                                             <td>{index + 1}</td>
                                             <td>{item.appointmentUserData.lastName + " " + item.appointmentUserData.firstName}</td>
                                             <td>{convertDateTime(item.date)}</td>

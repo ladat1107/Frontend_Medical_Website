@@ -9,51 +9,36 @@ import MultiSelect from "@/components/MultiSelect";
 import { convertDateTime } from "@/utils/convertToTimestamp";
 import { notification } from 'antd';
 
-const ExamInfo = ({patientId, examData}) => {
-
-    const [initialExamination, setInitialExamination] = useState(examData);
-    const [isChanged, setIsChanged] = useState(false);
-
-    const [selectedValue, setSelectedValue] = useState(examData.medicalTreatmentTier.toString() || '1');
-    const [reason, setReason] = useState(examData.reason || '');
-    const [symptom, setSymptom] = useState(examData.symptom || '');
-    const [diseaseName, setDiseaseName] = useState(examData.diseaseName || '');
-
-    const [comorbiditiesOptions, setComorbiditiesOptions] = useState([]);
-    const [selectedComorbidities, setSelectedComorbiditieValue] = useState(
-        examData.comorbidities ? examData.comorbidities.split(',') : []
-    );
-    const [treatmentResult, setTreatmentResult] = useState(examData.treatmentResult || '');
-    const [admissionDate, setAdmissionDate] = useState( new Date(examData.admissionDate) || new Date());
-    const [dischargeDate, setDischargeDate] = useState( new Date(examData.dischargeDate) || new Date());
-    const [price, setPrice] = useState(examData.price || 0);
-    const [special, setSpecial] = useState(examData.special || 0);
-
-    useEffect(() => {
-        const isDataChanged = (
-            selectedValue !== initialExamination.medicalTreatmentTier.toString() ||
-            reason !== initialExamination.reason ||
-            symptom !== initialExamination.symptom ||
-            diseaseName !== initialExamination.diseaseName ||
-            treatmentResult !== initialExamination.treatmentResult ||
-            admissionDate.getTime() !== new Date(initialExamination.admissionDate).getTime() ||
-            dischargeDate.getTime() !== new Date(initialExamination.dischargeDate).getTime() ||
-            price !== initialExamination.price ||
-            special !== initialExamination.special ||
-            selectedComorbidities.join(',') !== initialExamination.comorbidities
-        );        
-        setIsChanged(isDataChanged);
-    }, [selectedValue, reason, symptom, diseaseName, selectedComorbidities, treatmentResult, admissionDate, dischargeDate, price, special, initialExamination]);
-
-    //Notification
-    const [api, contextHolder] = notification.useNotification();
-
-    const openNotification = (message, type = 'info') => {
-        api[type]({
-            message: message,
-            placement: 'bottomRight',
-        });
+const ExamInfo = ({examData}) => {
+    
+    const formatSafeDate = (dateString) => {
+        if (!dateString) return new Date();
+        const date = new Date(dateString);
+        return isNaN(date.getTime()) ? new Date() : date;
     };
+
+    
+    const [formData, setFormData] = useState({
+        medicalTreatmentTier: examData.medicalTreatmentTier?.toString() || '1',
+        staffName: examData.staffName || '',
+        reason: examData.reason || '',
+        symptom: examData.symptom || '',
+        diseaseName: examData.diseaseName || '',
+        comorbidities: examData.comorbidities ? examData.comorbidities.split(',') : [],
+        treatmentResult: examData.treatmentResult || '',
+        admissionDate: formatSafeDate(examData.admissionDate),
+        dischargeDate: formatSafeDate(examData.dischargeDate),
+        price: examData.price || 0,
+        special: examData.special || '0'
+    });
+
+    
+    const [initialFormData, setInitialFormData] = useState(formData);
+    const [isChanged, setIsChanged] = useState(false);
+    const [comorbiditiesOptions, setComorbiditiesOptions] = useState([]);
+
+    // Notification
+    const [api, contextHolder] = notification.useNotification();
 
     const options = [
         { value: '1', label: 'Khám bệnh' },
@@ -66,95 +51,94 @@ const ExamInfo = ({patientId, examData}) => {
         { value: '2', label: 'Người già' },
         { value: '3', label: 'Phụ nữ mang thai' },
         { value: '4', label: 'Người khuyết tật' }
-    ]
+    ];
+
+    // Fetch comorbidities
+    const {
+        data: dataComorbidities,
+        loading: comorbiditiesLoading,
+        error: comorbiditiesError,
+        execute: fetchComorbidities,
+    } = useMutation(() => getAllDisease());
 
     useEffect(() => {
         fetchComorbidities();
     }, []);
 
-    let {
-        data: dataComorbidities,
-        loading: comorbiditiesLoading,
-        error: comorbiditiesError,
-        execute: fetchComorbidities,
-    } = useMutation((query) => 
-        getAllDisease()  
-    );
-
     useEffect(() => {
-        if (dataComorbidities && dataComorbidities.DT) {
-            const comorbiditiesOptions = dataComorbidities.DT.map(item => ({
+        if (dataComorbidities?.DT) {
+            const options = dataComorbidities.DT.map(item => ({
                 value: item.code,
                 label: item.disease,
             }));
-            setComorbiditiesOptions(comorbiditiesOptions);
-        }        
+            setComorbiditiesOptions(options);
+        }
     }, [dataComorbidities]);
 
-    const handleReasonChange = (event) => {
-        setReason(event.target.value);
+    // Check for changes
+    useEffect(() => {
+        const isDataChanged = JSON.stringify(formData) !== JSON.stringify(initialFormData);
+        setIsChanged(isDataChanged);
+    }, [formData, initialFormData]);
+
+    // Handlers for form updates
+    const handleInputChange = (field) => (event) => {
+        setFormData(prev => ({
+            ...prev,
+            [field]: event.target.value
+        }));
     };
 
-    const handleSymptomChange = (event) => {
-        setSymptom(event.target.value);
-    };
-
-    const handlediseaseNameChange = (event) => {
-        setDiseaseName(event.target.value);
-    };
-
-    const handleTreatmentResultChange = (event) => {
-        setTreatmentResult(event.target.value);
-    };
-
-    const handleSpecialChange = (event) => {
-        setSpecial(event.target.value);
-    };
-
-    const handleSelectedChange = (event) => {
-        setSelectedValue(event.target.value); 
-    };
-
-    const handleAdmissionDateChange = (date) => {
-        setAdmissionDate(date);
-    };
-    const handleDischargeDateChange = (date) => {
-        setDischargeDate(date);
+    const handleDateChange = (field) => (date) => {
+        setFormData(prev => ({
+            ...prev,
+            [field]: date
+        }));
     };
 
     const handleComorbiditiesChange = (value) => {
-        setSelectedComorbiditieValue(value);
+        setFormData(prev => ({
+            ...prev,
+            comorbidities: value
+        }));
+    };
+
+    const openNotification = (message, type = 'info') => {
+        api[type]({
+            message: message,
+            placement: 'bottomRight',
+        });
     };
 
     const handleSaveButton = async () => {
-        if(!reason || !symptom) {
+        if(!formData.reason || !formData.symptom) {
             openNotification('Vui lòng điền đầy đủ tất cả các trường!', 'error');
             return;
         }
 
         const data = {
-            id: 26,
-            userId: patientId,
-            staffId: 1,
-            symptom: symptom,
-            diseaseName: diseaseName,
-            treatmentResult: treatmentResult,
-            comorbidities: selectedComorbidities.join(','),
-            admissionDate: convertDateTime(admissionDate),
-            dischargeDate: convertDateTime(dischargeDate),
-            reason: reason,
-            medicalTreatmentTier: selectedValue,
-            price: price,
-            special: special,
+            id: examData.id,
+            userId: examData.userId,
+            staffId: examData.staffId,
+            symptom: formData.symptom,
+            diseaseName: formData.diseaseName,
+            treatmentResult: formData.treatmentResult,
+            comorbidities: formData.comorbidities.join(','),
+            admissionDate: convertDateTime(formData.admissionDate),
+            dischargeDate: convertDateTime(formData.dischargeDate),
+            reason: formData.reason,
+            medicalTreatmentTier: formData.medicalTreatmentTier,
+            price: formData.price,
+            special: formData.special,
             paymentDoctorStatus: 1,
             insuranceCoverage: 1
-        }
+        };
 
         try {
             const response = await updateExamination(data);
-            if(response && response.DT.includes(1)) { 
+            if(response && response.DT.includes(1)) {
                 openNotification('Lưu thông tin khám bệnh thành công!', 'success');
-                setInitialExamination(data);
+                setInitialFormData(formData);
             } else {
                 openNotification(response.EM, 'error');
             }
@@ -162,20 +146,11 @@ const ExamInfo = ({patientId, examData}) => {
             console.error("Error creating examination:", error.response?.data || error.message);
             openNotification('Lưu thông tin khám bệnh thất bại.', 'error');
         }
-    }
+    };
 
     const handleRestoreButton = () => {
-        setSelectedValue(initialExamination.medicalTreatmentTier.toString());
-        setReason(initialExamination.reason);
-        setSymptom(initialExamination.symptom);
-        setDiseaseName(initialExamination.diseaseName);
-        setSelectedComorbiditieValue(initialExamination.comorbidities ? initialExamination.comorbidities.split(',') : []);
-        setTreatmentResult(initialExamination.treatmentResult);
-        setAdmissionDate(new Date(initialExamination.admissionDate));
-        setDischargeDate(new Date(initialExamination.dischargeDate));
-        setPrice(initialExamination.price);
-        setSpecial(initialExamination.special);
-    }
+        setFormData(initialFormData);
+    };
 
     return (
         <>
@@ -186,7 +161,7 @@ const ExamInfo = ({patientId, examData}) => {
                         <p>Bác sĩ khám:</p>
                     </div>
                     <div className="col-4">
-                        <p className="info">Bác sĩ A</p>
+                        <p className="info">{formData.staffName}</p>
                     </div>
                 </div>
                 <div className="row">
@@ -195,8 +170,8 @@ const ExamInfo = ({patientId, examData}) => {
                     </div>
                     <div className="col-4">
                         <input type="text" className="input" 
-                            value={reason} 
-                            onChange={handleReasonChange}
+                            value={formData.reason} 
+                            onChange={handleInputChange('reason')}
                             placeholder="Mô tả lý do vào viện"/>
                     </div>
                     <div className="col-2">
@@ -204,8 +179,8 @@ const ExamInfo = ({patientId, examData}) => {
                     </div>
                     <div className="col-4">
                         <input type="text" className="input" 
-                            value={symptom}
-                            onChange={handleSymptomChange} 
+                            value={formData.symptom}
+                            onChange={handleInputChange('symptom')} 
                             placeholder="Mô tả chi tiết triệu chứng"/>
                     </div>
                 </div>
@@ -215,8 +190,8 @@ const ExamInfo = ({patientId, examData}) => {
                     </div>
                     <div className="col-4">
                         <input type="text" className="input" 
-                            value={diseaseName} 
-                            onChange={handlediseaseNameChange}
+                            value={formData.diseaseName} 
+                            onChange={handleInputChange('diseaseName')}
                             placeholder="Mô tả chi tiết tên bệnh"/>
                     </div>
                     <div className="col-2">
@@ -227,7 +202,7 @@ const ExamInfo = ({patientId, examData}) => {
                             options={comorbiditiesOptions}
                             placeholder="Chọn bệnh đi kèm"
                             onChange={handleComorbiditiesChange}
-                            value={selectedComorbidities}
+                            value={formData.comorbidities}
                         />
                     </div>
                 </div>
@@ -239,16 +214,16 @@ const ExamInfo = ({patientId, examData}) => {
                         <SelectBox
                             className="select-box"
                             options={options}
-                            value={selectedValue}
-                            onChange={handleSelectedChange}/>
+                            value={formData.medicalTreatmentTier}
+                            onChange={handleInputChange('medicalTreatmentTier')}/>
                     </div>
                     <div className="col-2">
                         <p>Kết quả điều trị:</p>
                     </div>
                     <div className="col-4">
                         <input type="text" className="input" 
-                            value={treatmentResult} 
-                            onChange={handleTreatmentResultChange}
+                            value={formData.treatmentResult} 
+                            onChange={handleInputChange('treatmentResult')}
                             placeholder="Kết quả điều trị"/>
                     </div>
                 </div>
@@ -259,8 +234,8 @@ const ExamInfo = ({patientId, examData}) => {
                     <div className="col-4">
                         <CustomDatePicker
                             className="date-picker"
-                            selectedDate={admissionDate}
-                            onDateChange={handleAdmissionDateChange}
+                            selectedDate={formData.admissionDate}
+                            onDateChange={handleDateChange('admissionDate')}
                             placeholder="Chọn ngày..."/>
                     </div>
                     <div className="col-2">
@@ -269,17 +244,17 @@ const ExamInfo = ({patientId, examData}) => {
                     <div className="col-4">
                         <CustomDatePicker
                             className="date-picker"
-                            selectedDate={dischargeDate}
-                            onDateChange={handleDischargeDateChange}
+                            selectedDate={formData.dischargeDate}
+                            onDateChange={handleDateChange('dischargeDate')}
                             placeholder="Chọn ngày..."/>
-                        </div>
                     </div>
+                </div>
                 <div className="row">
                     <div className="col-2">
                         <p>Giá:</p>
                     </div>
                     <div className="col-4">
-                        <p className="info">{price}</p>
+                        <p className="info">{formData.price}</p>
                     </div>
                     <div className="col-2">
                         <p>Đặc biệt:</p>
@@ -288,8 +263,8 @@ const ExamInfo = ({patientId, examData}) => {
                         <SelectBox
                             className="select-box"
                             options={specialOptions}
-                            value={special}
-                            onChange={handleSpecialChange}/>
+                            value={formData.special}
+                            onChange={handleInputChange('special')}/>
                     </div>
                 </div>
                 <div className="row">
@@ -309,12 +284,12 @@ const ExamInfo = ({patientId, examData}) => {
                         </button>
                     </div>
                 </div>
-            </div> 
+            </div>
         </>
-    )
-}
+    );
+};
+
 ExamInfo.propTypes = {
-    patientId: PropTypes.number.isRequired,
     examData: PropTypes.object.isRequired,
 };
 

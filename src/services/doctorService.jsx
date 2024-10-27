@@ -8,6 +8,10 @@ const getUserByCid = (cid) => {
     return axios.get(`/api/getUserByCid?cid=${cid}`)
 }
 
+const getUserById = (id) => {
+    return axios.get(`/api/getUserById?id=${id}`)
+}
+
 const searchAppointments = (page, limit, search, from, to) => {
     const params = new URLSearchParams();
     params.append("page", page);
@@ -24,6 +28,25 @@ const searchAppointments = (page, limit, search, from, to) => {
     }
 
     return axios.get(`/api/searchAppointment?${params.toString()}`);
+};
+
+const searchAppointmentsWithStaffId = (page, limit, staffId, search, from, to) => {
+    const params = new URLSearchParams();
+    params.append("page", page);
+    params.append("limit", limit);
+    params.append("staffId", staffId);
+
+    if (search) {
+        params.append("search", search);
+    }
+    if (from) {
+        params.append("from", from);
+    }
+    if (to) {
+        params.append("to", to);
+    }
+
+    return axios.get(`/api/searchAppointmentWithStaffId?${params.toString()}`);
 };
 
 // Examination
@@ -136,9 +159,11 @@ const upsertPrescription = async (data) => {
 
 export {
     getUserByCid,
-
+    getUserById,
+    
     getAppointments,
     searchAppointments,
+    searchAppointmentsWithStaffId,
 
     getExaminationById,
     createExamination,

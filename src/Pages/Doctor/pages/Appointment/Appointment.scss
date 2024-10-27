@@ -1,136 +1,143 @@
-.content {
+.appointment-content {
     padding: 30px;
     background-color: #f8faff;
-}
 
-.title {
-    font-family: 'Nunito', sans-serif;
-    font-size: 20px;
-    font-weight: 700;
-}
-
-.appointment-search{
-    display: flex;
-    width: 100%;
-    padding: 20px;
-    border-radius: 20px;
-    background: white;
-    box-shadow:  4px 4px 8px #e5ebef,
-             -4px -4px 8px #e5ebef;
-    margin-bottom: 20px;
-}
-
-.search-title{
-    font-family: 'Nunito', sans-serif;
-    font-size: 16px;
-    font-weight: 700;
-}
-
-.search-container{
-    padding: 10px;
-    width: 90%;
-}
-
-.status-container{
-    padding: 10px;
-    width: 50%;
-}
-
-.button-container{
-    padding: 10px;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    width: 30%;
-}   
-
-.date-picker{
-    display: flex;  
-    font-family: 'Nunito', sans-serif;
-    align-items: center;
-    gap: 10px;  
-}
-
-.search-button{
-    font-family: 'Nunito', sans-serif;
-    font-size: 14px;
-    background-color: #438EF3;
-    color: white;
-    font-weight: bold;
-    border: none;
-    border-radius: 10px;
-    padding: 10px 20px;
-    width: 100%;
-    height: 40%;
-    cursor: pointer;
-
-    &:hover{
-        background-color: #557fa6;
+    .title {
+        font-family: 'Nunito', sans-serif;
+        font-size: 16px;
+        font-weight: 700;
+        padding-left: 10px;
+        margin: 0;
     }
-}
-
-.clear-button{
-    font-family: 'Nunito', sans-serif;
-    background-color: #3AA472;
-    font-size: 14px;
-    color: white;
-    font-weight: bold;
-    border: none;
-    border-radius: 10px;
-    padding: 10px 20px;
-    width: 100%;
-    height: 40%;
-    cursor: pointer;
-
-    &:hover{
-        background-color: #297853;
+    
+    .appointment-search{
+        display: flex;
+        width: 100%;
+        padding: 15px;
+        border-radius: 20px;
+        background: white;
+        box-shadow:  4px 4px 8px #e5ebef,
+                 -4px -4px 8px #e5ebef;
+        margin-bottom: 20px;
     }
-}
 
-.appointment-container {
-    padding: 30px;
-    border-radius: 20px;
-    background: white;
-    box-shadow:  4px 4px 8px #e5ebef,
-             -4px -4px 8px #e5ebef;
-}
-
-.appointment-table{
-    font-family: 'Nunito', sans-serif;
-    width: 100%;
-}
-
-.table-header {
-    background-color: #438EF3;
-    color: white;
-}
-
-th,
-td {
-    padding: 10px;
-    text-align: center;
-}
-
-td{
-    border-bottom: 1px solid #c8c8c8;
-}
-
-tbody{
-    tr:hover{
-        background-color: #EDF6FF;
+    .schedule-content{
+        padding: 10px;
+    }
+    
+    .search-title{
+        font-family: 'Nunito', sans-serif;
+        font-size: 14px;
+        font-weight: 700;
+    }
+    
+    .search-container{
+        padding: 10px;
+        width: 90%;
+    }
+    
+    .status-container{
+        padding: 10px;
+        width: 50%;
+    }
+    
+    .button-container{
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        width: 12%;
+    }   
+    
+    .date-picker-container{
+        display: flex;  
+        font-family: 'Nunito', sans-serif;
+        align-items: center;
+        gap: 10px;  
+        border: none;
+    }
+    
+    .search-button{
+        font-family: 'Nunito', sans-serif;
+        font-size: 14px;
+        background-color: #438EF3;
+        color: white;
+        font-weight: bold;
+        border: none;
+        border-radius: 10px;
+        padding: 5px 10px;
+        width: 100%;
+        height: 40%;
         cursor: pointer;
+    
+        &:hover{
+            background-color: #557fa6;
+        }
     }
+    
+    .clear-button{
+        font-family: 'Nunito', sans-serif;
+        background-color: #3AA472;
+        font-size: 14px;
+        color: white;
+        font-weight: bold;
+        border: none;
+        border-radius: 10px;
+        padding: 5px 10px;
+        width: 100%;
+        height: 40%;
+        cursor: pointer;
+    
+        &:hover{
+            background-color: #297853;
+        }
+    }
+    
+    .appointment-container {
+        padding: 20px;
+        border-radius: 20px;
+        background: white;
+        box-shadow:  4px 4px 8px #e5ebef,
+                 -4px -4px 8px #e5ebef;
+    }
+    
+    .appointment-table{
+        font-family: 'Nunito', sans-serif;
+        width: 100%;
+    }
+    
+    .table-header {
+        background-color: #438EF3;
+        color: white;
+    }
+    
+    th,
+    td {
+        padding: 8px;
+        text-align: center;
+    }
+    
+    td{
+        border-bottom: 1px solid #c8c8c8;
+    }
+    
+    tbody{
+        tr:hover{
+            background-color: #EDF6FF;
+            cursor: pointer;
+        }
+    }
+    
+    .w0 {
+        width: 50px;
+    }
+    
+    .w1 {
+        width: 100px;
+    }
+    
+    .w2 {
+        width: 200px;
+    }    
 }
 
-.w0 {
-    width: 50px;
-}
-
-.w1 {
-    width: 100px;
-}
-
-.w2 {
-    width: 200px;
-}
 

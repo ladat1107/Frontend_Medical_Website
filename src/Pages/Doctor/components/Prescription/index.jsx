@@ -6,12 +6,14 @@ import { getAllMedicinesForExam, getPrescriptionByExaminationId, upsertPrescript
 import PropTypes from 'prop-types';
 import { notification } from 'antd';
 
-const Prescription = ({ examinationId }) => {
+const Prescription = ({ examinationId, paraclinicalPrice }) => {
     const [presDetails, setPresDetails] = useState([]);
     const [medicineOptions, setMedicineOptions] = useState([]);
     const [note, setNote] = useState('');
     const [prescriptionPrice, setPrescriptionPrice] = useState(0);
     const [nextId, setNextId] = useState(1);
+    const [totalMoney, setTotalMoney] = useState(0);
+    const [insuranceCoverage, setInsuranceCoverage] = useState(0);
 
     const [api, contextHolder] = notification.useNotification();
 
@@ -70,6 +72,8 @@ const Prescription = ({ examinationId }) => {
             setNote(dataPrescription.DT.note);
             setPrescriptionPrice(dataPrescription.DT.totalMoney);
             setNextId(details.length + 1);
+
+            setTotalMoney(dataPrescription.DT.totalMoney + paraclinicalPrice - insuranceCoverage);
         }
     }, [dataPrescription]);
 
@@ -200,7 +204,7 @@ const Prescription = ({ examinationId }) => {
                         <p className='title'>Dịch vụ kỹ thuật:</p>
                     </div>
                     <div className='col-10'>
-                        <p className='payment'>0 VND</p>
+                        <p className='payment'>{paraclinicalPrice.toLocaleString()} VND</p>
                     </div>
                 </div>
                 <div className="row padding">
@@ -208,7 +212,7 @@ const Prescription = ({ examinationId }) => {
                         <p className='title'>BHYT thanh toán:</p>
                     </div>
                     <div className='col-10'>
-                        <p className='payment'>0 VND</p>
+                        <p className='payment'>{insuranceCoverage.toLocaleString()} VND</p>
                     </div>
                 </div>
                 <hr />
@@ -217,7 +221,7 @@ const Prescription = ({ examinationId }) => {
                         <p className='title'>Người bệnh trả:</p>
                     </div>
                     <div className='col-10'>
-                        <p className='payment'>0 VND</p>
+                        <p className='payment'>{totalMoney.toLocaleString()} VND</p>
                     </div>
                 </div>
             </div>
@@ -226,6 +230,7 @@ const Prescription = ({ examinationId }) => {
 }
 Prescription.propTypes = {
     examinationId: PropTypes.number.isRequired,
+    paraclinicalPrice: PropTypes.number.isRequired,
 };
 
 export default Prescription;
