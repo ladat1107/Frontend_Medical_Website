@@ -13,6 +13,7 @@ const HomePage = () => {
       <ImageSlider />
       <DoctorSearch />
       <CustomService />
+      <input type="text" />
     </>
   );
 };

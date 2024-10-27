@@ -1,0 +1,16 @@
+.loader-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    /* Chiều cao 100% viewport */
+    width: 100%;
+    /* Chiều rộng 100% viewport */
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: rgba(255, 255, 255, 0.8);
+    /* Màu nền mờ */
+    z-index: 1000;
+    /* Đảm bảo loader hiển thị trên các phần tử khác */
+}

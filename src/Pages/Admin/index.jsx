@@ -1,26 +1,46 @@
-import React from 'react'
-import { Outlet } from "react-router-dom";
-import SideBar from './components/Sidebar'
-import CustomScrollbars from '@/components/Scrollbars/CustomScrollbars'
+import React, { useState } from 'react';
+import { Layout, theme } from 'antd';
+import AdminFooter from './components/AdminFooter';
 import AdminHeader from './components/AdminHeader';
-import { AuthenContextProvider } from '@/contexts/AuthenContext';
+import SideBar from './components/Sidebar';
+import './Admin.scss';
+import { Outlet } from 'react-router-dom';
+const { Content } = Layout;
 
-const AdminLayout = () => {
-  return (
-    <>
-      <AuthenContextProvider>
-        <CustomScrollbars>
-          <SideBar />
-          <div className="p-4 sm:ml-64" >
-            <AdminHeader />
-            <Outlet />
-          </div>
-        </CustomScrollbars>
-      </AuthenContextProvider>
-    </>
+const AdminLayoutTest = () => {
+    const [collapsed, setCollapsed] = useState(false);
 
+    const {
+        token: { colorBgContainer, borderRadiusLG },
+    } = theme.useToken();
 
-  )
-}
+    const action = (value) => {
+        setCollapsed(value);
+    }
 
-export default AdminLayout
+    return (
+        <div className='admin-content'>
+            <Layout>
+                <SideBar open={collapsed}
+                    action={action} />
+                <Layout>
+                    <AdminHeader
+                        open={collapsed}
+                        action={action} />
+                    <div className='content-data'>
+                        <Content
+                            style={{
+                                margin: '24px 16px 0',
+                                borderRadius: borderRadiusLG,
+                                backgroundColor: colorBgContainer,
+                            }}>
+                            <Outlet />
+                        </Content>
+                    </div>
+                    <AdminFooter />
+                </Layout>
+            </Layout>
+        </div >
+    );
+};
+export default AdminLayoutTest;

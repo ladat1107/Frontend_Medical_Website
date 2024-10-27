@@ -10,7 +10,7 @@ axiosInstance.interceptors.request.use(
   // config request before sent to sever
   (config) => {
     config.headers.Authorization = `Bearer ${localToken.get()?.accessToken}`;
-    console.log("config", config);
+    //console.log("config", config);
     return config;
   },
   (error) => {
