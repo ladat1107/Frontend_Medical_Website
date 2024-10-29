@@ -19,6 +19,13 @@ const Appointment = () => {
     const [startDate, setStartDate] = useState(new Date()); 
     const [endDate, setEndDate] = useState(new Date());
 
+    const options = [
+        { value: '1', label: 'Tất cả' },
+        { value: '2', label: 'Đang chờ khám' },
+        { value: '3', label: 'Đã khám' },
+        { value: '4', label: 'Đã hủy' },
+    ];
+
     let {
         data: dataAppointments,
         loading: appointmentLoading,
@@ -45,13 +52,6 @@ const Appointment = () => {
         setStartDate(new Date());
         setEndDate(new Date());
     }
-
-    const options = [
-        { value: '1', label: 'Tất cả' },
-        { value: '2', label: 'Đang chờ khám' },
-        { value: '3', label: 'Đã khám' },
-        { value: '4', label: 'Đã hủy' },
-    ];
     
     useEffect(() => {
         fetchAppointment();

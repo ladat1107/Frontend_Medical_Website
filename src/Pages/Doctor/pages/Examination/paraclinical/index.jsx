@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import Paracdetail from '../Paracdetail';
 import { notification } from 'antd';
 import { deleteParaclinical } from '@/services/doctorService';
+import './Paraclinical.scss';
 
 const Paraclinical = ({ listParaclinicals, examinationId, refresh }) => {
     const [paracDetails, setParacDetails] = useState(listParaclinicals);

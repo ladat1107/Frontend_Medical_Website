@@ -5,7 +5,7 @@ import SelectBox from "@/components/Combobox";
 import CustomDatePicker from "@/components/DatePicker";
 import { useMutation } from "@/hooks/useMutation";
 import { updateExamination, getAllDisease } from "@/services/doctorService";
-import MultiSelect from "@/components/MultiSelect";
+import MultiSelect from "@/pages/Doctor/components/MultiSelect";
 import { convertDateTime } from "@/utils/convertToTimestamp";
 import { notification } from 'antd';
 
@@ -255,7 +255,7 @@ const ExamInfo = ({ examData, refresh }) => {
                         <p>Giá:</p>
                     </div>
                     <div className="col-4">
-                        <p className="info">{formData.price}</p>
+                        <p className="info">{formData.price.toLocaleString()} VND</p>
                     </div>
                     <div className="col-2">
                         <p>Đặc biệt:</p>

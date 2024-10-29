@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import './Presdetail.scss';
-import SelectBox2 from '@/components/Selectbox';
+import SelectBox2 from '@/pages/Doctor/components/Selectbox';
 import PropTypes from 'prop-types';
-import QuantityInput from '@/components/QuantityInput';
+import QuantityInput from '@/pages/Doctor/components/QuantityInput';
 
 const Presdetail = ({ id, presdetailData, onDelete, options, onChange }) => {
     const [medicineId, setMedicineId] = useState(presdetailData.medicineId || 0);
@@ -49,7 +49,7 @@ const Presdetail = ({ id, presdetailData, onDelete, options, onChange }) => {
                 </div>
                 <div className='col-2'>
                     <div className='row'>
-                        <p className='title'>Số lượng</p>
+                        <p className='title center-content'>Số lượng</p>
                     </div>
                     <div className='row'>
                         <QuantityInput

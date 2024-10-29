@@ -1,8 +1,8 @@
 import "./Examination.scss";
-import ExamInfo from "../../components/Examinfo";
-import VitalSign from "../../components/Vitalsign";
-import Paraclinical from "../../components/paraclinical";
-import Prescription from "../../components/Prescription";
+import ExamInfo from "./Examinfo";
+import VitalSign from "./Vitalsign";
+import Paraclinical from "./paraclinical";
+import Prescription from "./Prescription";
 import { useEffect, useState } from "react";
 import { getExaminationById, getUserByCid } from "@/services/doctorService";
 import { useMutation } from "@/hooks/useMutation";
@@ -62,8 +62,8 @@ const Examination = () => {
                 0
             );
             setTotalParaclinical(totalParaclinicalPrice);
-
             setExaminationData(formattedData);
+            
             setPatientData(dataExamination.DT.userExaminationData || {});
             setVitalSignData(dataExamination.DT.examinationVitalSignData || {});
             setParaclinicalData(dataExamination.DT.examinationResultParaclincalData || []);

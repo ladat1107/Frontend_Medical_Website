@@ -160,25 +160,31 @@ const Prescription = ({ examinationId, paraclinicalPrice, refresh }) => {
                         <button className='save-button' onClick={handleSaveButton}>Lưu</button>
                     </div>
                 </div>
-                <div className="row padding gap">
-                    {sortedPresDetails.length > 0 ? (
-                        sortedPresDetails.map(detail => (
-                            <Presdetail
-                                key={detail.id}
-                                id={detail.id}
-                                options={medicineOptions}
-                                presdetailData={detail}
-                                onDelete={() => handleDeletePresdetail(detail.id)}
-                                onChange={handlePresdetailChange}
-                            />
-                        ))
-                    ) : (
-                        <div className="empty-list-message">
-                            <div>Đơn thuốc trống</div>
-                            <hr />
+                {prescriptionLoading ? (
+                    <div>Loading...</div>
+                ) : (
+                    <>
+                        <div className="row padding gap">
+                            {sortedPresDetails.length > 0 ? (
+                                sortedPresDetails.map(detail => (
+                                    <Presdetail
+                                        key={detail.id}
+                                        id={detail.id}
+                                        options={medicineOptions}
+                                        presdetailData={detail}
+                                        onDelete={() => handleDeletePresdetail(detail.id)}
+                                        onChange={handlePresdetailChange}
+                                    />
+                                ))
+                            ) : (
+                                <div className="empty-list-message">
+                                    <div>Đơn thuốc trống</div>
+                                    <hr />
+                                </div>
+                            )}
                         </div>
-                    )}
-                </div>
+                    </>
+                )}
                 <div className="row padding">
                     <div className='col-2'>
                         <p className='title'>Ghi chú:</p>

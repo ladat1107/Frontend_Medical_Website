@@ -16,6 +16,7 @@ import AdminLayoutTest from "./pages/Admin";
 import DepartmentManage from "./pages/Admin/pages/DepartmentManage";
 import Room from "./pages/Admin/pages/Room";
 import ServiceOfRoom from "./pages/Admin/pages/ServiceOfRoom";
+import Handbook from "./pages/Doctor/pages/Handbook";
 function App() {
 
   return (
@@ -36,6 +37,7 @@ function App() {
         <Route path='/doctor' element={<DoctorHomePage />} />
         <Route path='/doctorAppointment' element={<Appointment />} />
         <Route path='/doctorExamination/:examId' element={<Examination />} />
+        <Route path='/doctorHandbook' element={<Handbook />} />
       </Route>
     </Routes>
   );

@@ -38,6 +38,11 @@ const items = [
         ],
     },
     {
+        key: 'sub5',
+        label: (<NavLink to="/doctorHandbook">Cẩm nang</NavLink>),
+        icon: <HomeOutlined />,
+    },
+    {
         type: 'divider',
     },
     {

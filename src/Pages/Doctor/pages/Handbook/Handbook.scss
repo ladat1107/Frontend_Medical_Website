@@ -1,0 +1,57 @@
+.handbook-container{
+    font-family: 'Nunito', sans-serif;
+    padding: 20px;
+
+    .button-container{
+        display: flex;
+        justify-content: flex-end;
+
+        .button{
+            padding: 6px 16px;
+            border-radius: 5px;
+            border: none;
+            background-color: #09B181;
+            color: white;
+            cursor: pointer;
+            font-weight: bold;
+
+            i{
+                margin-right: 10px;
+            }
+        }
+    }
+
+    .search-container{
+        border: 1px solid gray;
+        padding: 5px;
+        border: none;
+        gap: 10px;
+
+        i{
+            color: gray;
+        }
+
+        input{
+            border: none;
+            margin-left: 10px;
+
+            &:focus{
+                outline: none;
+            }
+        }
+    }
+
+    .item{
+        display: flex;
+        align-items: center;
+    }
+
+    .end-border{
+        border-right: 1px solid rgb(156, 156, 156);
+    }
+
+    .count{
+        margin: 0px;
+        font-weight: bold;
+    }
+}

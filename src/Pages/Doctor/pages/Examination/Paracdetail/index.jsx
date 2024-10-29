@@ -1,4 +1,4 @@
-import SelectBox2 from "@/components/Selectbox";
+import SelectBox2 from "@/pages/Doctor/components/Selectbox";
 import { useEffect, useState } from "react";
 import PropTypes from 'prop-types';
 import './Paracdetail.scss'
