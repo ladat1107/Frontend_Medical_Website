@@ -11,7 +11,7 @@ const Sidebar = (props) => {
         <div className='sidebar-content'>
             <Sider
                 theme="light"
-                width={250}
+                width={230}
                 collapsed={props.open}
                 trigger={null}
                 breakpoint="lg"
@@ -31,11 +31,11 @@ const Sidebar = (props) => {
                     </div>
                     <div className='col-8 py-2 ms-3'>
                         <div className='d-flex justify-content-between'>
-                            <span>Minh Dương</span>
+                            <span>La Đạt</span>
                             <FontAwesomeIcon icon={faChevronDown} />
                         </div>
                         <div>
-                            Bác sĩ
+                            Quản trị viên
                         </div>
                     </div>
                 </div>

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import DropdownPaginate from "@/pages/Admin/components/Dropdown/DropdownPaginate";
-import { faMagnifyingGlass, faPlus } from "@fortawesome/free-solid-svg-icons";
+import { faCircle, faMagnifyingGlass, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import { getUser } from "@/services/adminService";
@@ -13,6 +13,8 @@ import "./PatientManage.scss";
 import { useMutation } from "@/hooks/useMutation";
 import useDebounce from "@/hooks/useDebounce";
 import { TABLE } from "@/constant/value";
+import { Input } from "antd";
+import { SearchOutlined, UserOutlined } from '@ant-design/icons';
 
 const PatientManage = () => {
     let [currentPage, setCurrentPage] = useState(1);
@@ -79,31 +81,32 @@ const PatientManage = () => {
     let hanldeCreateUser = () => {
         setShowCreateUserModal(true)
     }
+    let handleChangeSearch = (event) => {
+        setSearch(event.target.value);
+        setCurrentPage(1)
+    }
     return (
         listUserLoading ? <Loading /> :
             <div className='patient-manage'>
                 <div className='container'>
-                    <div className='d-flex align-items-center mb-3'>
-                        <h3>Bệnh nhân</h3>
-                        <button className='btn ml-auto px-3  btn-add-user' onClick={() => { hanldeCreateUser() }}>
-                            <FontAwesomeIcon className='me-2 icon' icon={faPlus} style={{ color: "#6ae1f9", }} />
+                    <div className='d-flex align-items-center justify-content-between mb-3'>
+                        <h3>BỆNH NHÂN</h3>
+                        <button className=' py-1 px-2 btn-add-user' onClick={() => { hanldeCreateUser() }}>
+                            <FontAwesomeIcon className='me-1 icon' icon={faPlus} style={{ color: "#0A8FDC", }} />
                             Thêm mới
                         </button>
                     </div>
-                    <div className='table-responsive'>
+                    <div className='table-responsive bg-white'>
                         <div className='table-head d-flex align-items-center'>
-                            <div className='search-content d-flex align-items-center'>
-                                <FontAwesomeIcon icon={faMagnifyingGlass} size="xl" style={{ color: "#d1d1d1", }} />
-                                <input type="text" className='input-head' placeholder='Tìm kiếm'
-                                    value={search}
-                                    onChange={(event) => { setSearch(event.target.value); setCurrentPage(1) }} />
-                            </div>
+                            <Input className='w-25 my-3 ms-3' size="large" placeholder="Tìm nhân viên" prefix={<SearchOutlined />}
+                                value={search}
+                                onChange={(event) => { handleChangeSearch(event) }} />
                         </div>
 
-                        <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                            <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                        <table className="w-100 text-start">
+                            <thead className="text-start text-uppercase text-secondary row-1">
                                 <tr>
-                                    <th scope="col" className="p-4">
+                                    <th scope="col" className="p-1 ">
                                         <div className="flex items-center">
                                             <Checkbox
                                                 checked={checkAll}
@@ -112,34 +115,34 @@ const PatientManage = () => {
                                             />
                                         </div>
                                     </th>
-                                    <th scope="col" className="px-6 py-3">
+                                    <th scope="col" className="text-start px-3 py-0 name">
                                         Họ và tên
                                     </th>
-                                    <th scope="col" className="px-6 py-3">
+                                    <th scope="col" className="text-start px-1 py-0">
                                         Chức vụ
                                     </th>
-                                    <th scope="col" className="px-6 py-3">
+                                    <th scope="col" className="text-start px-1 py-0">
                                         Số điện thoại
                                     </th>
-                                    <th scope="col" className="px-6 py-3">
+                                    <th scope="col" className="text-start px-1 py-0">
                                         CCCD
                                     </th>
-                                    <th scope="col" className="px-6 py-3">
+                                    <th scope="col" className="text-start px-1 py-0">
                                         Trạng thái
                                     </th>
-                                    <th scope="col" className="px-6 py-3">
+                                    <th scope="col" className="text-start px-1 py-0">
 
                                     </th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody className='table-body text-secondary'>
                                 {+listUser.length > 0 && +totalPages != 0 ?
                                     <>
                                         {
                                             listUser.map((item, index) => {
                                                 return (
-                                                    <tr key={index} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                                                        <td className="w-4 p-4">
+                                                    <tr key={index} className="bg-white border-b text-start">
+                                                        <td className="p-1">
                                                             <div className="flex items-center">
                                                                 <Checkbox
                                                                     checked={item.checked}
@@ -147,28 +150,28 @@ const PatientManage = () => {
                                                                     size="small"
                                                                 /></div>
                                                         </td>
-                                                        <th scope="row" className="d-flex justify-content-start">
-                                                            <img className="w-25 h-25 rounded-full" src="https://t4.ftcdn.net/jpg/05/11/55/91/360_F_511559113_UTxNAE1EP40z1qZ8hIzGNrB0LwqwjruK.jpg" alt="Jese image" />
-                                                            <div className="ps-3">
-                                                                <div className="text-base font-semibold">{item.lastName + " " + item.firstName}</div>
-                                                                <div className="font-normal text-gray-500">{item.email}</div>
+                                                        <th scope="row" className="d-flex justify-content-start px-1 py-3 min-content-width g-0">
+                                                            <img className="image" src="https://t4.ftcdn.net/jpg/05/11/55/91/360_F_511559113_UTxNAE1EP40z1qZ8hIzGNrB0LwqwjruK.jpg" alt="Jese image" />
+                                                            <div className="ps-1 email ">
+                                                                <div className="fw-semibold">{item.lastName + " " + item.firstName}</div>
+                                                                <div className="fw-normal">{item.email}</div>
                                                             </div>
                                                         </th>
-                                                        <td className="px-6 py-4">
+                                                        <td className="text-start px-3 py-3">
                                                             {item?.userRoleData?.name || "Khác"}
                                                         </td>
-                                                        <td className="px-6 py-4">
+                                                        <td className="text-start px-3 py-3">
                                                             {item?.phoneNumber || "Không có"}
                                                         </td>
-                                                        <td className="px-6 py-4">
+                                                        <td className="text-start px-3 py-3">
                                                             {item?.cid || "Không có"}
                                                         </td>
-                                                        <td className="px-6 py-4">
+                                                        <td className="text-start px-1 py-3">
                                                             <div className="flex items-center">
                                                                 {+item?.status === 1 ? <>
-                                                                    <div className="h-2.5 w-2.5 rounded-full bg-green-500 me-2"></div>Hoạt động
+                                                                    <span className="pe-2"><FontAwesomeIcon icon={faCircle} beatFade size="2xs" style={{ color: "#63E6BE", }} /></span>Hoạt động
                                                                 </> : <>
-                                                                    <div className="h-2.5 w-2.5 rounded-full bg-red-500 me-2"></div>Khóa</>}
+                                                                    <span className="pe-2"><FontAwesomeIcon icon={faCircle} flip size="2xs" style={{ color: "#ec3609", }} /></span>Khóa</>}
                                                             </div>
                                                         </td>
                                                         <td className="px-6 py-4">
@@ -176,7 +179,7 @@ const PatientManage = () => {
                                                                 <DropdownAction
                                                                     data={item}
                                                                     refresh={refresh}
-                                                                    table={TABLE.USER}
+                                                                    table={TABLE.DEPARTMENT}
                                                                 />
                                                             </div>
                                                         </td>

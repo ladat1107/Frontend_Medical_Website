@@ -18,9 +18,21 @@
 
     .menu-item {
         span {
-            font-size: 16px;
+            font-size: 15px;
             font-weight: 500;
             color: #262626;
+        }
+    }
+
+    a {
+        text-decoration: none;
+
+        &:hover {
+            text-decoration: none;
+        }
+
+        &:focus {
+            text-decoration: none;
         }
     }
 }

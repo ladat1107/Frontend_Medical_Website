@@ -111,3 +111,45 @@ export const TIMESLOTS = [
         value: "16:30 - 17:00"
     }
 ]
+
+export const POSITION = [
+    {
+        label: "Bác sĩ",
+        value: "BS"
+    },
+    {
+        label: "CK1",
+        value: "CK1"
+    },
+    {
+        label: "CK2",
+        value: "CK2"
+    },
+    {
+        label: "Thac sĩ",
+        value: "THS"
+    },
+    {
+        label: "Tiến sĩ",
+        value: "TS"
+    },
+    {
+        label: "Phó giáo sư",
+        value: "PGS"
+    },
+    {
+        label: "Giáo sư",
+        value: "GS"
+    }
+]
+
+export const STATUS = [
+    {
+        label: "Hoạt động",
+        value: 1
+    },
+    {
+        label: "Khóa",
+        value: 0
+    }
+]

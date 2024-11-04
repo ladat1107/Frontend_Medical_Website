@@ -9,6 +9,10 @@ const handleLogin = (data) => {
 const logoutUser = () => {
     return axios.post(`/api/handleLogout`)
 }
+// USER MANAGEMENT
+const createUser = (data) => {
+    return axios.post(`/api/admin/createUser`, data)
+}
 const getUser = (page, limit, search, position) => {
     return axios.get(`/api/admin/getAllUser?page=${+page}&limit=${+limit}&position=[${position}]&search=${search}`)
 }
@@ -21,12 +25,34 @@ const updateUser = (data) => {
 const blockUser = (data) => {
     return axios.put(`/api/admin/blockUser`, data)
 }
-const deleteRole = (data) => {
-    return axios.delete(`/api/role/delete`, { data: { id: data.id } })
+const getStaffByRole = (role) => {
+    return axios.get(`/api/getStaffByRole?roleId=${role}`)
+}
+
+// DEPARTMENT MANAGEMENT
+const createDepartment = (data) => {
+    return axios.post(`/api/admin/createDepartment`, data)
 }
 const getNameDepartment = () => {
     return axios.get(`/api/getAllNameDepartment`)
 }
+const getDepartment = (page, limit, search) => {
+    return axios.get(`/api/getAllDepartment?page=${+page}&limit=${+limit}&search=${search}`)
+}
+const getDepartmentById = (id) => {
+    return axios.get(`/api/getDepartmentById?id=${id}`)
+}
+const deleteDepartment = (data) => {
+    return axios.delete(`/api/admin/deleteDepartment `, { data: { id: data.id } })
+}
+const updateDepartment = (data) => {
+    return axios.put(`/api/admin/updateDepartment`, data)
+}
+const blockDepartment = (data) => {
+    return axios.put(`/api/admin/blockDepartment`, data)
+}
+
+// 
 export {
     handleRegisterUser,
     handleLogin,
@@ -35,6 +61,13 @@ export {
     deleteUser,
     updateUser,
     blockUser,
-    deleteRole,
     getNameDepartment,
+    getDepartment,
+    getDepartmentById,
+    deleteDepartment,
+    updateDepartment,
+    blockDepartment,
+    createUser,
+    getStaffByRole,
+    createDepartment
 }

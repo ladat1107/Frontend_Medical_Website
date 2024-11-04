@@ -1,0 +1,231 @@
+.department-content {
+    .container {
+        padding: 0 0.01%;
+        background: #f4f7fe;
+
+        .btn-add-department {
+            background: #f4f7fe;
+            border: 1px solid #0A8FDC;
+            border-radius: 8px;
+            color: #0A8FDC;
+            font-weight: 500;
+            cursor: pointer;
+
+            &:hover {
+                border: #086FAB 1px solid;
+                color: #086FAB;
+
+                .icon {
+                    color: #086FAB !important;
+                }
+            }
+        }
+
+        .animated-div {
+            opacity: 0;
+            transform: translateY(-20px);
+            /* Đẩy div lên 20px */
+            transition: opacity 0.5s ease, transform 0.5s ease;
+            /* Thêm transition cho opacity và transform */
+            height: 0;
+            /* Đặt chiều cao ban đầu là 0 */
+            overflow: hidden;
+            /* Ẩn nội dung bên trong khi chiều cao là 0 */
+        }
+
+        .animated-div.show {
+            opacity: 1;
+            transform: translateY(0);
+            /* Đưa div về vị trí ban đầu */
+            height: auto;
+            /* Đặt chiều cao là tự động để hiển thị nội dung */
+        }
+
+        .insert-department {
+            border-radius: 15px;
+            box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+            background: white;
+            padding: 5px;
+            margin-bottom: 1rem;
+
+            .content {
+                .icon {
+                    cursor: pointer;
+                }
+
+                textarea {
+                    z-index: 0;
+
+                    &:focus {
+                        box-shadow: none !important;
+                    }
+
+                    &:hover {
+                        box-shadow: none !important;
+                    }
+                }
+
+                .image-upload {
+                    background: white;
+                    padding: 10px;
+                    border-radius: 10px;
+                    border: 2px dashed #0A8FDC;
+
+                    .container {
+                        background: #f4f7fe;
+                        display: flex;
+                        flex-direction: column;
+                        justify-content: center;
+                        align-items: center;
+                        gap: 10px;
+
+                        span {
+                            font-size: 1rem;
+                            font-weight: 600;
+                            color: #0A8FDC;
+                            cursor: pointer;
+                        }
+                    }
+                }
+            }
+
+        }
+
+        .table-department {
+            border-radius: 15px;
+            box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+
+
+
+            .head {
+                .search {}
+            }
+
+            .table-body {
+
+                tr {
+                    td {
+                        border-bottom: none !important;
+                    }
+
+                    background: white;
+                    border-bottom: 1px solid #c8c8c8 !important;
+
+                    &:hover {
+                        td {
+                            background: #ebecee !important;
+                        }
+
+                        background: #ebecee !important;
+                    }
+                }
+
+                .dead {
+                    .rounder {
+                        border-radius: 10px;
+                        background-color: #f3cdcd;
+                        color: rgb(232, 114, 114);
+                        padding: 3px 5px;
+                    }
+                }
+
+                .row-1 {
+                    th {
+                        border-bottom: none !important;
+                    }
+                }
+
+                .update {
+                    padding: 2px 5px;
+                    border-radius: 5px;
+                    background-color: #ffffff;
+                    border: 1px solid #000000;
+                    cursor: pointer;
+
+                    .icon {
+                        color: #000000;
+                    }
+                }
+
+                .delete {
+                    padding: 2px 7px;
+                    border-radius: 5px;
+                    background-color: #e37600;
+                    border: 1px solid #e37600;
+                    cursor: pointer;
+
+                    .icon {
+                        color: #ffffff;
+                    }
+                }
+            }
+
+            .footer-table {
+                background: white;
+                display: flex;
+                justify-content: end;
+                align-items: center;
+
+                .select-page {
+                    display: flex;
+                    justify-content: left;
+                    align-items: center;
+
+                    .text {
+                        width: 4rem;
+                        font-size: 0.9rem;
+                    }
+
+                    span {
+                        font-size: 0.9rem;
+                    }
+
+                    .css-mnqnbf {
+                        background: none;
+
+                        span {
+                            font-size: 0.9rem;
+                            font-weight: 600;
+                            color: black;
+                        }
+                    }
+
+                    .css-1izobnm {
+                        background: none;
+                        color: black;
+                        font-size: 0.7rem;
+                        font-weight: 600;
+                    }
+                }
+
+                .paginationContainer {
+                    font-size: 0.9rem;
+                    margin: 0 1rem;
+                    display: flex;
+                    justify-content: end;
+                    align-items: center;
+                    width: max-content;
+                }
+            }
+
+            .css-mnqnbf {
+                background: none;
+                text-align: left;
+
+                span {
+                    font-size: 0.7rem;
+                    font-weight: 600;
+                    color: black;
+                }
+            }
+
+            .css-1izobnm {
+                background: none;
+                color: black;
+                font-size: 0.7rem;
+                font-weight: 600;
+            }
+
+        }
+    }
+}

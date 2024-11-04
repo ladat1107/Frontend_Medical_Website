@@ -16,7 +16,9 @@ import { TABLE } from '@/constant/value';
 import "./StaffManage.scss";
 import { Button, Input } from 'antd';
 import { SearchOutlined, UserOutlined } from '@ant-design/icons';
+
 const StaffManage = () => {
+
     //let { handleDropdown } = useAuthenContext();
     let [currentPage, setCurrentPage] = useState(1);
     let [rowsPerPage, setRowPaper] = useState({ value: 10, id: 1 });
@@ -93,24 +95,22 @@ const StaffManage = () => {
             <div className='staff-manage'>
                 <div className='container'>
                     <div className='d-flex align-items-center justify-content-between mb-3'>
-                        <h3>Nhân viên</h3>
+                        <h3>NHÂN VIÊN</h3>
                         <button className=' py-1 px-2 btn-add-user' onClick={() => { hanldeCreateUser() }}>
                             <FontAwesomeIcon className='me-1 icon' icon={faPlus} style={{ color: "#0A8FDC", }} /> Thêm mới</button>
                     </div>
-
-                    <div className='table-responsive'>
+ 
+                    <div className='table-responsive bg-white'>
                         <div className='table-head d-flex align-items-center'>
                             <Input className='w-25 my-3 ms-3' size="large" placeholder="Tìm nhân viên" prefix={<SearchOutlined />}
                                 value={search}
                                 onChange={(event) => { handleChangeSearch(event) }} />
-
-
                         </div>
 
                         <table className="w-100 text-start">
                             <thead className="text-start text-uppercase text-secondary row-1">
                                 <tr>
-                                    <th scope="col" className="px-1 py-0">
+                                    <th scope="col" className="p-1">
                                         <div className="flex items-center">
                                             <Checkbox
                                                 checked={checkAll}
@@ -202,7 +202,6 @@ const StaffManage = () => {
                                                                 </div>
                                                             </td>
                                                         </tr>
-
                                                     </>
                                                 )
 

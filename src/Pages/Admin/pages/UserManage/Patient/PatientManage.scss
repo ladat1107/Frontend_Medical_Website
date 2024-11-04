@@ -1,21 +1,26 @@
 .patient-manage {
     .container {
+        padding: 0 2rem;
+        background: #f4f7fe;
+
         .btn-add-user {
-            //margin-right: 1rem;
-            border: 1px solid #6ae1f9;
+            background: #f4f7fe;
+            border: 1px solid #0A8FDC;
             border-radius: 8px;
-            color: #6ae1f9;
+            color: #0A8FDC;
             font-weight: 500;
+            cursor: pointer;
 
             &:hover {
-                background-color: #6ae1f9;
-                color: white;
+                border: #086FAB 1px solid;
+                color: #086FAB;
 
                 .icon {
-                    color: white !important;
+                    color: #086FAB !important;
                 }
             }
         }
+
 
         .table-responsive {
             border-radius: 15px;
@@ -88,38 +93,50 @@
                 }
             }
 
-            .table-head {
-                .search-content {
-                    display: flex;
-                    justify-content: space-between;
-                    align-items: center;
-                    margin: 1rem 2rem;
-                    border: #e9eaeb 1px solid;
-                    border-radius: 10px;
-                    padding: 5px;
+            .table-head {}
 
-                    input {
-                        width: 100%;
-                        padding: 0.5rem;
-                        margin-left: 0.5rem;
-                        border: 0;
-                        outline: 0;
-                        box-shadow: none;
+            .row-1 {
+                .flex {
+                    width: min-content !important;
+                }
 
-                        &:focus {
-                            border: 0;
-                            outline: 0;
-                            box-shadow: none;
-                        }
+                .name {
+                    width: 20px;
+                    white-space: nowrap;
+                }
+            }
+
+            .table-body {
+                max-height: 60vh;
+                overflow-y: auto;
+                scrollbar-width: none;
+
+                td {
+                    border-bottom: none !important;
+                }
+
+                tr {
+                    border-bottom: 1px solid #c8c8c8 !important;
+                }
+
+                .min-content-width {
+
+
+                    .image {
+                        width: 40px;
+                        height: 40px;
+                        border-radius: 50%;
                     }
 
-                    &:hover {
-                        border: #000000 1px solid;
+                    .email {
+                        display: flex;
+                        flex-direction: column;
+                        align-items: flex-start;
                     }
                 }
 
-            }
 
+            }
 
             .footer-table {
                 display: flex;
@@ -190,20 +207,3 @@
     }
 }
 
-// .input1 {
-//     width: 100%;
-//     margin-left: 0.5rem;
-//     border: 0;
-//     outline: 2px;
-
-//     &:hover {
-//         border: #c23939 1px solid !important;
-//         outline: #1ce923 1px dashed !important;
-//     }
-
-//     &:focus {
-//         border: #c23939 5px solid !important;
-
-//         border-radius: 15px;
-//     }
-// }

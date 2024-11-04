@@ -13,6 +13,7 @@ import DoctorHomePage from "./pages/Doctor/pages/HomePage";
 import Appointment from "./pages/Doctor/pages/Appointment";
 import Examination from "./pages/Doctor/pages/Examination";
 import AdminLayoutTest from "./pages/Admin";
+import DepartmentManage from "./pages/Admin/pages/DepartmentManage";
 function App() {
 
   return (
@@ -25,6 +26,7 @@ function App() {
         <Route path='/admin' element={<AdminHomePage />} />
         <Route path='/adminPatientManage' element={<PatientManage />} />
         <Route path='/adminStaffManage' element={<StaffManage />} />
+        <Route path='/adminDepartmentManage' element={<DepartmentManage />} />
       </Route>
       <Route element={<DoctorLayout />}>
         <Route path='/doctor' element={<DoctorHomePage />} />
