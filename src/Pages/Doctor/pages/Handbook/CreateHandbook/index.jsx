@@ -1,6 +1,23 @@
 import './CreateHandbook.scss';
+import MarkdownIt from 'markdown-it';
+import MdEditor from 'react-markdown-editor-lite';
+import { Button, Col, Form, Input, message, Progress, Radio, Row, Select, Upload } from 'antd';
+import { useState } from 'react';
 
 const CreateHandbook = () => {
+
+    const [markdownValue, setMarkdownValue] = useState("");
+    const [form] = Form.useForm();
+
+    let mdParser = new MarkdownIt(/* Markdown-it options */);
+    let htmlContent = markdownValue;
+
+    let handleEditorChange = ({ html, text }) => {
+        setMarkdownValue(text);
+        htmlContent = html;
+        form.setFieldsValue({ markDownContent: text }); // Cập nhật giá trị cho Form.Item
+    };
+
     return (
         <>
             <div className='create-handbook-container'>
@@ -46,6 +63,18 @@ const CreateHandbook = () => {
                 <div className='row mt-3'>
                     <div className='col-2'>
                         <p className='text-bold'>Nội dung:</p>
+                    </div>
+                </div>
+                <div className='row mt-3'>
+                    <div className='col-12'>
+                        <MdEditor style={{
+                            minHeight: '280px',
+                            borderRadius: '10px',
+                            padding: "5px",
+                        }}
+                            value={markdownValue}
+                            renderHTML={text => mdParser.render(text)}
+                            onChange={handleEditorChange} />
                     </div>
                 </div>
             </div>

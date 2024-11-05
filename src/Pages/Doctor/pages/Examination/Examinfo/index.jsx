@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import PropTypes from 'prop-types';
 import "./ExamInfo.scss"
-import SelectBox from "@/components/Combobox";
+import SelectBox from "@/pages/Doctor/components/Combobox";
 import CustomDatePicker from "@/components/DatePicker";
 import { useMutation } from "@/hooks/useMutation";
 import { updateExamination, getAllDisease } from "@/services/doctorService";
