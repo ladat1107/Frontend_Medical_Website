@@ -22,18 +22,18 @@
     }
 
     .search-container{
-        border: 1px solid gray;
         padding: 5px;
-        border: none;
+        border-bottom: 1px solid #83BDF4;
         gap: 10px;
 
         i{
-            color: gray;
+            color: #83BDF4;
         }
 
         input{
             border: none;
             margin-left: 10px;
+            width: 90%;
 
             &:focus{
                 outline: none;
@@ -50,7 +50,7 @@
         border-right: 1px solid rgb(156, 156, 156);
     }
 
-    .count{
+    .text-bold{
         margin: 0px;
         font-weight: bold;
     }

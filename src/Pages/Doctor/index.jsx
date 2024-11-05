@@ -19,28 +19,30 @@ const DoctorLayout = () => {
     }
 
     return (
-        <div className='doctor-content'>
-            <Layout>
-                <SideBar open={collapsed}
-                    action={action} />
+        <>
+            <div className='doctor-content'>
                 <Layout>
-                    <AdminHeader
-                        open={collapsed}
+                    <SideBar open={collapsed}
                         action={action} />
-                    <div className='content-data'>
-                        <Content
-                            style={{
-                                margin: '24px 16px 0',
-                                borderRadius: borderRadiusLG,
-                                backgroundColor: colorBgContainer,
-                            }}>
-                            <Outlet />
-                        </Content>
-                    </div>
-                    <AdminFooter />
+                    <Layout>
+                        <AdminHeader
+                            open={collapsed}
+                            action={action} />
+                        <div className='content-data'>
+                            <Content
+                                style={{
+                                    margin: '24px 16px 0',
+                                    borderRadius: borderRadiusLG,
+                                    backgroundColor: colorBgContainer,
+                                }}>
+                                <Outlet />
+                            </Content>
+                        </div>
+                        <AdminFooter />
+                    </Layout>
                 </Layout>
-            </Layout>
-        </div >
+            </div>
+        </>
     )
 }
 
