@@ -1,7 +1,7 @@
 import "./DepartmentManage.scss";
 import { SearchOutlined } from "@ant-design/icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCircle, faPencil, faPlus, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { faCircle, faPencil, faPlus, faRotateRight, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { Checkbox, Input } from "antd";
 import { useMutation } from "@/hooks/useMutation";
 import { getDepartment, getDepartmentById } from "@/services/adminService";
@@ -75,9 +75,6 @@ const DepartmentManage = () => {
     let refresh = () => {
         fetchDepartments();
     }
-    let handleShowConfirm = () => {
-
-    }
     let handleDelete = (item) => {
         setObDelete({ ...item })
         setShowDeleteModal(true)
@@ -106,10 +103,17 @@ const DepartmentManage = () => {
             <div className="container">
                 <div className='d-flex align-items-center justify-content-between mb-3'>
                     <h4>QUẢN LÝ KHOA</h4>
-                    {!showInsert &&
-                        <button className=' py-1 px-2 btn-add-department' onClick={() => { setShowInsert(true) }}>
+                    <div className="d-flex justify-content-end">
+                        {!showInsert &&
+                            <button className=' py-1 px-2 btn-add-department' onClick={() => { setShowInsert(true) }}>
+                                <FontAwesomeIcon
+                                    className='me-1 icon' icon={faPlus} style={{ color: "#0A8FDC", }} /> Thêm mới</button>
+                        }
+                        <button className='py-1 px-2 btn-refresh-department ms-3' onClick={() => { refresh() }}>
                             <FontAwesomeIcon
-                                className='me-1 icon' icon={faPlus} style={{ color: "#0A8FDC", }} /> Thêm mới</button>}
+                                className='me-1 icon' icon={faRotateRight} style={{ color: "#03989e", }} /> Tải lại</button>
+                    </div>
+
                 </div>
                 <div className={`p-2 animated-div ${showInsert ? 'show' : ''}`}>
                     {showInsert && <InsertDepartment
@@ -120,7 +124,9 @@ const DepartmentManage = () => {
 
                 <div className="table-department bg-white ">
                     <div className="table-head">
-                        <Input placeholder="Tìm kiếm" prefix={<SearchOutlined />} className="ms-3 my-3 w-25" />
+                        <Input placeholder="Tìm kiếm" prefix={<SearchOutlined />} className="ms-3 my-3 w-25"
+                            value={search}
+                            onChange={(event) => { handleChangeSearch(event) }} />
                     </div>
                     <div className="table-body">
                         <table className="table">
@@ -160,10 +166,10 @@ const DepartmentManage = () => {
                                                                     /></div>
                                                             </td>
                                                             <td className="text-start px-1 py-2 text-uppercase">
-                                                                {item?.name || "Khác"}
+                                                                <div> {item?.name || "Khác"}</div>
                                                             </td>
-                                                            <td scope="row" className="px-1 py-2 ">
-                                                                <div className="ps-1 dead ">
+                                                            <td scope="row" className="px-1 py-2 ps-1 dead ">
+                                                                <div className=" ">
                                                                     {item?.deanDepartmentData?.staffUserData.lastName ?
                                                                         <div className="">{item?.deanDepartmentData?.staffUserData?.lastName + " " + item?.deanDepartmentData?.staffUserData?.firstName}</div>
                                                                         :
@@ -174,8 +180,8 @@ const DepartmentManage = () => {
                                                             <td className="text-start px-1 py-2 d-none d-lg-block">
                                                                 <div className="fw-normal">{item?.deanDepartmentData?.staffUserData?.email || "_"}</div>
                                                             </td>
-                                                            <td>
-                                                                <div className="text-start px-1 py-2">
+                                                            <td className="text-start px-1 py-2">
+                                                                <div>
                                                                     {item?.address || "Khác"}
                                                                 </div>
                                                             </td>

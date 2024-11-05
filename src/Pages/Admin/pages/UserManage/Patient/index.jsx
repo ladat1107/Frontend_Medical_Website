@@ -24,7 +24,6 @@ const PatientManage = () => {
     let [checkAll, setCheckAll] = useState(false);
     let [search, setSearch] = useState("");
     let [showCreateUserModal, setShowCreateUserModal] = useState(false);
-
     let arr = [2]
     let searchDebounce = "";
     let {
@@ -74,7 +73,6 @@ const PatientManage = () => {
     let refresh = () => {
         fetchUsers();
     }
-
     let handleShow = (value) => {
         setShowCreateUserModal(value)
     }

@@ -3,7 +3,7 @@ import React, { useEffect } from 'react';
 import { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
-import { deleteUser, blockUser, deleteDepartment, blockDepartment } from "@/services/adminService";
+import { deleteUser, blockUser, deleteDepartment, blockDepartment, deleteServiceOfRoom, blockServiceOfRoom } from "@/services/adminService";
 import { message } from "antd";
 const DeleteModal = (props) => {
     let [messageContent, setMessageContent] = useState("")
@@ -16,16 +16,15 @@ const DeleteModal = (props) => {
             setMessageContent("Xác nhận xóa người dùng " + data.lastName + " " + data.firstName + "?")
         } else if (props.table === TABLE.DEPARTMENT) {
             setMessageContent("Xác nhận xóa phòng ban " + data.name + "?")
-
+        } else if (props.table === TABLE.SERVICE) {
+            setMessageContent("Xác nhận xóa dịch vụ " + data.name + "?")
         }
     }, [props.data])
     let handleDelete = async () => {
         if (props.table === TABLE.USER) {
             let response = await deleteUser(data);
             if (response && response.data && response.data.EC === 0) {
-                message.success(response.data.EM);
-                props.isShow(false)
-                props.refresh()
+                susscess(response?.data?.EM || "Thành công")
             } else {
                 message.error(response.data.EM);
             }
@@ -33,9 +32,15 @@ const DeleteModal = (props) => {
         else if (props.table === TABLE.DEPARTMENT) {
             let response = await deleteDepartment(data);
             if (response && response.data && response.data.EC === 0) {
-                message.success(response.data.EM);
-                props.isShow(false)
-                props.refresh()
+                susscess(response?.data?.EM || "Thành công")
+            } else {
+                message.error(response.data.EM);
+            }
+        }
+        else if (props.table === TABLE.SERVICE) {
+            let response = await deleteServiceOfRoom(data);
+            if (response && response.data && response.data.EC === 0) {
+                susscess(response?.data?.EM || "Thành công")
             } else {
                 message.error(response.data.EM);
             }
@@ -45,9 +50,7 @@ const DeleteModal = (props) => {
         if (props.table === TABLE.USER) {
             let response = await blockUser(data);
             if (response && response.data && response.data.EC === 0) {
-                message.success(response.data.EM);
-                props.isShow(false)
-                props.refresh()
+                susscess(response?.data?.EM || "Thành công")
             } else {
                 message.error(response.data.EM);
             }
@@ -55,14 +58,25 @@ const DeleteModal = (props) => {
         else if (props.table === TABLE.DEPARTMENT) {
             let response = await blockDepartment(data);
             if (response && response.data && response.data.EC === 0) {
-                message.success(response.data.EM);
-                props.isShow(false)
-                props.refresh()
+                susscess(response?.data?.EM || "Thành công")
+            } else {
+                message.error(response.data.EM);
+            }
+
+        } else if (props.table === TABLE.SERVICE) {
+            let response = await blockServiceOfRoom(data);
+            if (response && response.data && response.data.EC === 0) {
+                susscess(response?.data?.EM || "Thành công")
             } else {
                 message.error(response.data.EM);
             }
 
         }
+    }
+    let susscess = (text) => {
+        message.success(text);
+        props.isShow(false)
+        props.refresh()
     }
     return (
         <>

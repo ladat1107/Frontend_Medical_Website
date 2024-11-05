@@ -27,6 +27,7 @@ export const GENDER = {
 export const TABLE = {
     USER: "USER",
     DEPARTMENT: "DEPARTMENT",
+    SERVICE: "SERVICE",
 }
 
 export const TIMESLOTS = [

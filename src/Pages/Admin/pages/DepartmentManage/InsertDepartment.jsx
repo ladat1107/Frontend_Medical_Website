@@ -61,10 +61,8 @@ const InsertDepartment = (props) => {
     const handleImageChange = async (e) => {
         const file = e.target.files[0];
         if (!file) return;
-
         setUploading(true); // Bắt đầu upload
         setUploadProgress(0); // Đặt lại tiến trình về 0
-
         try {
             // Gọi hàm upload với callback để cập nhật tiến trình
             const url = await uploadToCloudinary(file, (progress) => {

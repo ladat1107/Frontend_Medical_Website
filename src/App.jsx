@@ -14,6 +14,8 @@ import Appointment from "./pages/Doctor/pages/Appointment";
 import Examination from "./pages/Doctor/pages/Examination";
 import AdminLayoutTest from "./pages/Admin";
 import DepartmentManage from "./pages/Admin/pages/DepartmentManage";
+import Room from "./pages/Admin/pages/Room";
+import ServiceOfRoom from "./pages/Admin/pages/ServiceOfRoom";
 function App() {
 
   return (
@@ -27,6 +29,8 @@ function App() {
         <Route path='/adminPatientManage' element={<PatientManage />} />
         <Route path='/adminStaffManage' element={<StaffManage />} />
         <Route path='/adminDepartmentManage' element={<DepartmentManage />} />
+        <Route path='/adminRoomManage' element={<Room />} />
+        <Route path='/adminServiceManage' element={<ServiceOfRoom />} />
       </Route>
       <Route element={<DoctorLayout />}>
         <Route path='/doctor' element={<DoctorHomePage />} />

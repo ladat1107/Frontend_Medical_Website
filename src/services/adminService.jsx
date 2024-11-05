@@ -52,7 +52,25 @@ const blockDepartment = (data) => {
     return axios.put(`/api/admin/blockDepartment`, data)
 }
 
-// 
+// SERVICE OF ROOM MANAGEMENT
+const getServiceOfRoom = (page, limit, search) => {
+    return axios.get(`/api/admin/getAllServiceTypes?page=${+page}&limit=${+limit}&search=${search}`)
+}
+const getServiceById = (id) => {
+    return axios.get(`/api/getServiceTypeById?id=${id}`)
+}
+const deleteServiceOfRoom = (data) => {
+    return axios.delete(`/api/admin/deleteServiceType`, { data: { id: data.id } })
+}
+const updateServiceOfRoom = (data) => {
+    return axios.put(`/api/admin/updateServiceType`, data)
+}
+const blockServiceOfRoom = (data) => {
+    return axios.put(`/api/admin/blockServiceType`, data)
+}
+const createServiceOfRoom = (data) => {
+    return axios.post(`/api/admin/createServiceType`, data)
+}
 export {
     handleRegisterUser,
     handleLogin,
@@ -69,5 +87,11 @@ export {
     blockDepartment,
     createUser,
     getStaffByRole,
-    createDepartment
+    createDepartment,
+    getServiceOfRoom,
+    deleteServiceOfRoom,
+    updateServiceOfRoom,
+    blockServiceOfRoom,
+    getServiceById,
+    createServiceOfRoom
 }

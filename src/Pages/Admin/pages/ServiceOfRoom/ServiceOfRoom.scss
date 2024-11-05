@@ -1,65 +1,54 @@
-.department-content {
+.service-of-room-content {
     .container {
         padding: 0 3%;
         background: #f4f7fe;
 
-        .btn-add-department {
-            background: #f4f7fe;
-            border: 1px solid #0A8FDC;
-            border-radius: 8px;
-            color: #0A8FDC;
-            font-weight: 500;
-            cursor: pointer;
+        .service-of-room-content-header {
 
-            &:hover {
-                border: #086FAB 1px solid;
-                color: #086FAB;
+            .text {
+                font-size: 1.5rem;
+            }
 
-                .icon {
-                    color: #086FAB !important;
+            .btn-add-service {
+                background: #f4f7fe;
+                border: 1px solid #0A8FDC;
+                border-radius: 8px;
+                color: #0A8FDC;
+                font-weight: 500;
+                cursor: pointer;
+
+                &:hover {
+                    border: #086FAB 1px solid;
+                    color: #086FAB;
+
+                    .icon {
+                        color: #086FAB !important;
+                    }
+                }
+            }
+
+            .btn-refresh-service {
+                background: #f4f7fe;
+                border: 1px solid #03989e;
+                border-radius: 8px;
+                color: #03989e;
+                font-weight: 500;
+                cursor: pointer;
+
+                &:hover {
+                    border: #007579 1px solid;
+                    color: #007579;
+
+                    .icon {
+                        color: #007579 !important;
+                    }
                 }
             }
         }
 
-        .btn-refresh-department {
-            background: #f4f7fe;
-            border: 1px solid #03989e;
-            border-radius: 8px;
-            color: #03989e;
-            font-weight: 500;
-            cursor: pointer;
 
-            &:hover {
-                border: #007579 1px solid;
-                color: #007579;
 
-                .icon {
-                    color: #007579 !important;
-                }
-            }
-        }
-
-        .animated-div {
-            opacity: 0;
-            transform: translateY(-20px);
-            /* Đẩy div lên 20px */
-            transition: opacity 0.5s ease, transform 0.5s ease;
-            /* Thêm transition cho opacity và transform */
-            height: 0;
-            /* Đặt chiều cao ban đầu là 0 */
-            overflow: hidden;
-            /* Ẩn nội dung bên trong khi chiều cao là 0 */
-        }
-
-        .animated-div.show {
-            opacity: 1;
-            transform: translateY(0);
-            /* Đưa div về vị trí ban đầu */
-            height: auto;
-            /* Đặt chiều cao là tự động để hiển thị nội dung */
-        }
-
-        .insert-department {
+        .insert-service {
             border-radius: 15px;
             box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
             background: white;
@@ -109,11 +98,9 @@
 
         }
 
-        .table-department {
+        .table-service {
             border-radius: 15px;
             box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
-
-
 
             .head {
                 .search {}
@@ -138,13 +125,27 @@
                     }
                 }
 
-                .dead {
-                    .rounder {
-                        border-radius: 10px;
-                        background-color: #f3cdcd;
-                        color: rgb(232, 114, 114);
-                        padding: 3px 5px;
-                    }
+                .name {
+                    max-width: 10rem;
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                }
+
+                .price {
+                    font-weight: 600;
+                    max-width: 5rem;
+                }
+
+                .description {
+                    max-width: 15rem;
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                }
+
+                .status {
+                    width: fit-content;
                 }
 
                 .row-1 {
@@ -244,6 +245,14 @@
                 font-weight: 600;
             }
 
+        }
+
+        .insert-update {
+            border-radius: 15px;
+            box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+            background: white;
+            padding: 5px;
+            height: fit-content;
         }
     }
 }

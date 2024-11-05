@@ -3,7 +3,7 @@ import { HomeOutlined, UserSwitchOutlined, SettingOutlined } from '@ant-design/i
 import { Menu } from 'antd';
 import { NavLink } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBuilding } from '@fortawesome/free-regular-svg-icons';
+import { faBuilding, faHospital } from '@fortawesome/free-regular-svg-icons';
 const items = [
     {
         key: 'sub1',
@@ -16,22 +16,37 @@ const items = [
         icon: <UserSwitchOutlined />,
         children: [
             {
-                key: '5',
+                key: '1',
                 label: (<NavLink to="/adminStaffManage">Nhân viên</NavLink>),
             },
             {
-                key: '6',
+                key: '2',
                 label: (<NavLink to="/adminPatientManage">Bệnh nhân</NavLink>),
             },
         ],
     },
     {
-        type: 'divider',
-    },
-    {
         key: 'sub3',
         label: (<NavLink to="/adminDepartmentManage">Quản lý khoa</NavLink>),
         icon: <FontAwesomeIcon icon={faBuilding} />,
+    },
+    {
+        key: 'sub4',
+        label: 'Quản lý cơ sở y tế',
+        icon: <FontAwesomeIcon icon={faHospital} />,
+        children: [
+            {
+                key: '3',
+                label: (<NavLink to="/adminRoomManage">Phòng khoa</NavLink>),
+            },
+            {
+                key: '4',
+                label: (<NavLink to="/adminServiceManage">Dịch vụ phòng</NavLink>),
+            },
+        ],
+    },
+    {
+        type: 'divider',
     },
     {
         key: 'grp',
@@ -51,7 +66,7 @@ const items = [
 ];
 const MenuSidebar = () => {
     const onClick = (e) => {
-        console.log('click ', e);
+
     };
     return (
         <div className='menu-item'>
