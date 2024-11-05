@@ -46,58 +46,6 @@
             }
         }
 
-
-
-        .insert-service {
-            border-radius: 15px;
-            box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
-            background: white;
-            padding: 5px;
-            margin-bottom: 1rem;
-
-            .content {
-                .icon {
-                    cursor: pointer;
-                }
-
-                textarea {
-                    z-index: 0;
-
-                    &:focus {
-                        box-shadow: none !important;
-                    }
-
-                    &:hover {
-                        box-shadow: none !important;
-                    }
-                }
-
-                .image-upload {
-                    background: white;
-                    padding: 10px;
-                    border-radius: 10px;
-                    border: 2px dashed #0A8FDC;
-
-                    .container {
-                        background: #f4f7fe;
-                        display: flex;
-                        flex-direction: column;
-                        justify-content: center;
-                        align-items: center;
-                        gap: 10px;
-
-                        span {
-                            font-size: 1rem;
-                            font-weight: 600;
-                            color: #0A8FDC;
-                            cursor: pointer;
-                        }
-                    }
-                }
-            }
-
-        }
-
         .table-service {
             border-radius: 15px;
             box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
@@ -135,6 +83,17 @@
                 .price {
                     font-weight: 600;
                     max-width: 5rem;
+
+                    .free {
+                        color: rgb(82, 201, 49);
+                        border: 1px solid #dcf3dc;
+                        background: #dcf3dc;
+                        padding: 2px 4px;
+                        border-radius: 5px;
+                        font-size: 10px;
+                        text-align: center;
+
+                    }
                 }
 
                 .description {

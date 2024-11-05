@@ -2,5 +2,126 @@
     .container {
         padding: 0 2rem;
         background: #f4f7fe;
+
+        .room-of-room-content-header {
+
+            .text {
+                font-size: 1.5rem;
+            }
+
+            .btn-add-room {
+                background: #f4f7fe;
+                border: 1px solid #0A8FDC;
+                border-radius: 8px;
+                color: #0A8FDC;
+                font-weight: 500;
+                cursor: pointer;
+
+                &:hover {
+                    border: #086FAB 1px solid;
+                    color: #086FAB;
+
+                    .icon {
+                        color: #086FAB !important;
+                    }
+                }
+            }
+
+            .btn-refresh-room {
+                background: #f4f7fe;
+                border: 1px solid #03989e;
+                border-radius: 8px;
+                color: #03989e;
+                font-weight: 500;
+                cursor: pointer;
+
+                &:hover {
+                    border: #007579 1px solid;
+                    color: #007579;
+
+                    .icon {
+                        color: #007579 !important;
+                    }
+                }
+            }
+        }
+
+        .animated-div {
+            opacity: 0;
+            transform: translateY(-20px);
+            /* Đẩy div lên 20px */
+            transition: opacity 0.5s ease, transform 0.5s ease;
+            /* Thêm transition cho opacity và transform */
+            height: 0;
+            /* Đặt chiều cao ban đầu là 0 */
+            overflow: hidden;
+            /* Ẩn nội dung bên trong khi chiều cao là 0 */
+        }
+
+        .animated-div.show {
+            opacity: 1;
+            transform: translateY(0);
+            /* Đưa div về vị trí ban đầu */
+            height: auto;
+            /* Đặt chiều cao là tự động để hiển thị nội dung */
+        }
+
+        .insert-room-content {
+            border-radius: 15px;
+            box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+            background: white;
+            padding: 5px;
+            margin-bottom: 1rem;
+
+            .container {
+                .text {
+                    border-bottom: 1px solid #cfcfcf;
+                }
+
+                .icon {
+                    cursor: pointer;
+                }
+
+                textarea {
+                    z-index: 0;
+
+                    &:focus {
+                        box-shadow: none !important;
+                    }
+
+                    &:hover {
+                        box-shadow: none !important;
+                    }
+                }
+
+                .image-upload {
+                    background: white;
+                    padding: 10px;
+                    border-radius: 10px;
+                    border: 2px dashed #0A8FDC;
+
+                    .container {
+                        background: #f4f7fe;
+                        display: flex;
+                        flex-direction: column;
+                        justify-content: center;
+                        align-items: center;
+                        gap: 10px;
+
+                        span {
+                            font-size: 1rem;
+                            font-weight: 600;
+                            color: #0A8FDC;
+                            cursor: pointer;
+                        }
+                    }
+                }
+
+            }
+
+
+
+
+        }
     }
 }

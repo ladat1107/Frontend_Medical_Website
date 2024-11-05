@@ -112,7 +112,7 @@ const InsertDepartment = (props) => {
         <div className="insert-department">
             <div className="content px-3 py-3">
                 <div className='d-flex justify-content-between align-items-center'>
-                    <div >{departmentUpdate ? "CẬP NHẬT KHOA" : "THÊM KHOA"}</div>
+                    <div >{departmentUpdate.id ? "CẬP NHẬT KHOA" : "THÊM KHOA"}</div>
                     <FontAwesomeIcon className='icon'
                         onClick={() => { handleCloseInsert() }}
                         icon={faXmark} size="xl" />

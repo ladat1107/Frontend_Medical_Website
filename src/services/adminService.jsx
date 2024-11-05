@@ -56,6 +56,9 @@ const blockDepartment = (data) => {
 const getServiceOfRoom = (page, limit, search) => {
     return axios.get(`/api/admin/getAllServiceTypes?page=${+page}&limit=${+limit}&search=${search}`)
 }
+const getServiceSearch = (search) => {
+    return axios.get(`/api/admin/getServiceSearch?search=${search}`)
+}
 const getServiceById = (id) => {
     return axios.get(`/api/getServiceTypeById?id=${id}`)
 }
@@ -93,5 +96,6 @@ export {
     updateServiceOfRoom,
     blockServiceOfRoom,
     getServiceById,
-    createServiceOfRoom
+    createServiceOfRoom,
+    getServiceSearch
 }

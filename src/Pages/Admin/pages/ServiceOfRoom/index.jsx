@@ -107,9 +107,9 @@ const ServiceOfRoom = () => {
         form.validateFields().then(async (values) => {
             let response = null;
             if (obUpdate) {
-                response = await updateServiceOfRoom({ ...values, id: obUpdate.id })
+                response = await updateServiceOfRoom({ ...values, price: values.price + "", id: obUpdate.id })
             } else {
-                response = await createServiceOfRoom(values)
+                response = await createServiceOfRoom({ ...values, price: values.price + "" })
             }
             if (response?.data?.EC === 0) {
                 message.success(response?.data?.EM || "Thành công");
@@ -270,7 +270,11 @@ const ServiceOfRoom = () => {
                                                                     {item?.name || "Khác"}
                                                                 </td>
                                                                 <td className="text-end pe-5 py-3 price">
-                                                                    <div className="">{formatCurrency(item?.price) || "_"}</div>
+                                                                    {item?.price === 0 ?
+                                                                        <div className="free">Miễn phí</div>
+                                                                        :
+                                                                        <div className="">{formatCurrency(item?.price) || "_"}</div>}
+
                                                                 </td>
                                                                 <td title={item.description} className="text-start px-1 py-3 description">
                                                                     <div>
