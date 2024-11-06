@@ -5,8 +5,8 @@ import { faBed, faCircle, faPencil, faPlus, faRotateRight } from "@fortawesome/f
 import InsertRoom from "./InsertRoom";
 import { useEffect, useState } from "react";
 import { useMutation } from "@/hooks/useMutation";
-import { getAllRoom, getNameDepartment } from "@/services/adminService";
-import { Checkbox, Input } from "antd";
+import { getAllRoom, getNameDepartment, getRoomById } from "@/services/adminService";
+import { Checkbox, Input, Popover } from "antd";
 import { faTrashCan } from "@fortawesome/free-regular-svg-icons";
 import DropdownPaginate from "../../components/Dropdown/DropdownPaginate";
 import PaginateCustom from "../../components/Paginate/PaginateCustom";
@@ -27,15 +27,21 @@ const Room = () => {
     let [obUpdate, setObUpdate] = useState({});
     let searchDebounce = "";
     let [obDelete, setObDelete] = useState({});
-    
+    let [departments, setDepartments] = useState([]);
     let { data: departmentData } = useQuery(() => getNameDepartment())
+    let [searchDepartment, setSearchDepartment] = useState(0);
+    useEffect(() => {
+        if (departmentData && departmentData?.DT?.length > 0) {
+            setDepartments(departmentData.DT);
+        }
+    }, [departmentData])
     let {
         data: dataRoom,
         loading: listRoomLoading,
         error: listRoomError,
         execute: fetchRooms,
     } = useMutation((query) =>
-        getAllRoom(currentPage, rowsPerPage.id, searchDebounce)
+        getAllRoom(currentPage, rowsPerPage.id, searchDebounce, searchDepartment)
     )
     useEffect(() => {
         if (dataRoom && dataRoom.DT && dataRoom.DT.rows && dataRoom.DT) {
@@ -59,10 +65,9 @@ const Room = () => {
             setTotalPage(dataRoom.DT.count / rowsPerPage.value);
         }
     }, [dataRoom])
-    console.log(listRoom)
     useEffect(() => {
         fetchRooms();
-    }, [currentPage, useDebounce(search, 500), rowsPerPage]);
+    }, [currentPage, useDebounce(search, 500), rowsPerPage, searchDepartment]);
     let handleChange = (item, index) => {
         let _listRoom = [...listRoom];
         _listRoom = _listRoom.map(obj =>
@@ -88,6 +93,7 @@ const Room = () => {
         setCurrentPage(1)
     }
     let refresh = () => {
+        handleShow(false)
         fetchRooms();
     }
     let handleDelete = (item) => {
@@ -95,6 +101,7 @@ const Room = () => {
         setShowDeleteModal(true)
     }
     let handleShow = (value) => {
+        setObUpdate(null)
         setShowDeleteModal(value)
     }
     let handleUpdate = async (item) => {
@@ -113,6 +120,11 @@ const Room = () => {
         setObUpdate(null)
         setShowInsert(value)
     }
+    let handleChangeDepartment = (value) => {
+        setSearchDepartment(value);
+        setCurrentPage(1);
+        setSearch("");
+    }
     return (
         <div className="room-content">
             <div className="container">
@@ -120,7 +132,7 @@ const Room = () => {
                     <div className="text">QUẢN LÝ PHÒNG</div>
                     <div>
                         {!showInsert &&
-                            <button className=' py-1 px-2 btn-add-room' onClick={() => { setShowInsert(true) }}>
+                            <button className=' py-1 px-2 btn-add-room' onClick={() => { setObUpdate(null), setShowInsert(true) }}>
                                 <FontAwesomeIcon
                                     className='me-1 icon' icon={faPlus} style={{ color: "#0A8FDC", }} /> Thêm mới</button>
                         }
@@ -132,6 +144,8 @@ const Room = () => {
                 </div>
                 <div className={`p-1 animated-div ${showInsert ? 'show' : ''}`}>
                     {showInsert && <InsertRoom
+                        obUpdate={obUpdate}
+                        departments={departments}
                         handleShowInsert={handleShowInsert}
                         refresh={refresh}
                     />}
@@ -156,7 +170,10 @@ const Room = () => {
                                         </div>
                                     </th>
                                     <th scope="col" className="text-secondary px-1">Tên phòng</th>
-                                    <th scope="col" className="text-secondary px-1"><div>Khoa  <DropdownDepartment /></div></th>
+                                    <th scope="col" className="text-secondary px-1"><div>Khoa  <DropdownDepartment
+                                        departments={departments}
+                                        change={handleChangeDepartment} />
+                                    </div></th>
                                     <th scope="col" className="text-secondary px-1 text-center">Giường</th>
                                     <th scope="col" className="text-secondary ps-5">Trạng thái</th>
                                     <th scope="col" className="text-secondary px-1"></th>
@@ -168,46 +185,59 @@ const Room = () => {
                                         {
                                             listRoom.map((item, index) => {
                                                 return (
-                                                    <tr key={index} className="text-start">
-                                                        <td className="p-2 d-flex align-items-center">
-                                                            <div className="">
-                                                                <Checkbox
-                                                                    checked={item.checked}
-                                                                    onChange={() => { handleChange(item, index) }}
-                                                                    size="small"
-                                                                /></div>
-                                                        </td>
-                                                        <td className="text-start px-1 py-2 text-uppercase">
-                                                            <div> {item?.name || "Khác"}</div>
-                                                        </td>
-                                                        <td className="text-start px-1 py-2 d-none d-lg-block">
-                                                            <div className="fw-normal">{item?.roomDepartmentData?.name || "_"}</div>
-                                                        </td>
-                                                        <td className="text-center px-1 py-2">
-                                                            {item.bedQuantity > 0 ?
-                                                                <div className="fw-normal"><FontAwesomeIcon className="me-2" icon={faBed} style={{ color: "#336bad", }} /> <b>{item?.bedBusy || 0}</b> / {item?.bedQuantity || 0}</div>
-                                                                :
-                                                                <div>
-                                                                    -
-                                                                </div>}
-                                                        </td>
-                                                        <td className=" ps-5 py-2">
-                                                            <div className="">
-                                                                {+item?.status === 1 ? <>
-                                                                    <span className="pe-2"><FontAwesomeIcon icon={faCircle} beatFade size="2xs" style={{ color: "#03989e", }} /></span>Hoạt động
-                                                                </> : <>
-                                                                    <span className="pe-2"><FontAwesomeIcon icon={faCircle} size="2xs" style={{ color: "#ec3609", }} /></span>Khóa</>}
-                                                            </div>
-                                                        </td>
-                                                        <td className="px-1 py-2 d-flex justify-content-end">
-                                                            <span className='update me-3' onClick={() => handleUpdate(item)}>
-                                                                <FontAwesomeIcon icon={faPencil} className="icon" size="sm" />
+                                                    <Popover
+                                                        key={index}
+                                                        placement="topLeft"
+                                                        content={item.serviceData.map((service, index) => (
+                                                            <span key={index}>
+                                                                {service.name}
+                                                                <br />
                                                             </span>
-                                                            <span className='delete me-3' onClick={() => { handleDelete(item) }}>
-                                                                <FontAwesomeIcon icon={faTrashCan} className="icon" size="sm" />
-                                                            </span>
-                                                        </td>
-                                                    </tr>
+                                                        ))}
+                                                        title="Danh sách dịch vụ"
+                                                    >
+                                                        <tr className="text-start">
+
+                                                            <td className="p-2 d-flex align-items-center">
+                                                                <div className="">
+                                                                    <Checkbox
+                                                                        checked={item.checked}
+                                                                        onChange={() => { handleChange(item, index) }}
+                                                                        size="small"
+                                                                    /></div>
+                                                            </td>
+                                                            <td className="text-start px-1 py-2 text-uppercase">
+                                                                <div> {item?.name || "Khác"}</div>
+                                                            </td>
+                                                            <td className="text-start px-1 py-2">
+                                                                <div className="fw-normal">{item?.roomDepartmentData?.name || "_"}</div>
+                                                            </td>
+                                                            <td className="text-center px-1 py-2">
+                                                                {item.bedQuantity > 0 ?
+                                                                    <div className="fw-normal"><FontAwesomeIcon className="me-2" icon={faBed} style={{ color: "#336bad", }} /> <b>{item?.bedBusy || 0}</b> / {item?.bedQuantity || 0}</div>
+                                                                    :
+                                                                    <div>
+                                                                        -
+                                                                    </div>}
+                                                            </td>
+                                                            <td className=" ps-5 py-2">
+                                                                <div className="">
+                                                                    {+item?.status === 1 ? <>
+                                                                        <span className="pe-2"><FontAwesomeIcon icon={faCircle} beatFade size="2xs" style={{ color: "#03989e", }} /></span>Hoạt động
+                                                                    </> : <>
+                                                                        <span className="pe-2"><FontAwesomeIcon icon={faCircle} size="2xs" style={{ color: "#ec3609", }} /></span>Khóa</>}
+                                                                </div>
+                                                            </td>
+                                                            <td className="px-1 py-2 d-flex justify-content-end">
+                                                                <span className='update me-3' onClick={() => handleUpdate(item)}>
+                                                                    <FontAwesomeIcon icon={faPencil} className="icon" size="sm" />
+                                                                </span>
+                                                                <span className='delete me-3' onClick={() => { handleDelete(item) }}>
+                                                                    <FontAwesomeIcon icon={faTrashCan} className="icon" size="sm" />
+                                                                </span>
+                                                            </td>
+                                                        </tr>
+                                                    </Popover>
                                                 )
 
                                             })

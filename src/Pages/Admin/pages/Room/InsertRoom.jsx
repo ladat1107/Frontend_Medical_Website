@@ -1,37 +1,57 @@
+import { STATUS } from "@/constant/value";
 import useQuery from "@/hooks/useQuery";
-import { createRoom, getNameDepartment, getServiceSearch } from "@/services/adminService";
+import { createRoom, getNameDepartment, getServiceSearch, updateRoom } from "@/services/adminService";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Button, Col, Form, Input, message, Row, Select } from "antd";
+import { Button, Col, Form, Input, InputNumber, message, Row, Select } from "antd";
 import { useEffect, useState } from "react";
 
 const InsertRoom = (props) => {
     let [form] = Form.useForm();
     let [departmentChoose, setDepartmentChoose] = useState(null);
+    let [minBed, setMinBed] = useState(0);
     let col = 8;
-    let [departments, setDepartments] = useState([]);
+    let departments = props.departments;
     let [services, setServices] = useState([]);
-    let { data: departmentData } = useQuery(() => getNameDepartment())
     let { data: serviceData } = useQuery(() => getServiceSearch())
-    useEffect(() => {
-        if (departmentData && departmentData?.DT?.length > 0) {
-            setDepartments(departmentData.DT);
-        }
-    }, [departmentData])
+    let [roomUpdate, setRoomUpdate] = useState(props.obUpdate);
     useEffect(() => {
         if (serviceData && serviceData?.DT?.length > 0) {
             setServices(serviceData.DT);
         }
     }, [serviceData])
+    useEffect(() => {
+        if (roomUpdate?.id) {
+            setMinBed(roomUpdate?.bedRoomData.length);
+            let serviceIds = [];
+            for (let i = 0; i < roomUpdate.serviceData.length; i++) {
+                serviceIds.push(roomUpdate.serviceData[i].id)
+            }
+            form.setFieldsValue({
+                name: roomUpdate.name,
+                bedQuantity: roomUpdate?.bedRoomData.length || 0,
+                status: roomUpdate.status,
+                medicalExamination: roomUpdate?.medicalExamination || null,
+                departmentId: roomUpdate.departmentId,
+                serviceIds: serviceIds,
+            })
+            setDepartmentChoose(roomUpdate.departmentId)
+        }
+    }, [props.obUpdate])
     let handleInsert = () => {
         form.validateFields().then(async (values) => {
-            let reponse = await createRoom({ ...values, bedQuantity: values.bedQuantity + "" });
+            let reponse = null;
+            if (roomUpdate?.id) {
+                reponse = await updateRoom({ ...values, oldBed: minBed, newBed: values.bedQuantity, id: roomUpdate.id });
+            } else {
+                reponse = await createRoom({ ...values, bedQuantity: values.bedQuantity + "" });
+            }
             if (reponse?.data?.EC === 0) {
-                message.success(reponse.data.EM || "Thêm phòng thành công");
-                form.resetFields();
+                message.success(reponse.data.EM || "Thành công");
+                handleCloseInsert();
             }
             else {
-                message.error(reponse.data.EM || "Thêm phòng thất bại");
+                message.error(reponse.data.EM || "Thất bại");
             }
         }).catch((error) => {
             console.log("error,", error)
@@ -40,12 +60,13 @@ const InsertRoom = (props) => {
     let handleCloseInsert = () => {
         form.resetFields()
         props.handleShowInsert(false)
+        props.refresh();
     }
     return (
-        <div className="insert-room-content">
-            <div className="container">
-                <div className="first d-flex justify-content-between align-items-center py-3">
-                    <div className="text mt-3">THÊM PHÒNG</div>
+        <div className="insert-room-content px-3">
+            <div className="content ">
+                <div className="first d-flex justify-content-between align-items-center py-1">
+                    <div className="text mt-3">{roomUpdate?.id ? "CẬP NHẬT PHÒNG" : "THÊM PHÒNG"}</div>
                     <FontAwesomeIcon className='icon'
                         onClick={() => { handleCloseInsert() }}
                         icon={faXmark} size="xl" />
@@ -85,6 +106,7 @@ const InsertRoom = (props) => {
                                 <Form.Item
                                     name={"bedQuantity"}
                                     label="Số lượng giường"
+
                                     rules={[{
                                         required: true,
                                         message: 'Vui lòng nhập số lượng giường!',
@@ -92,9 +114,13 @@ const InsertRoom = (props) => {
                                     {
                                         pattern: /^[0-9]*$/g,
                                         message: 'Vui lòng nhập số!',
-                                    }]}>
+                                    },
+                                    ]}>
 
-                                    <Input placeholder="Nhập số lượng giường" />
+                                    <InputNumber
+                                        style={{ width: "100%" }}
+                                        min={minBed}
+                                        placeholder="Nhập số lượng giường" />
                                 </Form.Item>
                             </Col>
                             <Col sm={24} lg={col}>
@@ -171,7 +197,7 @@ const InsertRoom = (props) => {
                                     </Form.Item>
                                 </Col>
                             }
-                            {/* {departmentUpdate.id &&
+                            {roomUpdate?.id &&
                                 <Col sm={24} lg={col}>
                                     <Form.Item
                                         name={"status"}
@@ -188,13 +214,14 @@ const InsertRoom = (props) => {
                                             options={STATUS}
                                         >
                                         </Select>
-                                    </Form.Item></Col>
-                            } */}
+                                    </Form.Item>
+                                </Col>
+                            }
                             <Col xs={24} style={{ display: 'flex', justifyContent: 'flex-end' }} >
                                 <Form.Item>
                                     <Button type="primary" htmlType="submit"
                                         style={{ background: "#03989e" }}
-                                        onClick={() => { handleInsert() }}>Thêm</Button>
+                                        onClick={() => { handleInsert() }}>{roomUpdate?.id ? "Cập nhật" : "Thêm"}</Button>
                                 </Form.Item>
                             </Col>
                         </Row>

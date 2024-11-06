@@ -79,8 +79,14 @@ const createServiceOfRoom = (data) => {
 const createRoom = (data) => {
     return axios.post(`/api/admin/createRoom`, data)
 }
-const getAllRoom = (page, limit, search) => {
-    return axios.get(`/api/admin/getAllRoomAdmin?page=${+page}&limit=${+limit}&search=${search}`)
+const getAllRoom = (page, limit, search, searchDepartment) => {
+    return axios.get(`/api/admin/getAllRoomAdmin?page=${+page}&limit=${+limit}&search=${search}&searchDepartment=${searchDepartment}`)
+}
+const getRoomById = (id) => {
+    return axios.get(`/api/getRoomById?id=${id}`)
+}
+const updateRoom = (data) => {
+    return axios.put(`/api/admin/updateRoom`, data)
 }
 const deleteRoom = (data) => {
     return axios.delete(`/api/admin/deleteRoom`, { data: { id: data.id } })
@@ -114,6 +120,8 @@ export {
     getServiceSearch,
     createRoom,
     getAllRoom,
+    getRoomById,
+    updateRoom,
     deleteRoom,
     blockRoom,
 }

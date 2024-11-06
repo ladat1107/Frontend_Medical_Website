@@ -70,11 +70,11 @@
             border-radius: 10px;
             box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
             background: white;
-            padding: 1px;
             margin-bottom: 1rem;
 
-            .container {
-                .text {
+            .content {
+
+                .first {
                     border-bottom: 1px solid #cfcfcf;
                 }
 
@@ -123,6 +123,7 @@
 
 
         }
+
         .table-room {
             border-radius: 10px;
             box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
