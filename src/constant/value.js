@@ -28,6 +28,7 @@ export const TABLE = {
     USER: "USER",
     DEPARTMENT: "DEPARTMENT",
     SERVICE: "SERVICE",
+    ROOM: "ROOM",
 }
 
 export const TIMESLOTS = [

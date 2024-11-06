@@ -94,12 +94,12 @@ const StaffManage = () => {
         <>
             <div className='staff-manage'>
                 <div className='container'>
-                    <div className='d-flex align-items-center justify-content-between mb-3'>
-                        <h3>NHÂN VIÊN</h3>
+                    <div className='first d-flex align-items-center justify-content-between py-3'>
+                        <div className='text'>NHÂN VIÊN</div>
                         <button className=' py-1 px-2 btn-add-user' onClick={() => { hanldeCreateUser() }}>
                             <FontAwesomeIcon className='me-1 icon' icon={faPlus} style={{ color: "#0A8FDC", }} /> Thêm mới</button>
                     </div>
- 
+
                     <div className='table-responsive bg-white'>
                         <div className='table-head d-flex align-items-center'>
                             <Input className='w-25 my-3 ms-3' size="large" placeholder="Tìm nhân viên" prefix={<SearchOutlined />}
@@ -145,6 +145,7 @@ const StaffManage = () => {
                                     </th>
                                 </tr>
                             </thead>
+
                             <tbody className='table-body text-secondary'>
                                 {+listUser.length > 0 && +totalPages != 0 ?
                                     <>
@@ -189,7 +190,7 @@ const StaffManage = () => {
                                                                     {+item?.status === 1 ? <>
                                                                         <span className="pe-2"><FontAwesomeIcon icon={faCircle} beatFade size="2xs" style={{ color: "#63E6BE", }} /></span>Hoạt động
                                                                     </> : <>
-                                                                        <span className="pe-2"><FontAwesomeIcon icon={faCircle} flip size="2xs" style={{ color: "#ec3609", }} /></span>Khóa</>}
+                                                                        <span className="pe-2"><FontAwesomeIcon icon={faCircle} size="2xs" style={{ color: "#ec3609", }} /></span>Khóa</>}
                                                                 </div>
                                                             </td>
                                                             <td className="px-1 py-3">
@@ -218,7 +219,6 @@ const StaffManage = () => {
                         </table>
                         <div className='footer-table d-flex justify-content-end mx-2'>
                             <div className='select-page'>
-                                <div className='me-2 text'>Hiển thị: </div>
                                 <DropdownPaginate page={rowsPerPage}
                                     setPage={handleChangePaginate} />
                             </div>

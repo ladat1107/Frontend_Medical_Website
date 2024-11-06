@@ -7,8 +7,9 @@ const DropdownPaginate = (props) => {
     }
     return (
         <div>
-            <DropdownMenu trigger={props.page.value} shouldRenderToParent>
-                <DropdownItemGroup>
+            <span style={{ color: "#03979d" }}><b>Hiển thị</b></span>
+            <DropdownMenu trigger={props.page.value} shouldRenderToParent style={{ color: "#03979d" }} >
+                <DropdownItemGroup >
                     {PAGINATE.length > 0 && PAGINATE.map((item, index) => {
                         return (<DropdownItem key={index}
                             onClick={() => { handleChange(item) }}>{

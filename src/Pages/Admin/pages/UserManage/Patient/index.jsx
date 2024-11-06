@@ -87,8 +87,8 @@ const PatientManage = () => {
         listUserLoading ? <Loading /> :
             <div className='patient-manage'>
                 <div className='container'>
-                    <div className='d-flex align-items-center justify-content-between mb-3'>
-                        <h3>BỆNH NHÂN</h3>
+                    <div className='first d-flex align-items-center justify-content-between py-3'>
+                        <div className="text">BỆNH NHÂN</div>
                         <button className=' py-1 px-2 btn-add-user' onClick={() => { hanldeCreateUser() }}>
                             <FontAwesomeIcon className='me-1 icon' icon={faPlus} style={{ color: "#0A8FDC", }} />
                             Thêm mới
@@ -169,7 +169,7 @@ const PatientManage = () => {
                                                                 {+item?.status === 1 ? <>
                                                                     <span className="pe-2"><FontAwesomeIcon icon={faCircle} beatFade size="2xs" style={{ color: "#63E6BE", }} /></span>Hoạt động
                                                                 </> : <>
-                                                                    <span className="pe-2"><FontAwesomeIcon icon={faCircle} flip size="2xs" style={{ color: "#ec3609", }} /></span>Khóa</>}
+                                                                    <span className="pe-2"><FontAwesomeIcon icon={faCircle} size="2xs" style={{ color: "#ec3609", }} /></span>Khóa</>}
                                                             </div>
                                                         </td>
                                                         <td className="px-6 py-4">
@@ -198,7 +198,6 @@ const PatientManage = () => {
                         </table>
                         <div className='footer-table d-flex justify-content-end mx-2'>
                             <div className='select-page'>
-                                <div className='me-2 text'>Hiển thị: </div>
                                 <DropdownPaginate page={rowsPerPage}
                                     setPage={handleChangePaginate} />
                             </div>

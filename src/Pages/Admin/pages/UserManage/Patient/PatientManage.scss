@@ -1,29 +1,35 @@
 .patient-manage {
     .container {
-        padding: 0 2rem;
+        padding: 0 3%;
         background: #f4f7fe;
 
-        .btn-add-user {
-            background: #f4f7fe;
-            border: 1px solid #0A8FDC;
-            border-radius: 8px;
-            color: #0A8FDC;
-            font-weight: 500;
-            cursor: pointer;
+        .first {
+            .text {
+                font-size: 1.2rem;
+                color: #003a8c;
+            }
 
-            &:hover {
-                border: #086FAB 1px solid;
-                color: #086FAB;
+            .btn-add-user {
+                background: #f4f7fe;
+                border: 1px solid #0A8FDC;
+                border-radius: 8px;
+                color: #0A8FDC;
+                font-weight: 500;
+                cursor: pointer;
 
-                .icon {
-                    color: #086FAB !important;
+                &:hover {
+                    border: #086FAB 1px solid;
+                    color: #086FAB;
+
+                    .icon {
+                        color: #086FAB !important;
+                    }
                 }
             }
         }
 
-
         .table-responsive {
-            border-radius: 15px;
+            border-radius: 10px;
             box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
 
             .pageNoInactive {
@@ -206,4 +212,3 @@
         }
     }
 }
-

@@ -1,15 +1,18 @@
 import useQuery from "@/hooks/useQuery";
-import { getNameDepartment, getServiceSearch } from "@/services/adminService";
-import { Button, Col, Form, Input, Row, Select } from "antd";
+import { createRoom, getNameDepartment, getServiceSearch } from "@/services/adminService";
+import { faXmark } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Button, Col, Form, Input, message, Row, Select } from "antd";
 import { useEffect, useState } from "react";
 
-const InsertRoom = () => {
+const InsertRoom = (props) => {
     let [form] = Form.useForm();
+    let [departmentChoose, setDepartmentChoose] = useState(null);
     let col = 8;
     let [departments, setDepartments] = useState([]);
     let [services, setServices] = useState([]);
     let { data: departmentData } = useQuery(() => getNameDepartment())
-    let { data: serviceData } = useQuery(() => getServiceSearch(""))
+    let { data: serviceData } = useQuery(() => getServiceSearch())
     useEffect(() => {
         if (departmentData && departmentData?.DT?.length > 0) {
             setDepartments(departmentData.DT);
@@ -20,23 +23,36 @@ const InsertRoom = () => {
             setServices(serviceData.DT);
         }
     }, [serviceData])
-
-    const handleServiceSearch = async (value) => {
-        const response = await getServiceSearch(value);
-        if (response?.data.EC === 0) {
-            setServices(response.data.DT);
-        }
-    };
     let handleInsert = () => {
-
+        form.validateFields().then(async (values) => {
+            let reponse = await createRoom({ ...values, bedQuantity: values.bedQuantity + "" });
+            if (reponse?.data?.EC === 0) {
+                message.success(reponse.data.EM || "Thêm phòng thành công");
+                form.resetFields();
+            }
+            else {
+                message.error(reponse.data.EM || "Thêm phòng thất bại");
+            }
+        }).catch((error) => {
+            console.log("error,", error)
+        })
     }
-    console.log(services)
+    let handleCloseInsert = () => {
+        form.resetFields()
+        props.handleShowInsert(false)
+    }
     return (
         <div className="insert-room-content">
             <div className="container">
-                <div className="text mt-3">THÊM PHÒNG</div>
+                <div className="first d-flex justify-content-between align-items-center py-3">
+                    <div className="text mt-3">THÊM PHÒNG</div>
+                    <FontAwesomeIcon className='icon'
+                        onClick={() => { handleCloseInsert() }}
+                        icon={faXmark} size="xl" />
+                </div>
 
-                <div>
+
+                <div className="mt-3">
                     <Form
                         layout={'horizontal'}
                         form={form}
@@ -99,6 +115,7 @@ const InsertRoom = () => {
                                         filterSort={(optionA, optionB) =>
                                             (optionA?.label ?? '').toLowerCase().localeCompare((optionB?.label ?? '').toLowerCase())
                                         }
+                                        onChange={(value) => { setDepartmentChoose(value) }}
                                         options={departments}
                                     >
                                     </Select>
@@ -119,7 +136,6 @@ const InsertRoom = () => {
                                         placeholder="Chọn dịch vụ"
                                         showSearch
                                         mode="multiple"
-                                        onSearch={handleServiceSearch}
                                         optionFilterProp="label"
                                         filterSort={(optionA, optionB) =>
                                             (optionA?.label ?? '').toLowerCase().localeCompare((optionB?.label ?? '').toLowerCase())
@@ -129,6 +145,32 @@ const InsertRoom = () => {
                                     </Select>
                                 </Form.Item>
                             </Col>
+                            {
+                                departmentChoose === 2 &&
+                                <Col xs={24} lg={col}>
+                                    <Form.Item
+                                        name="medicalExamination"
+                                        label="Chọn chuyên khoa"
+                                        rules={[
+                                            {
+                                                required: true,
+                                                message: 'Vui lòng chọn chuyên khoa!',
+                                            },
+                                        ]}
+                                    >
+                                        <Select
+                                            placeholder="Chọn chuyên khoa"
+                                            showSearch
+                                            optionFilterProp="label"
+                                            filterSort={(optionA, optionB) =>
+                                                (optionA?.label ?? '').toLowerCase().localeCompare((optionB?.label ?? '').toLowerCase())
+                                            }
+                                            options={departments}
+                                        >
+                                        </Select>
+                                    </Form.Item>
+                                </Col>
+                            }
                             {/* {departmentUpdate.id &&
                                 <Col sm={24} lg={col}>
                                     <Form.Item
@@ -151,6 +193,7 @@ const InsertRoom = () => {
                             <Col xs={24} style={{ display: 'flex', justifyContent: 'flex-end' }} >
                                 <Form.Item>
                                     <Button type="primary" htmlType="submit"
+                                        style={{ background: "#03989e" }}
                                         onClick={() => { handleInsert() }}>Thêm</Button>
                                 </Form.Item>
                             </Col>

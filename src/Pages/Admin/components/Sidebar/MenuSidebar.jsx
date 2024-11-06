@@ -6,6 +6,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBuilding, faHospital } from '@fortawesome/free-regular-svg-icons';
 const items = [
     {
+        type: 'divider',
+    },
+    {
         key: 'sub1',
         label: (<NavLink to="/admin">Trang chủ</NavLink>),
         icon: <HomeOutlined />,

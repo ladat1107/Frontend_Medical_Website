@@ -1,10 +1,8 @@
 import { TABLE } from '@/constant/value';
 import React, { useEffect } from 'react';
 import { useState } from 'react';
-import Button from 'react-bootstrap/Button';
-import Modal from 'react-bootstrap/Modal';
-import { deleteUser, blockUser, deleteDepartment, blockDepartment, deleteServiceOfRoom, blockServiceOfRoom } from "@/services/adminService";
-import { message } from "antd";
+import { deleteUser, blockUser, deleteDepartment, blockDepartment, deleteServiceOfRoom, blockServiceOfRoom, deleteRoom, blockRoom } from "@/services/adminService";
+import { Button, message, Modal } from "antd";
 const DeleteModal = (props) => {
     let [messageContent, setMessageContent] = useState("")
     let data = props.data;
@@ -15,9 +13,11 @@ const DeleteModal = (props) => {
         if (props.table === TABLE.USER) {
             setMessageContent("Xác nhận xóa người dùng " + data.lastName + " " + data.firstName + "?")
         } else if (props.table === TABLE.DEPARTMENT) {
-            setMessageContent("Xác nhận xóa phòng ban " + data.name + "?")
+            setMessageContent("Xác nhận xóa khoa " + data.name + "?")
         } else if (props.table === TABLE.SERVICE) {
-            setMessageContent("Xác nhận xóa dịch vụ " + data.name + "?")
+            setMessageContent("Xác nhận xóa " + data.name + "?")
+        } else if (props.table === TABLE.ROOM) {
+            setMessageContent("Xác nhận xóa phòng " + data.name + "?")
         }
     }, [props.data])
     let handleDelete = async () => {
@@ -39,6 +39,13 @@ const DeleteModal = (props) => {
         }
         else if (props.table === TABLE.SERVICE) {
             let response = await deleteServiceOfRoom(data);
+            if (response && response.data && response.data.EC === 0) {
+                susscess(response?.data?.EM || "Thành công")
+            } else {
+                message.error(response.data.EM);
+            }
+        } else if (props.table === TABLE.ROOM) {
+            let response = await deleteRoom(data);
             if (response && response.data && response.data.EC === 0) {
                 susscess(response?.data?.EM || "Thành công")
             } else {
@@ -70,7 +77,13 @@ const DeleteModal = (props) => {
             } else {
                 message.error(response.data.EM);
             }
-
+        } else if (props.table === TABLE.ROOM) {
+            let response = await blockRoom(data);
+            if (response && response.data && response.data.EC === 0) {
+                susscess(response?.data?.EM || "Thành công")
+            } else {
+                message.error(response.data.EM);
+            }
         }
     }
     let susscess = (text) => {
@@ -81,6 +94,26 @@ const DeleteModal = (props) => {
     return (
         <>
             <Modal
+                title={"Xác nhận"}
+                open={props.show}
+                onCancel={handleClose}
+                maskClosable={false} // Ngăn đóng modal khi bấm bên ngoài
+                footer={[
+                    <Button key="cancel" onClick={() => handleClose()}>
+                        Hủy
+                    </Button>,
+                    <Button key="submit" style={{ background: "#003a8c", color: "#ffffff", border: "none" }} onClick={() => handleLock()}>
+                        Khóa
+                    </Button>,
+                    <Button key="submit" style={{ background: "#f5222d", color: "#ffffff", border: "none" }} onClick={() => handleDelete()}>
+                        Xóa
+                    </Button>,
+                ]}
+            >
+                <p> {messageContent}</p>
+
+            </Modal>
+            {/* <Modal
                 show={props.show}
                 onHide={handleClose}
                 backdrop="static"
@@ -101,7 +134,7 @@ const DeleteModal = (props) => {
                     </Button>
                     <Button variant="danger" onClick={() => { handleDelete() }}>Xóa</Button>
                 </Modal.Footer>
-            </Modal>
+            </Modal> */}
         </>
     );
 };

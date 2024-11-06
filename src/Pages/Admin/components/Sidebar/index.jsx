@@ -25,8 +25,8 @@ const Sidebar = (props) => {
                 }}
             >
                 <div className="demo-logo-vertical" />
-                <div className='header-sideBar row'>
-                    <div className='col-3 p-3'>
+                <div className='header-sideBar row ms-1'>
+                    <div className='col-3 p-2'>
                         <div className='logo' style={{ backgroundImage: 'url(https://ant-cra.cremawork.com/assets/images/avatar/A11.jpg)', }}></div>
                     </div>
                     <div className='col-8 py-2 ms-3'>
@@ -39,7 +39,6 @@ const Sidebar = (props) => {
                         </div>
                     </div>
                 </div>
-                <hr />
                 <MenuSidebar />
                 {/* <Menu theme="light" mode="inline" defaultSelectedKeys={['4']} items={items} /> */}
             </Sider >

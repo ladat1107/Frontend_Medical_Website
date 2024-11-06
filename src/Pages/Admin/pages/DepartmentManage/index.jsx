@@ -101,8 +101,8 @@ const DepartmentManage = () => {
     return (
         <div className="department-content">
             <div className="container">
-                <div className='d-flex align-items-center justify-content-between mb-3'>
-                    <h4>QUẢN LÝ KHOA</h4>
+                <div className='first d-flex align-items-center justify-content-between py-3'>
+                    <div className="text">QUẢN LÝ KHOA</div>
                     <div className="d-flex justify-content-end">
                         {!showInsert &&
                             <button className=' py-1 px-2 btn-add-department' onClick={() => { setShowInsert(true) }}>
@@ -113,9 +113,8 @@ const DepartmentManage = () => {
                             <FontAwesomeIcon
                                 className='me-1 icon' icon={faRotateRight} style={{ color: "#03989e", }} /> Tải lại</button>
                     </div>
-
                 </div>
-                <div className={`p-2 animated-div ${showInsert ? 'show' : ''}`}>
+                <div className={`p-1 animated-div ${showInsert ? 'show' : ''}`}>
                     {showInsert && <InsertDepartment
                         obUpdate={obUpdate || {}}
                         handleShowInsert={handleShowInsert}
@@ -188,9 +187,9 @@ const DepartmentManage = () => {
                                                             <td className="text-start px-1 py-2">
                                                                 <div className="">
                                                                     {+item?.status === 1 ? <>
-                                                                        <span className="pe-2"><FontAwesomeIcon icon={faCircle} beatFade size="2xs" style={{ color: "#63E6BE", }} /></span>Hoạt động
+                                                                        <span className="pe-2"><FontAwesomeIcon icon={faCircle} beatFade size="2xs" style={{ color: "#03989e", }} /></span>Hoạt động
                                                                     </> : <>
-                                                                        <span className="pe-2"><FontAwesomeIcon icon={faCircle} flip size="2xs" style={{ color: "#ec3609", }} /></span>Khóa</>}
+                                                                        <span className="pe-2"><FontAwesomeIcon icon={faCircle} size="2xs" style={{ color: "#ec3609", }} /></span>Khóa</>}
                                                                 </div>
                                                             </td>
                                                             <td className="px-1 py-2 d-flex justify-content-end">
@@ -219,7 +218,6 @@ const DepartmentManage = () => {
                         </table>
                         <div className='footer-table d-flex justify-content-end mx-2'>
                             <div className='select-page'>
-                                <div className='me-2 text'>Hiển thị: </div>
                                 <DropdownPaginate page={rowsPerPage}
                                     setPage={handleChangePaginate} />
                             </div>

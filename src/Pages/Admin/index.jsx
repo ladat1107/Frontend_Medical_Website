@@ -30,7 +30,7 @@ const AdminLayoutTest = () => {
                     <div className='content-data'>
                         <Content
                             style={{
-                                margin: '16px 10px',
+                                margin: '0px',
                                 minHeight: "80vh",
                                 borderRadius: borderRadiusLG,
                                 backgroundColor: colorBgContainer,

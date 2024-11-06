@@ -127,7 +127,7 @@ const ServiceOfRoom = () => {
     return (
         < div className="service-of-room-content" >
             <div className="container">
-                <div className="service-of-room-content-header d-flex align-items-center justify-content-between mb-3">
+                <div className="service-of-room-content-header d-flex align-items-center justify-content-between py-3">
                     <div className="text">DỊCH VỤ</div>
                     <button className='py-1 px-2 btn-refresh-service ms-3' onClick={() => refresh()}>
                         <FontAwesomeIcon
@@ -138,7 +138,7 @@ const ServiceOfRoom = () => {
                         <div className="insert-update p-3">
                             <div className=""><span className="me-2">{obUpdate ? "CẬP NHẬT" : "THÊM DỊCH VỤ "}</span>
                                 <FontAwesomeIcon onClick={() => { form.resetFields(); setObUpdate(null) }}
-                                    icon={faArrowsRotate} spinPulse style={{ color: "#63E6BE", cursor: "pointer" }} /></div>
+                                    icon={faArrowsRotate} spinPulse style={{ color: "#03989e", cursor: "pointer" }} /></div>
                             <hr />
                             <Form
                                 layout={'horizontal'}
@@ -216,6 +216,7 @@ const ServiceOfRoom = () => {
                                     <Col xs={24} style={{ display: 'flex', justifyContent: 'flex-end' }} >
                                         <Form.Item>
                                             <Button type="primary" htmlType="submit"
+                                                style={{ background: "#03989e" }}
                                                 onClick={() => { handleInsertUpdate() }}>{obUpdate ? "Cập nhật" : "Thêm"}</Button>
                                         </Form.Item>
                                     </Col>
@@ -284,9 +285,9 @@ const ServiceOfRoom = () => {
                                                                 <td className="text-start px-1 py-3 status">
                                                                     <div className="">
                                                                         {+item?.status === 1 ? <>
-                                                                            <span className="pe-2"><FontAwesomeIcon icon={faCircle} beatFade size="2xs" style={{ color: "#63E6BE", }} /></span>Hoạt động
+                                                                            <span className="pe-2"><FontAwesomeIcon icon={faCircle} beatFade size="2xs" style={{ color: "#03989e", }} /></span>Hoạt động
                                                                         </> : <>
-                                                                            <span className="pe-2"><FontAwesomeIcon icon={faCircle} flip size="2xs" style={{ color: "#ec3609", }} /></span>Khóa</>}
+                                                                            <span className="pe-2"><FontAwesomeIcon icon={faCircle} size="2xs" style={{ color: "#ec3609", }} /></span>Khóa</>}
                                                                     </div>
                                                                 </td>
                                                                 <td className="px-1 py-3 d-flex justify-content-end">
@@ -314,7 +315,6 @@ const ServiceOfRoom = () => {
                                 </table>
                                 <div className='footer-table d-flex justify-content-end mx-2'>
                                     <div className='select-page'>
-                                        <div className='me-2 text'>Hiển thị: </div>
                                         <DropdownPaginate page={rowsPerPage}
                                             setPage={handleChangePaginate} />
                                     </div>

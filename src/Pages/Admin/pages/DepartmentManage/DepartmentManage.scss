@@ -3,38 +3,45 @@
         padding: 0 3%;
         background: #f4f7fe;
 
-        .btn-add-department {
-            background: #f4f7fe;
-            border: 1px solid #0A8FDC;
-            border-radius: 8px;
-            color: #0A8FDC;
-            font-weight: 500;
-            cursor: pointer;
+        .first {
+            .text {
+                font-size: 1.2rem;
+                color: #003a8c;
+            }
 
-            &:hover {
-                border: #086FAB 1px solid;
-                color: #086FAB;
+            .btn-add-department {
+                background: #f4f7fe;
+                border: 1px solid #0A8FDC;
+                border-radius: 8px;
+                color: #0A8FDC;
+                font-weight: 500;
+                cursor: pointer;
 
-                .icon {
-                    color: #086FAB !important;
+                &:hover {
+                    border: #086FAB 1px solid;
+                    color: #086FAB;
+
+                    .icon {
+                        color: #086FAB !important;
+                    }
                 }
             }
-        }
 
-        .btn-refresh-department {
-            background: #f4f7fe;
-            border: 1px solid #03989e;
-            border-radius: 8px;
-            color: #03989e;
-            font-weight: 500;
-            cursor: pointer;
+            .btn-refresh-department {
+                background: #f4f7fe;
+                border: 1px solid #03989e;
+                border-radius: 8px;
+                color: #03989e;
+                font-weight: 500;
+                cursor: pointer;
 
-            &:hover {
-                border: #007579 1px solid;
-                color: #007579;
+                &:hover {
+                    border: #007579 1px solid;
+                    color: #007579;
 
-                .icon {
-                    color: #007579 !important;
+                    .icon {
+                        color: #007579 !important;
+                    }
                 }
             }
         }
@@ -60,10 +67,9 @@
         }
 
         .insert-department {
-            border-radius: 15px;
+            border-radius: 10px;
             box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
             background: white;
-            padding: 5px;
             margin-bottom: 1rem;
 
             .content {
@@ -110,10 +116,8 @@
         }
 
         .table-department {
-            border-radius: 15px;
+            border-radius: 10px;
             box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
-
-
 
             .head {
                 .search {}
@@ -141,9 +145,9 @@
                 .dead {
                     .rounder {
                         border-radius: 5px;
-                        background-color: #f3cdcd;
-                        border: 1px solid #f3cdcd;
-                        color: rgb(227, 45, 45);
+                        background-color: white;
+                        border: 1px solid #03989e;
+                        color: #03989e;
                         padding: 2px 4px;
                         font-size: 10px;
                     }
@@ -156,22 +160,22 @@
                 }
 
                 .update {
-                    padding: 2px 5px;
+                    padding: 2px 6px;
                     border-radius: 5px;
                     background-color: #ffffff;
-                    border: 1px solid #000000;
+                    border: 1px solid #03989e;
                     cursor: pointer;
 
                     .icon {
-                        color: #000000;
+                        color: #03989e;
                     }
                 }
 
                 .delete {
                     padding: 2px 7px;
                     border-radius: 5px;
-                    background-color: #e37600;
-                    border: 1px solid #e37600;
+                    background-color: #ff0000;
+                    border: 1px solid #ff0000;
                     cursor: pointer;
 
                     .icon {
