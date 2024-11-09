@@ -10,7 +10,7 @@
             padding: 6px 16px;
             border-radius: 5px;
             border: none;
-            background-color: #09B181;
+            background-color: #007BFF;
             color: white;
             cursor: pointer;
             font-weight: bold;
@@ -53,5 +53,23 @@
     .text-bold{
         margin: 0px;
         font-weight: bold;
+    }
+
+    .text-start{
+        align-self: flex-start;
+    }
+
+    .align-items-start{
+        align-self: flex-start;
+    }
+
+    .input-upload{
+        color: #519BE2;
+        font-weight: bold;
+        cursor: pointer;
+    }
+
+    .progress{
+        color: black;
     }
 }

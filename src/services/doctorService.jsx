@@ -169,6 +169,37 @@ const getAllHandbooks = async (page, limit, search) => {
     }
 }
 
+const getHandbookById = async (id) => {
+    try {
+        const response = await axios.get(`/api/getHandBookById?id=${id}`);
+        //console.log("Response:", response.data); 
+        return response;
+    } catch (error) {
+        console.error("Error:", error);
+        throw error;
+    }
+}
+
+const createHandbook = async (data) => {
+    try {
+        const response = await axios.post(`/api/createHandBook`, data);
+        return response.data;
+    } catch (error) {
+        console.error("Error creating handbook:", error.response?.data || error.message);
+        throw error; 
+    }
+}
+
+const updateHandbook = async (data) => {
+    try {
+        const response = await axios.put(`/api/updateHandBook`, data);
+        return response.data;
+    } catch (error) {
+        console.error("Error updating handbook:", error.response?.data || error.message);
+        throw error; 
+    }
+}
+
 export {
     getUserByCid,
     getUserById,
@@ -194,5 +225,8 @@ export {
     getAllMedicinesForExam,
     createOrUpdateVitalSign,
 
-    getAllHandbooks
+    getAllHandbooks,
+    createHandbook,
+    getHandbookById,
+    updateHandbook
 }

@@ -1,7 +1,7 @@
 import { getAppointments, searchAppointments, searchAppointmentsWithStaffId } from "@/services/doctorService";
 import React, { useEffect, useState } from 'react'
 import { getTimeSlotById } from "@/utils/formatTimeSlots";
-import { convertDateTime } from "@/utils/formartDate";
+import { convertDateTime } from "@/utils/formatDate";
 import {convertStartDateToTimestamp, convertEndDateToTimestamp} from "@/utils/convertToTimestamp";
 import SearchBar from "@/components/Search";
 import SelectBox from "@/pages/Doctor/components/Combobox";

@@ -6,7 +6,7 @@ import Prescription from "./Prescription";
 import { useEffect, useState } from "react";
 import { getExaminationById, getUserByCid } from "@/services/doctorService";
 import { useMutation } from "@/hooks/useMutation";
-import { convertDateTime } from "@/utils/formartDate";
+import { convertDateTime } from "@/utils/formatDate";
 import { convertGender } from "@/utils/convertGender";
 import { useParams } from "react-router-dom";
 
@@ -187,7 +187,7 @@ const Examination = () => {
                                     <span className="name">Đơn thuốc</span>
                                 </label>
                             </div>
-                            <hr />
+                            <hr className="m-0" />
                             <div className="radio-content">
                                 {selectedRadio === 'info' && patientData && patientData.id && (
                                     <ExamInfo
