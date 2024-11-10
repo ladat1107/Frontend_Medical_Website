@@ -7,7 +7,7 @@ const DropdownPosition = ({ onChange }) => {
     // let [positionChoosed, setPositionChoosed] = useState([...STAFF_ROLE].map(item => ({ ...item, selected: true })));
     let handleChangePosition = (id) => {
         if (id === 0) {
-            onChange(STAFF_ROLE.map(item => item.id))
+            onChange(STAFF_ROLE.map(item => item.value))
         } else {
             onChange([id]);
         }
@@ -25,11 +25,11 @@ const DropdownPosition = ({ onChange }) => {
                     {STAFF_ROLE.length > 0 && STAFF_ROLE.map((item, index) => {
                         return (<DropdownItem
                             key={index}
-                            id={`staff-${item.id}`}
+                            id={`staff-${item.value}`}
                             onClick={() => {
-                                handleChangePosition(item.id);
+                                handleChangePosition(item.value);
                             }}
-                        >{item.name}</DropdownItem>)
+                        >{item.label}</DropdownItem>)
                     })}
                 </DropdownItemGroup>
             </DropdownMenu>

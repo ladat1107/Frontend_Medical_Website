@@ -1,6 +1,12 @@
 .department-content {
+    display: flex;
+    justify-content: center; // Căn giữa theo chiều ngang
+    align-items: center; // Căn giữa theo chiều dọc
+    height: 100%;
+
     .container {
         padding: 0 3%;
+        margin: 0;
         background: #f4f7fe;
 
         .first {
@@ -126,12 +132,15 @@
             .table-body {
 
                 tr {
-                    td {
-                        border-bottom: none !important;
-                    }
-
                     background: white;
                     border-bottom: 1px solid #c8c8c8 !important;
+
+                    td {
+                        border-bottom: none !important;
+                        vertical-align: middle !important;
+                    }
+
+
 
                     &:hover {
                         td {
@@ -159,29 +168,7 @@
                     }
                 }
 
-                .update {
-                    padding: 2px 6px;
-                    border-radius: 5px;
-                    background-color: #ffffff;
-                    border: 1px solid #03989e;
-                    cursor: pointer;
-
-                    .icon {
-                        color: #03989e;
-                    }
-                }
-
-                .delete {
-                    padding: 2px 7px;
-                    border-radius: 5px;
-                    background-color: #ff0000;
-                    border: 1px solid #ff0000;
-                    cursor: pointer;
-
-                    .icon {
-                        color: #ffffff;
-                    }
-                }
+            
             }
 
             .footer-table {

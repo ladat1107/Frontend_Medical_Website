@@ -29,9 +29,9 @@ const Sidebar = (props) => {
                     <div className='col-3 p-2'>
                         <div className='logo' style={{ backgroundImage: 'url(https://ant-cra.cremawork.com/assets/images/avatar/A11.jpg)', }}></div>
                     </div>
-                    <div className='col-8 py-2 ms-3'>
+                    <div className='col-8 py-2 ms-1'>
                         <div className='d-flex justify-content-between'>
-                            <span>La Đạt</span>
+                            <span><b>La Đạt</b></span>
                             <FontAwesomeIcon icon={faChevronDown} />
                         </div>
                         <div>

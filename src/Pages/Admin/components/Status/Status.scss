@@ -1,0 +1,23 @@
+.status-content {
+    .status-on {
+        color: #03989e;
+        border: 1px solid #03989e;
+        background: #e6f4ff;
+        padding: 3px 10px;
+        border-radius: 30px;
+        font-weight: 600;
+        font-size: 10px;
+        text-align: center;
+    }
+
+    .status-off {
+        color: #ec3609;
+        border: 1px solid #ec3609;
+        background: #f9d9d1;
+        padding: 3px 10px;
+        border-radius: 5px;
+        font-weight: 600;
+        font-size: 10px;
+        text-align: center;
+    }
+}

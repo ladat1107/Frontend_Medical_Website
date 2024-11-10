@@ -63,7 +63,7 @@ const Examination = () => {
             );
             setTotalParaclinical(totalParaclinicalPrice);
             setExaminationData(formattedData);
-            
+
             setPatientData(dataExamination.DT.userExaminationData || {});
             setVitalSignData(dataExamination.DT.examinationVitalSignData || {});
             setParaclinicalData(dataExamination.DT.examinationResultParaclincalData || []);

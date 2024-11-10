@@ -7,6 +7,12 @@
     .header {
         .btn {
             width: 64px !important;
+
+            .ant-btn {
+                &:hover {
+                    background: none;
+                }
+            }
         }
 
         .logo-search {

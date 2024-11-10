@@ -1,10 +1,10 @@
 
 import React, { useEffect, useState } from 'react';
-import { GENDER, POSITION, TABLE } from '@/constant/value';
-import { getNameDepartment, createUser } from "@/services/adminService";
+import { GENDER, POSITION, STATUS, TABLE } from '@/constant/value';
+import { getNameDepartment, createUser, getSpecialtySelect, updateUser } from "@/services/adminService";
 import "./Modal.scss";
 import { ALL_ROLE, STAFF_ROLE } from '@/constant/role';
-import { Form, Input, Select, message, Button, Modal, Col, Row, InputNumber } from 'antd';
+import { Form, Input, Select, message, Button, Modal, Col, Row, InputNumber, Descriptions } from 'antd';
 import useQuery from '@/hooks/useQuery';
 
 import MarkdownIt from 'markdown-it';
@@ -12,18 +12,23 @@ import MdEditor from 'react-markdown-editor-lite';
 import 'react-markdown-editor-lite/lib/index.css';
 let mdParser = new MarkdownIt(/* Markdown-it options */);
 const CreateUser = (props) => {
-
     let optionPosition = POSITION;
-    let optionRole = ALL_ROLE;
-    let listStaffRole = STAFF_ROLE.map((item) => item.id); // Lấy ra danh sách id của các role của nhân viên
+    let [optionRole, setOptionRole] = useState(ALL_ROLE);
+    let listStaffRole = STAFF_ROLE.map((item) => item.value); // Lấy ra danh sách id của các role của nhân viên
     let [form] = Form.useForm();
     const [markdownValue, setMarkdownValue] = useState("");
     let htmlContent = "";
     let [isShowStaff, setIsShowStaff] = useState(false);
     let [departments, setDepartments] = useState([]);
-
     let { data: departmentData } = useQuery(() => getNameDepartment())
-
+    let [specialty, setSpecailty] = useState([]);
+    let { data: specialtyData } = useQuery(() => getSpecialtySelect())
+    let [userUpdate, setUserUpdate] = useState(props.obUpdate);
+    useEffect(() => {
+        if (specialtyData && specialtyData?.DT?.length > 0) {
+            setSpecailty(specialtyData.DT);
+        }
+    }, [specialtyData])
     useEffect(() => {
         if (departmentData && departmentData?.DT?.length > 0) {
             setDepartments(departmentData.DT);
@@ -40,13 +45,21 @@ const CreateUser = (props) => {
         form
             .validateFields()
             .then(async (values) => {
-                let response = await createUser({ ...values, htmlContent });
-                if (response?.data?.EC === 0) {
-                    message.success("Thêm người dùng thành công!");
-                    handleClose();
-                    props.refresh();
+                let response = null;
+                if (userUpdate?.id) {
+                    response = await updateUser({
+                        ...values, id: userUpdate.id, htmlContent,
+                        staffId: userUpdate?.staffUserData?.id || "",
+                        descriptionId: userUpdate?.staffUserData?.staffDescriptionData?.id || "",
+                    });
                 } else {
-                    message.error(response?.data?.EM || "Thêm người dùng thất bại!");
+                    response = await createUser({ ...values, htmlContent });
+                }
+                if (response?.data?.EC === 0) {
+                    message.success(response?.data?.EM || "Thành công!");
+                    handleClose();
+                } else {
+                    message.error(response?.data?.EM || "Thất bại!");
                 }
 
             })
@@ -56,15 +69,44 @@ const CreateUser = (props) => {
     };
     const handleClose = () => {
         form.resetFields()
+        setUserUpdate(null);
         setMarkdownValue("")
+        setIsShowStaff(false);
+        props.refresh();
         props.isShow(false)
     }
 
     useEffect(() => {
-        if (props.table === TABLE.USER) {
-            // setMessageContent("Mở")
+        if (userUpdate?.id) {
+            form.setFieldsValue({
+                id: userUpdate?.id || "",
+                lastName: userUpdate?.lastName || "",
+                firstName: userUpdate?.firstName || "",
+                email: userUpdate?.email || "",
+                phoneNumber: userUpdate?.phoneNumber || "",
+                cid: userUpdate?.cid || "",
+                roleId: userUpdate?.roleId || "",
+                status: userUpdate?.status || "",
+            })
+            if (listStaffRole.includes(userUpdate.roleId)) {
+                setOptionRole(STAFF_ROLE);
+                form.setFieldsValue({
+                    staffId: userUpdate?.staffUserData?.id || "",
+                    departmentId: userUpdate?.staffUserData?.departmentId || "",
+                    specialtyId: userUpdate?.staffUserData?.specialtyId || "",
+                    position: userUpdate?.staffUserData?.position?.split(",") || [],
+                    price: userUpdate?.staffUserData?.price || "",
+                    markDownContent: userUpdate?.staffUserData?.staffDescriptionData?.markdownContent || "",
+                    descriptionId: userUpdate?.staffUserData?.staffDescriptionData?.id || "",
+                })
+                htmlContent = userUpdate?.staffUserData?.staffDescriptionData?.htmlContent || "";
+                setMarkdownValue(userUpdate?.staffUserData?.staffDescriptionData?.markdownContent || "");
+                setIsShowStaff(true);
+            } else {
+                setIsShowStaff(false);
+            }
         }
-    }, [props])
+    }, [props.obUpdate])
 
     let handlChangeRole = (value) => {
         // setPosition(value);
@@ -88,7 +130,7 @@ const CreateUser = (props) => {
         <>
             <div className='create-modal'>
                 <Modal
-                    title="Thêm người dùng mới"
+                    title={userUpdate?.id ? "Cập nhật thông tin" : "Thêm người dùng mới"}
                     centered
                     open={props.show}
                     onCancel={() => handleClose()}
@@ -98,7 +140,7 @@ const CreateUser = (props) => {
                             Hủy
                         </Button>,
                         <Button key="submit" type="primary" onClick={() => handleModalSubmit()}>
-                            Thêm mới
+                            {userUpdate?.id ? "Cập nhật" : "Thêm mới"}
                         </Button>,
                     ]}
                     width={"80vw"}
@@ -114,7 +156,6 @@ const CreateUser = (props) => {
                         }}
 
                         initialValues={{
-                            remember: true,
                             position: [],
                             markDownContent: markdownValue,
                         }}
@@ -124,7 +165,7 @@ const CreateUser = (props) => {
                     >
 
                         <Row key={"normal"} gutter={[16, 8]}>
-                            <Col span={6} >
+                            <Col xs={24} md={12} lg={6} >
                                 <Form.Item
                                     label="Họ"
                                     name="lastName"
@@ -143,7 +184,7 @@ const CreateUser = (props) => {
                                     <Input maxLength={50} />
                                 </Form.Item>
                             </Col>
-                            <Col span={6} >
+                            <Col xs={24} md={12} lg={6} >
                                 <Form.Item
                                     label="Tên"
                                     name="firstName"
@@ -162,13 +203,13 @@ const CreateUser = (props) => {
                                     <Input maxLength={50} />
                                 </Form.Item>
                             </Col>
-                            <Col span={6} >
+                            <Col xs={24} md={12} lg={6} >
                                 <Form.Item
                                     label="Mật khẩu"
                                     name="password"
                                     rules={[
                                         {
-                                            required: true,
+                                            required: userUpdate?.id ? false : true,
                                             message: 'Vui lòng nhập mật khẩu!',
                                         },
                                         {
@@ -180,30 +221,53 @@ const CreateUser = (props) => {
                                     <Input.Password />
                                 </Form.Item>
                             </Col>
-                            <Col span={6}>
-                                <Form.Item
-                                    label="Xác nhận mật khẩu"
-                                    name="confirmPassword"
-                                    dependencies={['password']}
-                                    rules={[
-                                        {
-                                            required: true,
-                                            message: 'Vui lòng xác nhận mật khẩu!',
-                                        },
-                                        ({ getFieldValue }) => ({
-                                            validator(_, value) {
-                                                if (!value || getFieldValue('password') === value) {
-                                                    return Promise.resolve();
-                                                }
-                                                return Promise.reject(new Error('Mật khẩu không khớp!'));
-                                            },
-                                        }),
-                                    ]}
-                                >
-                                    <Input.Password />
-                                </Form.Item>
-                            </Col>
-                            <Col span={6} >
+                            {
+                                userUpdate?.id ?
+                                    <Col sm={24} md={12} lg={6}>
+                                        <Form.Item
+                                            name={"status"}
+                                            label="Tình trạng"
+                                            rules={[
+                                                {
+                                                    required: true,
+                                                    message: 'Vui lòng chọn tình trạng!',
+                                                },
+                                            ]}
+                                        >
+                                            <Select
+                                                placeholder="Chọn tình trạng"
+                                                options={STATUS}
+                                            >
+                                            </Select>
+                                        </Form.Item>
+                                    </Col>
+                                    :
+                                    <Col xs={24} md={12} lg={6}>
+                                        <Form.Item
+                                            label="Xác nhận mật khẩu"
+                                            name="confirmPassword"
+                                            dependencies={['password']}
+                                            rules={[
+                                                {
+                                                    required: true,
+                                                    message: 'Vui lòng xác nhận mật khẩu!',
+                                                },
+                                                ({ getFieldValue }) => ({
+                                                    validator(_, value) {
+                                                        if (!value || getFieldValue('password') === value) {
+                                                            return Promise.resolve();
+                                                        }
+                                                        return Promise.reject(new Error('Mật khẩu không khớp!'));
+                                                    },
+                                                }),
+                                            ]}
+                                        >
+                                            <Input.Password />
+                                        </Form.Item>
+                                    </Col>
+                            }
+
+                            <Col xs={24} md={12} lg={6} >
                                 <Form.Item
                                     label="Email"
                                     name="email"
@@ -221,7 +285,7 @@ const CreateUser = (props) => {
                                     <Input type='email' />
                                 </Form.Item>
                             </Col>
-                            <Col span={6} >
+                            <Col xs={24} md={12} lg={6} >
                                 <Form.Item
                                     label="Số điện thoại"
                                     name="phoneNumber"
@@ -239,7 +303,7 @@ const CreateUser = (props) => {
                                     <Input type='number' />
                                 </Form.Item>
                             </Col>
-                            <Col span={6} >
+                            <Col xs={24} md={12} lg={6} >
                                 <Form.Item
                                     label="Căn cước công dân"
                                     name="cid"
@@ -257,7 +321,7 @@ const CreateUser = (props) => {
                                     <Input type='number' />
                                 </Form.Item>
                             </Col>
-                            <Col span={6} >
+                            <Col xs={24} md={12} lg={6} >
                                 <Form.Item
                                     name="roleId"
                                     label="Vai trò"
@@ -271,6 +335,7 @@ const CreateUser = (props) => {
                                     <Select
                                         placeholder="Vui lòng chọn vai trò"
                                         showSearch
+                                        disabled={userUpdate?.roleId === 1 || userUpdate?.roleId === 2 ? true : false}
                                         optionFilterProp="label"
                                         filterSort={(optionA, optionB) =>
                                             (optionA?.label ?? '').toLowerCase().localeCompare((optionB?.label ?? '').toLowerCase())
@@ -282,7 +347,7 @@ const CreateUser = (props) => {
                             </Col>
                         </Row>
                         {isShowStaff && <Row gutter={[16, 8]}>
-                            <Col span={6} >
+                            <Col xs={24} md={12} lg={6} >
                                 <Form.Item
                                     name="departmentId"
                                     label="Phòng ban"
@@ -304,7 +369,24 @@ const CreateUser = (props) => {
                                     />
                                 </Form.Item>
                             </Col>
-                            <Col span={6} >
+                            <Col xs={24} md={12} lg={6}>
+                                <Form.Item
+                                    name="specialtyId"
+                                    label="Chọn chuyên khoa"
+                                >
+                                    <Select
+                                        placeholder="Chọn chuyên khoa"
+                                        showSearch
+                                        optionFilterProp="label"
+                                        filterSort={(optionA, optionB) =>
+                                            (optionA?.label ?? '').toLowerCase().localeCompare((optionB?.label ?? '').toLowerCase())
+                                        }
+                                        options={specialty}
+                                    >
+                                    </Select>
+                                </Form.Item>
+                            </Col>
+                            <Col xs={24} md={12} lg={6} >
                                 <Form.Item
                                     name="position"
                                     label="Chức vụ"
@@ -317,7 +399,7 @@ const CreateUser = (props) => {
                                     />
                                 </Form.Item>
                             </Col>
-                            <Col span={6} >
+                            <Col xs={24} md={12} lg={6} >
                                 <Form.Item
                                     name="price"
                                     label="Giá khám"

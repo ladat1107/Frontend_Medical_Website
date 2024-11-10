@@ -1,7 +1,7 @@
 import "./DepartmentManage.scss";
 import { SearchOutlined } from "@ant-design/icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCircle, faPencil, faPlus, faRotateRight, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { faPlus, faRotateRight, faUserTie } from "@fortawesome/free-solid-svg-icons";
 import { Checkbox, Input } from "antd";
 import { useMutation } from "@/hooks/useMutation";
 import { getDepartment, getDepartmentById } from "@/services/adminService";
@@ -10,12 +10,11 @@ import useDebounce from "@/hooks/useDebounce";
 import { TABLE } from "@/constant/value";
 import DropdownPaginate from "../../components/Dropdown/DropdownPaginate";
 import PaginateCustom from "../../components/Paginate/PaginateCustom";
-import { faPenToSquare, faTrashCan } from "@fortawesome/free-regular-svg-icons";
-import DeleteModal from "../../components/Modal/DeleteModal";
 import InsertDepartment from "./InsertDepartment";
+import Status from "../../components/Status";
+import DropdownAction from "../../components/Dropdown/DropdownAction";
 
 const DepartmentManage = () => {
-    let [showDeleteModal, setShowDeleteModal] = useState(false);
     let [showInsert, setShowInsert] = useState(false);
     let [currentPage, setCurrentPage] = useState(1);
     let [rowsPerPage, setRowPaper] = useState({ value: 10, id: 1 });
@@ -39,6 +38,8 @@ const DepartmentManage = () => {
             let _listDepartment = [...dataDepartment.DT.rows];
             for (let i = 0; i < _listDepartment.length; i++) {
                 _listDepartment[i].checked = false;
+                _listDepartment[i].roomQuantity = _listDepartment[i]?.roomData?.length || 0;
+                _listDepartment[i].staffQuantity = _listDepartment[i]?.staffDepartmentData?.length || 0;
             }
             setListDepartment(_listDepartment);
             setTotalPage(dataDepartment.DT.count / rowsPerPage.value);
@@ -48,11 +49,12 @@ const DepartmentManage = () => {
     useEffect(() => {
         fetchDepartments();
     }, [currentPage, useDebounce(search, 500), rowsPerPage]);
-    let handleChange = (item, index) => {
+    let handleChange = (item) => {
         let _listDepartment = [...listDepartment];
         _listDepartment = _listDepartment.map(obj =>
             obj.id === item.id ? { ...obj, checked: !item.checked } : obj
         );
+        setCheckAll(false);
         setListDepartment(_listDepartment);
     };
     let handleChangeSelectedAll = () => {
@@ -73,24 +75,19 @@ const DepartmentManage = () => {
         setCurrentPage(1)
     }
     let refresh = () => {
+        setSearch("");
+        setCheckAll(false);
         fetchDepartments();
-    }
-    let handleDelete = (item) => {
-        setObDelete({ ...item })
-        setShowDeleteModal(true)
-    }
-    let handleShow = (value) => {
-        setShowDeleteModal(value)
     }
     let handleUpdate = async (item) => {
         setShowInsert(false)
-        let reponse = await getDepartmentById(item.id);
-        if (reponse?.data?.EC == 0) {
-            let value = reponse?.data?.DT;
+        let response = await getDepartmentById(item.id);
+        if (response?.data?.EC == 0) {
+            let value = response?.data?.DT;
             setObUpdate(value)
             setShowInsert(true)
         } else {
-            message.error(reponse?.data?.EM || "Không thể chọn phòng ban")
+            message.error(response?.data?.EM || "Không thể chọn phòng ban")
             refresh();
         }
     }
@@ -123,11 +120,11 @@ const DepartmentManage = () => {
 
                 <div className="table-department bg-white ">
                     <div className="table-head">
-                        <Input placeholder="Tìm kiếm" prefix={<SearchOutlined />} className="ms-3 my-3 w-25"
+                        <Input placeholder="Tìm kiếm" prefix={<SearchOutlined />} className="ms-4 my-3 w-25"
                             value={search}
                             onChange={(event) => { handleChangeSearch(event) }} />
                     </div>
-                    <div className="table-body">
+                    <div className="table-body px-4">
                         <table className="table">
                             <thead className="text-uppercase text-secondary row-1">
                                 <tr>
@@ -142,9 +139,10 @@ const DepartmentManage = () => {
                                     </th>
                                     <th scope="col" className="text-secondary px-1">Khoa</th>
                                     <th scope="col" className="text-secondary px-1">Trưởng khoa</th>
-                                    <th scope="col" className="text-secondary px-1 d-none d-lg-block">Email</th>
-                                    <th scope="col" className="text-secondary px-1">Vị trí</th>
-                                    <th scope="col" className="text-secondary px-1">Trạng thái</th>
+                                    <th scope="col" className="text-secondary text-center px-1 ">Nhân viên</th>
+                                    <th scope="col" className="text-secondary px-1 ">Số phòng</th>
+                                    <th scope="col" className="text-secondary px-1 d-none d-lg-table-cell">Vị trí</th>
+                                    <th scope="col" className="text-secondary text-center px-1 d-none d-lg-table-cell">Trạng thái</th>
                                     <th scope="col" className="text-secondary px-1"></th>
                                 </tr>
                             </thead>
@@ -154,54 +152,65 @@ const DepartmentManage = () => {
                                         {
                                             listDepartment.map((item, index) => {
                                                 return (
-                                                    <>
-                                                        <tr key={index} className="text-start">
-                                                            <td className="p-2 d-flex align-items-center">
-                                                                <div className="">
-                                                                    <Checkbox
-                                                                        checked={item.checked}
-                                                                        onChange={() => { handleChange(item, index) }}
-                                                                        size="small"
-                                                                    /></div>
-                                                            </td>
-                                                            <td className="text-start px-1 py-2 text-uppercase">
-                                                                <div> {item?.name || "Khác"}</div>
-                                                            </td>
-                                                            <td scope="row" className="px-1 py-2 ps-1 dead ">
-                                                                <div className=" ">
-                                                                    {item?.deanDepartmentData?.staffUserData.lastName ?
-                                                                        <div className="">{item?.deanDepartmentData?.staffUserData?.lastName + " " + item?.deanDepartmentData?.staffUserData?.firstName}</div>
-                                                                        :
-                                                                        <div><span className="rounder">Trống</span></div>
-                                                                    }
-                                                                </div>
-                                                            </td>
-                                                            <td className="text-start px-1 py-2 d-none d-lg-block">
-                                                                <div className="fw-normal">{item?.deanDepartmentData?.staffUserData?.email || "_"}</div>
-                                                            </td>
-                                                            <td className="text-start px-1 py-2">
-                                                                <div>
-                                                                    {item?.address || "Khác"}
-                                                                </div>
-                                                            </td>
-                                                            <td className="text-start px-1 py-2">
-                                                                <div className="">
-                                                                    {+item?.status === 1 ? <>
-                                                                        <span className="pe-2"><FontAwesomeIcon icon={faCircle} beatFade size="2xs" style={{ color: "#03989e", }} /></span>Hoạt động
-                                                                    </> : <>
-                                                                        <span className="pe-2"><FontAwesomeIcon icon={faCircle} size="2xs" style={{ color: "#ec3609", }} /></span>Khóa</>}
-                                                                </div>
-                                                            </td>
-                                                            <td className="px-1 py-2 d-flex justify-content-end">
+                                                    <tr key={index} className="text-start">
+                                                        <td className="p-2 ">
+                                                            <div className="d-flex align-items-center">
+                                                                <Checkbox
+                                                                    checked={item.checked}
+                                                                    onChange={() => { handleChange(item, index) }}
+                                                                    size="small"
+                                                                />
+                                                            </div>
+                                                        </td>
+                                                        <td className="text-start px-1 py-2 text-uppercase">
+                                                            {item?.name || "Khác"}
+                                                        </td>
+                                                        <td scope="row" className="px-1 py-2 ps-1 dead ">
+                                                            <div className=" ">
+                                                                {item?.deanDepartmentData?.staffUserData.lastName ?
+                                                                    <div className="">
+                                                                        <div><b>{item?.deanDepartmentData?.staffUserData?.lastName + " " + item?.deanDepartmentData?.staffUserData?.firstName}</b></div>
+                                                                        <div>{item?.deanDepartmentData?.staffUserData?.email}</div>
+                                                                    </div>
+
+                                                                    :
+                                                                    <div><span className="rounder">Trống</span></div>
+                                                                }
+                                                            </div>
+                                                        </td>
+                                                        <td className="text-center px-1 py-2">
+                                                            <div className="fw-normal"><span className="me-2"><b>{item?.staffQuantity || "0"}</b></span><FontAwesomeIcon className="d-none d-lg-inline" icon={faUserTie} style={{ color: "#003A8C", }} /></div>
+                                                        </td>
+                                                        <td className="text-start px-1 py-2">
+                                                            <div className="fw-normal">{item?.roomQuantity || "0"}<span className="ms-1 d-none d-lg-inline">phòng</span></div>
+                                                        </td>
+                                                        <td className="text-start px-1 py-2 d-none d-lg-table-cell">
+                                                            <div>
+                                                                {item?.address || "Khác"}
+                                                            </div>
+                                                        </td>
+                                                        <td className="text-center px-1 py-2 d-none d-lg-table-cell">
+                                                            <Status data={item?.status} />
+                                                        </td>
+                                                        <td className="px-1 py-2">
+                                                            {/* <div className="d-flex justify-content-end align-items-center">
                                                                 <span className='update me-3' onClick={() => handleUpdate(item)}>
                                                                     <FontAwesomeIcon icon={faPencil} className="icon" size="sm" />
                                                                 </span>
                                                                 <span className='delete me-3' onClick={() => { handleDelete(item) }}>
                                                                     <FontAwesomeIcon icon={faTrashCan} className="icon" size="sm" />
                                                                 </span>
-                                                            </td>
-                                                        </tr>
-                                                    </>
+                                                            </div> */}
+                                                            <div className='iconDetail'>
+                                                                <DropdownAction
+                                                                    data={item}
+                                                                    action={handleUpdate}
+                                                                    refresh={refresh}
+                                                                    table={TABLE.DEPARTMENT}
+                                                                />
+                                                            </div>
+                                                        </td>
+                                                    </tr>
                                                 )
 
                                             })
@@ -227,12 +236,6 @@ const DepartmentManage = () => {
                     </div>
                 </div>
             </div>
-            <DeleteModal
-                show={showDeleteModal}
-                isShow={handleShow}
-                data={obDelete}
-                refresh={refresh}
-                table={TABLE.DEPARTMENT} />
         </div>
     )
 }

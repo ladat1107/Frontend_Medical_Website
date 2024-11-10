@@ -1,20 +1,20 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { SearchOutlined } from "@ant-design/icons";
 import "./Room.scss";
-import { faBed, faCircle, faPencil, faPlus, faRotateRight } from "@fortawesome/free-solid-svg-icons";
+import { faBed, faPlus, faRotateRight } from "@fortawesome/free-solid-svg-icons";
 import InsertRoom from "./InsertRoom";
 import { useEffect, useState } from "react";
 import { useMutation } from "@/hooks/useMutation";
 import { getAllRoom, getNameDepartment, getRoomById } from "@/services/adminService";
 import { Checkbox, Input, Popover } from "antd";
-import { faTrashCan } from "@fortawesome/free-regular-svg-icons";
 import DropdownPaginate from "../../components/Dropdown/DropdownPaginate";
 import PaginateCustom from "../../components/Paginate/PaginateCustom";
-import DeleteModal from "../../components/Modal/DeleteModal";
 import { TABLE } from "@/constant/value";
 import useDebounce from "@/hooks/useDebounce";
 import DropdownDepartment from "./DropdownDepartment";
 import useQuery from "@/hooks/useQuery";
+import Status from "../../components/Status";
+import DropdownAction from "../../components/Dropdown/DropdownAction";
 const Room = () => {
     let [showDeleteModal, setShowDeleteModal] = useState(false);
     let [showInsert, setShowInsert] = useState(false);
@@ -68,11 +68,12 @@ const Room = () => {
     useEffect(() => {
         fetchRooms();
     }, [currentPage, useDebounce(search, 500), rowsPerPage, searchDepartment]);
-    let handleChange = (item, index) => {
+    let handleChange = (item) => {
         let _listRoom = [...listRoom];
         _listRoom = _listRoom.map(obj =>
             obj.id === item.id ? { ...obj, checked: !item.checked } : obj
         );
+        setCheckAll(false);
         setListRoom(_listRoom);
     };
     let handleChangeSelectedAll = () => {
@@ -93,6 +94,7 @@ const Room = () => {
         setCurrentPage(1)
     }
     let refresh = () => {
+        setCheckAll(false)
         handleShow(false)
         fetchRooms();
     }
@@ -106,13 +108,13 @@ const Room = () => {
     }
     let handleUpdate = async (item) => {
         setShowInsert(false)
-        let reponse = await getRoomById(item.id);
-        if (reponse?.data?.EC == 0) {
-            let value = reponse?.data?.DT;
+        let response = await getRoomById(item.id);
+        if (response?.data?.EC == 0) {
+            let value = response?.data?.DT;
             setObUpdate(value)
             setShowInsert(true)
         } else {
-            message.error(reponse?.data?.EM || "Không thể chọn phòng ban")
+            message.error(response?.data?.EM || "Không thể chọn phòng ban")
             refresh();
         }
     }
@@ -152,11 +154,11 @@ const Room = () => {
                 </div>
                 <div className="table-room bg-white ">
                     <div className="table-head">
-                        <Input placeholder="Tìm kiếm" prefix={<SearchOutlined />} className="ms-3 my-3 w-25"
+                        <Input placeholder="Tìm kiếm" prefix={<SearchOutlined />} className="ms-4 my-3 w-25"
                             value={search}
                             onChange={(event) => { handleChangeSearch(event) }} />
                     </div>
-                    <div className="table-body">
+                    <div className="table-body px-4">
                         <table className="table">
                             <thead className="text-uppercase text-secondary row-1">
                                 <tr>
@@ -188,13 +190,14 @@ const Room = () => {
                                                     <Popover
                                                         key={index}
                                                         placement="topLeft"
-                                                        content={item.serviceData.map((service, index) => (
-                                                            <span key={index}>
-                                                                {service.name}
-                                                                <br />
-                                                            </span>
-                                                        ))}
-                                                        title="Danh sách dịch vụ"
+                                                        content={
+                                                            item?.serviceData.map((service, index) => (
+                                                                <span key={index}>
+                                                                    {service.name}
+                                                                    <br />
+                                                                </span>
+                                                            ))}
+                                                        title="Dịch vụ"
                                                     >
                                                         <tr className="text-start">
 
@@ -221,20 +224,17 @@ const Room = () => {
                                                                     </div>}
                                                             </td>
                                                             <td className=" ps-5 py-2">
-                                                                <div className="">
-                                                                    {+item?.status === 1 ? <>
-                                                                        <span className="pe-2"><FontAwesomeIcon icon={faCircle} beatFade size="2xs" style={{ color: "#03989e", }} /></span>Hoạt động
-                                                                    </> : <>
-                                                                        <span className="pe-2"><FontAwesomeIcon icon={faCircle} size="2xs" style={{ color: "#ec3609", }} /></span>Khóa</>}
-                                                                </div>
+                                                                <Status data={item?.status} />
                                                             </td>
                                                             <td className="px-1 py-2 d-flex justify-content-end">
-                                                                <span className='update me-3' onClick={() => handleUpdate(item)}>
-                                                                    <FontAwesomeIcon icon={faPencil} className="icon" size="sm" />
-                                                                </span>
-                                                                <span className='delete me-3' onClick={() => { handleDelete(item) }}>
-                                                                    <FontAwesomeIcon icon={faTrashCan} className="icon" size="sm" />
-                                                                </span>
+                                                                <div className='iconDetail'>
+                                                                    <DropdownAction
+                                                                        data={item}
+                                                                        action={handleUpdate}
+                                                                        refresh={refresh}
+                                                                        table={TABLE.ROOM}
+                                                                    />
+                                                                </div>
                                                             </td>
                                                         </tr>
                                                     </Popover>
@@ -263,13 +263,6 @@ const Room = () => {
                     </div>
                 </div>
             </div>
-            <DeleteModal
-                show={showDeleteModal}
-                isShow={handleShow}
-                data={obDelete}
-                refresh={refresh}
-                table={TABLE.ROOM} />
-
         </div>
     );
 }

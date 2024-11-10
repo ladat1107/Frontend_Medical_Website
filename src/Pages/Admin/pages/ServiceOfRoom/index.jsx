@@ -4,19 +4,18 @@ import { useMutation } from "@/hooks/useMutation";
 import useDebounce from "@/hooks/useDebounce";
 import { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowsRotate, faCircle, faPencil, faPlus, faRotateRight } from "@fortawesome/free-solid-svg-icons";
+import { faArrowsRotate, faRotateRight } from "@fortawesome/free-solid-svg-icons";
 import DropdownPaginate from "../../components/Dropdown/DropdownPaginate";
 import PaginateCustom from "../../components/Paginate/PaginateCustom";
 import { Button, Checkbox, Col, Form, Input, InputNumber, message, Row, Select } from "antd";
 import { SearchOutlined } from "@ant-design/icons";
-import { faTrashCan } from "@fortawesome/free-regular-svg-icons";
-import DeleteModal from "../../components/Modal/DeleteModal";
 import { STATUS, TABLE } from "@/constant/value";
 import { formatCurrency } from "@/utils/formatCurrency";
+import Status from "../../components/Status";
+import DropdownAction from "../../components/Dropdown/DropdownAction";
 const { TextArea } = Input;
 const ServiceOfRoom = () => {
     let [form] = Form.useForm();
-    let [showDeleteModal, setShowDeleteModal] = useState(false);
     let [currentPage, setCurrentPage] = useState(1);
     let [rowsPerPage, setRowPaper] = useState({ value: 10, id: 1 });
     let [totalPages, setTotalPage] = useState(0);
@@ -58,11 +57,12 @@ const ServiceOfRoom = () => {
             })
         }
     }, [obUpdate]);
-    let handleChange = (item, index) => {
+    let handleChange = (item) => {
         let _listService = [...listServiceType];
         _listService = _listService.map(obj =>
             obj.id === item.id ? { ...obj, checked: !item.checked } : obj
         );
+        setCheckAll(false);
         setListServiceType(_listService);
     };
     let handleChangeSelectedAll = () => {
@@ -83,23 +83,17 @@ const ServiceOfRoom = () => {
         setCurrentPage(1)
     }
     let refresh = () => {
+        setCheckAll(false);
         fetchServiceTypes();
         setObUpdate(null);
     }
-    let handleDelete = (item) => {
-        setObDelete({ ...item })
-        setShowDeleteModal(true)
-    }
-    let handleShow = (value) => {
-        setShowDeleteModal(value)
-    }
     let handleUpdate = async (item) => {
-        let reponse = await getServiceById(item.id);
-        if (reponse?.data?.EC == 0) {
-            let value = reponse?.data?.DT;
+        let response = await getServiceById(item.id);
+        if (response?.data?.EC == 0) {
+            let value = response?.data?.DT;
             setObUpdate(value)
         } else {
-            message.error(reponse?.data?.EM || "Không thể chọn dịch vụ")
+            message.error(response?.data?.EM || "Không thể chọn dịch vụ")
             refresh();
         }
     }
@@ -228,11 +222,11 @@ const ServiceOfRoom = () => {
                     <div className="col-12 col-lg-9">
                         <div className="table-service bg-white ">
                             <div className="table-head">
-                                <Input placeholder="Tìm kiếm" prefix={<SearchOutlined />} className="ms-3 my-3 w-25"
+                                <Input placeholder="Tìm kiếm" prefix={<SearchOutlined />} className="ms-4 my-3 w-25"
                                     value={search}
                                     onChange={(event) => { handleChangeSearch(event) }} />
                             </div>
-                            <div className="table-body">
+                            <div className="table-body px-4">
                                 <table className="table">
                                     <thead className="text-uppercase text-secondary row-1">
                                         <tr>
@@ -248,7 +242,7 @@ const ServiceOfRoom = () => {
                                             <th scope="col" className="text-secondary px-1">Tên dịch vụ</th>
                                             <th scope="col" className="text-secondary text-center pe-5">Giá</th>
                                             <th scope="col" className="text-secondary px-1 d-none d-lg-block">Mô tả</th>
-                                            <th scope="col" className="text-secondary px-1">Trạng thái</th>
+                                            <th scope="col" className="text-secondary text-center px-1">Trạng thái</th>
                                             <th scope="col" className="text-secondary px-1"></th>
                                         </tr>
                                     </thead>
@@ -282,21 +276,26 @@ const ServiceOfRoom = () => {
                                                                         {item?.description || "Chưa có mô tả"}
                                                                     </div>
                                                                 </td>
-                                                                <td className="text-start px-1 py-3 status">
-                                                                    <div className="">
+                                                                {/* <td className="text-start px-1 py-3 status">
+                                                                    <div className="status">
                                                                         {+item?.status === 1 ? <>
                                                                             <span className="pe-2"><FontAwesomeIcon icon={faCircle} beatFade size="2xs" style={{ color: "#03989e", }} /></span>Hoạt động
                                                                         </> : <>
                                                                             <span className="pe-2"><FontAwesomeIcon icon={faCircle} size="2xs" style={{ color: "#ec3609", }} /></span>Khóa</>}
                                                                     </div>
+                                                                </td> */}
+                                                                <td className="text-center px-1 py-3">
+                                                                    <Status data={item?.status} />
                                                                 </td>
                                                                 <td className="px-1 py-3 d-flex justify-content-end">
-                                                                    <span className='update me-3' onClick={() => handleUpdate(item)}>
-                                                                        <FontAwesomeIcon icon={faPencil} className="icon" size="sm" />
-                                                                    </span>
-                                                                    <span className='delete me-3' onClick={() => { handleDelete(item) }}>
-                                                                        <FontAwesomeIcon icon={faTrashCan} className="icon" size="sm" />
-                                                                    </span>
+                                                                    <div className='iconDetail'>
+                                                                        <DropdownAction
+                                                                            data={item}
+                                                                            action={handleUpdate}
+                                                                            refresh={refresh}
+                                                                            table={TABLE.SERVICE}
+                                                                        />
+                                                                    </div>
                                                                 </td>
                                                             </tr>
                                                         )
@@ -326,12 +325,6 @@ const ServiceOfRoom = () => {
                     </div>
                 </div>
             </div>
-            <DeleteModal
-                show={showDeleteModal}
-                isShow={handleShow}
-                data={obDelete}
-                refresh={refresh}
-                table={TABLE.SERVICE} />
         </div >
     );
 }

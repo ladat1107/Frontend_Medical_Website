@@ -1,6 +1,6 @@
 import { STATUS } from "@/constant/value";
 import useQuery from "@/hooks/useQuery";
-import { createRoom, getNameDepartment, getServiceSearch, updateRoom } from "@/services/adminService";
+import { createRoom, getNameDepartment, getServiceSearch, getSpecialtySelect, updateRoom } from "@/services/adminService";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Button, Col, Form, Input, InputNumber, message, Row, Select } from "antd";
@@ -14,12 +14,19 @@ const InsertRoom = (props) => {
     let departments = props.departments;
     let [services, setServices] = useState([]);
     let { data: serviceData } = useQuery(() => getServiceSearch())
+    let [specialty, setSpecailty] = useState([]);
+    let { data: specialtyData } = useQuery(() => getSpecialtySelect())
     let [roomUpdate, setRoomUpdate] = useState(props.obUpdate);
     useEffect(() => {
         if (serviceData && serviceData?.DT?.length > 0) {
             setServices(serviceData.DT);
         }
     }, [serviceData])
+    useEffect(() => {
+        if (specialtyData && specialtyData?.DT?.length > 0) {
+            setSpecailty(specialtyData.DT);
+        }
+    }, [specialtyData])
     useEffect(() => {
         if (roomUpdate?.id) {
             setMinBed(roomUpdate?.bedRoomData.length);
@@ -40,18 +47,18 @@ const InsertRoom = (props) => {
     }, [props.obUpdate])
     let handleInsert = () => {
         form.validateFields().then(async (values) => {
-            let reponse = null;
+            let response = null;
             if (roomUpdate?.id) {
-                reponse = await updateRoom({ ...values, oldBed: minBed, newBed: values.bedQuantity, id: roomUpdate.id });
+                response = await updateRoom({ ...values, oldBed: minBed, newBed: values.bedQuantity, id: roomUpdate.id });
             } else {
-                reponse = await createRoom({ ...values, bedQuantity: values.bedQuantity + "" });
+                response = await createRoom({ ...values, bedQuantity: values.bedQuantity + "" });
             }
-            if (reponse?.data?.EC === 0) {
-                message.success(reponse.data.EM || "Thành công");
+            if (response?.data?.EC === 0) {
+                message.success(response.data.EM || "Thành công");
                 handleCloseInsert();
             }
             else {
-                message.error(reponse.data.EM || "Thất bại");
+                message.error(response.data.EM || "Thất bại");
             }
         }).catch((error) => {
             console.log("error,", error)
@@ -191,7 +198,7 @@ const InsertRoom = (props) => {
                                             filterSort={(optionA, optionB) =>
                                                 (optionA?.label ?? '').toLowerCase().localeCompare((optionB?.label ?? '').toLowerCase())
                                             }
-                                            options={departments}
+                                            options={specialty}
                                         >
                                         </Select>
                                     </Form.Item>

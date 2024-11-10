@@ -49,63 +49,6 @@
                 border-radius: 50%;
             }
 
-            .iconDetail {
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                color: #c3c3c3;
-                padding: 4px;
-                height: 30px;
-                width: 30px;
-                background: none;
-
-                // đè csss thư viện
-                button {
-                    color: #c3c3c3;
-
-                    &:hover {
-                        background: none !important;
-                    }
-                }
-
-                .css-mde2be {
-                    background: none;
-                    color: #c3c3c3;
-
-                }
-
-                .css-1spmf3f {
-                    background: none;
-                }
-
-                // hover icon 3 chấm
-                &:hover {
-                    background-color: rgb(227, 227, 227);
-                    border-radius: 50%;
-                }
-
-                span {
-                    font-weight: 500;
-                }
-
-                .update {
-                    color: rgb(0, 142, 61);
-                }
-
-                .del {
-                    color: red;
-                }
-
-                // hover trong menu
-                .css-4mjcmd {
-                    button {
-                        &:hover {
-                            background-color: rgb(227, 227, 227);
-                        }
-                    }
-                }
-            }
-
             .table-head {}
 
             .row-1 {

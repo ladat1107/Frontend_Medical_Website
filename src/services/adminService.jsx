@@ -16,11 +16,14 @@ const createUser = (data) => {
 const getUser = (page, limit, search, position) => {
     return axios.get(`/api/admin/getAllUser?page=${+page}&limit=${+limit}&position=[${position}]&search=${search}`)
 }
+const getUserById = (id) => {
+    return axios.get(`/api/getUserById?id=${id}`)
+}
 const deleteUser = (data) => {
     return axios.delete(`/api/admin/deleteUser`, { data: { id: data.id } })
 }
 const updateUser = (data) => {
-    return axios.put(`/api/user/update`, data)
+    return axios.put(`/api/admin/updateUser`, data)
 }
 const blockUser = (data) => {
     return axios.put(`/api/admin/blockUser`, data)
@@ -94,11 +97,17 @@ const deleteRoom = (data) => {
 const blockRoom = (data) => {
     return axios.put(`/api/admin/blockRoom`, data)
 }
+
+// SPECIALTY MANAGEMENT
+const getSpecialtySelect = () => {
+    return axios.get(`/api/admin/getSpecialtySelect`)
+}
 export {
     handleRegisterUser,
     handleLogin,
     logoutUser,
     getUser,
+    getUserById,
     deleteUser,
     updateUser,
     blockUser,
@@ -124,4 +133,5 @@ export {
     updateRoom,
     deleteRoom,
     blockRoom,
+    getSpecialtySelect,
 }

@@ -9,13 +9,15 @@ import useDebounce from '@/hooks/useDebounce';
 import Checkbox from '@mui/material/Checkbox';
 import CreateUserModal from '@/pages/Admin/components/Modal/CreateUserModal';
 import PaginateCustom from '@/pages/Admin/components/Paginate/PaginateCustom';
-import { getUser, deleteUser } from "@/services/adminService";
+import { getUser, deleteUser, getUserById } from "@/services/adminService";
 import Loading from '@/components/Loading/Loading';
 import { useMutation } from '@/hooks/useMutation';
 import { TABLE } from '@/constant/value';
 import "./StaffManage.scss";
 import { Button, Input } from 'antd';
 import { SearchOutlined, UserOutlined } from '@ant-design/icons';
+import Status from '@/pages/Admin/components/Status';
+import { set } from 'lodash';
 
 const StaffManage = () => {
 
@@ -28,6 +30,7 @@ const StaffManage = () => {
     let [search, setSearch] = useState("");
     let [positionArr, setPositionArr] = useState([1, 3, 4, 5, 6, 7]);
     let [showCreateUserModal, setShowCreateUserModal] = useState(false);
+    let [obUpdate, setObUpdate] = useState(null);
     let searchDebounce = "";
     let {
         data: dataUser,
@@ -38,6 +41,7 @@ const StaffManage = () => {
         getUser(currentPage, rowsPerPage.id, searchDebounce, positionArr)
     )
     let refresh = () => {
+        setCheckAll(false);
         fetchUsers();
     }
     useEffect(() => {
@@ -55,11 +59,12 @@ const StaffManage = () => {
         fetchUsers();
     }, [currentPage, useDebounce(search, 500), positionArr, rowsPerPage]);
 
-    let handleChange = (item, index) => {
+    let handleChange = (item) => {
         let _listUser = [...listUser];
         _listUser = _listUser.map(obj =>
             obj.id === item.id ? { ...obj, checked: !item.checked } : obj
         );
+        setCheckAll(false);
         setListUser(_listUser);
     };
     let handleChangeSelectedAll = () => {
@@ -87,7 +92,19 @@ const StaffManage = () => {
         setShowCreateUserModal(value)
     }
     let hanldeCreateUser = () => {
+        setObUpdate(null)
         setShowCreateUserModal(true)
+    }
+    let handleUpdate = async (item) => {
+        let response = await getUserById(item.id);
+        if (response?.data?.EC == 0) {
+            let value = response?.data?.DT;
+            setObUpdate(value)
+            setShowCreateUserModal(true)
+        } else {
+            message.error(response?.data?.EM || "Không thể chọn bệnh nhân")
+            refresh();
+        }
     }
     return (
         // listUserLoading ? <Loading /> :
@@ -100,59 +117,59 @@ const StaffManage = () => {
                             <FontAwesomeIcon className='me-1 icon' icon={faPlus} style={{ color: "#0A8FDC", }} /> Thêm mới</button>
                     </div>
 
-                    <div className='table-responsive bg-white'>
+                    <div className='table-responsive bg-white '>
                         <div className='table-head d-flex align-items-center'>
-                            <Input className='w-25 my-3 ms-3' size="large" placeholder="Tìm nhân viên" prefix={<SearchOutlined />}
+                            <Input className='w-25 my-3 ms-4' size="large" placeholder="Tìm nhân viên" prefix={<SearchOutlined />}
                                 value={search}
                                 onChange={(event) => { handleChangeSearch(event) }} />
                         </div>
 
-                        <table className="w-100 text-start">
-                            <thead className="text-start text-uppercase text-secondary row-1">
-                                <tr>
-                                    <th scope="col" className="p-1">
-                                        <div className="flex items-center">
-                                            <Checkbox
-                                                checked={checkAll}
-                                                onChange={() => { handleChangeSelectedAll() }}
-                                                size="small"
-                                            />
-                                        </div>
-                                    </th>
-                                    <th scope="col" className="text-start px-3 py-0 name">
-                                        Họ và tên
-                                    </th>
-                                    <th scope="col" className="text-start px-1 py-0 ">
-                                        <DropdownPosition onChange={handleChangePosition} />
-                                    </th>
-                                    <th scope="col" className="text-start px-1 py-0">
-                                        Trình độ
-                                    </th>
-                                    <th scope="col" className="text-start px-1 py-0">
-                                        Phòng khoa
-                                    </th>
-                                    <th scope="col" className="text-start px-1 py-0">
-                                        Số điện thoại
-                                    </th>
-                                    <th scope="col" className="text-start px-1 py-0">
-                                        CCCD
-                                    </th>
-                                    <th scope="col" className="text-start px-1 py-0">
-                                        Trạng thái
-                                    </th>
-                                    <th scope="col" className="text-start px-1 py-0">
+                        <div className='px-4'>
+                            <table className="w-100 text-start">
+                                <thead className="text-start text-uppercase text-secondary row-1">
+                                    <tr>
+                                        <th scope="col" className="p-1">
+                                            <div className="flex items-center">
+                                                <Checkbox
+                                                    checked={checkAll}
+                                                    onChange={() => { handleChangeSelectedAll() }}
+                                                    size="small"
+                                                />
+                                            </div>
+                                        </th>
+                                        <th scope="col" className="text-start px-3 py-0 name">
+                                            Họ và tên
+                                        </th>
+                                        <th scope="col" className="text-start px-1 py-0 ">
+                                            <DropdownPosition onChange={handleChangePosition} />
+                                        </th>
+                                        <th scope="col" className="text-start px-1 py-0">
+                                            Trình độ
+                                        </th>
+                                        <th scope="col" className="text-start px-1 py-0">
+                                            Phòng khoa
+                                        </th>
+                                        <th scope="col" className="text-start px-1 py-0">
+                                            Số điện thoại
+                                        </th>
+                                        <th scope="col" className="text-start px-1 py-0">
+                                            CCCD
+                                        </th>
+                                        <th scope="col" className="text-start px-1 py-0">
+                                            Trạng thái
+                                        </th>
+                                        <th scope="col" className="text-start px-1 py-0">
 
-                                    </th>
-                                </tr>
-                            </thead>
+                                        </th>
+                                    </tr>
+                                </thead>
 
-                            <tbody className='table-body text-secondary'>
-                                {+listUser.length > 0 && +totalPages != 0 ?
-                                    <>
-                                        {
-                                            listUser.map((item, index) => {
-                                                return (
-                                                    <>
+                                <tbody className='table-body text-secondary'>
+                                    {+listUser.length > 0 && +totalPages != 0 ?
+                                        <>
+                                            {
+                                                listUser.map((item, index) => {
+                                                    return (
                                                         <tr key={index} className=" bg-white border-b text-start">
                                                             <td className="p-1">
                                                                 <div className="flex items-center">
@@ -186,37 +203,33 @@ const StaffManage = () => {
                                                                 {item?.cid || "Không có"}
                                                             </td>
                                                             <td className="text-start px-1 py-3">
-                                                                <div className="flex items-center">
-                                                                    {+item?.status === 1 ? <>
-                                                                        <span className="pe-2"><FontAwesomeIcon icon={faCircle} beatFade size="2xs" style={{ color: "#63E6BE", }} /></span>Hoạt động
-                                                                    </> : <>
-                                                                        <span className="pe-2"><FontAwesomeIcon icon={faCircle} size="2xs" style={{ color: "#ec3609", }} /></span>Khóa</>}
-                                                                </div>
+                                                                <Status data={item?.status} />
                                                             </td>
                                                             <td className="px-1 py-3">
                                                                 <div className='iconDetail'>
                                                                     <DropdownAction
                                                                         data={item}
+                                                                        action={handleUpdate}
                                                                         refresh={refresh}
                                                                         table={TABLE.USER}
                                                                     />
                                                                 </div>
                                                             </td>
                                                         </tr>
-                                                    </>
-                                                )
+                                                    )
 
-                                            })
-                                        }
-                                    </> :
-                                    <tr>
-                                        <td colSpan="7" className="text-center">
-                                            <span className="text-gray-500">Không có dữ liệu</span>
-                                        </td>
-                                    </tr>
-                                }
-                            </tbody>
-                        </table>
+                                                })
+                                            }
+                                        </> :
+                                        <tr>
+                                            <td colSpan="7" className="text-center">
+                                                <span className="text-gray-500">Không có dữ liệu</span>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
                         <div className='footer-table d-flex justify-content-end mx-2'>
                             <div className='select-page'>
                                 <DropdownPaginate page={rowsPerPage}
@@ -230,8 +243,10 @@ const StaffManage = () => {
                 <CreateUserModal
                     show={showCreateUserModal}
                     isShow={handleShow}
+                    obUpdate={obUpdate}
                     refresh={refresh}
-                    table={TABLE.USER} />
+                    table={TABLE.USER}
+                    key={obUpdate ? obUpdate.id + " " + Date.now() : "modal-closed"} />
             </div >
         </>
 
