@@ -21,6 +21,10 @@
             font-weight: bold;
             color: black;
             margin: 0px;
+            max-width: 100%;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
     }
 

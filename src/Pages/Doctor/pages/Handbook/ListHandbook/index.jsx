@@ -4,28 +4,33 @@ import { getAllHandbooks } from '@/services/doctorService';
 import HandbookItem from "../HandbookItem";
 import './ListHandbook.scss';
 import { useNavigate } from "react-router-dom";
+import { Pagination } from 'antd';
 
 const ListHandbook = () => {
     const navigate = useNavigate();
     const [numbers, setNumbers] = useState(0);
     const [listHandbooks, setListHandbooks] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
+    const [currentPage, setCurrentPage] = useState(1);
+    const [pageSize, setPageSize] = useState(15);
+    const [total, setTotal] = useState(0);
 
     const {
         data: dataHandbooks,
         loading: handbookLoading,
         error: listHandbooksError,
         execute: fetchListHandbooks,
-    } = useMutation((query) => getAllHandbooks(1, 20, searchTerm));
+    } = useMutation((query) => getAllHandbooks(currentPage, pageSize, searchTerm));
 
     useEffect(() => {
         fetchListHandbooks();
-    }, []);
+    }, [currentPage, pageSize]);
 
     useEffect(() => {
         if (dataHandbooks?.DT) {
-            setListHandbooks(dataHandbooks.DT);
-            setNumbers(dataHandbooks.DT.length);
+            setListHandbooks(dataHandbooks.DT.handBooks);
+            setNumbers(dataHandbooks.DT.totalItems);
+            setTotal(dataHandbooks.DT.totalItems);
         }
     }, [dataHandbooks]);
 
@@ -37,7 +42,13 @@ const ListHandbook = () => {
         setSearchTerm(e.target.value);
     };
 
+    const handlePageChange = (page, pageSize) => {
+        setCurrentPage(page);
+        setPageSize(pageSize);
+    };
+
     const handleSearchButton = () => {
+        setCurrentPage(1);
         fetchListHandbooks();
     }
 
@@ -87,6 +98,15 @@ const ListHandbook = () => {
                     )}
                 </div>
             )}
+            <div className='row'>
+                <Pagination 
+                    align="center"
+                    current={currentPage}
+                    pageSize={pageSize}
+                    total={total}
+                    onChange={handlePageChange}
+                />
+            </div>
         </div>
     );
 };

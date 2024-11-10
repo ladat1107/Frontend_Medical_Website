@@ -10,7 +10,7 @@ import uploadToCloudinary from '@/utils/uploadToCloudinary';
 import { getHandbookById, updateHandbook, createHandbook } from '@/services/doctorService';
 import { useNavigate } from 'react-router-dom';
 
-const CreateHandbook = ({handbookId, isEditMode}) => {
+const CreateHandbook = ({handbookId, isEditMode, onUpdateSuccess, handleCancelEdit}) => {
     const navigate = useNavigate();
 
     const [markdownValue, setMarkdownValue] = useState("");
@@ -107,10 +107,12 @@ const CreateHandbook = ({handbookId, isEditMode}) => {
                 const response = await updateHandbook(data);
                 if(response && response.EC === 0){
                     message.success('Cập nhật cẩm nang thành công');
+                    if(onUpdateSuccess) {
+                        onUpdateSuccess(); // Gọi callback khi update thành công
+                    }
                 } else {
                     message.error('Cập nhật cẩm nang thất bại');
                 }
-                navigate(`/doctorHandbook/${handbookId}`);
             } else {
                 const response = await createHandbook(data);
                 if(response && response.EC === 0){
@@ -207,6 +209,12 @@ const CreateHandbook = ({handbookId, isEditMode}) => {
                 <div className='row mt-3'>
                     <div className='button-container'>
                         <button 
+                            className='button-cancel'
+                            onClick= {()=>handleCancelEdit()}>
+                            <i className="fa-solid fa-times"></i>
+                            Hủy
+                        </button>
+                        <button 
                             className='button'
                             onClick={handleSave}>
                             <i className="fa-solid fa-floppy-disk"></i>
@@ -220,7 +228,9 @@ const CreateHandbook = ({handbookId, isEditMode}) => {
 }
 CreateHandbook.propTypes = {
     handbookId: PropTypes.number,
-    isEditMode: PropTypes.bool
+    isEditMode: PropTypes.bool,
+    onUpdateSuccess: PropTypes.func,
+    handleCancelEdit: PropTypes.func
 };
 
 export default CreateHandbook;

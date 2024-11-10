@@ -6,7 +6,7 @@ const items = [
     {
         key: 'sub1',
         label: (<NavLink to="/doctorAppointment">Lịch hẹn</NavLink>),
-        icon: <HomeOutlined />,
+        icon: <i className="fa-solid fa-list"></i>,
     },
     {
         key: 'sub2',
@@ -40,7 +40,12 @@ const items = [
     {
         key: 'sub5',
         label: (<NavLink to="/doctorHandbook">Cẩm nang</NavLink>),
-        icon: <HomeOutlined />,
+        icon: <i className="fa-solid fa-book"></i>,
+    },
+    {
+        key: 'sub6',
+        label: (<NavLink to="/doctorSchedule">Lịch trực</NavLink>),
+        icon: <i className="fa-regular fa-calendar"></i>,
     },
     {
         type: 'divider',

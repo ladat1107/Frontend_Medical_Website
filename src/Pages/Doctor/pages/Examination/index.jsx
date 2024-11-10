@@ -166,7 +166,9 @@ const Examination = () => {
                                         value="info"
                                         defaultChecked={selectedRadio === 'info'}
                                         onChange={handleRadioChange} />
-                                    <span className="name">Thông tin khám</span>
+                                    <span className="name">
+                                        Thông tin khám
+                                    </span>
                                 </label>
                                 <label className="radio">
                                     <input type="radio" name="radio"

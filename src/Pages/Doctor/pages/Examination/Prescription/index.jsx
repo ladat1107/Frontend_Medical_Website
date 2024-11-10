@@ -62,11 +62,11 @@ const Prescription = ({ examinationId, paraclinicalPrice, refresh }) => {
         if (dataPrescription && dataPrescription.DT) {
             const details = dataPrescription.DT.prescriptionDetails.map((detail, index) => ({
                 id: index,  // Tạo ID duy nhất
-                medicineId: detail.medicineId,
-                quantity: detail.quantity,
-                unit: detail.unit,
-                price: detail.price,
-                dosage: detail.dosage
+                medicineId: detail.id,
+                quantity: detail.PrescriptionDetail.quantity,
+                unit: detail.PrescriptionDetail.unit,
+                price: detail.PrescriptionDetail.price,
+                dosage: detail.PrescriptionDetail.dosage
             }));
             setPresDetails(details);
             setNote(dataPrescription.DT.note);

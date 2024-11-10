@@ -21,6 +21,11 @@ const InfoHandbook = () => {
     const [htmlContent, setHtmlContent] = useState("");
     const [departmentName, setDepartmentName] = useState("");
 
+    const handleUpdateSuccess = () => {
+        setIsEditing(false);        // Cập nhật state để tắt chế độ edit
+        fetchHandbookData();        // Fetch lại data mới
+    };
+
     let {
         data: dataHandbook,
         loading: handbookLoading,
@@ -63,17 +68,9 @@ const InfoHandbook = () => {
                 <CreateHandbook 
                     handbookId={parseInt(handbookId)} 
                     isEditMode={true} 
+                    handleCancelEdit={handleCancelEdit}
+                    onUpdateSuccess={handleUpdateSuccess}
                 />
-                <div className='row mt-3'>
-                    <div className='button-container text-end'>
-                        <button 
-                            className='button-cancel'
-                            onClick={handleCancelEdit}>
-                            <i className="fa-solid fa-times"></i>
-                            Hủy
-                        </button>
-                    </div>
-                </div>
             </div>
         );
     }

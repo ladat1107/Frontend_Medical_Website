@@ -18,6 +18,7 @@ import Room from "./pages/Admin/pages/Room";
 import ServiceOfRoom from "./pages/Admin/pages/ServiceOfRoom";
 import Handbook from "./pages/Doctor/pages/Handbook";
 import InfoHandbook from "./pages/Doctor/pages/Handbook/InfoHandbook";
+import Schedule from "./pages/Doctor/pages/Schedule";
 function App() {
 
   return (
@@ -40,6 +41,7 @@ function App() {
         <Route path='/doctorExamination/:examId' element={<Examination />} />
         <Route path='/doctorHandbook' element={<Handbook />} />
         <Route path='/doctorHandbook/:handbookId' element={<InfoHandbook />} />
+        <Route path='/doctorSchedule' element={<Schedule />} />
       </Route>
     </Routes>
   );

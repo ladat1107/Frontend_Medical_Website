@@ -36,4 +36,9 @@
             align-items: center; 
         }
     }
+
+    .ant-pagination-item-active{
+        border-color: #007bff;
+        border: 1.5px solid #007bff;
+    }
 }
