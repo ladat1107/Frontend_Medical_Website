@@ -108,7 +108,7 @@ const DepartmentManage = () => {
                         }
                         <button className='py-1 px-2 btn-refresh-department ms-3' onClick={() => { refresh() }}>
                             <FontAwesomeIcon
-                                className='me-1 icon' icon={faRotateRight} style={{ color: "#03989e", }} /> Tải lại</button>
+                                className='me-1 icon' icon={faRotateRight} style={{ color: "#04a9f3", }} /> Tải lại</button>
                     </div>
                 </div>
                 <div className={`p-1 animated-div ${showInsert ? 'show' : ''}`}>

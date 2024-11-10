@@ -10,7 +10,7 @@ const Status = (props) => {
         // </div>
         <div className="status">
             {+props?.data === 1 ? <>
-                <span className="pe-2"><FontAwesomeIcon icon={faCircle} beatFade size="2xs" style={{ color: "#03989e", }} /></span>Hoạt động
+                <span className="pe-2"><FontAwesomeIcon icon={faCircle} beatFade size="2xs" style={{ color: "#04a9f3", }} /></span>Hoạt động
             </> : <>
                 <span className="pe-2"><FontAwesomeIcon icon={faCircle} size="2xs" style={{ color: "#ec3609", }} /></span>Khóa</>}
         </div>

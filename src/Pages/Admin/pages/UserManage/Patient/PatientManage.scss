@@ -18,11 +18,11 @@
                 cursor: pointer;
 
                 &:hover {
-                    border: #086FAB 1px solid;
-                    color: #086FAB;
+                    border: #04a9f3 1px solid;
+                    color: #04a9f3;
 
                     .icon {
-                        color: #086FAB !important;
+                        color: #04a9f3 !important;
                     }
                 }
             }
@@ -32,15 +32,6 @@
             border-radius: 10px;
             box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
 
-            .pageNoInactive {
-                border: none !important;
-            }
-
-            .pageNoActive {
-                background-color: #6ae1f9;
-                color: white;
-                border-radius: 50%;
-            }
             .table-head {}
 
             .row-1 {

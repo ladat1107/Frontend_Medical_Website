@@ -227,7 +227,7 @@ const InsertRoom = (props) => {
                             <Col xs={24} style={{ display: 'flex', justifyContent: 'flex-end' }} >
                                 <Form.Item>
                                     <Button type="primary" htmlType="submit"
-                                        style={{ background: "#03989e" }}
+                                        style={{ background: "#04a9f3" }}
                                         onClick={() => { handleInsert() }}>{roomUpdate?.id ? "Cập nhật" : "Thêm"}</Button>
                                 </Form.Item>
                             </Col>

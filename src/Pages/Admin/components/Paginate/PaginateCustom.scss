@@ -1,0 +1,11 @@
+.paginationContainer {
+    .pageNoInactive {
+        border: none !important;
+        background-color: none !important;
+    }
+
+    .pageNoActive {
+        background-color: none !important;
+        color: white;
+    }
+}

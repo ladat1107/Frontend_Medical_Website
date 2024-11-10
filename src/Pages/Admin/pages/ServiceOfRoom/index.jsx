@@ -125,14 +125,14 @@ const ServiceOfRoom = () => {
                     <div className="text">DỊCH VỤ</div>
                     <button className='py-1 px-2 btn-refresh-service ms-3' onClick={() => refresh()}>
                         <FontAwesomeIcon
-                            className='me-1 icon' icon={faRotateRight} style={{ color: "#03989e", }} /> Tải lại</button>
+                            className='me-1 icon' icon={faRotateRight} style={{ color: "#04a9f3", }} /> Tải lại</button>
                 </div>
                 <div className="row d-flex flex-lg-row-reverse justify-content-between align-items-start">
                     <div className="ps-3 pb-3 col-12 col-lg-3">
                         <div className="insert-update p-3">
                             <div className=""><span className="me-2">{obUpdate ? "CẬP NHẬT" : "THÊM DỊCH VỤ "}</span>
                                 <FontAwesomeIcon onClick={() => { form.resetFields(); setObUpdate(null) }}
-                                    icon={faArrowsRotate} spinPulse style={{ color: "#03989e", cursor: "pointer" }} /></div>
+                                    icon={faArrowsRotate} spinPulse style={{ color: "#04a9f3", cursor: "pointer" }} /></div>
                             <hr />
                             <Form
                                 layout={'horizontal'}
@@ -210,7 +210,7 @@ const ServiceOfRoom = () => {
                                     <Col xs={24} style={{ display: 'flex', justifyContent: 'flex-end' }} >
                                         <Form.Item>
                                             <Button type="primary" htmlType="submit"
-                                                style={{ background: "#03989e" }}
+                                                style={{ background: "#04a9f3" }}
                                                 onClick={() => { handleInsertUpdate() }}>{obUpdate ? "Cập nhật" : "Thêm"}</Button>
                                         </Form.Item>
                                     </Col>
@@ -279,7 +279,7 @@ const ServiceOfRoom = () => {
                                                                 {/* <td className="text-start px-1 py-3 status">
                                                                     <div className="status">
                                                                         {+item?.status === 1 ? <>
-                                                                            <span className="pe-2"><FontAwesomeIcon icon={faCircle} beatFade size="2xs" style={{ color: "#03989e", }} /></span>Hoạt động
+                                                                            <span className="pe-2"><FontAwesomeIcon icon={faCircle} beatFade size="2xs" style={{ color: "#04a9f3", }} /></span>Hoạt động
                                                                         </> : <>
                                                                             <span className="pe-2"><FontAwesomeIcon icon={faCircle} size="2xs" style={{ color: "#ec3609", }} /></span>Khóa</>}
                                                                     </div>

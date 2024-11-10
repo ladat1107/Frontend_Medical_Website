@@ -1,15 +1,16 @@
 import React from 'react';
 import Paginate from "react-paginate-in-peace";
+import './PaginateCustom.scss'
 const PaginateCustom = (props) => {
     return (
-        <Paginate className="paginate"        
+        <Paginate className="paginate"
             totalPageCount={props.totalPageCount} // Required Property
             setPage={props.setPage} // Required Property
             activeDigitColor={"white"} // Optional Property
-            activeBackgroundColor={"#03989e"} // Optional Property
-            buttonBorderColor={"#03989e"} // Optional Property
-            arrowColor={"#03989e"} // Optional Property
-            dotColor={"#03989e"} // Optional Property
+            activeBackgroundColor={"#04a9f3"} // Optional Property
+            buttonBorderColor={"#04a9f3"} // Optional Property
+            arrowColor={"#04a9f3"} // Optional Property
+            dotColor={"#04a9f3"} // Optional Property
         />
     );
 };

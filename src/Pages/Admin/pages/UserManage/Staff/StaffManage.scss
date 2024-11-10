@@ -18,11 +18,11 @@
                 cursor: pointer;
 
                 &:hover {
-                    border: #086FAB 1px solid;
-                    color: #086FAB;
+                    border: #04a9f3 1px solid;
+                    color: #04a9f3;
 
                     .icon {
-                        color: #086FAB !important;
+                        color: #04a9f3 !important;
                     }
                 }
             }
@@ -39,15 +39,15 @@
                 color: #6C757D !important;
             }
 
-            .pageNoInactive {
-                border: none !important;
-            }
+            // .pageNoInactive {
+            //     border: none !important;
+            // }
 
-            .pageNoActive {
-                background-color: #6ae1f9;
-                color: white;
-                border-radius: 50%;
-            }
+            // .pageNoActive {
+            //     background-color: #6ae1f9;
+            //     color: white;
+            //     border-radius: 50%;
+            // }
 
             .table-head {}
 
