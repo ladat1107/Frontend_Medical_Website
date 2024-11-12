@@ -96,7 +96,7 @@ export const AuthenContextProvider = ({ children }) => {
 
   const handleLogout = () => {
     localToken.remove();
-    navigate(PATHS.HOME);
+    // navigate(PATHS.HOME);
     message.success("Đăng xuất thành công");
   };
 

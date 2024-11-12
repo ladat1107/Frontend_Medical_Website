@@ -1,6 +1,13 @@
 .room-content {
+    display: flex;
+    justify-content: center; // Căn giữa theo chiều ngang
+    align-items: center; // Căn giữa theo chiều dọc
+    height: 100%;
+    background: #f4f7fe;
+
     .container {
-        padding: 0 2rem;
+        padding: 0 3%;
+        margin: 0;
         background: #f4f7fe;
 
         .room-of-room-content-header {

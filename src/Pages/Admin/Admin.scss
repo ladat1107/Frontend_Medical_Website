@@ -2,10 +2,10 @@
 
     .content-data {
         //  background: #f4f7fe !important;
-        background: white !important;
+        background: #f4f7fe !important;
 
         .ant-layout-content {
-            background: white !important;
+            background: #f4f7fe !important;
         }
 
 
@@ -13,10 +13,18 @@
     }
 
     span {
-        font-family: 'Nunito', sans-serif;
+        // font-family: 'Inclusive Sans', sans-serif;
+        font-family: 'Open Sans', sans-serif;
     }
 
     div {
-        font-family: 'Nunito', sans-serif;
+        //  font-family: 'Inclusive Sans', sans-serif;
+        font-family: 'Open Sans', sans-serif;
+    }
+
+    input {
+        font-family: 'Open Sans', sans-serif;
+        font-size: 1.1em;
+        color: rgb(58, 58, 58);
     }
 }

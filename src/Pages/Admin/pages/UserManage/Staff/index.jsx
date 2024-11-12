@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import { useAuthenContext } from "@/contexts/AuthenContext";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPlus, faMagnifyingGlass, faCircle } from '@fortawesome/free-solid-svg-icons'
+import { faPlus } from '@fortawesome/free-solid-svg-icons'
 import DropdownPaginate from '@/pages/Admin/components/Dropdown/DropdownPaginate';
 import DropdownAction from '@/pages/Admin/components/Dropdown/DropdownAction';
 import DropdownPosition from './DropDownPosition';
@@ -9,15 +8,13 @@ import useDebounce from '@/hooks/useDebounce';
 import Checkbox from '@mui/material/Checkbox';
 import CreateUserModal from '@/pages/Admin/components/Modal/CreateUserModal';
 import PaginateCustom from '@/pages/Admin/components/Paginate/PaginateCustom';
-import { getUser, deleteUser, getUserById } from "@/services/adminService";
-import Loading from '@/components/Loading/Loading';
+import { getUser, getUserById } from "@/services/adminService";
 import { useMutation } from '@/hooks/useMutation';
 import { TABLE } from '@/constant/value';
 import "./StaffManage.scss";
-import { Button, Input } from 'antd';
-import { SearchOutlined, UserOutlined } from '@ant-design/icons';
+import { Input } from 'antd';
+import { SearchOutlined } from '@ant-design/icons';
 import Status from '@/pages/Admin/components/Status';
-import { set } from 'lodash';
 
 const StaffManage = () => {
 

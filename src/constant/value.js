@@ -16,14 +16,18 @@ export const PAGINATE = [
         value: 100
     }
 ]
-export const GENDER = {
-    value: 0,
-    label: "Nam"
+export const GENDER = [
+    {
+        value: 0,
+        label: "Nam"
+    }
     ,
-    value: 1,
-    label: "Nữ"
-    ,
-}
+    {
+        value: 1,
+        label: "Nữ"
+        ,
+    }
+]
 export const TABLE = {
     USER: "USER",
     DEPARTMENT: "DEPARTMENT",
@@ -128,7 +132,7 @@ export const POSITION = [
         value: "CK2"
     },
     {
-        label: "Thac sĩ",
+        label: "Thạc sĩ",
         value: "THS"
     },
     {
@@ -154,4 +158,51 @@ export const STATUS = [
         label: "Khóa",
         value: 0
     }
+]
+
+export const AOB = [
+    {
+        label: "Chưa biết",
+        value: 0
+    },
+    {
+        label: "Nhóm máu A",
+        value: 1
+    },
+    {
+        label: "Nhóm máu B",
+        value: 2
+    },
+    {
+        label: "Nhóm máu AB",
+        value: 3
+    },
+    {
+        label: "Nhóm máu O",
+        value: 4
+    }
+]
+export const RH = [
+    {
+        label: "Chưa biết",
+        value: 0
+    },
+    {
+        label: "Nhóm máu RH+",
+        value: 1
+    },
+    {
+        label: "Nhóm máu RH-",
+        value: 2
+    },
+]
+export const MARITALSTATUS = [
+    {
+        label: "Đã kết hôn",
+        value: 1
+    },
+    {
+        label: "Độc thân",
+        value: 2
+    },
 ]

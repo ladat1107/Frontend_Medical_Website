@@ -3,7 +3,7 @@ import { BASE_URL } from "@/constant/environment";
 import { localToken } from "./token";
 
 const axiosInstance = axios.create({
-  baseURL: BASE_URL,
+  baseURL: BASE_URL,  
 });
 
 axiosInstance.interceptors.request.use(

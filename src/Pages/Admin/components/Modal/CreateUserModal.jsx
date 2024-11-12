@@ -1,16 +1,17 @@
 
 import React, { useEffect, useState } from 'react';
-import { GENDER, POSITION, STATUS, TABLE } from '@/constant/value';
+import { POSITION, STATUS } from '@/constant/value';
 import { getNameDepartment, createUser, getSpecialtySelect, updateUser } from "@/services/adminService";
 import "./Modal.scss";
 import { ALL_ROLE, STAFF_ROLE } from '@/constant/role';
-import { Form, Input, Select, message, Button, Modal, Col, Row, InputNumber, Descriptions } from 'antd';
+import { Form, Input, Select, message, Button, Modal, Col, Row, InputNumber } from 'antd';
 import useQuery from '@/hooks/useQuery';
 
 import MarkdownIt from 'markdown-it';
 import MdEditor from 'react-markdown-editor-lite';
 import 'react-markdown-editor-lite/lib/index.css';
 let mdParser = new MarkdownIt(/* Markdown-it options */);
+const { TextArea } = Input;
 const CreateUser = (props) => {
     let optionPosition = POSITION;
     let [optionRole, setOptionRole] = useState(ALL_ROLE);
@@ -91,16 +92,15 @@ const CreateUser = (props) => {
             if (listStaffRole.includes(userUpdate.roleId)) {
                 setOptionRole(STAFF_ROLE);
                 form.setFieldsValue({
-                    staffId: userUpdate?.staffUserData?.id || "",
                     departmentId: userUpdate?.staffUserData?.departmentId || "",
+                    shortDescription: userUpdate?.staffUserData?.shortDescription || "",
                     specialtyId: userUpdate?.staffUserData?.specialtyId || "",
                     position: userUpdate?.staffUserData?.position?.split(",") || [],
                     price: userUpdate?.staffUserData?.price || "",
-                    markDownContent: userUpdate?.staffUserData?.staffDescriptionData?.markdownContent || "",
-                    descriptionId: userUpdate?.staffUserData?.staffDescriptionData?.id || "",
+                    markDownContent: userUpdate?.staffUserData?.staffDescriptionData?.markDownContent || "",
                 })
                 htmlContent = userUpdate?.staffUserData?.staffDescriptionData?.htmlContent || "";
-                setMarkdownValue(userUpdate?.staffUserData?.staffDescriptionData?.markdownContent || "");
+                setMarkdownValue(userUpdate?.staffUserData?.staffDescriptionData?.markDownContent || "");
                 setIsShowStaff(true);
             } else {
                 setIsShowStaff(false);
@@ -350,11 +350,11 @@ const CreateUser = (props) => {
                             <Col xs={24} md={12} lg={6} >
                                 <Form.Item
                                     name="departmentId"
-                                    label="Phòng ban"
+                                    label="Khoa"
                                     rules={[
                                         {
                                             required: true,
-                                            message: 'Vui lòng chọn phòng ban!',
+                                            message: 'Vui lòng chọn khoa!',
                                         },
                                     ]}
                                 >
@@ -364,7 +364,7 @@ const CreateUser = (props) => {
                                         filterSort={(optionA, optionB) =>
                                             (optionA?.label ?? '').toLowerCase().localeCompare((optionB?.label ?? '').toLowerCase())
                                         }
-                                        placeholder="Vui lòng chọn phòng ban"
+                                        placeholder="Vui lòng chọn khoa"
                                         options={departments}
                                     />
                                 </Form.Item>
@@ -411,6 +411,14 @@ const CreateUser = (props) => {
                                     }
                                 >
                                     <InputNumber suffix="VNĐ" style={{ width: "100%" }} />
+                                </Form.Item>
+                            </Col>
+                            <Col span={24}>
+                                <Form.Item
+                                    name="shortDescription"
+                                    label="Giới thiệu"
+                                >
+                                    <TextArea rows={4} placeholder="Mô tả ngắn" />
                                 </Form.Item>
                             </Col>
                             <Col span={24} >

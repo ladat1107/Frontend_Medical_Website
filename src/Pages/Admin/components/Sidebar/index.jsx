@@ -1,9 +1,8 @@
 import React from 'react';
 import { Layout } from 'antd';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
 import './Sidebar.scss';
 import MenuSidebar from './MenuSidebar';
+import DropdownProfile from '../Dropdown/DropdownProfile';
 
 const { Sider } = Layout;
 const Sidebar = (props) => {
@@ -11,7 +10,7 @@ const Sidebar = (props) => {
         <div className='sidebar-content'>
             <Sider
                 theme="light"
-                width={230}
+                width={240}
                 collapsed={props.open}
                 trigger={null}
                 breakpoint="lg"
@@ -32,7 +31,7 @@ const Sidebar = (props) => {
                     <div className='col-8 py-2 ms-1'>
                         <div className='d-flex justify-content-between'>
                             <span><b>La Đạt</b></span>
-                            <FontAwesomeIcon icon={faChevronDown} />
+                            <DropdownProfile />
                         </div>
                         <div>
                             Quản trị viên
