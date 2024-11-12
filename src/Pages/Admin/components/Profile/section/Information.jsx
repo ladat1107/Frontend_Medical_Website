@@ -159,7 +159,7 @@ const Information = (props) => {
           span: 24,
         }}
         initialValues={{
-          dob: moment(profile?.dob).utc(),
+          dob: profile?.dob ? moment(profile.dob).utc() : null,
           lastName: profile?.lastName || "",
           firstName: profile?.firstName || "",
           email: profile?.email || "",
@@ -292,6 +292,7 @@ const Information = (props) => {
               label="Ngày sinh"
             >
               <DatePicker
+                placeholder="Chọn ngày sinh"
                 disabled={!isUpdate}
                 format={'DD/MM/YYYY'} style={{ width: "100%" }}
               />

@@ -11,6 +11,7 @@ import { apiService } from "@/services/apiService";
 import useQuery from "@/hooks/useQuery";
 import { info } from "sass";
 import StaffInfo from "./section/staff";
+import { set } from "lodash";
 let item = {
     info: "information",
     changePassword: "changePassword",
@@ -30,7 +31,7 @@ const Profile = () => {
         loading: listProfileLoading,
         execute: fetchProfile,
     } = useMutation((query) =>
-        getUserById(38)
+        getUserById(39)
     )
     useEffect(() => {
         if (specialtyData && specialtyData?.DT?.length > 0) {
@@ -57,6 +58,7 @@ const Profile = () => {
     }, [dataProfile])
 
     useEffect(() => {
+        setSelectedItem(item.infor);
         fetchProfile();
     }, []);
     const handleItemClick = (item) => {
