@@ -4,10 +4,10 @@ export const handleRegisterUser = (data) => {
     return axios.post(`/api/registerUser`, data)
 }
 export const handleLogin = (data) => {
-    return axios.post(`/api/handleLogin`, data)
+    return axios.post(`/handleLogin`, data)
 }
 export const logoutUser = () => {
-    return axios.post(`/api/handleLogout`)
+    return axios.post(`/handleLogout`)
 }
 // USER MANAGEMENT
 export const createUser = (data) => {

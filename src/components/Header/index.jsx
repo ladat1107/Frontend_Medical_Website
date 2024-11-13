@@ -1,5 +1,4 @@
 import { MODAL_TYPE } from "@/constant/general";
-import { useAuthenContext } from "@/contexts/AuthenContext";
 import { NavDropdown } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
@@ -8,9 +7,12 @@ import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 
 function Header() {
-  const { handleLogout, handleLogin, handleShowModal, handleModalClose } =
-    useAuthenContext();
-  const isAuthenticated = false;
+  // const { handleLogout, handleLogin, handleShowModal, handleModalClose } =
+  //   useAuthenContext();
+  // const isAuthenticated = false;
+  let isAuthenticated = false;
+  const handleLogout = () => { };
+  const handleShowModal = () => { };
 
   return (
     <Navbar
@@ -64,7 +66,7 @@ function Header() {
                   onClick={(e) => {
                     e.preventDefault(); // Ngăn hành vi mặc định
                     handleShowModal(MODAL_TYPE.register); // Xử lý logic sau khi ngăn hành vi mặc định
-                   
+
                   }}
                   className="me-2"
                 >

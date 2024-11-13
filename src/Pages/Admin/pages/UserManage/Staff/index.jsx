@@ -17,8 +17,6 @@ import { SearchOutlined } from '@ant-design/icons';
 import Status from '@/pages/Admin/components/Status';
 
 const StaffManage = () => {
-
-    //let { handleDropdown } = useAuthenContext();
     let [currentPage, setCurrentPage] = useState(1);
     let [rowsPerPage, setRowPaper] = useState({ value: 10, id: 1 });
     let [listUser, setListUser] = useState([]);

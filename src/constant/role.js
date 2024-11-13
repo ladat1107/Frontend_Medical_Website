@@ -52,3 +52,12 @@ export const ALL_ROLE = [
     label: 'Nhân viên tiếp nhận',
   },
 ]
+export const ROLE = {
+  ADMIN: 1,
+  PATIENT: 2,
+  DOCTOR: 3,
+  NURSE: 4,
+  PHARMACIST: 5,
+  RECEPTIONIST: 6,
+  ACCOUNTANT: 7,
+}

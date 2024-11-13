@@ -1,7 +1,7 @@
 import { useMutation } from "@/hooks/useMutation";
 import "./Profile.scss";
 import { getNameDepartment, getSpecialtySelect, getUserById } from "@/services/adminService";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBell, faCircleInfo, faNotesMedical, faUnlockKeyhole, faUser } from "@fortawesome/free-solid-svg-icons";
 import Information from "./section/Information";
@@ -12,6 +12,7 @@ import useQuery from "@/hooks/useQuery";
 import { info } from "sass";
 import StaffInfo from "./section/staff";
 import { set } from "lodash";
+import { AuthenContext } from "@/contexts/AuthenContext";
 let item = {
     info: "information",
     changePassword: "changePassword",
@@ -20,6 +21,7 @@ let item = {
     notifications: "notifications"
 }
 const Profile = () => {
+    let { user } = useContext(AuthenContext);
     let [profile, setProfile] = useState({});
     const [selectedItem, setSelectedItem] = useState(item.info);
     const [folks, setListfolks] = useState([]);
@@ -31,7 +33,7 @@ const Profile = () => {
         loading: listProfileLoading,
         execute: fetchProfile,
     } = useMutation((query) =>
-        getUserById(39)
+        getUserById(user.id)
     )
     useEffect(() => {
         if (specialtyData && specialtyData?.DT?.length > 0) {
