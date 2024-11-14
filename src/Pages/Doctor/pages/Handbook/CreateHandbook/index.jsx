@@ -6,11 +6,11 @@ import { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { getCardActionAreaUtilityClass } from '@mui/material';
 import { CloudUploadOutlined, InboxOutlined, UploadOutlined } from '@ant-design/icons';
-import uploadToCloudinary from '@/utils/uploadToCloudinary';
+import { uploadToCloudinary } from '@/utils/uploadToCloudinary';
 import { getHandbookById, updateHandbook, createHandbook } from '@/services/doctorService';
 import { useNavigate } from 'react-router-dom';
 
-const CreateHandbook = ({handbookId, isEditMode, onUpdateSuccess, handleCancelEdit}) => {
+const CreateHandbook = ({ handbookId, isEditMode, onUpdateSuccess, handleCancelEdit }) => {
     const navigate = useNavigate();
 
     const [markdownValue, setMarkdownValue] = useState("");
@@ -18,7 +18,7 @@ const CreateHandbook = ({handbookId, isEditMode, onUpdateSuccess, handleCancelEd
     const [uploading, setUploading] = useState(false);
     const [uploadProgress, setUploadProgress] = useState(0);
     const [form] = Form.useForm();
-    
+
     const [title, setTitle] = useState("");
     const [tags, setTags] = useState("");
     const [image, setImage] = useState("");
@@ -87,7 +87,7 @@ const CreateHandbook = ({handbookId, isEditMode, onUpdateSuccess, handleCancelEd
     };
 
     const handleSave = async () => {
-        if(!title || !image || !htmlContent || !markdownValue) {
+        if (!title || !image || !htmlContent || !markdownValue) {
             message.error('Vui lòng nhập đầy đủ thông tin');
             return;
         }
@@ -102,12 +102,12 @@ const CreateHandbook = ({handbookId, isEditMode, onUpdateSuccess, handleCancelEd
         }
 
         try {
-            if(isEditMode && handbookId) {
+            if (isEditMode && handbookId) {
                 data.id = handbookId;
                 const response = await updateHandbook(data);
-                if(response && response.EC === 0){
+                if (response && response.EC === 0) {
                     message.success('Cập nhật cẩm nang thành công');
-                    if(onUpdateSuccess) {
+                    if (onUpdateSuccess) {
                         onUpdateSuccess(); // Gọi callback khi update thành công
                     }
                 } else {
@@ -115,7 +115,7 @@ const CreateHandbook = ({handbookId, isEditMode, onUpdateSuccess, handleCancelEd
                 }
             } else {
                 const response = await createHandbook(data);
-                if(response && response.EC === 0){
+                if (response && response.EC === 0) {
                     message.success('Cẩm nang đã được tạo, đang chờ quản trị viên xác nhận');
                 } else {
                     message.error('Tạo cẩm nang thất bại');
@@ -138,8 +138,8 @@ const CreateHandbook = ({handbookId, isEditMode, onUpdateSuccess, handleCancelEd
                     <div className='col-6'>
                         <div className="search-container">
                             <i className="fa-solid fa-heading"></i>
-                            <input 
-                                type="text" 
+                            <input
+                                type="text"
                                 placeholder="Nhập tiêu đề..."
                                 value={title}
                                 onChange={handleInputChange('title')} />
@@ -153,11 +153,11 @@ const CreateHandbook = ({handbookId, isEditMode, onUpdateSuccess, handleCancelEd
                     <div className='col-6'>
                         <div className="search-container">
                             <i className="fa-solid fa-tag"></i>
-                            <input 
-                                type="text" 
+                            <input
+                                type="text"
                                 placeholder="Thêm tags..."
-                                // value={tags}
-                                // onChange={handleInputChange('tags')} 
+                            // value={tags}
+                            // onChange={handleInputChange('tags')} 
                             />
                         </div>
                     </div>
@@ -170,7 +170,7 @@ const CreateHandbook = ({handbookId, isEditMode, onUpdateSuccess, handleCancelEd
                         <Form.Item>
                             <div className='image-upload'>
                                 <div className='container'>
-                                    <span className='image-cloud'><CloudUploadOutlined/></span>
+                                    <span className='image-cloud'><CloudUploadOutlined /></span>
                                     <div><span htmlFor={"input-upload"} className='input-upload'
                                         onClick={() => document.getElementById('input-upload').click()}>Chọn ảnh</span> đăng tải.</div>
                                     {uploading && (
@@ -180,7 +180,7 @@ const CreateHandbook = ({handbookId, isEditMode, onUpdateSuccess, handleCancelEd
                                     )}
                                     {image && (
                                         <div>
-                                            <img src={image} alt="Uploaded" style={{ width: "100%"}} />
+                                            <img src={image} alt="Uploaded" style={{ width: "100%" }} />
                                         </div>
                                     )}
                                 </div>
@@ -208,13 +208,13 @@ const CreateHandbook = ({handbookId, isEditMode, onUpdateSuccess, handleCancelEd
                 </div>
                 <div className='row mt-3'>
                     <div className='button-container'>
-                        <button 
+                        <button
                             className='button-cancel'
-                            onClick= {()=>handleCancelEdit()}>
+                            onClick={() => handleCancelEdit()}>
                             <i className="fa-solid fa-times"></i>
                             Hủy
                         </button>
-                        <button 
+                        <button
                             className='button'
                             onClick={handleSave}>
                             <i className="fa-solid fa-floppy-disk"></i>

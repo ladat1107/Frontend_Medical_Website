@@ -3,7 +3,7 @@ import { Button, Col, Form, Input, message, Progress, Radio, Row, Select, Upload
 import { CloudUploadOutlined, InboxOutlined, UploadOutlined } from '@ant-design/icons';
 import { createDepartment, getStaffByRole, updateDepartment } from '@/services/adminService';
 import useQuery from '@/hooks/useQuery';
-import uploadToCloudinary from '@/utils/uploadToCloudinary';
+import { uploadToCloudinary, uploadAndDeleteToCloudinary } from '@/utils/uploadToCloudinary';
 
 import MarkdownIt from 'markdown-it';
 import MdEditor from 'react-markdown-editor-lite';
@@ -65,9 +65,9 @@ const InsertDepartment = (props) => {
         setUploadProgress(0); // Đặt lại tiến trình về 0
         try {
             // Gọi hàm upload với callback để cập nhật tiến trình
-            const url = await uploadToCloudinary(file, (progress) => {
+            const url = await uploadAndDeleteToCloudinary(file, "Department", (progress) => {
                 setUploadProgress(progress);
-            });
+            }, imageUrl);
             setImageUrl(url); // Lưu URL ảnh sau khi upload
             message.success("Upload thành công!");
         } catch (error) {

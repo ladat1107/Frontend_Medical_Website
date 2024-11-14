@@ -4,21 +4,21 @@ import AdminFooter from './components/AdminFooter';
 import AdminHeader from './components/AdminHeader';
 import SideBar from './components/Sidebar';
 import './Admin.scss';
-import { Outlet, useNavigate } from 'react-router-dom';
+import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { AuthenContext } from '@/contexts/AuthenContext';
 import { ROLE } from '@/constant/role';
+import { PATHS } from '@/constant/path';
 const { Content } = Layout;
 
 const AdminLayoutTest = () => {
     const [collapsed, setCollapsed] = useState(false);
     let { user, logout } = useContext(AuthenContext);
-    const navigate = useNavigate();
+    const location = useLocation();
     useEffect(() => {
-        console.log(user);
-        if (user.role !== ROLE.ADMIN) {  // Clears the localStorage (optional)
+        if (user.role !== ROLE.ADMIN && location.pathname !== PATHS.ADMIN.PROFILE) {  // Clears the localStorage (optional)
             logout(); // Redirect to login page or another appropriate route
         }
-    }, [navigate]);
+    }, [location]);
     const {
         token: { colorBgContainer, borderRadiusLG },
     } = theme.useToken();

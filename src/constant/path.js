@@ -23,9 +23,3 @@ export const PATHS = {
         LOGOUT: "/logout",
     }
 }
-{/* <Route path={PATHS.STAFF.DASHBOARD} element={<DoctorHomePage />} />
-<Route path='/doctorAppointment' element={<Appointment />} />
-<Route path='/doctorExamination/:examId' element={<Examination />} />
-<Route path='/doctorHandbook' element={<Handbook />} />
-<Route path='/doctorHandbook/:handbookId' element={<InfoHandbook />} />
-<Route path='/doctorSchedule' element={<Schedule />} /> */}

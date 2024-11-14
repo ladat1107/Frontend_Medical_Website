@@ -10,7 +10,7 @@ import CreateUserModal from '@/pages/Admin/components/Modal/CreateUserModal';
 import PaginateCustom from '@/pages/Admin/components/Paginate/PaginateCustom';
 import { getUser, getUserById } from "@/services/adminService";
 import { useMutation } from '@/hooks/useMutation';
-import { TABLE } from '@/constant/value';
+import { LINK, TABLE } from '@/constant/value';
 import "./StaffManage.scss";
 import { Input } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
@@ -175,7 +175,7 @@ const StaffManage = () => {
                                                                     /></div>
                                                             </td>
                                                             <td scope="row" className="d-flex justify-content-start px-1 py-3 min-content-width g-0">
-                                                                <img className="image" src="https://t4.ftcdn.net/jpg/05/11/55/91/360_F_511559113_UTxNAE1EP40z1qZ8hIzGNrB0LwqwjruK.jpg" alt="Jese image" />
+                                                                <img className="image" src={item?.avatar || LINK.AVATAR_NULL} alt="Jese image" />
                                                                 <div className="ps-1 email ">
                                                                     <div className="fw-semibold">{item.lastName + " " + item.firstName}</div>
                                                                     <div className="fw-normal">{item.email}</div>

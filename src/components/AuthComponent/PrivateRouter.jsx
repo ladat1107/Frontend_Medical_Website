@@ -5,7 +5,6 @@ import { PATHS } from "@/constant/path";
 import { useContext } from "react";
 const PrivateRouter = () => {
     const { user } = useContext(AuthenContext);
-    console.log("user private", user);
     return user ? <Outlet /> : <Navigate to={PATHS.HOME.LOGIN} />;
 }
 

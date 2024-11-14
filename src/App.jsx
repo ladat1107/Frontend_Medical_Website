@@ -47,6 +47,7 @@ function App() {
           <Route path={PATHS.STAFF.HANDBOOK} element={<Handbook />} />
           <Route path={PATHS.STAFF.INFO_HANDBOOK} element={<InfoHandbook />} />
           <Route path={PATHS.STAFF.SCHEDULE} element={<Schedule />} />
+          <Route path={PATHS.ADMIN.PROFILE} element={<Profile />} />
         </Route>
 
       </Route>

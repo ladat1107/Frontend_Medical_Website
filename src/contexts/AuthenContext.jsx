@@ -10,12 +10,19 @@ export const AuthenProvider = ({ children }) => {
 
   const [user, setUser] = useState(localUser.get());
   const navigate = useNavigate();
+  useEffect(() => {
+    if (!user) {
+      navigate(PATHS.HOME.LOGIN);
+    }
+  }, [user, navigate]);
   const login = async (loginData) => {
     const payload = { ...loginData };
     if (payload?.user && payload?.accessToken) {
-      localToken.set(payload?.accessToken);
-      localUser.set(payload?.user);
-      setUser(payload?.user);
+      setUser((prev) => {
+        localToken.set(payload.accessToken);
+        localUser.set(payload.user);
+        return payload.user;
+      });
       message.success("Đăng nhập thành công");
       if (payload?.user?.role === ROLE.ADMIN) {
         navigate(PATHS.ADMIN.DASHBOARD);

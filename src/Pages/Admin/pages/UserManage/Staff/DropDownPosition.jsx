@@ -10,8 +10,7 @@ const DropdownPosition = ({ onChange }) => {
             onChange(STAFF_ROLE.map(item => item.value))
         } else {
             onChange([id]);
-        }
-        ;
+        };
     }
 
     return (

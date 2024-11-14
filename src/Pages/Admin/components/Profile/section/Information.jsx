@@ -1,13 +1,12 @@
-import uploadToCloudinary from "@/utils/uploadToCloudinary";
+import { uploadToCloudinary } from "@/utils/uploadToCloudinary";
 import { Button, Col, DatePicker, Form, Input, message, Progress, Row, Select } from "antd";
 import { useEffect, useState } from "react";
-import { AOB, GENDER, MARITALSTATUS, RH } from "@/constant/value";
+import { AOB, GENDER, LINK, MARITALSTATUS, RH } from "@/constant/value";
 import { apiService } from "@/services/apiService";
 import useQuery from "@/hooks/useQuery";
 import moment from 'moment-timezone';
 import { updateProfileInfo } from "@/services/adminService";
-import { set } from "lodash";
-import { current } from "@reduxjs/toolkit";
+import dayjs from 'dayjs';
 const Information = (props) => {
   let [form] = Form.useForm();
   let [isUpdate, setIsUpdate] = useState(false);
@@ -26,7 +25,27 @@ const Information = (props) => {
   let [birthListDistrict, setBirthListDistrict] = useState([]);
   let [currentListWard, setCurrentListWard] = useState([]);
   let [birthListWard, setBirthListWard] = useState([]);
-
+  let initValue = {
+    dob: profile?.dob ? dayjs(dayjs(profile?.dob).format('DD/MM/YYYY'), "DD/MM/YYYY") : null,
+    lastName: profile?.lastName || "",
+    firstName: profile?.firstName || "",
+    email: profile?.email || "",
+    cid: profile?.cid || "",
+    gender: +(profile?.gender + ""),
+    phoneNumber: profile?.phoneNumber || "",
+    folk: profile?.folk || null,
+    ABOBloodGroup: profile?.ABOBloodGroup,
+    RHBloodGroup: profile?.RHBloodGroup,
+    maritalStatus: profile?.maritalStatus,
+    birthProvince: +birthData[3] || null,
+    birthDistrict: +birthData[2] || null,
+    birthWard: +birthData[1] || null,
+    birthAddress: birthData[0] || "",
+    currentProvince: +currentResidentData[3] || null,
+    currentDistrict: +currentResidentData[2] || null,
+    currentWard: +currentResidentData[1] || null,
+    currentAddress: currentResidentData[0] || "",
+  }
   let { data: provinceData } = useQuery(() => apiService.getAllProvince())
   let { data: currentDistrictList } = useQuery(
     () => currentProvinceId && apiService.getDistrictByProvinceId(currentProvinceId),
@@ -158,27 +177,7 @@ const Information = (props) => {
         wrapperCol={{
           span: 24,
         }}
-        initialValues={{
-          dob: profile?.dob ? moment(profile.dob).utc() : null,
-          lastName: profile?.lastName || "",
-          firstName: profile?.firstName || "",
-          email: profile?.email || "",
-          cid: profile?.cid || "",
-          gender: +(profile?.gender + ""),
-          phoneNumber: profile?.phoneNumber || "",
-          folk: profile?.folk || null,
-          ABOBloodGroup: profile?.ABOBloodGroup,
-          RHBloodGroup: profile?.RHBloodGroup,
-          maritalStatus: profile?.maritalStatus,
-          birthProvince: +birthData[3] || null,
-          birthDistrict: +birthData[2] || null,
-          birthWard: +birthData[1] || null,
-          birthAddress: birthData[0] || "",
-          currentProvince: +currentResidentData[3] || null,
-          currentDistrict: +currentResidentData[2] || null,
-          currentWard: +currentResidentData[1] || null,
-          currentAddress: currentResidentData[0] || "",
-        }}
+        initialValues={initValue}
         style={{
           maxWidth: "100%",
         }}
@@ -192,7 +191,7 @@ const Information = (props) => {
               <div className='avatar' >
                 <div className="image-user" htmlFor={"input-upload-avatar"}
                   onClick={() => document.getElementById('input-upload-avatar').click()}>
-                  <img className="avatar" src={imageUrl || "https://t4.ftcdn.net/jpg/05/11/55/91/360_F_511559113_UTxNAE1EP40z1qZ8hIzGNrB0LwqwjruK.jpg"} alt="Uploaded" />
+                  <img className="avatar" src={imageUrl || LINK.AVATAR_NULL} alt="Uploaded" />
                   <input type="file" id='input-upload-avatar' hidden={true} onChange={handleImageChange} />
                   {uploading && (
                     <div style={{ marginTop: '20px', width: '100%' }}>

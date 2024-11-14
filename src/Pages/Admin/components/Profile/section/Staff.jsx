@@ -3,7 +3,7 @@ import { useState } from "react";
 import MarkdownIt from 'markdown-it';
 import MdEditor from 'react-markdown-editor-lite';
 import 'react-markdown-editor-lite/lib/index.css';
-import { POSITION } from "@/constant/value";
+import { LINK, POSITION } from "@/constant/value";
 import { profileUpdateStaff } from "@/services/adminService";
 import { formatCurrency } from "@/utils/formatCurrency";
 let mdParser = new MarkdownIt(/* Markdown-it options */);
@@ -13,7 +13,7 @@ const StaffInfo = (props) => {
     let [form] = Form.useForm();
     let [isUpdate, setIsUpdate] = useState(false);
     let info = props.data;
-    let price = formatCurrency(info?.staffUserData?.price)
+    let price = formatCurrency(info?.staffUserData?.price) || "Miễn phí";
     const [markdownValue, setMarkdownValue] = useState("");
     let htmlContent = info?.staffUserData?.staffDescriptionData?.htmlContent || "";
     // Finish!
@@ -148,11 +148,11 @@ const StaffInfo = (props) => {
                 <div className="staff-info-view">
                     <div className="ps-4 row-1 d-flex  ">
                         <div className=" avatar ">
-                            <img src={info?.avatar} alt="avatar" />
+                            <img src={info?.avatar || LINK.AVATAR_NULL} alt="avatar" />
                         </div>
                         <div className="ms-3 right-view w-100">
                             <div className="text mb-1"><span className="text-upcase me-2">{info?.staffUserData?.position}</span>{info?.lastName + " " + info?.firstName}</div>
-                            <div className="mt-2"><label >Chuyên khoa</label><span> {info?.staffUserData?.staffSpecialtyData?.name}</span></div>
+                            <div className="mt-2"><label >Chuyên khoa</label><span> {info?.staffUserData?.staffSpecialtyData?.name || "Không chuyên khoa"}</span></div>
                             <div className="mt-2"><label >Khoa</label><span> {info?.staffUserData?.staffDepartmentData?.name}</span></div>
                             <div className="mt-2"><label >Giá khám</label><span> {price}</span></div>
                             <div className="mt-4 d-flex justify-content-end me-4"> <Button type="primary"

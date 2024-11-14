@@ -18,7 +18,7 @@ const CreateUser = (props) => {
     let listStaffRole = STAFF_ROLE.map((item) => item.value); // Lấy ra danh sách id của các role của nhân viên
     let [form] = Form.useForm();
     const [markdownValue, setMarkdownValue] = useState("");
-    let htmlContent = "";
+    let htmlContent = props.obUpdate?.staffUserData?.staffDescriptionData?.htmlContent || "";
     let [isShowStaff, setIsShowStaff] = useState(false);
     let [departments, setDepartments] = useState([]);
     let { data: departmentData } = useQuery(() => getNameDepartment())

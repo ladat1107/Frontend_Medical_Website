@@ -32,6 +32,8 @@ const Login = () => {
                 }}
                 initialValues={{
                     remember: true,
+                    email: 'doctorCuong@gmail.com',
+                    password: '123456'
                 }}
                 onFinish={onFinish}
                 onFinishFailed={onFinishFailed}
