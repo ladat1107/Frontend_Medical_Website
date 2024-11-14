@@ -1,13 +1,15 @@
 import SelectBox2 from "@/pages/Doctor/components/Selectbox";
+import { Form, message, Progress } from 'antd';
 import { useEffect, useState } from "react";
 import PropTypes from 'prop-types';
 import './Paracdetail.scss'
 import { createOrUpdateParaclinical, getAllRoomTypes } from "@/services/doctorService";
 import { useMutation } from "@/hooks/useMutation";
+import { CloudUploadOutlined } from '@ant-design/icons';
+import uploadToCloudinary from '@/utils/uploadToCloudinary';
 
 
 const Paracdetail = ({ id, paraclinicalData, onDelete, onSaveResult  }) => {
-
     const [isNew, setIsNew] = useState(paraclinicalData.isNew || false);
     const [initialparaclinical, setInitialParaclinical] = useState(paraclinicalData);
     const [isChanged, setIsChanged] = useState(false);
@@ -19,6 +21,9 @@ const Paracdetail = ({ id, paraclinicalData, onDelete, onSaveResult  }) => {
     const [description, setDescription] = useState(paraclinicalData.description || '');
     const [image, setImage] = useState(paraclinicalData.image || '');
     const [price, setPrice] = useState(paraclinicalData.price || 0);
+    
+    const [uploading, setUploading] = useState(false);
+    const [uploadProgress, setUploadProgress] = useState(0);
 
     useEffect(() => {
         const isDataChanged = (
@@ -72,9 +77,25 @@ const Paracdetail = ({ id, paraclinicalData, onDelete, onSaveResult  }) => {
         setDescription(e.target.value);
     }
 
-    const handleImageChange = (e) => {
-        setImage(e.target.value);
-    }
+    const handleImageChange = async (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+        setUploading(true); // Bắt đầu upload
+        setUploadProgress(0); // Đặt lại tiến trình về 0
+        try {
+            // Gọi hàm upload với callback để cập nhật tiến trình
+            const url = await uploadToCloudinary(file, (progress) => {
+                setUploadProgress(progress);
+            });
+            setImage(url); // Cập nhật ảnh
+            message.success("Upload thành công!");
+        } catch (error) {
+            message.error("Upload thất bại. Vui lòng thử lại.");
+            console.error(error);
+        } finally {
+            setUploading(false); // Kết thúc upload
+        }
+    };
 
     const handleSaveButton = async () => {
         if (!paraclinical || !doctorId || !result || !description || !price) {
@@ -162,16 +183,34 @@ const Paracdetail = ({ id, paraclinicalData, onDelete, onSaveResult  }) => {
                         placeholder="Mô tả chi tiết kết quả"/>
                     </div>
                 </div>
-                <div className="row">
+                <div className="row align-items-start">
                     <div className="col-2">
-                        <p>Hình ảnh:</p>
+                        <p className="text-start">Hình ảnh:</p>
                     </div>
                     <div className="col-4">
-                        <input type="text" 
-                        className="input" 
-                        value={image}
-                        onChange={handleImageChange}
-                        placeholder="Thêm hình ảnh"/>
+                        <Form.Item>
+                            <div className='image-upload'>
+                                <div className='container'>
+                                    <span className='image-cloud'><CloudUploadOutlined/></span>
+                                    <div style={{ cursor: 'pointer' }} onClick={() => document.getElementById(`input-upload-${id}`).click()}>
+                                        <span htmlFor={`input-upload-${id}`} className='input-upload'>
+                                            Chọn ảnh
+                                        </span> đăng tải.
+                                    </div>
+                                    {uploading && (
+                                        <div style={{ marginTop: '20px', width: '100%' }}>
+                                            <Progress percent={uploadProgress} status="active" />
+                                        </div>
+                                    )}
+                                    {image && (
+                                        <div>
+                                            <img src={image} alt="Uploaded" style={{ width: "100%"}} />
+                                        </div>
+                                    )}
+                                </div>
+                            </div>
+                            <input type="file" id={`input-upload-${id}`} hidden={true} onChange={handleImageChange} />
+                        </Form.Item>
                     </div>
                     <div className="col-2">
                         <p>Giá</p>

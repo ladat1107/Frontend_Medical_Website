@@ -2,6 +2,7 @@
 
 .list-handbook-container {
     background-color: white;
+    font-family: 'Open Sans', sans-serif;
 
     .search-container {
         display: flex;
@@ -42,5 +43,50 @@
     .ant-pagination-item-active {
         border-color: $primary-color-admin;
         border: 1.5px solid $primary-color-admin;
+    }
+
+    .filter{
+        font-weight: bold;
+        border: 1px solid #007BFF;
+        padding: 5px 10px;
+        border-radius: 6px;
+        background: #007BFF;
+        color: white;
+        cursor: pointer;
+
+        i{
+            margin-right: 5px;
+            color: white;
+        }
+    }
+
+    .padding0{
+        padding: 0;
+    }
+}
+
+.ant-modal-root{
+    .list-tag {
+        font-family: 'Open Sans', sans-serif;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+    
+        .tag-item {
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center;
+            border: 1px solid #83BDF4;
+            background: #F8FAFF;
+            border-radius: 20px;
+            width: fit-content;
+            white-space: nowrap; 
+            padding: 5px 10px;
+        }
+    
+        p {
+            margin: 0; 
+            display: inline-block;
+        }
     }
 }

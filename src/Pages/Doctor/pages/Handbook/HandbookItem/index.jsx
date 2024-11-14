@@ -1,4 +1,4 @@
-import { convertDateTime } from '@/utils/formatDate';
+import { convertDateTime, convertDateTimeToString } from '@/utils/formatDate';
 import './HandbookItem.scss';
 import PropTypes from 'prop-types';
 
@@ -13,20 +13,27 @@ const HandbookItem = ({ item, onClick }) => {
                     <img src={item.image} alt={item.title} />
                 </div>
             </div>
-            <div className='row'>
-                <div className='title'>
-                    <p>{item.title}</p>
+            <div className='content-container'>
+                <div className='row'>
+                    <div className='date-title'>
+                        <p>{convertDateTimeToString(item.createdAt)}</p>
+                    </div>
                 </div>
-            </div>
-            <div className='row'>
-                <div className='subtitle'>
-                    <p>Bác sĩ: {item.handbookStaffData.staffUserData.lastName + 
-                        ' ' + item.handbookStaffData.staffUserData.firstName}</p>
+                <div className='row mt-1'>
+                    <div className='title'>
+                        <p>{item.title}</p>
+                    </div>
                 </div>
-            </div>
-            <div className='row'>
-                <div className='subtitle'>
-                    <p>Ngày đăng: {convertDateTime(item.createdAt)}</p>
+                <div className='row mt-1'>
+                    <div className='subtitle'>
+                        <p>{item.shortDescription}</p>
+                    </div>
+                </div>
+                <div className='row mt-1'>
+                    <div className='doctor-title'>
+                        <p>Bác sĩ: {item.handbookStaffData.staffUserData.lastName + 
+                            ' ' + item.handbookStaffData.staffUserData.firstName}</p>
+                    </div>
                 </div>
             </div>
         </div>

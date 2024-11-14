@@ -31,7 +31,13 @@ const Paraclinical = ({ listParaclinicals, examinationId, refresh }) => {
             {
                 id: nextId,
                 examinationId: examinationId,
-                isNew: true
+                isNew: true,
+                paraclinical: 0,
+                doctorId: 1,
+                result: '',
+                description: '',
+                image: '', // Initialize image in paracDetails
+                price: 0
             }
         ]);
         setNextId(prevId => prevId + 1);

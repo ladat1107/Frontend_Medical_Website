@@ -15,7 +15,7 @@ const InfoHandbook = () => {
     const [doctorName, setDoctorName] = useState("");
     const [date, setDate] = useState("");
     const [title, setTitle] = useState("");
-    const [tags, setTags] = useState("");
+    const [tags, setTags] = useState([]);
     const [image, setImage] = useState("");
     const [markDownContent, setMarkDownContent] = useState("");
     const [htmlContent, setHtmlContent] = useState("");
@@ -45,7 +45,7 @@ const InfoHandbook = () => {
         if (dataHandbook && dataHandbook.DT) {
             setDoctorName(`${dataHandbook.DT.handbookStaffData.staffUserData.lastName} ${dataHandbook.DT.handbookStaffData.staffUserData.firstName}`);
             setTitle(dataHandbook.DT.title);
-            setTags(dataHandbook.DT.tags);
+            setTags(dataHandbook.DT.tags ? dataHandbook.DT.tags.split(',') : []);
             setImage(dataHandbook.DT.image);
             setDate(dataHandbook.DT.updatedAt);
             setMarkDownContent(dataHandbook.DT.handbookDescriptionData.markDownContent);
@@ -75,6 +75,14 @@ const InfoHandbook = () => {
         );
     }
 
+    if (handbookLoading) {
+        return <div className="text-center p-4">Loading...</div>;
+    }
+
+    if (handbookError) {
+        return <div className="text-center p-4 text-red-500">Error loading handbooks</div>;
+    }
+
     return (
         <div className="InfoHandbook-container">
             <div className="row text-center">
@@ -87,6 +95,21 @@ const InfoHandbook = () => {
                 <div className="col-2"/>
                 <div className="col-8">
                     <h1>{title}</h1>
+                </div>
+                <div className="col-2"/>
+            </div> 
+            <div className="row mt-3 text-center">
+                <div className="col-2"/>
+                <div className="col-8">
+                    <div className='row text-center'>
+                        <div className='list-tag'>
+                            {tags.map((value, index) => (
+                                <div key={index} className='tag-item'> {/* Unique key */}
+                                    <p>{value}</p>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
                 </div>
                 <div className="col-2"/>
             </div>

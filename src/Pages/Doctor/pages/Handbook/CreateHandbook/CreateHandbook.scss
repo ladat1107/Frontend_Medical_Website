@@ -52,7 +52,7 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            font-family: 'Nunito', sans-serif;
+            font-family: 'Open Sans', sans-serif;
 
             .image-cloud {
                 font-size: 20px;
@@ -65,4 +65,49 @@
         font-weight: bold;
         margin: 0;
     }
-}
+
+    .input-tag {
+        display: flex;
+        align-items: center; // Căn giữa theo chiều dọc
+        
+        .input-container {
+            display: flex;
+            align-items: center; // Căn giữa theo chiều dọc
+            gap: 8px; // Khoảng cách giữa Input và Button
+            width: 100%;
+            
+            .ant-input {
+                flex: 1; // Cho phép input chiếm phần không gian còn lại
+            }
+        }
+    }
+
+    .tag-list {
+        font-family: 'Open Sans', sans-serif;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+    
+        .tag-item {
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center;
+            border: 1px solid #83BDF4;
+            background: #F8FAFF;
+            border-radius: 20px;
+            width: fit-content;
+            white-space: nowrap; 
+            padding: 5px 10px;
+        }
+    
+        p {
+            margin: 0; 
+            display: inline-block;
+        }
+
+        i {
+            cursor: pointer;
+            margin-left: 5px;
+        }
+    }
+}    

@@ -1,14 +1,17 @@
 import './CreateHandbook.scss';
 import MarkdownIt from 'markdown-it';
 import MdEditor from 'react-markdown-editor-lite';
-import { Button, Col, Form, Input, message, Progress, Radio, Row, Select, Upload } from 'antd';
+import { Form, Input, message, Progress, Modal, Tag} from 'antd';
 import { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { getCardActionAreaUtilityClass } from '@mui/material';
 import { CloudUploadOutlined, InboxOutlined, UploadOutlined } from '@ant-design/icons';
 import { uploadToCloudinary } from '@/utils/uploadToCloudinary';
+import { CloudUploadOutlined } from '@ant-design/icons';
+import uploadToCloudinary from '@/utils/uploadToCloudinary';
 import { getHandbookById, updateHandbook, createHandbook } from '@/services/doctorService';
 import { useNavigate } from 'react-router-dom';
+import { set } from 'lodash';
 
 const CreateHandbook = ({ handbookId, isEditMode, onUpdateSuccess, handleCancelEdit }) => {
     const navigate = useNavigate();
@@ -20,8 +23,10 @@ const CreateHandbook = ({ handbookId, isEditMode, onUpdateSuccess, handleCancelE
     const [form] = Form.useForm();
 
     const [title, setTitle] = useState("");
-    const [tags, setTags] = useState("");
+    const [tag, setTags] = useState("");
+    const [tagList, setTagList] = useState([]);
     const [image, setImage] = useState("");
+    const [description, setDescription] = useState("");
 
     let mdParser = new MarkdownIt(/* Markdown-it options */);
 
@@ -36,10 +41,11 @@ const CreateHandbook = ({ handbookId, isEditMode, onUpdateSuccess, handleCancelE
             const response = await getHandbookById(handbookId);
             if (response && response.data.DT) {
                 setTitle(response.data.DT.title);
-                setTags(response.data.DT.tags);
                 setImage(response.data.DT.image);
                 setMarkdownValue(response.data.DT.handbookDescriptionData.markDownContent);
                 setHtmlContent(response.data.DT.handbookDescriptionData.htmlContent);
+                setTagList(response.data.DT.tags ? response.data.DT.tags.split(',') : []);
+                setDescription(response.data.DT.shortDescription);
             }
         } catch (error) {
             message.error('Không thể lấy dữ liệu cẩm nang');
@@ -54,6 +60,9 @@ const CreateHandbook = ({ handbookId, isEditMode, onUpdateSuccess, handleCancelE
                 break;
             case 'tags':
                 setTags(e.target.value);
+                break;
+            case 'description':
+                setDescription(e.target.value);
                 break;
             default:
                 break;
@@ -94,11 +103,12 @@ const CreateHandbook = ({ handbookId, isEditMode, onUpdateSuccess, handleCancelE
 
         const data = {
             title: title,
-            // tags: tags,
+            tags: tagList.join(','),
             author: 6,
             image: image,
             htmlContent: htmlContent,
-            markDownContent: markdownValue
+            markDownContent: markdownValue,
+            shortDescription: description
         }
 
         try {
@@ -128,6 +138,20 @@ const CreateHandbook = ({ handbookId, isEditMode, onUpdateSuccess, handleCancelE
         }
     }
 
+    const handleAddTag = (e) => {
+        if(e.key === 'Enter') {
+            console.log(tag);
+            if(tag.trim() === '') return;
+            setTagList([...tagList, tag]);
+            setTags('');
+            console.log(tagList);
+        }
+    }
+
+    const handleDeleteTag = (index) => {
+        setTagList(tagList.filter((_, i) => i !== index));
+    }
+
     return (
         <>
             <div className='create-handbook-container'>
@@ -142,7 +166,9 @@ const CreateHandbook = ({ handbookId, isEditMode, onUpdateSuccess, handleCancelE
                                 type="text"
                                 placeholder="Nhập tiêu đề..."
                                 value={title}
-                                onChange={handleInputChange('title')} />
+                                onChange={handleInputChange('title')} 
+                                onKeyDown={handleAddTag}
+                            />
                         </div>
                     </div>
                 </div>
@@ -150,15 +176,29 @@ const CreateHandbook = ({ handbookId, isEditMode, onUpdateSuccess, handleCancelE
                     <div className='col-1'>
                         <p className='text-bold'>Tags:</p>
                     </div>
-                    <div className='col-6'>
+                    <div className='col-3'>
                         <div className="search-container">
                             <i className="fa-solid fa-tag"></i>
-                            <input
-                                type="text"
-                                placeholder="Thêm tags..."
-                            // value={tags}
-                            // onChange={handleInputChange('tags')} 
+                            <input 
+                                type="text" 
+                                placeholder="Gắn thẻ ..."
+                                value={tag}
+                                onChange={handleInputChange('tags')}
+                                onKeyDown={handleAddTag}
+                                maxLength={20}
                             />
+                        </div>
+                    </div>
+                    <div className="col-5">
+                        <div className='row text-start'>
+                            <div className='tag-list'>
+                                {tagList.map((value, index) => (
+                                    <div key={index} className='tag-item'>
+                                        <p>{value}</p>
+                                        <i onClick={() => handleDeleteTag(index)} className="fa-solid fa-times"/>
+                                    </div>
+                                ))}
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -170,9 +210,12 @@ const CreateHandbook = ({ handbookId, isEditMode, onUpdateSuccess, handleCancelE
                         <Form.Item>
                             <div className='image-upload'>
                                 <div className='container'>
-                                    <span className='image-cloud'><CloudUploadOutlined /></span>
-                                    <div><span htmlFor={"input-upload"} className='input-upload'
-                                        onClick={() => document.getElementById('input-upload').click()}>Chọn ảnh</span> đăng tải.</div>
+                                    <span className='image-cloud'><CloudUploadOutlined/></span>
+                                    <div onClick={() => document.getElementById('input-upload').click()}>
+                                        <span htmlFor={"input-upload"} className='input-upload'>
+                                            Chọn ảnh
+                                        </span> đăng tải.
+                                    </div>
                                     {uploading && (
                                         <div style={{ marginTop: '20px', width: '100%' }}>
                                             <Progress percent={uploadProgress} status="active" />
@@ -187,6 +230,21 @@ const CreateHandbook = ({ handbookId, isEditMode, onUpdateSuccess, handleCancelE
                             </div>
                             <input type="file" id='input-upload' hidden={true} onChange={handleImageChange} />
                         </Form.Item>
+                    </div>
+                </div>
+                <div className='row'>
+                    <div className='col-1'>
+                        <p className='text-bold'>Mô tả:</p>
+                    </div>
+                    <div className='col-11'>
+                        <div className="search-container">
+                            <i className="fa-solid fa-note-sticky"></i>
+                            <input 
+                                type="text" 
+                                placeholder="Nhập tiêu đề..."
+                                value={description}
+                                onChange={handleInputChange('description')} />
+                        </div>
                     </div>
                 </div>
                 <div className='row mt-3'>
@@ -208,13 +266,15 @@ const CreateHandbook = ({ handbookId, isEditMode, onUpdateSuccess, handleCancelE
                 </div>
                 <div className='row mt-3'>
                     <div className='button-container'>
-                        <button
-                            className='button-cancel'
-                            onClick={() => handleCancelEdit()}>
-                            <i className="fa-solid fa-times"></i>
-                            Hủy
-                        </button>
-                        <button
+                        {isEditMode && (
+                            <button 
+                                className='button-cancel'
+                                onClick= {()=>handleCancelEdit()}>
+                                <i className="fa-solid fa-times"></i>
+                                Hủy
+                            </button>
+                        )}
+                        <button 
                             className='button'
                             onClick={handleSave}>
                             <i className="fa-solid fa-floppy-disk"></i>

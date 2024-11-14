@@ -1,6 +1,6 @@
 import { useMutation } from "@/hooks/useMutation";
 import { useEffect, useState } from "react";
-import { getAllHandbooks } from '@/services/doctorService';
+import { getAllHandbooks, getAllTags } from '@/services/doctorService';
 import HandbookItem from "../HandbookItem";
 import './ListHandbook.scss';
 import { useNavigate } from "react-router-dom";
@@ -37,7 +37,7 @@ const ListHandbook = () => {
         loading: handbookLoading,
         error: listHandbooksError,
         execute: fetchListHandbooks,
-    } = useMutation((query) => getAllHandbooks(currentPage, pageSize, searchTerm));
+    } = useMutation((query) => getAllHandbooks(currentPage, pageSize, searchTerm, filter.join(',')));
 
     useEffect(() => {
         fetchListHandbooks();

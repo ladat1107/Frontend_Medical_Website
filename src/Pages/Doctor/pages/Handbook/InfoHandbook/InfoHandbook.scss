@@ -60,4 +60,34 @@
             }
         }
     }
+
+    .list-tag {
+        font-family: 'Open Sans', sans-serif;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        justify-content: center;
+    
+        .tag-item {
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center;
+            border: 1px solid #83BDF4;
+            background: #F8FAFF;
+            border-radius: 20px;
+            width: fit-content;
+            white-space: nowrap; 
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+    
+        p {
+            margin: 0; 
+            display: inline-block;
+        }
+
+        .active{
+            background: red;
+        }
+    }
 }
