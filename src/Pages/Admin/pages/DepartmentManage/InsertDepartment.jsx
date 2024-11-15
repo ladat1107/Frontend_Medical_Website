@@ -1,29 +1,30 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Col, Form, Input, message, Progress, Radio, Row, Select, Upload } from 'antd';
-import { CloudUploadOutlined, InboxOutlined, UploadOutlined } from '@ant-design/icons';
+import { CloudUploadOutlined } from '@ant-design/icons';
 import { createDepartment, getStaffByRole, updateDepartment } from '@/services/adminService';
 import useQuery from '@/hooks/useQuery';
-import { uploadToCloudinary, uploadAndDeleteToCloudinary } from '@/utils/uploadToCloudinary';
+import { uploadAndDeleteToCloudinary } from '@/utils/uploadToCloudinary';
 
 import MarkdownIt from 'markdown-it';
 import MdEditor from 'react-markdown-editor-lite';
 import 'react-markdown-editor-lite/lib/index.css';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { STATUS } from '@/constant/value';
+import { CLOUDINARY_FOLDER, STATUS } from '@/constant/value';
+import { ROLE } from '@/constant/role';
 
 const InsertDepartment = (props) => {
     const [form] = Form.useForm();
+    let [departmentUpdate, setDepartmentUpdate] = useState(props.obUpdate);
     const [uploadProgress, setUploadProgress] = useState(0);
     const [uploading, setUploading] = useState(false);
     const [imageUrl, setImageUrl] = useState(""); // Lưu trữ URL ảnh sau khi upload
     let [listDoctors, setListDoctors] = useState([]);
-    let { data: doctors } = useQuery(() => getStaffByRole(3))
+    let { data: doctors } = useQuery(() => getStaffByRole(ROLE.DOCTOR));
     let mdParser = new MarkdownIt(/* Markdown-it options */);
     const [markdownValue, setMarkdownValue] = useState("");
     let [col, setCol] = useState(8);
-    let htmlContent = markdownValue;
-    let [departmentUpdate, setDepartmentUpdate] = useState(props.obUpdate);
+    let htmlContent = props?.obUpdate?.departmentDescriptionData?.htmlContent || "";
     useEffect(() => {
         if (doctors && doctors?.DT?.length > 0) {
             let _doctor = doctors.DT.map((item) => {
@@ -36,7 +37,7 @@ const InsertDepartment = (props) => {
         }
     }, [doctors])
     useEffect(() => {
-        if (departmentUpdate.id) {
+        if (departmentUpdate?.id) {
             setDepartmentUpdate(props.obUpdate);
             form.setFieldsValue({
                 name: departmentUpdate?.name || "",
@@ -65,9 +66,9 @@ const InsertDepartment = (props) => {
         setUploadProgress(0); // Đặt lại tiến trình về 0
         try {
             // Gọi hàm upload với callback để cập nhật tiến trình
-            const url = await uploadAndDeleteToCloudinary(file, "Department", (progress) => {
+            const url = await uploadAndDeleteToCloudinary(file, CLOUDINARY_FOLDER.DEPARTMENT, imageUrl, (progress) => {
                 setUploadProgress(progress);
-            }, imageUrl);
+            });
             setImageUrl(url); // Lưu URL ảnh sau khi upload
             message.success("Upload thành công!");
         } catch (error) {
@@ -104,7 +105,7 @@ const InsertDepartment = (props) => {
     }
     // Finish!
     let handleEditorChange = ({ html, text }) => {
-        setMarkdownValue(text);
+        //setMarkdownValue(text);
         htmlContent = html;
         form.setFieldsValue({ markDownContent: text }); // Cập nhật giá trị cho Form.Item
     };
@@ -207,6 +208,7 @@ const InsertDepartment = (props) => {
 
                                 >
                                     <div className='image-upload'>
+                                        <input type="file" id='input-upload' hidden={true} onChange={handleImageChange} />
                                         <div className='container'>
                                             <span><CloudUploadOutlined /></span>
                                             <div><span htmlFor={"input-upload"}
@@ -223,7 +225,7 @@ const InsertDepartment = (props) => {
                                             )}
                                         </div>
                                     </div>
-                                    <input type="file" id='input-upload' hidden={true} onChange={handleImageChange} />
+
                                 </Form.Item>
 
                             </Col>

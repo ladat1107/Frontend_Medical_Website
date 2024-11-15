@@ -209,3 +209,8 @@ export const MARITALSTATUS = [
 export const LINK = {
     AVATAR_NULL: "https://t4.ftcdn.net/jpg/05/11/55/91/360_F_511559113_UTxNAE1EP40z1qZ8hIzGNrB0LwqwjruK.jpg"
 }
+export const CLOUDINARY_FOLDER = {
+    AVATAR: "Avatar",
+    DEPARTMENT: "Department",
+    HANDBOOK: "Handbook",
+}

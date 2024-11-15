@@ -1,7 +1,7 @@
-import { uploadToCloudinary } from "@/utils/uploadToCloudinary";
+import { uploadAndDeleteToCloudinary, uploadToCloudinary } from "@/utils/uploadToCloudinary";
 import { Button, Col, DatePicker, Form, Input, message, Progress, Row, Select } from "antd";
 import { useEffect, useState } from "react";
-import { AOB, GENDER, LINK, MARITALSTATUS, RH } from "@/constant/value";
+import { AOB, CLOUDINARY_FOLDER, GENDER, LINK, MARITALSTATUS, RH } from "@/constant/value";
 import { apiService } from "@/services/apiService";
 import useQuery from "@/hooks/useQuery";
 import moment from 'moment-timezone';
@@ -125,7 +125,7 @@ const Information = (props) => {
     setUploadProgress(0); // Đặt lại tiến trình về 0
     try {
       // Gọi hàm upload với callback để cập nhật tiến trình
-      const url = await uploadToCloudinary(file, (progress) => {
+      const url = await uploadAndDeleteToCloudinary(file, CLOUDINARY_FOLDER.AVATAR, imageUrl, (progress) => {
         setUploadProgress(progress);
       });
       setImageUrl(url); // Lưu URL ảnh sau khi upload

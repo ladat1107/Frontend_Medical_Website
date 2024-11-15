@@ -14,11 +14,11 @@ const StaffInfo = (props) => {
     let [isUpdate, setIsUpdate] = useState(false);
     let info = props.data;
     let price = formatCurrency(info?.staffUserData?.price) || "Miễn phí";
-    const [markdownValue, setMarkdownValue] = useState("");
+    const [markdownValue, setMarkdownValue] = useState(info?.staffUserData?.staffDescriptionData?.markDownContent || "");
     let htmlContent = info?.staffUserData?.staffDescriptionData?.htmlContent || "";
     // Finish!
     let handleEditorChange = ({ html, text }) => {
-        setMarkdownValue(text);
+        //setMarkdownValue(text);
         htmlContent = html;
         form.setFieldsValue({ markDownContent: text }); // Cập nhật giá trị cho Form.Item
     };
