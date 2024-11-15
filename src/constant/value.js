@@ -1,3 +1,5 @@
+import { values } from "lodash"
+
 export const PAGINATE = [
     {
         id: 1,
@@ -34,7 +36,22 @@ export const TABLE = {
     SERVICE: "SERVICE",
     ROOM: "ROOM",
 }
-
+export const TAGS = [
+    {
+        value: 1,
+        label: "Tag 1"
+    },
+    {
+        value: 2,
+        label: "Tag 2"
+    }, {
+        value: 3,
+        label: "Tag 3"
+    }, {
+        value: 4,
+        label: "Tag 4"
+    },
+]
 export const TIMESLOTS = [
     {
         id: 1,
