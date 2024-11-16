@@ -2,9 +2,10 @@
     padding-top: 10px;
     padding-bottom: 10px;
     background-color: #f8faff;
+    width: 100%;
 
     .title {
-        font-family: 'Open Sans', sans-serif;
+        font-family: 'Be Vietnam Pro', sans-serif;
         font-size: 16px;
         font-weight: 700;
         padding-left: 10px;
@@ -20,6 +21,7 @@
         box-shadow:  4px 4px 8px #e5ebef,
                  -4px -4px 8px #e5ebef;
         margin-bottom: 20px;
+        margin-left: 5px;
     }
 
     .schedule-content{
@@ -27,14 +29,14 @@
     }
     
     .search-title{
-        font-family: 'Open Sans', sans-serif;
+        font-family: 'Be Vietnam Pro', sans-serif;
         font-size: 14px;
         font-weight: 700;
     }
     
     .search-container{
         padding: 10px;
-        width: 90%;
+        width: 100%;
     }
     
     .status-container{
@@ -46,19 +48,19 @@
         display: flex;
         flex-direction: column;
         gap: 10px;
-        width: 12%;
+        width: 100%;
     }   
     
     .date-picker-container{
         display: flex;  
-        font-family: 'Open Sans', sans-serif;
+        font-family: 'Be Vietnam Pro', sans-serif;
         align-items: center;
         gap: 10px;  
         border: none;
     }
     
     .search-button{
-        font-family: 'Open Sans', sans-serif;
+        font-family: 'Be Vietnam Pro', sans-serif;
         font-size: 14px;
         background-color: #438EF3;
         color: white;
@@ -76,7 +78,7 @@
     }
     
     .clear-button{
-        font-family: 'Open Sans', sans-serif;
+        font-family: 'Be Vietnam Pro', sans-serif;
         background-color: #3AA472;
         font-size: 14px;
         color: white;
@@ -99,10 +101,11 @@
         background: white;
         box-shadow:  4px 4px 8px #e5ebef,
                  -4px -4px 8px #e5ebef;
+        margin-left: 5px;
     }
     
     .appointment-table{
-        font-family: 'Open Sans', sans-serif;
+        font-family: 'Be Vietnam Pro', sans-serif;
         width: 100%;
     }
     

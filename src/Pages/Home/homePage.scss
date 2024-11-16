@@ -126,9 +126,20 @@ $bg-service-color: 868686;
       padding: 0 20px;
       flex-grow: 1;
 
-      border-right: solid 1px white;
-    }
-  }
+$body: 'Open Sans', sans-serif; // Font chữ dễ đọc cho body
+$big: 'Georgia', serif; // Font chữ dễ đọc cho tiêu đề
+
+$white: #ffffff;
+$primary: #F2DAD7;
+$secondary: #D1A39E;
+$light: #CECDCA;
+$dark: #474545;
+
+$ease: all 0.3s ease-in-out;
+
+body {
+  font-family: $body;
+  margin: 0;
 }
 
 // Blog section

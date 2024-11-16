@@ -40,18 +40,66 @@ export const TABLE = {
 export const TAGS = [
     {
         value: 1,
-        label: "Tag 1"
+        label: "123"
     },
     {
         value: 2,
-        label: "Tag 2"
+        label: "ăn ở sạch sẽ"
     }, {
         value: 3,
         label: "Tag 3"
     }, {
         value: 4,
         label: "Tag 4"
-    },
+    }, {
+        value: 5,
+        label: "Tag 5"
+    }, {
+        value: 6,
+        label: "Tag 6"
+    }, {
+        value: 7,
+        label: "Tag 7"
+    }, {
+        value: 8,
+        label: "Tag 8"
+    }, {
+        value: 9,
+        label: "Tag 9"
+    }, {
+        value: 10,
+        label: "Tag 10"
+    }, {
+        value: 11,
+        label: "Tag 11"
+    }, {
+        value: 12,
+        label: "Tag 12"
+    }, {
+        value: 13,
+        label: "Tag 13"
+    }, {
+        value: 14,
+        label: "Tag 14"
+    }, {
+        value: 15,
+        label: "Tag 15"
+    }, {
+        value: 16,
+        label: "Tag 16"
+    }, {
+        value: 17,
+        label: "Tag 17"
+    }, {
+        value: 18,
+        label: "Tag 18"
+    }, {
+        value: 19,
+        label: "Tag 19"
+    }, {
+        value: 20,
+        label: "Tag 20"
+    }
 ]
 export const TIMESLOTS = [
     {
@@ -231,6 +279,7 @@ export const CLOUDINARY_FOLDER = {
     AVATAR: "Avatar",
     DEPARTMENT: "Department",
     HANDBOOK: "Handbook",
+    PARACLINICAL: "Paraclinical",
     SPECIALTY: "Specialty",
 }
 export const EMIT = {

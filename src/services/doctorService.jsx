@@ -100,6 +100,10 @@ const getAllMedicinesForExam = () => {
     return axios.get(`/api/getAllMedicinesForExam`)
 }
 
+const getStaffNameById = (doctorId) => {
+    return axios.get(`/api/getStaffNameById?staffId=${doctorId}`);
+}
+
 //vital sign
 const createOrUpdateVitalSign = async (data) => {
     try {
@@ -158,9 +162,10 @@ const upsertPrescription = async (data) => {
 }
 
 //Hand book
-const getAllHandbooks = async (page, limit, search, filter) => {
+const getAllHandbooks = async (page, limit, search, staffId, filter) => {
     try {
-        const response = await axios.get(`/api/getAllHandBooks?page=${page}&limit=${limit}&search=${search}&filter=${filter}`);
+        console.log("Data:", filter);
+        const response = await axios.get(`/api/getAllHandBooks?page=${page}&limit=${limit}&search=${search}&filter=${filter}&staffId=${staffId}`);
         //console.log("Response:", response.data); 
         return response;
     } catch (error) {
@@ -253,5 +258,6 @@ export {
     updateHandbook,
     getAllTags,
 
-    getScheduleByStaffId
+    getScheduleByStaffId,
+    getStaffNameById
 }

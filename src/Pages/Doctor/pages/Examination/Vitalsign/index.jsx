@@ -88,20 +88,20 @@ const VitalSign = ({ vitalSignData, examId, refresh }) => {
             {contextHolder}
             <div className="vital-container">
                 <div className="row">
-                    <div className="col-2">
+                    <div className="col-4 mt-3 col-lg-2">
                         <p>Chiều cao:</p>
                     </div>
-                    <div className="col-4">
+                    <div className="col-8 mt-3 col-lg-4">
                         <input type="text"
                             value={formData.height}
                             onChange={handleInputChange('height')}
                             className="input"
                             placeholder="Đơn vị: cm" />
                     </div>
-                    <div className="col-2">
+                    <div className="col-4 mt-3 col-lg-2">
                         <p>Cân nặng:</p>
                     </div>
-                    <div className="col-4">
+                    <div className="col-8 mt-3 col-lg-4">
                         <input type="text"
                             value={formData.weight}
                             onChange={handleInputChange('weight')}
@@ -110,20 +110,20 @@ const VitalSign = ({ vitalSignData, examId, refresh }) => {
                     </div>
                 </div>
                 <div className="row">
-                    <div className="col-2">
+                    <div className="col-4 mt-3 col-lg-2">
                         <p>Cân nặng con:</p>
                     </div>
-                    <div className="col-4">
+                    <div className="col-8 mt-3 col-lg-4">
                         <input type="text"
                             value={formData.fetalWeight}
                             onChange={handleInputChange('fetalWeight')}
                             className="input"
                             placeholder="Đơn vị: g" />
                     </div>
-                    <div className="col-2">
+                    <div className="col-4 mt-3 col-lg-2">
                         <p>Mạch:</p>
                     </div>
-                    <div className="col-4">
+                    <div className="col-8 mt-3 col-lg-4">
                         <input type="text"
                             value={formData.pulse}
                             onChange={handleInputChange('pulse')}
@@ -132,20 +132,20 @@ const VitalSign = ({ vitalSignData, examId, refresh }) => {
                     </div>
                 </div>
                 <div className="row">
-                    <div className="col-2">
+                    <div className="col-4 mt-3 col-lg-2">
                         <p>Huyết áp trên:</p>
                     </div>
-                    <div className="col-4">
+                    <div className="col-8 mt-3 col-lg-4">
                         <input type="text"
                             value={formData.hightBloodPressure}
                             onChange={handleInputChange('hightBloodPressure')}
                             className="input"
                             placeholder="Đơn vị: mmHg" />
                     </div>
-                    <div className="col-2">
+                    <div className="col-4 mt-3 col-lg-2">
                         <p>Huyết áp dưới:</p>
                     </div>
-                    <div className="col-4">
+                    <div className="col-8 mt-3 col-lg-4">
                         <input type="text"
                             value={formData.lowBloodPressure}
                             onChange={handleInputChange('lowBloodPressure')}
@@ -154,20 +154,20 @@ const VitalSign = ({ vitalSignData, examId, refresh }) => {
                     </div>
                 </div>
                 <div className="row">
-                    <div className="col-2">
+                    <div className="col-4 mt-3 col-lg-2">
                         <p>Nhiệt độ:</p>
                     </div>
-                    <div className="col-4">
+                    <div className="col-8 mt-3 col-lg-4">
                         <input type="text"
                             value={formData.temperature}
                             onChange={handleInputChange('temperature')}
                             className="input"
                             placeholder="Đơn vị: oC" />
                     </div>
-                    <div className="col-2">
+                    <div className="col-4 mt-3 col-lg-2">
                         <p>Nhịp thở:</p>
                     </div>
-                    <div className="col-4">
+                    <div className="col-8 mt-3 col-lg-4">
                         <input type="text"
                             value={formData.breathingRate}
                             onChange={handleInputChange('breathingRate')}
@@ -176,10 +176,10 @@ const VitalSign = ({ vitalSignData, examId, refresh }) => {
                     </div>
                 </div>
                 <div className="row">
-                    <div className="col-2">
+                    <div className="col-4 mt-3 col-lg-2">
                         <p>Chỉ số đường huyết:</p>
                     </div>
-                    <div className="col-4">
+                    <div className="col-8 mt-3 col-lg-4">
                         <input type="text"
                             value={formData.glycemicIndex}
                             onChange={handleInputChange('glycemicIndex')}
@@ -187,21 +187,27 @@ const VitalSign = ({ vitalSignData, examId, refresh }) => {
                             placeholder="Đơn vị: mg/dl" />
                     </div>
                 </div>
-                <div className="row">
-                    <div className="col-9"></div>
-                    <div className="col-3 text-end">
-                        <button
-                            className={`restore-button ${!isChanged ? 'disabled' : ''}`}
-                            onClick={handleRestoreButton}
-                            disabled={!isChanged}>
-                            Hoàn tác
-                        </button>
-                        <button
-                            className={`save-button ${!isChanged ? 'disabled' : ''}`}
-                            onClick={handleSaveButton}
-                            disabled={!isChanged}>
-                            Lưu
-                        </button>
+                <div className="row mt-3">
+                    <div className="col-4 col-lg-9"></div>
+                    <div className="col-8 col-lg-3">
+                        <div className="row">
+                            <div className="col-6 padding5">
+                                <button
+                                    className={`restore-button ${!isChanged ? 'disabled' : ''}`}
+                                    onClick={handleRestoreButton}
+                                    disabled={!isChanged}>
+                                    Hoàn tác
+                                </button>
+                            </div>
+                            <div className="col-6 padding5">
+                                <button
+                                    className={`save-button ${!isChanged ? 'disabled' : ''}`}
+                                    onClick={handleSaveButton}
+                                    disabled={!isChanged}>
+                                    Lưu
+                                </button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

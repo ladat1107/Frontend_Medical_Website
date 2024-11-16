@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import PropTypes from 'prop-types';
 import "./ExamInfo.scss"
 import SelectBox from "@/pages/Doctor/components/Combobox";
@@ -31,7 +31,6 @@ const ExamInfo = ({ examData, refresh }) => {
         price: examData.price || 0,
         special: examData.special || '0'
     });
-
 
     const [initialFormData, setInitialFormData] = useState(formData);
     const [isChanged, setIsChanged] = useState(false);
@@ -158,27 +157,27 @@ const ExamInfo = ({ examData, refresh }) => {
             {contextHolder}
             <div className="exam-container">
                 <div className="row">
-                    <div className="col-2">
+                    <div className="col-4 mt-1 col-lg-2">
                         <p>Bác sĩ khám:</p>
                     </div>
-                    <div className="col-4">
+                    <div className="col-8 mt-1 col-lg-4">
                         <p className="info">{formData.staffName}</p>
                     </div>
                 </div>
                 <div className="row">
-                    <div className="col-2">
+                    <div className="col-4 mt-3 col-lg-2">
                         <p>Lý do vào viện:</p>
                     </div>
-                    <div className="col-4">
+                    <div className="col-8 mt-3 col-lg-4">
                         <input type="text" className="input"
                             value={formData.reason}
                             onChange={handleInputChange('reason')}
                             placeholder="Mô tả lý do vào viện" />
                     </div>
-                    <div className="col-2">
+                    <div className="col-4 mt-3 col-lg-2">
                         <p>Triệu chứng:</p>
                     </div>
-                    <div className="col-4">
+                    <div className="col-8 mt-3 col-lg-4">
                         <input type="text" className="input"
                             value={formData.symptom}
                             onChange={handleInputChange('symptom')}
@@ -186,19 +185,19 @@ const ExamInfo = ({ examData, refresh }) => {
                     </div>
                 </div>
                 <div className="row">
-                    <div className="col-2">
+                    <div className="col-4 mt-3 col-lg-2">
                         <p>Tên bệnh chính:</p>
                     </div>
-                    <div className="col-4">
+                    <div className="col-8 mt-3 col-lg-4">
                         <input type="text" className="input"
                             value={formData.diseaseName}
                             onChange={handleInputChange('diseaseName')}
                             placeholder="Mô tả chi tiết tên bệnh" />
                     </div>
-                    <div className="col-2">
+                    <div className="col-4 mt-3 col-lg-2">
                         <p>Bệnh đi kèm:</p>
                     </div>
-                    <div className="col-4">
+                    <div className="col-8 mt-3 col-lg-4">
                         <MultiSelect
                             options={comorbiditiesOptions}
                             placeholder="Chọn bệnh đi kèm"
@@ -208,20 +207,20 @@ const ExamInfo = ({ examData, refresh }) => {
                     </div>
                 </div>
                 <div className="row">
-                    <div className="col-2">
+                    <div className="col-4 mt-3 col-lg-2">
                         <p>Loại KCB:</p>
                     </div>
-                    <div className="col-4">
+                    <div className="col-8 mt-3 col-lg-4">
                         <SelectBox
                             className="select-box"
                             options={options}
                             value={formData.medicalTreatmentTier}
                             onChange={handleInputChange('medicalTreatmentTier')} />
                     </div>
-                    <div className="col-2">
+                    <div className="col-4 mt-3 col-lg-2">
                         <p>Kết quả điều trị:</p>
                     </div>
-                    <div className="col-4">
+                    <div className="col-8 mt-3 col-lg-4">
                         <input type="text" className="input"
                             value={formData.treatmentResult}
                             onChange={handleInputChange('treatmentResult')}
@@ -229,20 +228,20 @@ const ExamInfo = ({ examData, refresh }) => {
                     </div>
                 </div>
                 <div className="row">
-                    <div className="col-2">
+                    <div className="col-4 mt-3 col-lg-2">
                         <p>Ngày nhập viện:</p>
                     </div>
-                    <div className="col-4">
+                    <div className="col-8 mt-3 col-lg-4">
                         <CustomDatePicker
                             className="date-picker"
                             selectedDate={formData.admissionDate}
                             onDateChange={handleDateChange('admissionDate')}
                             placeholder="Chọn ngày..." />
                     </div>
-                    <div className="col-2">
+                    <div className="col-4 mt-3 col-lg-2">
                         <p>Ngày xuất viện:</p>
                     </div>
-                    <div className="col-4">
+                    <div className="col-8 mt-3 col-lg-4">
                         <CustomDatePicker
                             className="date-picker"
                             selectedDate={formData.dischargeDate}
@@ -251,16 +250,16 @@ const ExamInfo = ({ examData, refresh }) => {
                     </div>
                 </div>
                 <div className="row">
-                    <div className="col-2">
+                    <div className="col-4 mt-3 col-lg-2">
                         <p>Giá:</p>
                     </div>
-                    <div className="col-4">
+                    <div className="col-8 mt-3 col-lg-4">
                         <p className="info">{formData.price.toLocaleString()} VND</p>
                     </div>
-                    <div className="col-2">
+                    <div className="col-4 mt-3 col-lg-2">
                         <p>Đặc biệt:</p>
                     </div>
-                    <div className="col-4">
+                    <div className="col-8 mt-3 col-lg-4">
                         <SelectBox
                             className="select-box"
                             options={specialOptions}
@@ -268,21 +267,27 @@ const ExamInfo = ({ examData, refresh }) => {
                             onChange={handleInputChange('special')} />
                     </div>
                 </div>
-                <div className="row">
-                    <div className="col-9"></div>
-                    <div className="col-3 text-end">
-                        <button
-                            className={`restore-button ${!isChanged ? 'disabled' : ''}`}
-                            onClick={handleRestoreButton}
-                            disabled={!isChanged}>
-                            Hoàn tác
-                        </button>
-                        <button
-                            className={`save-button ${!isChanged ? 'disabled' : ''}`}
-                            onClick={handleSaveButton}
-                            disabled={!isChanged}>
-                            Lưu
-                        </button>
+                <div className="row mt-3">
+                    <div className="col-4 col-lg-9"></div>
+                    <div className="col-8 col-lg-3">
+                        <div className="row">
+                            <div className="col-6 padding5">
+                                <button
+                                    className={`restore-button ${!isChanged ? 'disabled' : ''}`}
+                                    onClick={handleRestoreButton}
+                                    disabled={!isChanged}>
+                                    Hoàn tác
+                                </button>
+                            </div>
+                            <div className="col-6 padding5">
+                                <button
+                                    className={`save-button ${!isChanged ? 'disabled' : ''}`}
+                                    onClick={handleSaveButton}
+                                    disabled={!isChanged}>
+                                    Lưu
+                                </button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

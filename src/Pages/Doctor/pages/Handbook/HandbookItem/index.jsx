@@ -29,6 +29,7 @@ const HandbookItem = ({ item, onClick }) => {
                         <p>{item.shortDescription}</p>
                     </div>
                 </div>
+                <hr/>
                 <div className='row mt-1'>
                     <div className='doctor-title'>
                         <p>Bác sĩ: {item.handbookStaffData.staffUserData.lastName + 

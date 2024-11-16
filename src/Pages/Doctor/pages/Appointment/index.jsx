@@ -81,48 +81,46 @@ const Appointment = () => {
     return (
         <>
             <div className="appointment-content">
-                <div className="appointment-search">
-                    <div className="search-container">
-                        <p className="search-title">Tìm kiếm lịch khám</p>
-                        <SearchBar
-                            placeholder="Nhập tên bệnh nhân để tìm kiếm..."
-                            value={searchTerm}
-                            onChange={(e) => setSearchTerm(e.target.value)} // Cập nhật từ khóa tìm kiếm
-                            />
-                    </div>
-                    <div className="search-container">
-                        <p className="search-title">Ngày khám</p>
-                        <div className="date-picker-container">
-                            Từ <CustomDatePicker
-                                selectedDate={startDate}
-                                onDateChange={handleStartDateChange}
-                                placeholder="Chọn ngày..."
-                            /> 
-                            đến <CustomDatePicker
-                                selectedDate={endDate}
-                                onDateChange={handleEndDateChange}
-                                placeholder="Chọn ngày..."
-                            />
+                <div className="appointment-search row">
+                        <div className="col-12 col-lg-6">
+                            <div className="search-container">
+                                <p className="search-title">Tìm kiếm lịch khám</p>
+                                <SearchBar
+                                    placeholder="Nhập tên bệnh nhân để tìm kiếm..."
+                                    value={searchTerm}
+                                    onChange={(e) => setSearchTerm(e.target.value)} // Cập nhật từ khóa tìm kiếm
+                                    />
+                            </div>
                         </div>
-                    </div>
-                    {/* <div className="status-container">
-                        <p className="search-title">Trạng thái</p>
-                        <SelectBox
-                            options={options}
-                            value={selectedValue}
-                            onChange={handleSelectedChange}
-                        />
-                    </div> */}
-                    <div className="button-container">
-                        <button className="clear-button" onClick={() => { handleClear(); fetchAppointment(); }}>
-                            <i className="fa-solid fa-broom"></i>
-                        </button>
-                        <button className="search-button" onClick={fetchAppointment}>
-                            <i className="fa-solid fa-magnifying-glass"></i>
-                        </button>
-                    </div>  
+                        <div className="col-12 col-lg-5">
+                            <div className="search-container">
+                                <p className="search-title">Ngày khám</p>
+                                <div className="date-picker-container">
+                                    Từ <CustomDatePicker
+                                        selectedDate={startDate}
+                                        onDateChange={handleStartDateChange}
+                                        placeholder="Chọn ngày..."
+                                    /> 
+                                    đến <CustomDatePicker
+                                        selectedDate={endDate}
+                                        onDateChange={handleEndDateChange}
+                                        placeholder="Chọn ngày..."
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                        <div className="col-12 col-lg-1">
+                            <div className="button-container">
+                                <button className="clear-button" onClick={() => { handleClear(); fetchAppointment(); }}>
+                                    <i className="fa-solid fa-broom"></i>
+                                </button>
+                                <button className="search-button" onClick={fetchAppointment}>
+                                    <i className="fa-solid fa-magnifying-glass"></i>
+                                </button>
+                            </div>  
+                        </div>
                 </div>
-                <div className="appointment-container">
+                <div className="appointment-container row">
                     <div className="header">
                         <p className="title">Danh sách lịch khám</p>
                     </div>
