@@ -1,7 +1,7 @@
 import { TABLE } from '@/constant/value';
 import React, { useEffect } from 'react';
 import { useState } from 'react';
-import { deleteUser, blockUser, deleteDepartment, blockDepartment, deleteServiceOfRoom, blockServiceOfRoom, deleteRoom, blockRoom } from "@/services/adminService";
+import { deleteUser, blockUser, deleteDepartment, blockDepartment, deleteServiceOfRoom, blockServiceOfRoom, deleteRoom, blockRoom, deleteSpecialty, blockSpecialty } from "@/services/adminService";
 import { Button, message, Modal } from "antd";
 const DeleteModal = (props) => {
     let [messageContent, setMessageContent] = useState("")
@@ -18,6 +18,8 @@ const DeleteModal = (props) => {
             setMessageContent("Xác nhận xóa " + data.name + "?")
         } else if (props.table === TABLE.ROOM) {
             setMessageContent("Xác nhận xóa phòng " + data.name + "?")
+        } else if (props.table === TABLE.SPECIALTY) {
+            setMessageContent("Xác nhận xóa chuyên khoa " + data.name + "?")
         }
     }, [props.data])
     let handleDelete = async () => {
@@ -51,6 +53,13 @@ const DeleteModal = (props) => {
             } else {
                 message.error(response.data.EM);
             }
+        } else if (props.table === TABLE.SPECIALTY) {
+            let response = await deleteSpecialty(data);
+            if (response && response.data && response.data.EC === 0) {
+                susscess(response?.data?.EM || "Thành công")
+            } else {
+                message.error(response.data.EM);
+            }
         }
     }
     let handleLock = async () => {
@@ -79,6 +88,13 @@ const DeleteModal = (props) => {
             }
         } else if (props.table === TABLE.ROOM) {
             let response = await blockRoom(data);
+            if (response && response.data && response.data.EC === 0) {
+                susscess(response?.data?.EM || "Thành công")
+            } else {
+                message.error(response.data.EM);
+            }
+        } else if (props.table === TABLE.SPECIALTY) {
+            let response = await blockSpecialty(data);
             if (response && response.data && response.data.EC === 0) {
                 susscess(response?.data?.EM || "Thành công")
             } else {

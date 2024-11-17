@@ -36,6 +36,7 @@ const Password = (props) => {
                     newPassword: "",
                     confirmPassword: "",
                 }}
+                validateTrigger="onBlur"
                 style={{
                     maxWidth: "100%",
                 }}

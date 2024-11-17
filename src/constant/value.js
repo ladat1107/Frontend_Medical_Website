@@ -1,23 +1,23 @@
 import { values } from "lodash"
 
-export const PAGINATE = [
-    {
-        id: 1,
-        value: 10
-    },
-    {
-        id: 2,
-        value: 25
-    },
-    {
-        id: 3,
-        value: 50
-    },
-    {
-        id: 4,
-        value: 100
-    }
-]
+// export const PAGINATE = [
+//     {
+//         id: 1,
+//         value: 10
+//     },
+//     {
+//         id: 2,
+//         value: 25
+//     },
+//     {
+//         id: 3,
+//         value: 50
+//     },
+//     {
+//         id: 4,
+//         value: 100
+//     }
+// ]
 export const GENDER = [
     {
         value: 0,
@@ -35,6 +35,7 @@ export const TABLE = {
     DEPARTMENT: "DEPARTMENT",
     SERVICE: "SERVICE",
     ROOM: "ROOM",
+    SPECIALTY: "SPECIALTY",
 }
 export const TAGS = [
     {
@@ -230,4 +231,15 @@ export const CLOUDINARY_FOLDER = {
     AVATAR: "Avatar",
     DEPARTMENT: "Department",
     HANDBOOK: "Handbook",
+    SPECIALTY: "Specialty",
+}
+export const EMIT = {
+    EVENT_PROFILE: {
+        key: "EVENT_PROFILE",
+        info: "information",
+        changePassword: "changePassword",
+        staff: "staff",
+        insurance: "insurance",
+        notifications: "notifications"
+    }
 }

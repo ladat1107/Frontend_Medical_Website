@@ -77,7 +77,9 @@ const DepartmentManage = () => {
     let refresh = () => {
         setSearch("");
         setCheckAll(false);
-        fetchDepartments();
+        setObUpdate(null);
+        setShowInsert(false);
+        setCurrentPage(1);
     }
     let handleUpdate = async (item) => {
         setShowInsert(false)
@@ -179,7 +181,7 @@ const DepartmentManage = () => {
                                                             </div>
                                                         </td>
                                                         <td className="text-center px-1 py-2">
-                                                            <div className="fw-normal"><span className="me-2"><b>{item?.staffQuantity || "0"}</b></span><FontAwesomeIcon className="d-none d-lg-inline" icon={faUserTie} style={{ color: "#003A8C", }} /></div>
+                                                            <div className="fw-normal"><b>{item?.staffQuantity || "0"}</b></div>
                                                         </td>
                                                         <td className="text-start px-1 py-2">
                                                             <div className="fw-normal">{item?.roomQuantity || "0"}<span className="ms-1 d-none d-lg-inline">phòng</span></div>
@@ -193,14 +195,6 @@ const DepartmentManage = () => {
                                                             <Status data={item?.status} />
                                                         </td>
                                                         <td className="px-1 py-2">
-                                                            {/* <div className="d-flex justify-content-end align-items-center">
-                                                                <span className='update me-3' onClick={() => handleUpdate(item)}>
-                                                                    <FontAwesomeIcon icon={faPencil} className="icon" size="sm" />
-                                                                </span>
-                                                                <span className='delete me-3' onClick={() => { handleDelete(item) }}>
-                                                                    <FontAwesomeIcon icon={faTrashCan} className="icon" size="sm" />
-                                                                </span>
-                                                            </div> */}
                                                             <div className='iconDetail'>
                                                                 <DropdownAction
                                                                     data={item}

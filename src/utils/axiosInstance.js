@@ -53,6 +53,8 @@ axiosInstance.interceptors.response.use(
         window.location.href = PATHS.HOME.LOGIN;
         message.error("Có lỗi xảy ra");
       }
+    } else if (error.response?.status === 400) {
+      message.error(error.response?.data?.EM || "Có lỗi xảy ra");
     } else {
       console.log("error", error);
       // Nếu lỗi không phải 403 hoặc 401, trả về lỗi ban đầu

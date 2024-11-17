@@ -208,16 +208,16 @@ const InsertRoom = (props) => {
                                 <Col sm={24} lg={col}>
                                     <Form.Item
                                         name={"status"}
-                                        label="Tình trạng"
+                                        label="Trạng thái"
                                         rules={[
                                             {
                                                 required: true,
-                                                message: 'Vui lòng chọn tình trạng!',
+                                                message: 'Vui lòng chọn trạng thái!',
                                             },
                                         ]}
                                     >
                                         <Select
-                                            placeholder="Chọn tình trạng"
+                                            placeholder="Chọn trạng thái"
                                             options={STATUS}
                                         >
                                         </Select>

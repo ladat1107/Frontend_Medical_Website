@@ -1,75 +1,76 @@
-.handbook-container{
-    font-family: 'Nunito', sans-serif;
+@import "../../../../style/variables.scss";
+
+.handbook-container {
     padding: 20px;
 
-    .button-container{
+    .button-container {
         display: flex;
         justify-content: flex-end;
 
-        .button{
+        .button {
             padding: 6px 16px;
             border-radius: 5px;
             border: none;
-            background-color: #007BFF;
+            background-color: $primary-color;
             color: white;
             cursor: pointer;
             font-weight: bold;
 
-            i{
+            i {
                 margin-right: 10px;
             }
         }
     }
 
-    .search-container{
+    .search-container {
         padding: 5px;
         border-bottom: 1px solid #83BDF4;
         gap: 10px;
 
-        i{
+        i {
             color: #83BDF4;
         }
 
-        input{
+        input {
             border: none;
             margin-left: 10px;
             width: 90%;
 
-            &:focus{
+            &:focus {
                 outline: none;
             }
         }
     }
 
-    .item{
+    .item {
         display: flex;
         align-items: center;
     }
 
-    .end-border{
+    .end-border {
         border-right: 1px solid rgb(156, 156, 156);
     }
 
-    .text-bold{
+    .text-bold {
         margin: 0px;
         font-weight: bold;
     }
 
-    .text-start{
+    .text-start {
         align-self: flex-start;
     }
 
-    .align-items-start{
+    .align-items-start {
         align-self: flex-start;
     }
 
-    .input-upload{
+    .input-upload {
         color: #519BE2;
         font-weight: bold;
         cursor: pointer;
     }
 
-    .progress{
+    .progress {
         color: black;
     }
 }

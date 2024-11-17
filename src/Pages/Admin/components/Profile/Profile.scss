@@ -1,60 +1,41 @@
+@import "../../../../style/variables.scss";
+
 .staff-profile {
     display: flex;
     justify-content: center; // Căn giữa theo chiều ngang
     align-items: center; // Căn giữa theo chiều dọc
     height: 100%;
 
-    background: #f4f7fe;
+    background: $background-color;
 
     .container {
         padding: 0 3%;
         margin: 0;
-        background: #f4f7fe;
+        background: $background-color;
         align-items: stretch;
-
-        .left-profile {
-            .content {
-                border-radius: 10px;
-                box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
-                background: white;
-                height: 100%;
-
-                .item {
-                    span {
-                        font-size: 1.2em;
-                        cursor: pointer;
-                    }
-                }
-
-                .item-click {
-                    background: #e0f0f7;
-                    border-top-right-radius: 30px;
-                    border-bottom-right-radius: 30px;
-                    ;
-
-                    .icon {
-                        color: #04a9f3;
-                    }
-
-                    span {
-                        color: #04a9f3;
-                        font-size: 1.2em;
-                        cursor: pointer;
-                    }
-
-                }
-            }
-
-        }
 
         .right-profile {
             .content {
                 height: 100%;
-                background: #f4f7fe;
+                background: $background-color;
 
                 .ant-form-item {
                     margin-bottom: 15px;
                     padding: 0 10px;
+
+                    .ant-input-disabled {
+                        color: black;
+                    }
+
+                    .ant-select-selector {
+                        color: black;
+                    }
+
+                    .ant-picker-input {
+                        input {
+                            color: black;
+                        }
+                    }
                 }
 
                 .ant-form-item-label {
@@ -63,14 +44,13 @@
 
                 .row {
                     border-radius: 10px;
-                    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+                    box-shadow: $box-shadow-content;
                     background: white;
                     padding: 20px 10px;
                     margin-bottom: 20px;
                 }
 
                 .information {
-
                     .avatar {
                         display: flex;
                         justify-content: center;
@@ -130,7 +110,7 @@
 
                     .row-1 {
                         border-radius: 10px;
-                        box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+                        box-shadow: $box-shadow-content;
                         background: white;
                         padding: 20px 10px;
                         margin-bottom: 20px;

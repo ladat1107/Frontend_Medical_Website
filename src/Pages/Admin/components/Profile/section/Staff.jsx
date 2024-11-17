@@ -51,7 +51,7 @@ const StaffInfo = (props) => {
                     <div className="text ps-4 mb-3">Hồ sơ nghề nghiệp</div>
                     <Form
                         form={form}
-                        validateTrigger="onSubmit" // Chỉ validate khi submit
+                        validateTrigger="onBlur"
                         initialValues={{
                             shortDescription: info?.staffUserData?.shortDescription || "",
                             markDownContent: info?.staffUserData?.staffDescriptionData?.markDownContent || "",

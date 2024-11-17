@@ -1,6 +1,6 @@
 @import "../../../../style/variables.scss";
 
-.service-of-room-content {
+.specialty-of-room-content {
     display: flex;
     justify-content: center; // Căn giữa theo chiều ngang
     align-items: center; // Căn giữa theo chiều dọc
@@ -13,14 +13,14 @@
         margin: 0;
         background: $background-color;
 
-        .service-of-room-content-header {
+        .specialty-of-room-content-header {
 
             .text {
                 font-size: 1.2rem;
                 color: $secondary-color;
             }
 
-            .btn-add-service {
+            .btn-add-specialty {
                 background: $background-color;
                 border: 1px solid #0A8FDC;
                 border-radius: 8px;
@@ -38,7 +38,7 @@
                 }
             }
 
-            .btn-refresh-service {
+            .btn-refresh-specialty {
                 background: $background-color;
                 border: 1px solid #04a9f3;
                 border-radius: 8px;
@@ -57,9 +57,10 @@
             }
         }
 
-        .table-service {
+        .table-specialty {
             border-radius: 10px;
             box-shadow: $box-shadow-content;
+
 
             .head {
                 .search {}
@@ -86,29 +87,6 @@
 
                 .name {
                     max-width: 10rem;
-                    white-space: nowrap;
-                    overflow: hidden;
-                    text-overflow: ellipsis;
-                }
-
-                .price {
-                    font-weight: 600;
-                    max-width: 5rem;
-
-                    .free {
-                        color: rgb(82, 201, 49);
-                        border: 1px solid #dcf3dc;
-                        background: #dcf3dc;
-                        padding: 2px 4px;
-                        border-radius: 5px;
-                        font-size: 12px;
-                        text-align: center;
-
-                    }
-                }
-
-                .description {
-                    max-width: 15rem;
                     white-space: nowrap;
                     overflow: hidden;
                     text-overflow: ellipsis;
@@ -157,10 +135,34 @@
 
         .insert-update {
             border-radius: 10px;
-            box-shadow: $box-shadow-content;
+            //box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 8px rgba(143, 177, 214, 0.9);
             background: white;
             padding: 5px;
             height: fit-content;
+
+            .image-upload {
+                background: white;
+                padding: 10px;
+                border-radius: 10px;
+                border: 2px dashed #0A8FDC;
+
+                .container {
+                    background: $background-color;
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: center;
+                    align-items: center;
+                    gap: 10px;
+
+                    span {
+                        font-size: 1rem;
+                        font-weight: 600;
+                        color: #0A8FDC;
+                        cursor: pointer;
+                    }
+                }
+            }
         }
     }
 }

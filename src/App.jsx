@@ -19,8 +19,10 @@ import Profile from "./pages/Admin/components/Profile";
 import Handbook from "./pages/Doctor/pages/Handbook";
 import InfoHandbook from "./pages/Doctor/pages/Handbook/InfoHandbook";
 import Schedule from "./pages/Doctor/pages/Schedule";
+import Specialty from "./pages/Admin/pages/Specialty";
 import Login from "./pages/Login";
 import { PATHS } from "./constant/path";
+import ProfileAdmin from "./pages/Admin/pages/ProfileAdmin";
 function App() {
 
   return (
@@ -38,7 +40,8 @@ function App() {
           <Route path={PATHS.ADMIN.DEPARTMENT_MANAGE} element={<DepartmentManage />} />
           <Route path={PATHS.ADMIN.ROOM_MANAGE} element={<Room />} />
           <Route path={PATHS.ADMIN.SERVICE_MANAGE} element={<ServiceOfRoom />} />
-          <Route path={PATHS.ADMIN.PROFILE} element={<Profile />} />
+          <Route path={PATHS.ADMIN.SPECIALTY_MANAGE} element={<Specialty />} />
+          <Route path={PATHS.ADMIN.PROFILE} element={<ProfileAdmin />} />
         </Route>
         <Route element={<DoctorLayout />}>
           <Route path={PATHS.STAFF.DASHBOARD} element={<DoctorHomePage />} />

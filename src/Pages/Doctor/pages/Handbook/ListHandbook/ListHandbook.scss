@@ -1,7 +1,9 @@
-.list-handbook-container{
+@import "../../../../../style/variables.scss";
+
+.list-handbook-container {
     background-color: white;
 
-    .search-container{
+    .search-container {
         display: flex;
         justify-content: space-between;
         align-items: center;
@@ -13,18 +15,18 @@
         input {
             background: #EDF6FF;
         }
-        
-        .button{
+
+        .button {
             padding: 6px 16px;
             border-radius: 5px 25px 25px 5px;
             border: none;
-            background-color: #007bff;
+            background-color: $primary-color;
             color: white;
             cursor: pointer;
             font-weight: bold;
             width: 10%;
 
-            i{
+            i {
                 margin-right: 10px;
                 color: white;
             }
@@ -32,13 +34,13 @@
 
         .icon {
             display: flex;
-            justify-content: center; 
-            align-items: center; 
+            justify-content: center;
+            align-items: center;
         }
     }
 
-    .ant-pagination-item-active{
-        border-color: #007bff;
-        border: 1.5px solid #007bff;
+    .ant-pagination-item-active {
+        border-color: $primary-color;
+        border: 1.5px solid $primary-color;
     }
 }

@@ -109,5 +109,23 @@ export const blockRoom = (data) => {
 
 // SPECIALTY MANAGEMENT
 export const getSpecialtySelect = () => {
-    return axios.get(`/api/admin/getSpecialtySelect`)
+    return axios.get(`/api/getSpecialtySelect`)
+}
+export const getAllSpecialtyAdmin = (page, limit, search) => {
+    return axios.get(`/api/admin/getAllSpecialtyAdmin?page=${+page}&limit=${+limit}&search=${search}`)
+}
+export const updateSpecialty = (data) => {
+    return axios.put(`/api/admin/updateSpecialty`, data)
+}
+export const createSpecialty = (data) => {
+    return axios.post(`/api/admin/createSpecialty`, data)
+}
+export const deleteSpecialty = (data) => {
+    return axios.delete(`/api/admin/deleteSpecialty`, { data: { id: data.id } })
+}
+export const blockSpecialty = (data) => {
+    return axios.put(`/api/admin/blockSpecialty`, data)
+}
+export const getSpecialtyById = (id) => {
+    return axios.get(`/api/getSpecialtyById?id=${id}`)
 }

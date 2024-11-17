@@ -19,10 +19,6 @@ const AdminLayoutTest = () => {
             logout(); // Redirect to login page or another appropriate route
         }
     }, [location]);
-    const {
-        token: { colorBgContainer, borderRadiusLG },
-    } = theme.useToken();
-
     const action = (value) => {
         setCollapsed(value);
     }
@@ -37,13 +33,7 @@ const AdminLayoutTest = () => {
                         open={collapsed}
                         action={action} />
                     <div className='content-data'>
-                        <Content
-                            style={{
-                                margin: '0px',
-                                minHeight: "80vh",
-                                borderRadius: borderRadiusLG,
-                                backgroundColor: colorBgContainer,
-                            }}>
+                        <Content>
                             <Outlet />
                         </Content>
                     </div>

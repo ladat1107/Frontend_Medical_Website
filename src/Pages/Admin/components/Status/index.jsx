@@ -3,11 +3,6 @@ import "./Status.scss"
 import { faCircle } from "@fortawesome/free-solid-svg-icons";
 const Status = (props) => {
     return (
-        // <div className="status-content">
-        //     <span className={`status-${props?.data === 1 ? "on" : "off"}`}>
-        //         {+props?.data === 1 ? "Hoạt động" : "Khóa"}
-        //     </span>
-        // </div>
         <div className="status">
             {+props?.data === 1 ? <>
                 <span className="pe-2"><FontAwesomeIcon icon={faCircle} beatFade size="2xs" style={{ color: "#04a9f3", }} /></span>Hoạt động

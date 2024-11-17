@@ -5,7 +5,7 @@ import { CLOUD_NAME, UPLOAD_PRESET, CLOUDINARY_API_KEY, CLOUDINARY_API_SECRET } 
 // Hàm tạo chữ ký (signature)
 const generateSignature = (timestamp, folder) => {
     const stringToSign = `folder=${folder}&timestamp=${timestamp}&upload_preset=${UPLOAD_PRESET}`;  // Chuỗi cần ký bao gồm folder, timestamp và upload_preset
-    return CryptoJS.SHA1(stringToSign + apiSecret).toString(CryptoJS.enc.Hex);  // Kết hợp với apiSecret
+    return CryptoJS.SHA1(stringToSign + CLOUDINARY_API_SECRET).toString(CryptoJS.enc.Hex);  // Kết hợp với apiSecret
 };
 // Hàm upload ảnh lên Cloudinary
 export const uploadToCloudinary = async (file, folder, onProgress) => {
@@ -47,7 +47,7 @@ const deleteImageFromCloudinary = async (publicId) => {
             `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/destroy`,
             {
                 public_id: publicId,
-                api_key: apiKey,
+                api_key: CLOUDINARY_API_KEY,
                 timestamp: timestamp,
                 signature: signature,
             },

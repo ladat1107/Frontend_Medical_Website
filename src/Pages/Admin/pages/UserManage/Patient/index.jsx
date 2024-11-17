@@ -78,7 +78,10 @@ const PatientManage = () => {
     }
     let refresh = () => {
         setCheckAll(false);
-        setObUpdate(null)
+        setShowCreateUserModal(false);
+        setObUpdate(null);
+        setSearch("");
+        setCurrentPage(1);
         fetchUsers();
     }
     let handleShow = (value) => {
@@ -124,7 +127,7 @@ const PatientManage = () => {
                                 <thead className="text-start text-uppercase text-secondary row-1">
                                     <tr>
                                         <th scope="col" className="p-1 ">
-                                            <div className="flex items-center">
+                                            <div className="">
                                                 <Checkbox
                                                     checked={checkAll}
                                                     onChange={() => { handleChangeSelectedAll() }}
@@ -132,10 +135,10 @@ const PatientManage = () => {
                                                 />
                                             </div>
                                         </th>
-                                        <th scope="col" className="text-start px-3 py-0 name">
+                                        <th scope="col" className="text-start ps-2 py-0 name">
                                             Họ và tên
                                         </th>
-                                        <th scope="col" className="text-start px-1 py-0">
+                                        <th scope="col" className="text-start px-2 py-0">
                                             Chức vụ
                                         </th>
                                         <th scope="col" className="text-start px-1 py-0">
@@ -159,28 +162,28 @@ const PatientManage = () => {
                                                 listUser.map((item, index) => {
                                                     return (
                                                         <tr key={index} className="bg-white border-b text-start">
-                                                            <td className="p-1">
-                                                                <div className="flex items-center">
+                                                            <td>
+                                                                <div className="flex">
                                                                     <Checkbox
                                                                         checked={item.checked}
                                                                         onChange={() => { handleChange(item, index) }}
                                                                         size="small"
                                                                     /></div>
                                                             </td>
-                                                            <th scope="row" className="d-flex justify-content-start px-1 py-3 min-content-width g-0">
+                                                            <th scope="row" className="d-flex justify-content-start ps-2 py-3 min-content-width g-0">
                                                                 <img className="image" src={item.avatar || LINK.AVATAR_NULL} alt="Jese image" />
                                                                 <div className="ps-1 email ">
                                                                     <div className="fw-semibold">{item.lastName + " " + item.firstName}</div>
                                                                     <div className="fw-normal">{item.email}</div>
                                                                 </div>
                                                             </th>
-                                                            <td className="text-start px-3 py-3">
+                                                            <td className="text-start px-2 py-3">
                                                                 {item?.userRoleData?.name || "Khác"}
                                                             </td>
-                                                            <td className="text-start px-3 py-3">
+                                                            <td className="text-start px-1 py-3">
                                                                 {item?.phoneNumber || "Không có"}
                                                             </td>
-                                                            <td className="text-start px-3 py-3">
+                                                            <td className="text-start px-1 py-3">
                                                                 {item?.cid || "Không có"}
                                                             </td>
                                                             <td className="text-start px-1 py-3">

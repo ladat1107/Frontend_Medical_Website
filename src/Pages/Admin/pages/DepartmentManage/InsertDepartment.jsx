@@ -12,7 +12,7 @@ import { faXmark } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { CLOUDINARY_FOLDER, STATUS } from '@/constant/value';
 import { ROLE } from '@/constant/role';
-
+const { TextArea } = Input;
 const InsertDepartment = (props) => {
     const [form] = Form.useForm();
     let [departmentUpdate, setDepartmentUpdate] = useState(props.obUpdate);
@@ -22,7 +22,6 @@ const InsertDepartment = (props) => {
     let [listDoctors, setListDoctors] = useState([]);
     let { data: doctors } = useQuery(() => getStaffByRole(ROLE.DOCTOR));
     let mdParser = new MarkdownIt(/* Markdown-it options */);
-    const [markdownValue, setMarkdownValue] = useState("");
     let [col, setCol] = useState(8);
     let htmlContent = props?.obUpdate?.departmentDescriptionData?.htmlContent || "";
     useEffect(() => {
@@ -43,19 +42,21 @@ const InsertDepartment = (props) => {
                 name: departmentUpdate?.name || "",
                 address: departmentUpdate?.address || "",
                 deanId: departmentUpdate?.deanId || null,
+                shortDescription: departmentUpdate?.shortDescription || "",
                 status: departmentUpdate?.status || 1,
                 image: departmentUpdate.image,
                 htmlContent: departmentUpdate?.departmentDescriptionData?.htmlContent || markDownContent,
                 markDownContent: departmentUpdate?.departmentDescriptionData?.markDownContent || ""
             })
-            setMarkdownValue(departmentUpdate?.departmentDescriptionData?.markDownContent || "");
             setImageUrl(departmentUpdate?.image || "");
             setCol(6);
         }
     }, [props.obUpdate])
     let handleCloseInsert = () => {
         form.resetFields()
-        props.handleShowInsert(false)
+        setImageUrl("");
+        setDepartmentUpdate(null);
+        props.refresh();
     }
 
     // Xử lý khi người dùng chọn ảnh
@@ -78,6 +79,7 @@ const InsertDepartment = (props) => {
             setUploading(false); // Kết thúc upload
         }
     };
+
     let handleInsert = () => {
         if (!imageUrl) {
             message.error('Vui lòng chọn ảnh khoa!')
@@ -91,10 +93,7 @@ const InsertDepartment = (props) => {
             }
             if (respone?.data?.EC == 0) {
                 message.success(respone?.data?.EM || "Thành công")
-                setMarkdownValue("");
-                setImageUrl("");
                 handleCloseInsert();
-                props.refresh();
             }
             else {
                 message.error(respone?.data?.EM || "Thêm khoa thất bại")
@@ -105,7 +104,6 @@ const InsertDepartment = (props) => {
     }
     // Finish!
     let handleEditorChange = ({ html, text }) => {
-        //setMarkdownValue(text);
         htmlContent = html;
         form.setFieldsValue({ markDownContent: text }); // Cập nhật giá trị cho Form.Item
     };
@@ -186,16 +184,16 @@ const InsertDepartment = (props) => {
                                 <Col sm={24} lg={col}>
                                     <Form.Item
                                         name={"status"}
-                                        label="Tình trạng"
+                                        label="Trạng thái"
                                         rules={[
                                             {
                                                 required: true,
-                                                message: 'Vui lòng chọn tình trạng!',
+                                                message: 'Vui lòng chọn trạng thái!',
                                             },
                                         ]}
                                     >
                                         <Select
-                                            placeholder="Chọn tình trạng"
+                                            placeholder="Chọn trạng thái"
                                             options={STATUS}
                                         >
                                         </Select>
@@ -207,29 +205,38 @@ const InsertDepartment = (props) => {
                                     label="Ảnh khoa"
 
                                 >
-                                    <div className='image-upload'>
+                                    <div className='image-upload' htmlFor={"input-upload"}
+                                        onClick={() => document.getElementById('input-upload').click()}>
                                         <input type="file" id='input-upload' hidden={true} onChange={handleImageChange} />
-                                        <div className='container'>
-                                            <span><CloudUploadOutlined /></span>
-                                            <div><span htmlFor={"input-upload"}
-                                                onClick={() => document.getElementById('input-upload').click()}>Chọn ảnh</span> đăng tải.</div>
-                                            {uploading && (
-                                                <div style={{ marginTop: '20px', width: '100%' }}>
-                                                    <Progress percent={uploadProgress} status="active" />
-                                                </div>
-                                            )}
-                                            {imageUrl && (
-                                                <div>
-                                                    <img src={imageUrl} alt="Uploaded" style={{ width: "300px", borderRadius: "10px" }} />
-                                                </div>
-                                            )}
-                                        </div>
+                                        {imageUrl ?
+                                            <div className='img-department' style={{
+                                                backgroundImage: `url(${imageUrl})`,
+                                            }}
+                                            >
+                                            </div>
+                                            :
+                                            <div className='container'>
+                                                <span><CloudUploadOutlined /></span>
+                                                <div><span >Chọn ảnh</span> đăng tải.</div>
+                                            </div>
+                                        }
+                                        {uploading && (
+                                            <div style={{ marginTop: '20px', width: '100%' }}>
+                                                <Progress percent={uploadProgress} status="active" />
+                                            </div>
+                                        )}
                                     </div>
-
                                 </Form.Item>
-
                             </Col>
                             <Col sm={24} lg={16}>
+                                <Form.Item
+                                    name="shortDescription"
+                                    label="Giới thiệu"
+                                >
+                                    <TextArea rows={9} placeholder="Giới thiệu về chuyên khoa" />
+                                </Form.Item>
+                            </Col>
+                            <Col sm={24}>
                                 <Form.Item
                                     name={"markDownContent"}
                                     label="Mô tả"
@@ -241,16 +248,14 @@ const InsertDepartment = (props) => {
                                     ]}
                                 >
                                     <MdEditor style={{
-                                        minHeight: '280px',
+                                        minHeight: '350px',
                                         borderRadius: '10px',
                                         padding: "5px",
                                     }}
-                                        value={markdownValue}
                                         renderHTML={text => mdParser.render(text)}
                                         onChange={handleEditorChange} />
                                 </Form.Item>
                             </Col>
-
                             <Col xs={24} style={{ display: 'flex', justifyContent: 'flex-end' }} >
                                 <Form.Item>
                                     <Button type="primary" htmlType="submit"

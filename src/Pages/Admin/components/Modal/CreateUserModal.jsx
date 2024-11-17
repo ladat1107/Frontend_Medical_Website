@@ -17,8 +17,7 @@ const CreateUser = (props) => {
     let [optionRole, setOptionRole] = useState(ALL_ROLE);
     let listStaffRole = STAFF_ROLE.map((item) => item.value); // Lấy ra danh sách id của các role của nhân viên
     let [form] = Form.useForm();
-    const [markdownValue, setMarkdownValue] = useState("");
-    let htmlContent = props.obUpdate?.staffUserData?.staffDescriptionData?.htmlContent || "";
+    let htmlContent = props?.obUpdate?.staffUserData?.staffDescriptionData?.htmlContent || "";
     let [isShowStaff, setIsShowStaff] = useState(false);
     let [departments, setDepartments] = useState([]);
     let { data: departmentData } = useQuery(() => getNameDepartment())
@@ -35,12 +34,6 @@ const CreateUser = (props) => {
             setDepartments(departmentData.DT);
         }
     }, [departmentData])
-    const onFinish = (values) => {
-        console.log('Success:', values);
-    };
-    const onFinishFailed = (errorInfo) => {
-        console.log('Failed:', errorInfo);
-    };
     // Hàm xử lý khi submit thành công
     const handleModalSubmit = async () => {
         form
@@ -71,12 +64,9 @@ const CreateUser = (props) => {
     const handleClose = () => {
         form.resetFields()
         setUserUpdate(null);
-        setMarkdownValue("")
         setIsShowStaff(false);
         props.refresh();
-        props.isShow(false)
     }
-
     useEffect(() => {
         if (userUpdate?.id) {
             form.setFieldsValue({
@@ -87,7 +77,7 @@ const CreateUser = (props) => {
                 phoneNumber: userUpdate?.phoneNumber || "",
                 cid: userUpdate?.cid || "",
                 roleId: userUpdate?.roleId || "",
-                status: userUpdate?.status || "",
+                status: userUpdate?.status,
             })
             if (listStaffRole.includes(userUpdate.roleId)) {
                 setOptionRole(STAFF_ROLE);
@@ -100,11 +90,12 @@ const CreateUser = (props) => {
                     markDownContent: userUpdate?.staffUserData?.staffDescriptionData?.markDownContent || "",
                 })
                 htmlContent = userUpdate?.staffUserData?.staffDescriptionData?.htmlContent || "";
-                setMarkdownValue(userUpdate?.staffUserData?.staffDescriptionData?.markDownContent || "");
                 setIsShowStaff(true);
             } else {
                 setIsShowStaff(false);
             }
+        } else {
+            form.resetFields();
         }
     }, [props.obUpdate])
 
@@ -117,12 +108,8 @@ const CreateUser = (props) => {
         }
         //console.log(value);
     }
-    let handleChange = (value) => {
-        console.log(`Selected: ${value}`);
-    };
     // Finish!
     let handleEditorChange = ({ html, text }) => {
-        setMarkdownValue(text);
         htmlContent = html;
         form.setFieldsValue({ markDownContent: text }); // Cập nhật giá trị cho Form.Item
     };
@@ -154,13 +141,8 @@ const CreateUser = (props) => {
                         wrapperCol={{
                             span: 24,
                         }}
-
-                        initialValues={{
-                            position: [],
-                            markDownContent: markdownValue,
-                        }}
-                        onFinish={onFinish}
-                        onFinishFailed={onFinishFailed}
+                        validateTrigger="onBlur"
+                        initialValues={{}}
                         autoComplete="on"
                     >
 
@@ -203,70 +185,6 @@ const CreateUser = (props) => {
                                     <Input maxLength={50} />
                                 </Form.Item>
                             </Col>
-                            <Col xs={24} md={12} lg={6} >
-                                <Form.Item
-                                    label="Mật khẩu"
-                                    name="password"
-                                    rules={[
-                                        {
-                                            required: userUpdate?.id ? false : true,
-                                            message: 'Vui lòng nhập mật khẩu!',
-                                        },
-                                        {
-                                            min: 6,
-                                            message: 'Mật khẩu phải có ít nhất 6 ký tự!',
-                                        }
-                                    ]}
-                                >
-                                    <Input.Password />
-                                </Form.Item>
-                            </Col>
-                            {
-                                userUpdate?.id ?
-                                    <Col sm={24} md={12} lg={6}>
-                                        <Form.Item
-                                            name={"status"}
-                                            label="Tình trạng"
-                                            rules={[
-                                                {
-                                                    required: true,
-                                                    message: 'Vui lòng chọn tình trạng!',
-                                                },
-                                            ]}
-                                        >
-                                            <Select
-                                                placeholder="Chọn tình trạng"
-                                                options={STATUS}
-                                            >
-                                            </Select>
-                                        </Form.Item>
-                                    </Col>
-                                    :
-                                    <Col xs={24} md={12} lg={6}>
-                                        <Form.Item
-                                            label="Xác nhận mật khẩu"
-                                            name="confirmPassword"
-                                            dependencies={['password']}
-                                            rules={[
-                                                {
-                                                    required: true,
-                                                    message: 'Vui lòng xác nhận mật khẩu!',
-                                                },
-                                                ({ getFieldValue }) => ({
-                                                    validator(_, value) {
-                                                        if (!value || getFieldValue('password') === value) {
-                                                            return Promise.resolve();
-                                                        }
-                                                        return Promise.reject(new Error('Mật khẩu không khớp!'));
-                                                    },
-                                                }),
-                                            ]}
-                                        >
-                                            <Input.Password />
-                                        </Form.Item>
-                                    </Col>
-                            }
-
                             <Col xs={24} md={12} lg={6} >
                                 <Form.Item
                                     label="Email"
@@ -345,6 +263,26 @@ const CreateUser = (props) => {
                                     />
                                 </Form.Item>
                             </Col>
+                            {userUpdate?.id &&
+                                <Col sm={24} md={12} lg={6}>
+                                    <Form.Item
+                                        name={"status"}
+                                        label="Trạng thái"
+                                        rules={[
+                                            {
+                                                required: true,
+                                                message: 'Vui lòng chọn trạng thái!',
+                                            },
+                                        ]}
+                                    >
+                                        <Select
+                                            placeholder="Chọn trạng thái"
+                                            options={STATUS}
+                                        >
+                                        </Select>
+                                    </Form.Item>
+                                </Col>
+                            }
                         </Row>
                         {isShowStaff && <Row gutter={[16, 8]}>
                             <Col xs={24} md={12} lg={6} >
@@ -395,7 +333,6 @@ const CreateUser = (props) => {
                                         mode="multiple"
                                         placeholder="Vui lòng chọn chức vụ"
                                         options={optionPosition}
-                                        onChange={handleChange}
                                     />
                                 </Form.Item>
                             </Col>
@@ -435,7 +372,6 @@ const CreateUser = (props) => {
                                     <MdEditor style={{
                                         minHeight: '230px',
                                     }}
-                                        value={markdownValue}
                                         renderHTML={text => mdParser.render(text)}
                                         onChange={handleEditorChange} />
                                 </Form.Item>

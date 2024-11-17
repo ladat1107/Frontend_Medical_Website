@@ -8,6 +8,7 @@ export const PATHS = {
         ROOM_MANAGE: "/adminRoomManage",
         SERVICE_MANAGE: "/adminServiceManage",
         PROFILE: "/staffProfile",
+        SPECIALTY_MANAGE: "/adminSpecialty",
     },
     STAFF: {
         DASHBOARD: "/doctor",

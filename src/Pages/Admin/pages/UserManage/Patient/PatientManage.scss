@@ -1,24 +1,26 @@
+@import "../../../../../style/variables.scss";
+
 .patient-manage {
     display: flex;
     justify-content: center; // Căn giữa theo chiều ngang
     align-items: center; // Căn giữa theo chiều dọc
     height: 100%;
 
-    background: #f4f7fe;
+    background: $background-color;
 
     .container {
         padding: 0 3%;
         margin: 0;
-        background: #f4f7fe;
+        background: $background-color;
 
         .first {
             .text {
                 font-size: 1.2rem;
-                color: #003a8c;
+                color: $secondary-color;
             }
 
             .btn-add-user {
-                background: #f4f7fe;
+                background: $background-color;
                 border: 1px solid #0A8FDC;
                 border-radius: 8px;
                 color: #0A8FDC;
@@ -38,9 +40,7 @@
 
         .table-responsive {
             border-radius: 10px;
-            box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
-
-            .table-head {}
+            box-shadow: $box-shadow-content;
 
             .row-1 {
                 .flex {
@@ -60,6 +60,7 @@
 
                 td {
                     border-bottom: none !important;
+                    width: max-content !important;
                 }
 
                 tr {
@@ -67,8 +68,6 @@
                 }
 
                 .min-content-width {
-
-
                     .image {
                         width: 40px;
                         height: 40px;
@@ -103,27 +102,10 @@
                     span {
                         font-size: 0.9rem;
                     }
-
-                    .css-mnqnbf {
-                        background: none;
-
-                        span {
-                            font-size: 0.9rem;
-                            font-weight: 600;
-                            color: black;
-                        }
-                    }
-
-                    .css-1izobnm {
-                        background: none;
-                        color: black;
-                        font-size: 0.7rem;
-                        font-weight: 600;
-                    }
                 }
 
                 .paginationContainer {
-                    font-size: 0.9rem;
+                    font-size: 1em;
                     margin: 0 1rem;
                     display: flex;
                     justify-content: end;
@@ -131,25 +113,6 @@
                     width: max-content;
                 }
             }
-
-            .css-mnqnbf {
-                background: none;
-                text-align: left;
-
-                span {
-                    font-size: 0.7rem;
-                    font-weight: 600;
-                    color: black;
-                }
-            }
-
-            .css-1izobnm {
-                background: none;
-                color: black;
-                font-size: 0.7rem;
-                font-weight: 600;
-            }
-
         }
     }
 }

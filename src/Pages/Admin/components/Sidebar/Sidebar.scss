@@ -1,3 +1,5 @@
+@import "../../../../style/variables.scss";
+
 .sidebar-content {
     min-height: 100vh;
     background: white;
@@ -21,14 +23,16 @@
 
     .menu-item {
         span {
-            font-size: 1rem;
-            font-weight: lighter;
+            font-size: 1.1rem;
             color: #262626;
         }
+
     }
 
     a {
         text-decoration: none;
+        font-size: 1.1rem;
+        color: #262626;
 
         &:hover {
             text-decoration: none;

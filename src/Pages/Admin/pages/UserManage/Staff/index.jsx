@@ -15,6 +15,7 @@ import "./StaffManage.scss";
 import { Input } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
 import Status from '@/pages/Admin/components/Status';
+import { set } from 'lodash';
 
 const StaffManage = () => {
     let [currentPage, setCurrentPage] = useState(1);
@@ -37,6 +38,10 @@ const StaffManage = () => {
     )
     let refresh = () => {
         setCheckAll(false);
+        setShowCreateUserModal(false);
+        setObUpdate(null);
+        setSearch("");
+        setCurrentPage(1);
         fetchUsers();
     }
     useEffect(() => {
@@ -83,6 +88,7 @@ const StaffManage = () => {
         setSearch(event.target.value);
         setCurrentPage(1)
     }
+
     let handleShow = (value) => {
         setShowCreateUserModal(value)
     }
@@ -102,7 +108,6 @@ const StaffManage = () => {
         }
     }
     return (
-        // listUserLoading ? <Loading /> :
         <>
             <div className='staff-manage'>
                 <div className='container'>
@@ -120,11 +125,11 @@ const StaffManage = () => {
                         </div>
 
                         <div className='px-4'>
-                            <table className="w-100 text-start">
-                                <thead className="text-start text-uppercase text-secondary row-1">
-                                    <tr>
-                                        <th scope="col" className="p-1">
-                                            <div className="flex items-center">
+                            <table className='w-100'>
+                                <thead>
+                                    <tr className="header">
+                                        <th scope="col" className="rounded-top-left p-1">
+                                            <div>
                                                 <Checkbox
                                                     checked={checkAll}
                                                     onChange={() => { handleChangeSelectedAll() }}
@@ -135,8 +140,8 @@ const StaffManage = () => {
                                         <th scope="col" className="text-start px-3 py-0 name">
                                             Họ và tên
                                         </th>
-                                        <th scope="col" className="text-start px-1 py-0 ">
-                                            <DropdownPosition onChange={handleChangePosition} />
+                                        <th scope="col" className="text-start px-3 py-0 ">
+                                            Chức vụ <DropdownPosition onChange={handleChangePosition} />
                                         </th>
                                         <th scope="col" className="text-start px-1 py-0">
                                             Trình độ
@@ -153,12 +158,10 @@ const StaffManage = () => {
                                         <th scope="col" className="text-start px-1 py-0">
                                             Trạng thái
                                         </th>
-                                        <th scope="col" className="text-start px-1 py-0">
-
+                                        <th scope="col" className="rounded-top-right px-1 py-0">
                                         </th>
                                     </tr>
                                 </thead>
-
                                 <tbody className='table-body text-secondary'>
                                     {+listUser.length > 0 && +totalPages != 0 ?
                                         <>
@@ -227,7 +230,8 @@ const StaffManage = () => {
                         </div>
                         <div className='footer-table d-flex justify-content-end mx-2'>
                             <div className='select-page'>
-                                <DropdownPaginate page={rowsPerPage}
+                                <DropdownPaginate
+                                    page={rowsPerPage}
                                     setPage={handleChangePaginate} />
                             </div>
                             <PaginateCustom totalPageCount={totalPages}
