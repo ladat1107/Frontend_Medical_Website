@@ -1,64 +1,105 @@
 
 import React, { useEffect, useState } from 'react';
-import { GENDER, TABLE } from '@/constant/value';
-import { deleteUser, blockUser, getNameDepartment } from "@/services/adminService";
-import "./Modal.scss"
-import { MESSAGE, REGEX } from '@/constant/validate';
+import { POSITION, STATUS } from '@/constant/value';
+import { getNameDepartment, createUser, getSpecialtySelect, updateUser } from "@/services/adminService";
+import "./Modal.scss";
 import { ALL_ROLE, STAFF_ROLE } from '@/constant/role';
-import removeVietnameseAccent from '@/utils/removeAccent';
-import { Checkbox, Form, Input, Select, message, Button, Modal, Col, Row } from 'antd';
+import { Form, Input, Select, message, Button, Modal, Col, Row, InputNumber } from 'antd';
 import useQuery from '@/hooks/useQuery';
+
+import MarkdownIt from 'markdown-it';
+import MdEditor from 'react-markdown-editor-lite';
+import 'react-markdown-editor-lite/lib/index.css';
+let mdParser = new MarkdownIt(/* Markdown-it options */);
+const { TextArea } = Input;
 const CreateUser = (props) => {
-
-    let optionPosition = ALL_ROLE;
-    let listStaffRole = STAFF_ROLE.map((item) => item.id); // Lấy ra danh sách id của các role của nhân viên
-
+    let optionPosition = POSITION;
+    let [optionRole, setOptionRole] = useState(ALL_ROLE);
+    let listStaffRole = STAFF_ROLE.map((item) => item.value); // Lấy ra danh sách id của các role của nhân viên
+    let [form] = Form.useForm();
+    let htmlContent = props?.obUpdate?.staffUserData?.staffDescriptionData?.htmlContent || "";
     let [isShowStaff, setIsShowStaff] = useState(false);
-
-    let [messageContent, setMessageContent] = useState("")
     let [departments, setDepartments] = useState([]);
-
     let { data: departmentData } = useQuery(() => getNameDepartment())
+    let [specialty, setSpecailty] = useState([]);
+    let { data: specialtyData } = useQuery(() => getSpecialtySelect())
+    let [userUpdate, setUserUpdate] = useState(props.obUpdate);
+    useEffect(() => {
+        if (specialtyData && specialtyData?.DT?.length > 0) {
+            setSpecailty(specialtyData.DT);
+        }
+    }, [specialtyData])
     useEffect(() => {
         if (departmentData && departmentData?.DT?.length > 0) {
             setDepartments(departmentData.DT);
         }
     }, [departmentData])
-    const onFinish = (values) => {
-        console.log('Success:', values);
-    };
-    const onFinishFailed = (errorInfo) => {
-        console.log('Failed:', errorInfo);
-    };
     // Hàm xử lý khi submit thành công
-    const onSubmit = (data) => {
-        console.log("data");
-        console.log("data", data);
+    const handleModalSubmit = async () => {
+        form
+            .validateFields()
+            .then(async (values) => {
+                let response = null;
+                if (userUpdate?.id) {
+                    response = await updateUser({
+                        ...values, id: userUpdate.id, htmlContent,
+                        staffId: userUpdate?.staffUserData?.id || "",
+                        descriptionId: userUpdate?.staffUserData?.staffDescriptionData?.id || "",
+                    });
+                } else {
+                    response = await createUser({ ...values, htmlContent });
+                }
+                if (response?.data?.EC === 0) {
+                    message.success(response?.data?.EM || "Thành công!");
+                    handleClose();
+                } else {
+                    message.error(response?.data?.EM || "Thất bại!");
+                }
 
+            })
+            .catch((errorInfo) => {
+                onFinishFailed(errorInfo); // Gọi onFinishFailed khi form không hợp lệ
+            });
     };
     const handleClose = () => {
-        props.isShow(false)
+        form.resetFields()
+        setUserUpdate(null);
+        setIsShowStaff(false);
+        props.refresh();
     }
-
     useEffect(() => {
-        if (props.table === TABLE.USER) {
-            setMessageContent("Mở")
+        if (userUpdate?.id) {
+            form.setFieldsValue({
+                id: userUpdate?.id || "",
+                lastName: userUpdate?.lastName || "",
+                firstName: userUpdate?.firstName || "",
+                email: userUpdate?.email || "",
+                phoneNumber: userUpdate?.phoneNumber || "",
+                cid: userUpdate?.cid || "",
+                roleId: userUpdate?.roleId || "",
+                status: userUpdate?.status,
+            })
+            if (listStaffRole.includes(userUpdate.roleId)) {
+                setOptionRole(STAFF_ROLE);
+                form.setFieldsValue({
+                    departmentId: userUpdate?.staffUserData?.departmentId || "",
+                    shortDescription: userUpdate?.staffUserData?.shortDescription || "",
+                    specialtyId: userUpdate?.staffUserData?.specialtyId || "",
+                    position: userUpdate?.staffUserData?.position?.split(",") || [],
+                    price: userUpdate?.staffUserData?.price || "",
+                    markDownContent: userUpdate?.staffUserData?.staffDescriptionData?.markDownContent || "",
+                })
+                htmlContent = userUpdate?.staffUserData?.staffDescriptionData?.htmlContent || "";
+                setIsShowStaff(true);
+            } else {
+                setIsShowStaff(false);
+            }
+        } else {
+            form.resetFields();
         }
-    }, [props])
-    let handleCreateUser = async () => {
-        if (props.table === TABLE.USER) {
-            // let response = await deleteUser(data);
-            // if (response && response.data && response.data.EC === 0) {
-            //     message.success(response.data.EM);
-            //    
-            //     props.refresh()
-            // } else {
-            //     message.error(response.data.EM);
-            // }
-            props.isShow(false)
-        }
-    }
-    let handlChangePosition = (value) => {
+    }, [props.obUpdate])
+
+    let handlChangeRole = (value) => {
         // setPosition(value);
         if (listStaffRole.includes(value)) {
             setIsShowStaff(true);
@@ -67,37 +108,46 @@ const CreateUser = (props) => {
         }
         //console.log(value);
     }
+    // Finish!
+    let handleEditorChange = ({ html, text }) => {
+        htmlContent = html;
+        form.setFieldsValue({ markDownContent: text }); // Cập nhật giá trị cho Form.Item
+    };
     return (
         <>
             <div className='create-modal'>
                 <Modal
-                    title="Thêm người dùng mới"
+                    title={userUpdate?.id ? "Cập nhật thông tin" : "Thêm người dùng mới"}
                     centered
                     open={props.show}
-                    onOk={() => handleCreateUser()}
-                    onCancel={() => props.isShow(false)}
-                    width={"90vw"}
+                    onCancel={() => handleClose()}
+                    maskClosable={false} // Ngăn đóng modal khi bấm bên ngoài
+                    footer={[
+                        <Button key="cancel" onClick={() => handleClose()}>
+                            Hủy
+                        </Button>,
+                        <Button key="submit" type="primary" onClick={() => handleModalSubmit()}>
+                            {userUpdate?.id ? "Cập nhật" : "Thêm mới"}
+                        </Button>,
+                    ]}
+                    width={"80vw"}
                 >
                     <Form
-                        name="basic"
-
+                        form={form}
+                        name="insertUser"
                         labelCol={{
                             span: 24,
                         }}
                         wrapperCol={{
                             span: 24,
                         }}
-
-                        initialValues={{
-                            remember: true,
-                        }}
-                        onFinish={onFinish}
-                        onFinishFailed={onFinishFailed}
-                        autoComplete="off"
+                        validateTrigger="onBlur"
+                        initialValues={{}}
+                        autoComplete="on"
                     >
 
                         <Row key={"normal"} gutter={[16, 8]}>
-                            <Col span={6} >
+                            <Col xs={24} md={12} lg={6} >
                                 <Form.Item
                                     label="Họ"
                                     name="lastName"
@@ -107,19 +157,16 @@ const CreateUser = (props) => {
                                             message: 'Vui lòng nhập họ của bạn!',
                                         },
                                         {
-                                            max: 50,
-                                            message: 'Họ không được vượt quá 50 ký tự!',
-                                        },
-                                        {
                                             pattern: /^[^!@#$%^&*(),.?":{}|<>]*$/,
-                                            message: 'Không được chứa ký tự đặc biệt!',
+                                            max: 50,
+                                            message: 'Không được chứa ký tự đặc biệt và không được vượt quá 50 ký tự!',
                                         },
                                     ]}
                                 >
                                     <Input maxLength={50} />
                                 </Form.Item>
                             </Col>
-                            <Col span={6} >
+                            <Col xs={24} md={12} lg={6} >
                                 <Form.Item
                                     label="Tên"
                                     name="firstName"
@@ -130,59 +177,23 @@ const CreateUser = (props) => {
                                         },
                                         {
                                             max: 50,
-                                            message: 'Tên của bạn không được vượt quá 50 ký tự!',
-                                        },
-                                        {
                                             pattern: /^[^!@#$%^&*(),.?":{}|<>]*$/,
-                                            message: 'Không được chứa ký tự đặc biệt!',
+                                            message: 'Không được chứa ký tự đặc biệt và không được vượt quá 50 ký tự!',
                                         },
                                     ]}
                                 >
                                     <Input maxLength={50} />
                                 </Form.Item>
                             </Col>
-                            <Col span={6} >
-                                <Form.Item
-                                    label="Mật khẩu"
-                                    name="password"
-                                    rules={[
-                                        {
-                                            min: 6,
-                                            message: 'Mật khẩu phải có ít nhất 6 ký tự!',
-                                        }
-                                    ]}
-                                >
-                                    <Input.Password />
-                                </Form.Item>
-                            </Col>
-                            <Col span={6}>
-                                <Form.Item
-                                    label="Xác nhận mật khẩu"
-                                    name="confirmPassword"
-                                    dependencies={['password']}
-                                    rules={[
-                                        {
-                                            required: true,
-                                            message: 'Vui lòng xác nhận mật khẩu!',
-                                        },
-                                        ({ getFieldValue }) => ({
-                                            validator(_, value) {
-                                                if (!value || getFieldValue('password') === value) {
-                                                    return Promise.resolve();
-                                                }
-                                                return Promise.reject(new Error('Mật khẩu không khớp!'));
-                                            },
-                                        }),
-                                    ]}
-                                >
-                                    <Input.Password />
-                                </Form.Item>
-                            </Col>
-                            <Col span={6} >
+                            <Col xs={24} md={12} lg={6} >
                                 <Form.Item
                                     label="Email"
                                     name="email"
                                     rules={[
+                                        {
+                                            required: true,
+                                            message: 'Vui lòng nhập email!',
+                                        },
                                         {
                                             type: 'email',
                                             message: 'Email không hợp lệ!',
@@ -192,21 +203,25 @@ const CreateUser = (props) => {
                                     <Input type='email' />
                                 </Form.Item>
                             </Col>
-                            <Col span={6} >
+                            <Col xs={24} md={12} lg={6} >
                                 <Form.Item
                                     label="Số điện thoại"
                                     name="phoneNumber"
                                     rules={[
                                         {
-                                            len: 10,
+                                            required: true,
+                                            message: 'Vui lòng nhập số điện thoại!',
+                                        }
+                                        , {
+                                            pattern: /^\d{10}$/,
                                             message: 'Số điện thoại phải đúng 10 ký tự!',
-                                        },
+                                        }
                                     ]}
                                 >
                                     <Input type='number' />
                                 </Form.Item>
                             </Col>
-                            <Col span={6} >
+                            <Col xs={24} md={12} lg={6} >
                                 <Form.Item
                                     label="Căn cước công dân"
                                     name="cid"
@@ -216,7 +231,7 @@ const CreateUser = (props) => {
                                             message: 'Vui lòng nhập căn cước công dân!',
                                         },
                                         {
-                                            len: 12,
+                                            pattern: /^\d{12}$/,
                                             message: 'Căn cước công dân phải có 12 ký tự!',
                                         },
                                     ]}
@@ -224,37 +239,60 @@ const CreateUser = (props) => {
                                     <Input type='number' />
                                 </Form.Item>
                             </Col>
-                            <Col span={6} >
+                            <Col xs={24} md={12} lg={6} >
                                 <Form.Item
-                                    name="position"
+                                    name="roleId"
                                     label="Vai trò"
                                     rules={[
                                         {
                                             required: true,
+                                            message: 'Vui lòng chọn vai trò!',
                                         },
                                     ]}
                                 >
                                     <Select
                                         placeholder="Vui lòng chọn vai trò"
                                         showSearch
+                                        disabled={userUpdate?.roleId === 1 || userUpdate?.roleId === 2 ? true : false}
                                         optionFilterProp="label"
                                         filterSort={(optionA, optionB) =>
                                             (optionA?.label ?? '').toLowerCase().localeCompare((optionB?.label ?? '').toLowerCase())
                                         }
-                                        onChange={(value) => handlChangePosition(value)}
-                                        options={optionPosition}
+                                        onChange={(value) => handlChangeRole(value)}
+                                        options={optionRole}
                                     />
                                 </Form.Item>
                             </Col>
+                            {userUpdate?.id &&
+                                <Col sm={24} md={12} lg={6}>
+                                    <Form.Item
+                                        name={"status"}
+                                        label="Trạng thái"
+                                        rules={[
+                                            {
+                                                required: true,
+                                                message: 'Vui lòng chọn trạng thái!',
+                                            },
+                                        ]}
+                                    >
+                                        <Select
+                                            placeholder="Chọn trạng thái"
+                                            options={STATUS}
+                                        >
+                                        </Select>
+                                    </Form.Item>
+                                </Col>
+                            }
                         </Row>
                         {isShowStaff && <Row gutter={[16, 8]}>
-                            <Col span={6} >
+                            <Col xs={24} md={12} lg={6} >
                                 <Form.Item
-                                    name="department"
-                                    label="Phòng ban"
+                                    name="departmentId"
+                                    label="Khoa"
                                     rules={[
                                         {
                                             required: true,
+                                            message: 'Vui lòng chọn khoa!',
                                         },
                                     ]}
                                 >
@@ -264,34 +302,83 @@ const CreateUser = (props) => {
                                         filterSort={(optionA, optionB) =>
                                             (optionA?.label ?? '').toLowerCase().localeCompare((optionB?.label ?? '').toLowerCase())
                                         }
-                                        placeholder="Vui lòng chọn phòng ban"
+                                        placeholder="Vui lòng chọn khoa"
                                         options={departments}
                                     />
                                 </Form.Item>
                             </Col>
+                            <Col xs={24} md={12} lg={6}>
+                                <Form.Item
+                                    name="specialtyId"
+                                    label="Chọn chuyên khoa"
+                                >
+                                    <Select
+                                        placeholder="Chọn chuyên khoa"
+                                        showSearch
+                                        optionFilterProp="label"
+                                        filterSort={(optionA, optionB) =>
+                                            (optionA?.label ?? '').toLowerCase().localeCompare((optionB?.label ?? '').toLowerCase())
+                                        }
+                                        options={specialty}
+                                    >
+                                    </Select>
+                                </Form.Item>
+                            </Col>
+                            <Col xs={24} md={12} lg={6} >
+                                <Form.Item
+                                    name="position"
+                                    label="Chức vụ"
+                                >
+                                    <Select
+                                        mode="multiple"
+                                        placeholder="Vui lòng chọn chức vụ"
+                                        options={optionPosition}
+                                    />
+                                </Form.Item>
+                            </Col>
+                            <Col xs={24} md={12} lg={6} >
+                                <Form.Item
+                                    name="price"
+                                    label="Giá khám"
+                                    rules={[{
+                                        pattern: /^[0-9]*$/,
+                                        message: 'Giá khám không hợp lệ!',
+
+                                    }]
+                                    }
+                                >
+                                    <InputNumber suffix="VNĐ" style={{ width: "100%" }} />
+                                </Form.Item>
+                            </Col>
+                            <Col span={24}>
+                                <Form.Item
+                                    name="shortDescription"
+                                    label="Giới thiệu"
+                                >
+                                    <TextArea rows={4} placeholder="Mô tả ngắn" />
+                                </Form.Item>
+                            </Col>
+                            <Col span={24} >
+                                <Form.Item
+                                    name={"markDownContent"}
+                                    label="Mô tả"
+                                    rules={[
+                                        {
+                                            required: true,
+                                            message: 'Vui lòng nhập mô tả!',
+                                        },
+                                    ]}
+                                >
+                                    <MdEditor style={{
+                                        minHeight: '230px',
+                                    }}
+                                        renderHTML={text => mdParser.render(text)}
+                                        onChange={handleEditorChange} />
+                                </Form.Item>
+                            </Col>
+
                         </Row>}
 
-                        <Form.Item
-                            name="remember"
-                            valuePropName="checked"
-                            wrapperCol={{
-                                offset: 8,
-                                span: 16,
-                            }}
-                        >
-                            <Checkbox>Remember me</Checkbox>
-                        </Form.Item>
-
-                        <Form.Item
-                            wrapperCol={{
-                                offset: 8,
-                                span: 16,
-                            }}
-                        >
-                            <Button type="primary" htmlType="submit">
-                                Submit
-                            </Button>
-                        </Form.Item>
                     </Form>
                 </Modal>
             </div >

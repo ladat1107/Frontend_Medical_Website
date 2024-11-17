@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import { useAuthenContext } from "@/contexts/AuthenContext";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPlus, faMagnifyingGlass, faCircle } from '@fortawesome/free-solid-svg-icons'
+import { faPlus } from '@fortawesome/free-solid-svg-icons'
 import DropdownPaginate from '@/pages/Admin/components/Dropdown/DropdownPaginate';
 import DropdownAction from '@/pages/Admin/components/Dropdown/DropdownAction';
 import DropdownPosition from './DropDownPosition';
@@ -9,15 +8,16 @@ import useDebounce from '@/hooks/useDebounce';
 import Checkbox from '@mui/material/Checkbox';
 import CreateUserModal from '@/pages/Admin/components/Modal/CreateUserModal';
 import PaginateCustom from '@/pages/Admin/components/Paginate/PaginateCustom';
-import { getUser, deleteUser } from "@/services/adminService";
-import Loading from '@/components/Loading/Loading';
+import { getUser, getUserById } from "@/services/adminService";
 import { useMutation } from '@/hooks/useMutation';
-import { TABLE } from '@/constant/value';
+import { LINK, TABLE } from '@/constant/value';
 import "./StaffManage.scss";
-import { Button, Input } from 'antd';
-import { SearchOutlined, UserOutlined } from '@ant-design/icons';
+import { Input } from 'antd';
+import { SearchOutlined } from '@ant-design/icons';
+import Status from '@/pages/Admin/components/Status';
+import { set } from 'lodash';
+
 const StaffManage = () => {
-    //let { handleDropdown } = useAuthenContext();
     let [currentPage, setCurrentPage] = useState(1);
     let [rowsPerPage, setRowPaper] = useState({ value: 10, id: 1 });
     let [listUser, setListUser] = useState([]);
@@ -26,6 +26,7 @@ const StaffManage = () => {
     let [search, setSearch] = useState("");
     let [positionArr, setPositionArr] = useState([1, 3, 4, 5, 6, 7]);
     let [showCreateUserModal, setShowCreateUserModal] = useState(false);
+    let [obUpdate, setObUpdate] = useState(null);
     let searchDebounce = "";
     let {
         data: dataUser,
@@ -36,6 +37,11 @@ const StaffManage = () => {
         getUser(currentPage, rowsPerPage.id, searchDebounce, positionArr)
     )
     let refresh = () => {
+        setCheckAll(false);
+        setShowCreateUserModal(false);
+        setObUpdate(null);
+        setSearch("");
+        setCurrentPage(1);
         fetchUsers();
     }
     useEffect(() => {
@@ -53,11 +59,12 @@ const StaffManage = () => {
         fetchUsers();
     }, [currentPage, useDebounce(search, 500), positionArr, rowsPerPage]);
 
-    let handleChange = (item, index) => {
+    let handleChange = (item) => {
         let _listUser = [...listUser];
         _listUser = _listUser.map(obj =>
             obj.id === item.id ? { ...obj, checked: !item.checked } : obj
         );
+        setCheckAll(false);
         setListUser(_listUser);
     };
     let handleChangeSelectedAll = () => {
@@ -81,80 +88,89 @@ const StaffManage = () => {
         setSearch(event.target.value);
         setCurrentPage(1)
     }
+
     let handleShow = (value) => {
         setShowCreateUserModal(value)
     }
     let hanldeCreateUser = () => {
+        setObUpdate(null)
         setShowCreateUserModal(true)
     }
+    let handleUpdate = async (item) => {
+        let response = await getUserById(item.id);
+        if (response?.data?.EC == 0) {
+            let value = response?.data?.DT;
+            setObUpdate(value)
+            setShowCreateUserModal(true)
+        } else {
+            message.error(response?.data?.EM || "Không thể chọn bệnh nhân")
+            refresh();
+        }
+    }
     return (
-        // listUserLoading ? <Loading /> :
         <>
             <div className='staff-manage'>
                 <div className='container'>
-                    <div className='d-flex align-items-center justify-content-between mb-3'>
-                        <h3>Nhân viên</h3>
+                    <div className='first d-flex align-items-center justify-content-between py-3'>
+                        <div className='text'>NHÂN VIÊN</div>
                         <button className=' py-1 px-2 btn-add-user' onClick={() => { hanldeCreateUser() }}>
                             <FontAwesomeIcon className='me-1 icon' icon={faPlus} style={{ color: "#0A8FDC", }} /> Thêm mới</button>
                     </div>
 
-                    <div className='table-responsive'>
+                    <div className='table-responsive bg-white '>
                         <div className='table-head d-flex align-items-center'>
-                            <Input className='w-25 my-3 ms-3' size="large" placeholder="Tìm nhân viên" prefix={<SearchOutlined />}
+                            <Input className='w-25 my-3 ms-4' size="large" placeholder="Tìm nhân viên" prefix={<SearchOutlined />}
                                 value={search}
                                 onChange={(event) => { handleChangeSearch(event) }} />
-
-
                         </div>
 
-                        <table className="w-100 text-start">
-                            <thead className="text-start text-uppercase text-secondary row-1">
-                                <tr>
-                                    <th scope="col" className="px-1 py-0">
-                                        <div className="flex items-center">
-                                            <Checkbox
-                                                checked={checkAll}
-                                                onChange={() => { handleChangeSelectedAll() }}
-                                                size="small"
-                                            />
-                                        </div>
-                                    </th>
-                                    <th scope="col" className="text-start px-3 py-0 name">
-                                        Họ và tên
-                                    </th>
-                                    <th scope="col" className="text-start px-1 py-0 ">
-                                        <DropdownPosition onChange={handleChangePosition} />
-                                    </th>
-                                    <th scope="col" className="text-start px-1 py-0">
-                                        Trình độ
-                                    </th>
-                                    <th scope="col" className="text-start px-1 py-0">
-                                        Phòng khoa
-                                    </th>
-                                    <th scope="col" className="text-start px-1 py-0">
-                                        Số điện thoại
-                                    </th>
-                                    <th scope="col" className="text-start px-1 py-0">
-                                        CCCD
-                                    </th>
-                                    <th scope="col" className="text-start px-1 py-0">
-                                        Trạng thái
-                                    </th>
-                                    <th scope="col" className="text-start px-1 py-0">
-
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody className='table-body text-secondary'>
-                                {+listUser.length > 0 && +totalPages != 0 ?
-                                    <>
-                                        {
-                                            listUser.map((item, index) => {
-                                                return (
-                                                    <>
+                        <div className='px-4'>
+                            <table className='w-100'>
+                                <thead>
+                                    <tr className="header">
+                                        <th scope="col" className="rounded-top-left d-none d-md-table-cell">
+                                            <div>
+                                                <Checkbox
+                                                    checked={checkAll}
+                                                    onChange={() => { handleChangeSelectedAll() }}
+                                                    size="small"
+                                                />
+                                            </div>
+                                        </th>
+                                        <th scope="col" className="text-center px-3 py-0 name">
+                                            Họ và tên
+                                        </th>
+                                        <th scope="col" className="text-start px-3 py-0 ">
+                                            Chức vụ <DropdownPosition onChange={handleChangePosition} />
+                                        </th>
+                                        <th scope="col" className="text-start px-1 py-0">
+                                            Trình độ
+                                        </th>
+                                        <th scope="col" className="text-start px-1 py-0">
+                                            Khoa
+                                        </th>
+                                        <th scope="col" className="text-start px-1 py-0 d-none d-lg-table-cell">
+                                            Số điện thoại
+                                        </th>
+                                        <th scope="col" className="text-start px-1 py-0 d-none d-lg-table-cell">
+                                            CCCD
+                                        </th>
+                                        <th scope="col" className="text-start px-1 py-0 d-none d-lg-table-cell">
+                                            Trạng thái
+                                        </th>
+                                        <th scope="col" className="rounded-top-right px-1 py-0">
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody className='table-body text-secondary'>
+                                    {+listUser.length > 0 && +totalPages != 0 ?
+                                        <>
+                                            {
+                                                listUser.map((item, index) => {
+                                                    return (
                                                         <tr key={index} className=" bg-white border-b text-start">
-                                                            <td className="p-1">
-                                                                <div className="flex items-center">
+                                                            <td className="d-none d-md-table-cell">
+                                                                <div className="">
                                                                     <Checkbox
                                                                         checked={item.checked}
                                                                         onChange={() => { handleChange(item, index) }}
@@ -162,8 +178,8 @@ const StaffManage = () => {
                                                                     /></div>
                                                             </td>
                                                             <td scope="row" className="d-flex justify-content-start px-1 py-3 min-content-width g-0">
-                                                                <img className="image" src="https://t4.ftcdn.net/jpg/05/11/55/91/360_F_511559113_UTxNAE1EP40z1qZ8hIzGNrB0LwqwjruK.jpg" alt="Jese image" />
-                                                                <div className="ps-1 email ">
+                                                                <img className="image" src={item?.avatar || LINK.AVATAR_NULL} alt="Jese image" />
+                                                                <div className="ps-1 email">
                                                                     <div className="fw-semibold">{item.lastName + " " + item.firstName}</div>
                                                                     <div className="fw-normal">{item.email}</div>
                                                                 </div>
@@ -178,49 +194,44 @@ const StaffManage = () => {
                                                             <td className="text-start px-1 py-3">
                                                                 {item?.staffUserData?.staffDepartmentData?.name || "Khác"}
                                                             </td>
-                                                            <td className="text-start px-1 py-3">
+                                                            <td className="text-start px-1 py-3 d-none d-lg-table-cell">
                                                                 {item?.phoneNumber || "Không có"}
                                                             </td>
-                                                            <td className="text-start px-1 py-3">
+                                                            <td className="text-start px-1 py-3 d-none d-lg-table-cell">
                                                                 {item?.cid || "Không có"}
                                                             </td>
-                                                            <td className="text-start px-1 py-3">
-                                                                <div className="flex items-center">
-                                                                    {+item?.status === 1 ? <>
-                                                                        <span className="pe-2"><FontAwesomeIcon icon={faCircle} beatFade size="2xs" style={{ color: "#63E6BE", }} /></span>Hoạt động
-                                                                    </> : <>
-                                                                        <span className="pe-2"><FontAwesomeIcon icon={faCircle} flip size="2xs" style={{ color: "#ec3609", }} /></span>Khóa</>}
-                                                                </div>
+                                                            <td className="text-start px-1 py-3 d-none d-lg-table-cell">
+                                                                <Status data={item?.status} />
                                                             </td>
                                                             <td className="px-1 py-3">
                                                                 <div className='iconDetail'>
                                                                     <DropdownAction
                                                                         data={item}
+                                                                        action={handleUpdate}
                                                                         refresh={refresh}
                                                                         table={TABLE.USER}
                                                                     />
                                                                 </div>
                                                             </td>
                                                         </tr>
+                                                    )
 
-                                                    </>
-                                                )
-
-                                            })
-                                        }
-                                    </> :
-                                    <tr>
-                                        <td colSpan="7" className="text-center">
-                                            <span className="text-gray-500">Không có dữ liệu</span>
-                                        </td>
-                                    </tr>
-                                }
-                            </tbody>
-                        </table>
+                                                })
+                                            }
+                                        </> :
+                                        <tr>
+                                            <td colSpan="7" className="text-center">
+                                                <span className="text-gray-500">Không có dữ liệu</span>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
                         <div className='footer-table d-flex justify-content-end mx-2'>
                             <div className='select-page'>
-                                <div className='me-2 text'>Hiển thị: </div>
-                                <DropdownPaginate page={rowsPerPage}
+                                <DropdownPaginate
+                                    page={rowsPerPage}
                                     setPage={handleChangePaginate} />
                             </div>
                             <PaginateCustom totalPageCount={totalPages}
@@ -231,8 +242,10 @@ const StaffManage = () => {
                 <CreateUserModal
                     show={showCreateUserModal}
                     isShow={handleShow}
+                    obUpdate={obUpdate}
                     refresh={refresh}
-                    table={TABLE.USER} />
+                    table={TABLE.USER}
+                    key={obUpdate ? obUpdate.id + " " + Date.now() : "modal-closed"} />
             </div >
         </>
 

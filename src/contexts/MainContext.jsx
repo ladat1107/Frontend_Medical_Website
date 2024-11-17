@@ -12,7 +12,7 @@ const MainContextProvider = ({ children }) => {
   };
 
   useEffect(() => {
-   
+
     const myTimeout = setTimeout(() => {
       scrollTop();
     }, 100);
@@ -22,9 +22,9 @@ const MainContextProvider = ({ children }) => {
     };
   }, [pathname]);
 
-  
 
-  
+
+
 
   return (
     <MainContext.Provider

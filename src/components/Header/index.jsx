@@ -1,81 +1,133 @@
-import { MODAL_TYPE } from "@/constant/general";
-import { useAuthenContext } from "@/contexts/AuthenContext";
-import { NavDropdown } from "react-bootstrap";
-import Button from "react-bootstrap/Button";
-import Container from "react-bootstrap/Container";
-import Form from "react-bootstrap/Form";
-import Nav from "react-bootstrap/Nav";
-import Navbar from "react-bootstrap/Navbar";
+
+import SvgIcon from "../SvgIcon";
+import classNames from "classnames/bind";
+import styles from "./header.module.scss";
+import Dropdown from "../Dropdown";
+// Tạo instance của classnames với bind styles
+const cx = classNames.bind(styles);
 
 function Header() {
-  const { handleLogout, handleLogin, handleShowModal, handleModalClose } =
-    useAuthenContext();
-  const isAuthenticated = false;
+  // language
+  const items = [
+    { title: "Home", icon: <SvgIcon name="tiktok" /> },
+    { title: "About", icon: <SvgIcon name="tiktok" /> },
+    { title: "Services", icon: <SvgIcon name="tiktok" /> },
+    { title: "Contact", icon: <SvgIcon name="tiktok" /> },
+  ];
+  // nav
+
+  const navMenu = [
+    {
+      title: "medical1",
+      inner: [
+        { title: "medical", icon: null },
+        { title: "medical", icon: null },
+        { title: "medical", icon: null },
+      ],
+    },
+    {
+      title: "medical2",
+      inner: [
+        { title: "medical", icon: null },
+        { title: "medical", icon: null },
+        { title: "medical", icon: null },
+      ],
+    },
+    {
+      title: "medical3",
+      inner: [
+        { title: "medical", icon: null },
+        { title: "medical", icon: null },
+        { title: "medical", icon: null },
+      ],
+    },
+    {
+      title: "medical4",
+      inner: [
+        { title: "medical", icon: null },
+        { title: "medical", icon: null },
+        { title: "medical", icon: null },
+      ],
+    },
+    {
+      title: "medical5",
+      inner: [
+        { title: "medical", icon: null },
+        { title: "medical", icon: null },
+        { title: "medical", icon: null },
+      ],
+    },
+    {
+      title: "medical6",
+      inner: [
+        { title: "medical", icon: null },
+        { title: "medical", icon: null },
+        { title: "medical", icon: null },
+      ],
+    },
+  ];
 
   return (
-    <Navbar
-      expand="lg"
-      className="bg-body-tertiary"
-      style={{ padding: "20px 30px" }}
-    >
-      <Container fluid>
-        <Navbar.Brand href="#">Hospital Management</Navbar.Brand>
-        <Navbar.Toggle aria-controls="navbarScroll" />
-        <Navbar.Collapse id="navbarScroll">
-          <Nav className="me-auto my-2 my-lg-0" navbarScroll>
-            <Nav.Link href="/">Home</Nav.Link>
-            <Nav.Link href="/contact">Contact</Nav.Link>
-            <Nav.Link href="/about">About</Nav.Link>
-          </Nav>
+    <>
+      <div className={cx("wrapper")}>
+        <div className={cx("header-img")}>
+          <img
+            src="https://medpro.vn/_next/image?url=https%3A%2F%2Fbo-api.medpro.com.vn%2Fstatic%2Fimages%2Fmedpro%2Fweb%2Fheader_logo.svg&w=1920&q=75"
+            alt=""
+          />
+        </div>
 
-          <Form className="d-flex me-4">
-            <Form.Control
-              type="search"
-              placeholder="Search"
-              className="me-2"
-              aria-label="Search"
-            />
-            <Button variant="outline-success">Search</Button>
-          </Form>
+        <div className={cx("header-content")}>
+          <div className={cx("top-content")}>
+            <div className={cx("app-logo")}>
+              <div className={cx("item")}>
+                <SvgIcon name="tiktok" width={32} height={32} fill="#000" />
+                <span className="header-text" >Tiktok</span>
+              </div>
+              <div className={cx("item")}>
+                <SvgIcon name="facebook" width={32} height={32} fill="#000" />
+                <span className="header-text" >Facebook</span>
+              </div>
+              <div className={cx("item")}>
+                <SvgIcon name="youtube" width={32} height={32} fill="#000" />
+                <span className="header-text" >youtube</span>
+              </div>
+              <div className={cx("item")}>
+                <SvgIcon name="instagram" width={32} height={32} fill="#000" />
+                <span className="header-text" >instagram</span>
+              </div>
+            </div>
 
-          <div>
-            {isAuthenticated ? (
-              <NavDropdown title="Account" id="navbarScrollingDropdown">
-                <NavDropdown.Item href="/profile">Profile</NavDropdown.Item>
-                <NavDropdown.Divider />
-                <NavDropdown.Item onClick={handleLogout}>
-                  Logout
-                </NavDropdown.Item>
-              </NavDropdown>
-            ) : (
-              <>
-                <Button
-                  variant="outline-primary"
-                  onClick={(e) => {
-                    e.preventDefault(); // Ngăn hành vi mặc định
-                    handleShowModal(MODAL_TYPE.login); // Xử lý logic sau khi ngăn hành vi mặc định
-                  }}
-                  className="me-2"
-                >
-                  Login
-                </Button>
-                <Button
-                  variant="outline-primary"
-                  onClick={(e) => {
-                    e.preventDefault(); // Ngăn hành vi mặc định
-                    handleShowModal(MODAL_TYPE.register); // Xử lý logic sau khi ngăn hành vi mặc định
-                   
-                  }}
-                  className="me-2"
-                >
-                  Register
-                </Button>
-              </>
-            )}
+            <div className={cx("auth")}>
+              <div className={cx("account-btn", "header-text")}>Đăng nhập</div>
+              <div className={cx("account-btn", "header-text")}>Đăng ký</div>
+
+              <div className={cx("language")}>
+                <Dropdown title="Language" items={items} />
+              </div>
+            </div>
           </div>
-        </Navbar.Collapse>
-      </Container>
-    </Navbar>
+
+          <div className={cx("bottom-content")}>
+            <div className={cx("hotline")}>
+              <img
+                src="https://medpro.vn/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fhp.a16c51cc.svg&w=1920&q=75"
+                alt=""
+              />
+              <div className={cx("hotline-text")}>
+                <p className="header-text" > Ho Tro Dat Kham</p>
+                <p style={{ fontSize: "24px", color: "#ffb54a" }} >0353366459</p>
+              </div>
+            </div>
+            <div className={cx("nav")}>
+              {navMenu.map((item, index) => {
+                return <Dropdown title={item.title} items={item.inner} key={index} />;
+              })}
+            </div>
+          </div>
+        </div>
+      </div>
+    </>
   );
 }
 

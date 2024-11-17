@@ -1,125 +1,103 @@
+@import "../../../../../style/variables.scss";
+
 .patient-manage {
+    display: flex;
+    justify-content: center; // Căn giữa theo chiều ngang
+    align-items: center; // Căn giữa theo chiều dọc
+    height: 100%;
+
+    background: $background-color;
+
     .container {
-        .btn-add-user {
-            //margin-right: 1rem;
-            border: 1px solid #6ae1f9;
-            border-radius: 8px;
-            color: #6ae1f9;
-            font-weight: 500;
+        padding: 0 3%;
+        margin: 0;
+        background: $background-color;
 
-            &:hover {
-                background-color: #6ae1f9;
-                color: white;
+        .first {
+            .text {
+                font-size: 1.2rem;
+                color: $secondary-color;
+            }
 
-                .icon {
-                    color: white !important;
+            .btn-add-user {
+                background: $background-color;
+                border: 1px solid #0A8FDC;
+                border-radius: 8px;
+                color: #0A8FDC;
+                font-weight: 500;
+                cursor: pointer;
+
+                &:hover {
+                    border: #04a9f3 1px solid;
+                    color: #04a9f3;
+
+                    .icon {
+                        color: #04a9f3 !important;
+                    }
                 }
             }
         }
 
         .table-responsive {
-            border-radius: 15px;
-            box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            box-shadow: $box-shadow-content;
 
-            .pageNoInactive {
-                border: none !important;
+            .header {
+                width: 100%;
+                height: 50px;
+                background: $background-table-head;
+                color: $text-head-color;
+
+                .rounded-top-left {
+                    border-top-left-radius: 5px;
+                }
+
+                .rounded-top-right {
+                    border-top-right-radius: 5px;
+                }
+
+                .name {
+                    width: 250px;
+                }
             }
 
-            .pageNoActive {
-                background-color: #6ae1f9;
-                color: white;
-                border-radius: 50%;
-            }
+            .table-body {
+                max-height: 60vh;
+                overflow-y: auto;
+                scrollbar-width: none;
 
-            .iconDetail {
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                color: #c3c3c3;
-                padding: 4px;
-                height: 30px;
-                width: 30px;
-                background: none;
+                tr {
+                    border-bottom: 1px solid #e3dede;
+                }
 
-                // đè csss thư viện
-                button {
-                    color: #c3c3c3;
+                .min-content-width {
+                    width: 250px;
 
-                    &:hover {
-                        background: none !important;
+                    .image {
+                        width: 40px;
+                        height: 40px;
+                        border-radius: 50%;
                     }
-                }
 
-                .css-mde2be {
-                    background: none;
-                    color: #c3c3c3;
+                    .email {
+                        display: flex;
+                        flex-direction: column;
+                        align-items: flex-start;
 
-                }
+                        .fw-semibold {
+                            color: $secondary-color;
+                        }
 
-                .css-1spmf3f {
-                    background: none;
-                }
-
-                // hover icon 3 chấm
-                &:hover {
-                    background-color: rgb(227, 227, 227);
-                    border-radius: 50%;
-                }
-
-                span {
-                    font-weight: 500;
-                }
-
-                .update {
-                    color: rgb(0, 142, 61);
-                }
-
-                .del {
-                    color: red;
-                }
-
-                // hover trong menu
-                .css-4mjcmd {
-                    button {
-                        &:hover {
-                            background-color: rgb(227, 227, 227);
+                        .fw-normal {
+                            margin-top: 3px;
+                            font-size: 0.9em;
+                            font-style: italic;
                         }
                     }
                 }
-            }
 
-            .table-head {
-                .search-content {
-                    display: flex;
-                    justify-content: space-between;
-                    align-items: center;
-                    margin: 1rem 2rem;
-                    border: #e9eaeb 1px solid;
-                    border-radius: 10px;
-                    padding: 5px;
-
-                    input {
-                        width: 100%;
-                        padding: 0.5rem;
-                        margin-left: 0.5rem;
-                        border: 0;
-                        outline: 0;
-                        box-shadow: none;
-
-                        &:focus {
-                            border: 0;
-                            outline: 0;
-                            box-shadow: none;
-                        }
-                    }
-
-                    &:hover {
-                        border: #000000 1px solid;
-                    }
-                }
 
             }
-
 
             .footer-table {
                 display: flex;
@@ -139,27 +117,10 @@
                     span {
                         font-size: 0.9rem;
                     }
-
-                    .css-mnqnbf {
-                        background: none;
-
-                        span {
-                            font-size: 0.9rem;
-                            font-weight: 600;
-                            color: black;
-                        }
-                    }
-
-                    .css-1izobnm {
-                        background: none;
-                        color: black;
-                        font-size: 0.7rem;
-                        font-weight: 600;
-                    }
                 }
 
                 .paginationContainer {
-                    font-size: 0.9rem;
+                    font-size: 1em;
                     margin: 0 1rem;
                     display: flex;
                     justify-content: end;
@@ -167,43 +128,6 @@
                     width: max-content;
                 }
             }
-
-            .css-mnqnbf {
-                background: none;
-                text-align: left;
-
-                span {
-                    font-size: 0.7rem;
-                    font-weight: 600;
-                    color: black;
-                }
-            }
-
-            .css-1izobnm {
-                background: none;
-                color: black;
-                font-size: 0.7rem;
-                font-weight: 600;
-            }
-
         }
     }
 }
-
-// .input1 {
-//     width: 100%;
-//     margin-left: 0.5rem;
-//     border: 0;
-//     outline: 2px;
-
-//     &:hover {
-//         border: #c23939 1px solid !important;
-//         outline: #1ce923 1px dashed !important;
-//     }
-
-//     &:focus {
-//         border: #c23939 5px solid !important;
-
-//         border-radius: 15px;
-//     }
-// }

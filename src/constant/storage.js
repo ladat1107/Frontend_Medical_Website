@@ -1,5 +1,6 @@
 
 
 export const STORAGE = {
-    token : "token"
+    token: "token",
+    user: "user",
 }

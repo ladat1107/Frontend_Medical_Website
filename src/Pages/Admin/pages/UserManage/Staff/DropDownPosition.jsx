@@ -1,39 +1,40 @@
-import React, { useState } from 'react';
-import { Inline } from '@atlaskit/primitives';
-import DropdownMenu, { DropdownItemCheckbox, DropdownItemGroup, DropdownItem } from '@atlaskit/dropdown-menu';
+import React, { useEffect, useState } from 'react';
+import { Dropdown, Space } from 'antd';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
 import { STAFF_ROLE } from '@/constant/role';
-
+import './StaffManage.scss';
 const DropdownPosition = ({ onChange }) => {
-    // let [positionChoosed, setPositionChoosed] = useState([...STAFF_ROLE].map(item => ({ ...item, selected: true })));
+    let items = [{ label: "Tất cả", value: 0, onClick: () => { handleChangePosition(0) } }];
+    for (let i = 0; i < STAFF_ROLE.length; i++) {
+        items.push({
+            label: STAFF_ROLE[i].label,
+            key: STAFF_ROLE[i].value,
+            onClick: () => { handleChangePosition(STAFF_ROLE[i].value) }
+        })
+    }
     let handleChangePosition = (id) => {
         if (id === 0) {
-            onChange(STAFF_ROLE.map(item => item.id))
+            onChange(STAFF_ROLE.map(item => item.value))
         } else {
             onChange([id]);
-        }
-        ;
+        };
     }
+    useEffect(() => {
 
+    }, [])
     return (
-        <Inline space="space.600">
-            <DropdownMenu trigger="CHỨC VỤ" shouldRenderToParent
-                spacing="compact">
-                <DropdownItemGroup >
-                    <DropdownItem onClick={() => { handleChangePosition(0) }}>Tất cả</DropdownItem>
-                </DropdownItemGroup>
-                <DropdownItemGroup hasSeparator>
-                    {STAFF_ROLE.length > 0 && STAFF_ROLE.map((item, index) => {
-                        return (<DropdownItem
-                            key={index}
-                            id={`staff-${item.id}`}
-                            onClick={() => {
-                                handleChangePosition(item.id);
-                            }}
-                        >{item.name}</DropdownItem>)
-                    })}
-                </DropdownItemGroup>
-            </DropdownMenu>
-        </Inline>
+        <Dropdown
+            menu={{
+                items,
+            }}
+            trigger={['click']}
+            overlayClassName="dropdownPosition"
+            placement="bottom">
+            <Space>
+                <FontAwesomeIcon className='ps-1' icon={faChevronDown} size='xs' />
+            </Space>
+        </Dropdown>
     );
 };
 

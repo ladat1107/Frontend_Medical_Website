@@ -1,17 +1,15 @@
-.create-modal {
-
-    .modal-xl {
-        --bs-modal-width: 90vw;
-    }
-
-    .select-custom {
-        ///-index: 200000;
-    }
-
-
-
-}
+.create-modal {}
 
 .ant-select-dropdown {
     z-index: 1501 !important;
+}
+
+.rc-md-navigation {
+    .left {
+        transform: rotate(0deg) !important;
+    }
+
+    .right {
+        transform: rotate(0deg) !important;
+    }
 }

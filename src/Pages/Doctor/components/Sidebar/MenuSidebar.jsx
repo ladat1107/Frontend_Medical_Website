@@ -2,11 +2,12 @@ import React from 'react';
 import { HomeOutlined, UserSwitchOutlined, SettingOutlined } from '@ant-design/icons';
 import { Menu } from 'antd';
 import { NavLink } from 'react-router-dom';
+import { PATHS } from '@/constant/path';
 const items = [
     {
         key: 'sub1',
-        label: (<NavLink to="/doctorAppointment">Lịch hẹn</NavLink>),
-        icon: <HomeOutlined />,
+        label: (<NavLink to={PATHS.STAFF.APPOINTMENT}>Lịch hẹn</NavLink>),
+        icon: <i className="fa-solid fa-list"></i>,
     },
     {
         key: 'sub2',
@@ -36,6 +37,16 @@ const items = [
                 ],
             },
         ],
+    },
+    {
+        key: 'sub5',
+        label: (<NavLink to={PATHS.STAFF.HANDBOOK}>Cẩm nang</NavLink>),
+        icon: <i className="fa-solid fa-book"></i>,
+    },
+    {
+        key: 'sub6',
+        label: (<NavLink to={PATHS.STAFF.SCHEDULE}>Lịch trực</NavLink>),
+        icon: <i className="fa-regular fa-calendar"></i>,
     },
     {
         type: 'divider',

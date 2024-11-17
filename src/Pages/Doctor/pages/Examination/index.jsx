@@ -1,12 +1,12 @@
 import "./Examination.scss";
-import ExamInfo from "../../components/Examinfo";
-import VitalSign from "../../components/Vitalsign";
-import Paraclinical from "../../components/paraclinical";
-import Prescription from "../../components/Prescription";
+import ExamInfo from "./Examinfo";
+import VitalSign from "./Vitalsign";
+import Paraclinical from "./paraclinical";
+import Prescription from "./Prescription";
 import { useEffect, useState } from "react";
 import { getExaminationById, getUserByCid } from "@/services/doctorService";
 import { useMutation } from "@/hooks/useMutation";
-import { convertDateTime } from "@/utils/formartDate";
+import { convertDateTime } from "@/utils/formatDate";
 import { convertGender } from "@/utils/convertGender";
 import { useParams } from "react-router-dom";
 
@@ -62,8 +62,8 @@ const Examination = () => {
                 0
             );
             setTotalParaclinical(totalParaclinicalPrice);
-
             setExaminationData(formattedData);
+
             setPatientData(dataExamination.DT.userExaminationData || {});
             setVitalSignData(dataExamination.DT.examinationVitalSignData || {});
             setParaclinicalData(dataExamination.DT.examinationResultParaclincalData || []);
@@ -166,7 +166,9 @@ const Examination = () => {
                                         value="info"
                                         defaultChecked={selectedRadio === 'info'}
                                         onChange={handleRadioChange} />
-                                    <span className="name">Thông tin khám</span>
+                                    <span className="name">
+                                        Thông tin khám
+                                    </span>
                                 </label>
                                 <label className="radio">
                                     <input type="radio" name="radio"
@@ -187,7 +189,7 @@ const Examination = () => {
                                     <span className="name">Đơn thuốc</span>
                                 </label>
                             </div>
-                            <hr />
+                            <hr className="m-0" />
                             <div className="radio-content">
                                 {selectedRadio === 'info' && patientData && patientData.id && (
                                     <ExamInfo

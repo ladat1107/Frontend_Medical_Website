@@ -1,14 +1,14 @@
 import { getAppointments, searchAppointments, searchAppointmentsWithStaffId } from "@/services/doctorService";
 import React, { useEffect, useState } from 'react'
 import { getTimeSlotById } from "@/utils/formatTimeSlots";
-import { convertDateTime } from "@/utils/formartDate";
+import { convertDateTime } from "@/utils/formatDate";
 import {convertStartDateToTimestamp, convertEndDateToTimestamp} from "@/utils/convertToTimestamp";
 import SearchBar from "@/components/Search";
-import SelectBox from "@/components/Combobox";
 import CustomDatePicker from "@/components/DatePicker";
 import "./Appointment.scss";
 import { useMutation } from "@/hooks/useMutation";
 import { useNavigate } from "react-router-dom";
+import { Pagination } from "antd";
 
 const Appointment = () => {
     const navigate = useNavigate();
@@ -18,6 +18,18 @@ const Appointment = () => {
     const [selectedValue, setSelectedValue] = useState('1');
     const [startDate, setStartDate] = useState(new Date()); 
     const [endDate, setEndDate] = useState(new Date());
+    
+    const [currentPage, setCurrentPage] = useState(1);
+    const [pageSize, setPageSize] = useState(15);
+    const [total, setTotal] = useState(0);
+    const [staffId, setStaffId] = useState(1);
+
+    const options = [
+        { value: '1', label: 'Tất cả' },
+        { value: '2', label: 'Đang chờ khám' },
+        { value: '3', label: 'Đã khám' },
+        { value: '4', label: 'Đã hủy' },
+    ];
 
     let {
         data: dataAppointments,
@@ -25,7 +37,7 @@ const Appointment = () => {
         error: listAppointmentsError,
         execute: fetchAppointment,
     } = useMutation((query) =>
-        searchAppointmentsWithStaffId(1, 10, 1, searchTerm, convertStartDateToTimestamp(startDate), convertEndDateToTimestamp(endDate)))
+        searchAppointmentsWithStaffId(currentPage, pageSize, staffId, searchTerm, convertStartDateToTimestamp(startDate), convertEndDateToTimestamp(endDate)))
 
     const handleStartDateChange = (date) => {
         setStartDate(date);
@@ -45,27 +57,26 @@ const Appointment = () => {
         setStartDate(new Date());
         setEndDate(new Date());
     }
-
-    const options = [
-        { value: '1', label: 'Tất cả' },
-        { value: '2', label: 'Đang chờ khám' },
-        { value: '3', label: 'Đã khám' },
-        { value: '4', label: 'Đã hủy' },
-    ];
     
     useEffect(() => {
         fetchAppointment();
-    },[]);
+    },[currentPage, pageSize]);
 
     useEffect(() => {
         if (dataAppointments && dataAppointments.DT) {
-            setListAppointments(dataAppointments.DT);
+            setListAppointments(dataAppointments.DT.appointment);
+            setTotal(dataAppointments.DT.totalItems);
         }
     },[dataAppointments]);
 
     const handleClickRow = (examinationId) => (event) => {
         navigate(`/doctorExamination/${examinationId}`);
     }
+
+    const handlePageChange = (page, pageSize) => {
+        setCurrentPage(page);
+        setPageSize(pageSize);
+    };
 
     return (
         <>
@@ -94,14 +105,14 @@ const Appointment = () => {
                             />
                         </div>
                     </div>
-                    <div className="status-container">
+                    {/* <div className="status-container">
                         <p className="search-title">Trạng thái</p>
                         <SelectBox
                             options={options}
                             value={selectedValue}
                             onChange={handleSelectedChange}
                         />
-                    </div>
+                    </div> */}
                     <div className="button-container">
                         <button className="clear-button" onClick={() => { handleClear(); fetchAppointment(); }}>
                             <i className="fa-solid fa-broom"></i>
@@ -143,6 +154,15 @@ const Appointment = () => {
                                 })}
                             </tbody>
                         </table>
+                    </div>
+                    <div className='row'>
+                        <Pagination
+                            align="center"
+                            current={currentPage}
+                            pageSize={pageSize}
+                            total={total}
+                            onChange={handlePageChange}
+                        />
                     </div>
                 </div>
             </div>

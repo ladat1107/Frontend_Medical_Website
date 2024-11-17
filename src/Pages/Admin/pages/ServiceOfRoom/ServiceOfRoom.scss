@@ -1,0 +1,166 @@
+@import "../../../../style/variables.scss";
+
+.service-of-room-content {
+    display: flex;
+    justify-content: center; // Căn giữa theo chiều ngang
+    align-items: center; // Căn giữa theo chiều dọc
+    height: 100%;
+
+    background: $background-color;
+
+    .container {
+        padding: 0 3%;
+        margin: 0;
+        background: $background-color;
+
+        .service-of-room-content-header {
+
+            .text {
+                font-size: 1.2rem;
+                color: $secondary-color;
+            }
+
+            .btn-add-service {
+                background: $background-color;
+                border: 1px solid #0A8FDC;
+                border-radius: 8px;
+                color: #0A8FDC;
+                font-weight: 500;
+                cursor: pointer;
+
+                &:hover {
+                    border: #04a9f3 1px solid;
+                    color: #04a9f3;
+
+                    .icon {
+                        color: #04a9f3 !important;
+                    }
+                }
+            }
+
+            .btn-refresh-service {
+                background: $background-color;
+                border: 1px solid #04a9f3;
+                border-radius: 8px;
+                color: #04a9f3;
+                font-weight: 500;
+                cursor: pointer;
+
+                &:hover {
+                    border: #007579 1px solid;
+                    color: #007579;
+
+                    .icon {
+                        color: #007579 !important;
+                    }
+                }
+            }
+        }
+
+        .table-service {
+            border-radius: 10px;
+            box-shadow: $box-shadow-content;
+
+            .head {
+                .search {}
+            }
+
+            .table-body {
+
+                tr {
+                    td {
+                        border-bottom: none !important;
+                    }
+
+                    background: white;
+                    border-bottom: 1px solid #c8c8c8 !important;
+
+                    &:hover {
+                        td {
+                            background: #ebecee !important;
+                        }
+
+                        background: #ebecee !important;
+                    }
+                }
+
+                .name {
+                    max-width: 10rem;
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                }
+
+                .price {
+                    font-weight: 600;
+                    max-width: 5rem;
+
+                    .free {
+                        color: rgb(82, 201, 49);
+                        border: 1px solid #dcf3dc;
+                        background: #dcf3dc;
+                        padding: 2px 4px;
+                        border-radius: 5px;
+                        font-size: 12px;
+                        text-align: center;
+
+                    }
+                }
+
+                .description {
+                    max-width: 15rem;
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                }
+
+                .row-1 {
+                    th {
+                        border-bottom: none !important;
+                    }
+                }
+
+
+            }
+
+            .footer-table {
+                background: white;
+                display: flex;
+                justify-content: end;
+                align-items: center;
+
+                .select-page {
+                    display: flex;
+                    justify-content: left;
+                    align-items: center;
+
+                    .text {
+                        width: 4rem;
+                        font-size: 0.9rem;
+                    }
+
+                    span {
+                        font-size: 0.9rem;
+                    }
+                }
+
+                .paginationContainer {
+                    font-size: 1em;
+                    margin: 0 1rem;
+                    display: flex;
+                    justify-content: end;
+                    align-items: center;
+                    width: max-content;
+                }
+            }
+        }
+
+        .insert-update {
+            border-radius: 10px;
+            box-shadow: $box-shadow-content;
+            background: white;
+            padding: 5px;
+            height: fit-content;
+        }
+    }
+}

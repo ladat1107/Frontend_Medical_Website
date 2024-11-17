@@ -1,20 +1,31 @@
+@import "../../style/variables.scss";
+
 .admin-content {
-
     .content-data {
-        background: #f4f7fe !important;
+        min-height: 80vh;
+        background: $background-color;
+    }
 
-        .ant-layout-content {
-            background: #f4f7fe !important;
-        }
-
+    .ant-space-item {
+        cursor: pointer;
     }
 
     span {
-        font-family: 'Roboto', sans-serif;
+        font-family: 'Be Vietnam Pro', sans-serif;
     }
 
     div {
-        font-family: 'Roboto', sans-serif;
+        font-family: 'Be Vietnam Pro', sans-serif;
     }
 
+    input {
+        font-family: 'Be Vietnam Pro', sans-serif;
+        font-size: 1em;
+        font-weight: 300;
+    }
+
+    textarea {
+        font-family: 'Be Vietnam Pro', sans-serif;
+        font-size: 1em;
+    }
 }

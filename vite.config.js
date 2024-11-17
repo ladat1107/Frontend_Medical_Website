@@ -19,7 +19,16 @@ export default defineConfig({
     },
 
   },
+  build: {
+    commonjsOptions: {
+      esmExternals: true,
+    },
+  },
   server: {
     port: 3000,
-  }
+    open: true, // Mở trình duyệt khi chạy dev
+  },
+  optimizeDeps: {
+    include: ["swiper"], // Đảm bảo Swiper được tối ưu hóa
+  },
 });

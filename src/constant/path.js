@@ -1,31 +1,26 @@
-const PRODUCTS_PATH = "/product";
-const PROFILE_PATH = "/profile";
-const PROFILE_ORDER = "/profile/order";
-const PROFILE_ADDRESS = "/profile/address";
-const PROFILE_WISHLIST = "/profile/wishlist";
-
 
 export const PATHS = {
-    HOME : "/",
-    PRODUCTS : PRODUCTS_PATH,
-    PRODUCT_DETAIL : PRODUCTS_PATH + "/:slug",
-    CART : "/cart",
-    CHECKOUT : "/checkout",
-    CHECKOUT_SUCCESS : "/checkout_success",
-    DASHBOARD : "/dashboard",
-    FAQ : "/faq",
-    PAYMENT_METHOD : "/payment_method",
-    PRIVACY_POLICY : "/privacy_policy",
-    RETURN : "/return",
-    SHIPPING : "/shipping",
-    PROFILE : {
-        INDEX : PRODUCTS_PATH,
-        PROFILE_ORDER : PROFILE_ORDER,
-        PROFILE_WISHLIST : PROFILE_WISHLIST,
-        PROFILE_ADDRESS : PROFILE_ADDRESS
+    ADMIN: {
+        DASHBOARD: "/admin",
+        PATIENT_MANAGE: "/adminPatientManage",
+        STAFF_MANAGE: "/adminStaffManage",
+        DEPARTMENT_MANAGE: "/adminDepartmentManage",
+        ROOM_MANAGE: "/adminRoomManage",
+        SERVICE_MANAGE: "/adminServiceManage",
+        PROFILE: "/staffProfile",
+        SPECIALTY_MANAGE: "/adminSpecialty",
     },
-    BLOG : "/blog",
-    CONTACT : "/contact",
-    ABOUT : "/about"
-
+    STAFF: {
+        DASHBOARD: "/doctor",
+        APPOINTMENT: "/doctorAppointment",
+        EXAMINATION: "/doctorExamination/:examId",
+        HANDBOOK: "/doctorHandbook",
+        INFO_HANDBOOK: "/doctorHandbook/:handbookId",
+        SCHEDULE: "/doctorSchedule",
+    },
+    HOME: {
+        HOMEPAGE: "/",
+        LOGIN: "/login",
+        LOGOUT: "/logout",
+    }
 }

@@ -1,109 +1,53 @@
+@import "../../../../../style/variables.scss";
+
 .staff-manage {
     .container {
-        padding: 0 2rem;
-        background: #f4f7fe;
+        padding: 0 3%;
+        background: $background-color;
 
-        .btn-add-user {
-            background: #f4f7fe;
-            border: 1px solid #0A8FDC;
-            border-radius: 8px;
-            color: #0A8FDC;
-            font-weight: 500;
-            cursor: pointer;
+        .first {
+            .text {
+                font-size: 1.2rem;
+                color: $secondary-color;
+            }
 
-            &:hover {
-                border: #086FAB 1px solid;
-                color: #086FAB;
+            .btn-add-user {
+                background: $background-color;
+                border: 1px solid $primary-color;
+                border-radius: 8px;
+                color: $primary-color;
+                font-weight: 500;
+                cursor: pointer;
 
-                .icon {
-                    color: #086FAB !important;
+                &:hover {
+                    border: #04a9f3 1px solid;
+                    color: #04a9f3;
+
+                    .icon {
+                        color: #04a9f3 !important;
+                    }
                 }
             }
         }
 
+
         .table-responsive {
-            border-radius: 15px;
-            box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+            border-radius: $boder-content;
+            width: 100%;
+            box-shadow: $box-shadow-content;
 
+            .header {
+                width: 100%;
+                height: 50px;
+                background: $background-table-head;
+                color: $text-head-color;
 
-            .css-mnqnbf span {
-                text-align: left !important;
-                font-size: 14px !important;
-                color: #6C757D !important;
-            }
-
-            .pageNoInactive {
-                border: none !important;
-            }
-
-            .pageNoActive {
-                background-color: #6ae1f9;
-                color: white;
-                border-radius: 50%;
-            }
-
-            .iconDetail {
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                color: #c3c3c3;
-                padding: 4px;
-                height: 30px;
-                width: 30px;
-                background: none;
-
-                // đè csss thư viện
-                button {
-                    color: #c3c3c3;
-
-                    &:hover {
-                        background: none !important;
-                    }
+                .rounded-top-left {
+                    border-top-left-radius: 5px;
                 }
 
-                .css-mde2be {
-                    background: none;
-                    color: #c3c3c3;
-
-                }
-
-                .css-1spmf3f {
-                    background: none;
-                }
-
-                // hover icon 3 chấm
-                &:hover {
-                    background-color: rgb(227, 227, 227);
-                    border-radius: 50%;
-                }
-
-                span {
-                    font-weight: 500;
-                }
-
-                .update {
-                    color: rgb(0, 142, 61);
-                }
-
-                .del {
-                    color: red;
-                }
-
-                // hover trong menu
-                .css-4mjcmd {
-                    button {
-                        &:hover {
-                            background-color: rgb(227, 227, 227);
-                        }
-                    }
-                }
-            }
-
-            .table-head {}
-
-            .row-1 {
-                .flex {
-                    width: min-content !important;
+                .rounded-top-right {
+                    border-top-right-radius: 5px;
                 }
 
                 .name {
@@ -113,20 +57,15 @@
             }
 
             .table-body {
-                max-height: 60vh;
                 overflow-y: auto;
                 scrollbar-width: none;
 
-                td {
-                    border-bottom: none !important;
-                }
-
                 tr {
-                    border-bottom: 1px solid #c8c8c8 !important;
+                    border-bottom: 1px solid #e3dede !important;
                 }
 
                 .min-content-width {
-
+                    width: 210px;
 
                     .image {
                         width: 40px;
@@ -138,10 +77,19 @@
                         display: flex;
                         flex-direction: column;
                         align-items: flex-start;
+
+                        .fw-semibold {
+                            color: $secondary-color;
+                        }
+
+                        .fw-normal {
+                            margin-top: 3px;
+                            font-size: 0.9em;
+                            font-style: italic;
+                            // color: $secondary-color;
+                        }
                     }
                 }
-
-
             }
 
             .footer-table {
@@ -155,35 +103,11 @@
                     justify-content: left;
                     align-items: center;
 
-                    .text {
-                        width: 4rem;
-                        font-size: 0.9rem;
-                    }
 
-                    span {
-                        font-size: 0.9rem;
-                    }
-
-                    .css-mnqnbf {
-                        background: none;
-
-                        span {
-                            font-size: 0.9rem;
-                            font-weight: 600;
-                            color: black;
-                        }
-                    }
-
-                    .css-1izobnm {
-                        background: none;
-                        color: black;
-                        font-size: 0.7rem;
-                        font-weight: 600;
-                    }
                 }
 
                 .paginationContainer {
-                    font-size: 0.9rem;
+                    font-size: 1em;
                     margin: 0 1rem;
                     display: flex;
                     justify-content: end;
@@ -191,25 +115,13 @@
                     width: max-content;
                 }
             }
-
-            .css-mnqnbf {
-                background: none;
-                text-align: left;
-
-                span {
-                    font-size: 0.7rem;
-                    font-weight: 600;
-                    color: black;
-                }
-            }
-
-            .css-1izobnm {
-                background: none;
-                color: black;
-                font-size: 0.7rem;
-                font-weight: 600;
-            }
-
         }
     }
+}
+
+.dropdownPosition {
+    .ant-dropdown-menu {
+        border-radius: 5px;
+    }
+
 }

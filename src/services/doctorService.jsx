@@ -55,31 +55,31 @@ const getExaminationById = (id) => {
         return axios.get(`/api/getExaminationById?id=${id}`)
     } catch (error) {
         console.error("Error getting examination by id:", error.response?.data || error.message);
-        throw error; // Ném lỗi để xử lý ở nơi gọi
+        throw error; 
     }
 }
 
 const createExamination = async (data) => {
     try {
         const response = await axios.post(`/api/createExamination`, data);
-        console.log("Response:", response.data);
+        //console.log("Response:", response.data);
 
         return response.data;
     } catch (error) {
         console.error("Error creating examination:", error.response?.data || error.message);
-        throw error; // Ném lỗi để xử lý ở nơi gọi
+        throw error; 
     }
 };
 
 const updateExamination = async (data) => {
     try {
         const response = await axios.put(`/api/updateExamination`, data);
-        console.log("Response:", response.data);
+        //console.log("Response:", response.data);
 
         return response.data;
     } catch (error) {
         console.error("Error updating examination:", error.response?.data || error.message);
-        throw error; // Ném lỗi để xử lý ở nơi gọi
+        throw error; 
     }
 };
 
@@ -104,11 +104,11 @@ const getAllMedicinesForExam = () => {
 const createOrUpdateVitalSign = async (data) => {
     try {
         const response = await axios.post(`/api/createOrUpdateVitalSign`, data);
-        console.log("Response:", response.data);
+        //console.log("Response:", response.data);
         return response.data;
     } catch (error) {
         console.error("Error creating vital sign:", error.response?.data || error.message);
-        throw error; // Ném lỗi để xử lý ở nơi gọi
+        throw error; 
     }
 }
 
@@ -116,11 +116,11 @@ const createOrUpdateVitalSign = async (data) => {
 const createOrUpdateParaclinical = async (data) => {
     try {
         const response = await axios.post(`/api/createOrUpdateParaclinical`, data);
-        console.log("Response:", response.data);
+        //console.log("Response:", response.data);
         return response.data;
     } catch (error) {
         console.error("Error creating paraclinical:", error.response?.data || error.message);
-        throw error; // Ném lỗi để xử lý ở nơi gọi
+        throw error; 
     }
 }
 
@@ -132,7 +132,7 @@ const deleteParaclinical = async (data) => {
                 examinationId: data.examinationId
             }
         });
-        console.log("Response:", response.data);
+        //console.log("Response:", response.data);
         return response.data;
     } catch (error) {
         console.error("Error deleting paraclinical:", error.response?.data || error.message);
@@ -149,11 +149,54 @@ const getPrescriptionByExaminationId = async (examinationId) => {
 const upsertPrescription = async (data) => {
     try {
         const response = await axios.post(`/api/upsertPrescription`, data);
-        console.log("Response:", response.data);
+        //console.log("Response:", response.data);
         return response.data;
     } catch (error) {
         console.error("Error upserting prescription:", error.response?.data || error.message);
-        throw error; // Ném lỗi để xử lý ở nơi gọi
+        throw error; 
+    }
+}
+
+//Hand book
+const getAllHandbooks = async (page, limit, search) => {
+    try {
+        const response = await axios.get(`/api/getAllHandBooks?page=${page}&limit=${limit}&search=${search}`);
+        //console.log("Response:", response.data); 
+        return response;
+    } catch (error) {
+        console.error("Error:", error);
+        throw error;
+    }
+}
+
+const getHandbookById = async (id) => {
+    try {
+        const response = await axios.get(`/api/getHandBookById?id=${id}`);
+        //console.log("Response:", response.data); 
+        return response;
+    } catch (error) {
+        console.error("Error:", error);
+        throw error;
+    }
+}
+
+const createHandbook = async (data) => {
+    try {
+        const response = await axios.post(`/api/createHandBook`, data);
+        return response.data;
+    } catch (error) {
+        console.error("Error creating handbook:", error.response?.data || error.message);
+        throw error; 
+    }
+}
+
+const updateHandbook = async (data) => {
+    try {
+        const response = await axios.put(`/api/updateHandBook`, data);
+        return response.data;
+    } catch (error) {
+        console.error("Error updating handbook:", error.response?.data || error.message);
+        throw error; 
     }
 }
 
@@ -180,5 +223,10 @@ export {
 
     getAllRoomTypes,
     getAllMedicinesForExam,
-    createOrUpdateVitalSign
+    createOrUpdateVitalSign,
+
+    getAllHandbooks,
+    createHandbook,
+    getHandbookById,
+    updateHandbook
 }

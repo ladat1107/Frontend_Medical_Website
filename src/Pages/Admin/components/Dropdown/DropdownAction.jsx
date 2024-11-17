@@ -5,6 +5,7 @@ import DropdownMenu, { DropdownItem, DropdownItemGroup } from '@atlaskit/dropdow
 import MoreVerticalIcon from '@atlaskit/icon/glyph/more-vertical'
 import { IconButton } from '@atlaskit/button/new';
 import DeleteModal from '../Modal/DeleteModal';
+import './Dropdown.scss'
 const DropdownAction = (props) => {
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     let handleDelete = () => {
@@ -12,6 +13,9 @@ const DropdownAction = (props) => {
     }
     let handleShow = (value) => {
         setShowDeleteModal(value)
+    }
+    let handleUpdate = () => {
+        props.action(props.data)
     }
     return (
         <div>
@@ -22,7 +26,7 @@ const DropdownAction = (props) => {
                 )}
                 shouldRenderToParent>
                 <DropdownItemGroup className="item">
-                    <DropdownItem>
+                    <DropdownItem onClick={() => { handleUpdate() }} >
                         <span className="update" > <FontAwesomeIcon className="me-1" icon={faFilePen} size="lg" /> Cập nhật</span>
                     </DropdownItem>
                     <DropdownItem onClick={() => { handleDelete() }} >
