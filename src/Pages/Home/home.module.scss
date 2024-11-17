@@ -55,6 +55,22 @@
       align-items: center;
     }
   }
+  .show-more-btn {
+    margin: 20px auto 0; /* Center horizontally */
+    padding: 10px 20px;
+    background-color: #5294da;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    display: block; /* Ensures the button takes the full width of its container */
+    text-align: center;
+
+    &:hover {
+      background-color: #0056b3;
+    }
+  }
 }
 
 //ourTeam

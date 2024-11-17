@@ -18,7 +18,7 @@ function Header() {
 
   const navMenu = [
     {
-      title: "medical1",
+      title: "Cơ sở",
       inner: [
         { title: "medical", icon: null },
         { title: "medical", icon: null },
@@ -26,7 +26,7 @@ function Header() {
       ],
     },
     {
-      title: "medical2",
+      title: "y tế",
       inner: [
         { title: "medical", icon: null },
         { title: "medical", icon: null },
@@ -34,7 +34,7 @@ function Header() {
       ],
     },
     {
-      title: "medical3",
+      title: "Khám sức",
       inner: [
         { title: "medical", icon: null },
         { title: "medical", icon: null },
@@ -42,7 +42,7 @@ function Header() {
       ],
     },
     {
-      title: "medical4",
+      title: "Tin tức",
       inner: [
         { title: "medical", icon: null },
         { title: "medical", icon: null },
@@ -50,7 +50,7 @@ function Header() {
       ],
     },
     {
-      title: "medical5",
+      title: "Hướng dẫn",
       inner: [
         { title: "medical", icon: null },
         { title: "medical", icon: null },
@@ -58,7 +58,7 @@ function Header() {
       ],
     },
     {
-      title: "medical6",
+      title: "Liên hệ ",
       inner: [
         { title: "medical", icon: null },
         { title: "medical", icon: null },

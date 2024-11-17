@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Menu, MenuItem, Button, ListItemIcon } from '@mui/material';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import './dropdown.scss'; // Import SCSS
 
 function Dropdown({ title, items }) {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -15,15 +16,16 @@ function Dropdown({ title, items }) {
   };
 
   return (
-    <div>
+    <div className="dropdown">
       <Button
         aria-controls={open ? 'dropdown-menu' : undefined}
         aria-haspopup="true"
         aria-expanded={open ? 'true' : undefined}
         onClick={handleClick}
-        endIcon={<KeyboardArrowDownIcon />}
+        endIcon={<KeyboardArrowDownIcon className={open ? 'Mui-expanded' : ''} />}
+        
       >
-        {title}
+       <p className='header-text' > {title}</p>
       </Button>
       <Menu
         id="dropdown-menu"
@@ -36,7 +38,7 @@ function Dropdown({ title, items }) {
       >
         {items.map((item, index) => (
           <MenuItem key={index} onClick={handleClose}>
-            {item.icon &&  <ListItemIcon>{item.icon}</ListItemIcon>}
+            {item.icon && <ListItemIcon>{item.icon}</ListItemIcon>}
             <p  >{item.title}</p>
           </MenuItem>
         ))}

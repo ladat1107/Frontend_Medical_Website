@@ -1,88 +1,47 @@
+import React, { useState } from 'react';
+import classNames from 'classnames/bind';
+import styles from './home.module.scss';
+import useQuery from '@/hooks/useQuery';
+import userService from '@/services/userService';
 
-
-
-import React from 'react'
-
-import classNames from "classnames/bind";
-import styles from "./home.module.scss";
 // Tạo instance của classnames với bind styles
 const cx = classNames.bind(styles);
 
 const Specialty = () => {
-  return (
-    <div className={cx('specialty')} >
-         <h2 className={cx('specialty-title', "title-section")} >Chuyên Khoa</h2>
-        <div className={cx('specialty-list')} >
-           
-            <div className={cx('specialty-item')} >
-                <img src="https://medpro.vn/_next/image?url=https%3A%2F%2Fcdn-pkh.longvan.net%2Fmedpro-production%2Fdefault%2Favatar%2FChuyenKhoa.png&w=96&q=75" alt="" />
-                <p  className='secondary-text' >Bác Sĩ Gia Định</p>
-            </div>
-            <div className={cx('specialty-item')} >
-                <img src="https://medpro.vn/_next/image?url=https%3A%2F%2Fcdn-pkh.longvan.net%2Fmedpro-production%2Fdefault%2Favatar%2FChuyenKhoa.png&w=96&q=75" alt="" />
-                <p  className='secondary-text' >Bác Sĩ Gia Định</p>
-            </div>
-            <div className={cx('specialty-item')} >
-                <img src="https://medpro.vn/_next/image?url=https%3A%2F%2Fcdn-pkh.longvan.net%2Fmedpro-production%2Fdefault%2Favatar%2FChuyenKhoa.png&w=96&q=75" alt="" />
-                <p  className='secondary-text' >Bác Sĩ Gia Định</p>
-            </div>
-            <div className={cx('specialty-item')} >
-                <img src="https://medpro.vn/_next/image?url=https%3A%2F%2Fcdn-pkh.longvan.net%2Fmedpro-production%2Fdefault%2Favatar%2FChuyenKhoa.png&w=96&q=75" alt="" />
-                <p  className='secondary-text' >Bác Sĩ Gia Định</p>
-            </div>
-            <div className={cx('specialty-item')} >
-                <img src="https://medpro.vn/_next/image?url=https%3A%2F%2Fcdn-pkh.longvan.net%2Fmedpro-production%2Fdefault%2Favatar%2FChuyenKhoa.png&w=96&q=75" alt="" />
-                <p  className='secondary-text' >Bác Sĩ Gia Định</p>
-            </div>
-            <div className={cx('specialty-item')} >
-                <img src="https://medpro.vn/_next/image?url=https%3A%2F%2Fcdn-pkh.longvan.net%2Fmedpro-production%2Fdefault%2Favatar%2FChuyenKhoa.png&w=96&q=75" alt="" />
-                <p  className='secondary-text' >Bác Sĩ Gia Định</p>
-            </div>
-            <div className={cx('specialty-item')} >
-                <img src="https://medpro.vn/_next/image?url=https%3A%2F%2Fcdn-pkh.longvan.net%2Fmedpro-production%2Fdefault%2Favatar%2FChuyenKhoa.png&w=96&q=75" alt="" />
-                <p  className='secondary-text' >Bác Sĩ Gia Định</p>
-            </div>
-            <div className={cx('specialty-item')} >
-                <img src="https://medpro.vn/_next/image?url=https%3A%2F%2Fcdn-pkh.longvan.net%2Fmedpro-production%2Fdefault%2Favatar%2FChuyenKhoa.png&w=96&q=75" alt="" />
-                <p  className='secondary-text' >Bác Sĩ Gia Định</p>
-            </div>
-            <div className={cx('specialty-item')} >
-                <img src="https://medpro.vn/_next/image?url=https%3A%2F%2Fcdn-pkh.longvan.net%2Fmedpro-production%2Fdefault%2Favatar%2FChuyenKhoa.png&w=96&q=75" alt="" />
-                <p  className='secondary-text' >Bác Sĩ Gia Định</p>
-            </div>
-            <div className={cx('specialty-item')} >
-                <img src="https://medpro.vn/_next/image?url=https%3A%2F%2Fcdn-pkh.longvan.net%2Fmedpro-production%2Fdefault%2Favatar%2FChuyenKhoa.png&w=96&q=75" alt="" />
-                <p  className='secondary-text' >Bác Sĩ Gia Định</p>
-            </div>
-            <div className={cx('specialty-item')} >
-                <img src="https://medpro.vn/_next/image?url=https%3A%2F%2Fcdn-pkh.longvan.net%2Fmedpro-production%2Fdefault%2Favatar%2FChuyenKhoa.png&w=96&q=75" alt="" />
-                <p  className='secondary-text' >Bác Sĩ Gia Định</p>
-            </div>
-            <div className={cx('specialty-item')} >
-                <img src="https://medpro.vn/_next/image?url=https%3A%2F%2Fcdn-pkh.longvan.net%2Fmedpro-production%2Fdefault%2Favatar%2FChuyenKhoa.png&w=96&q=75" alt="" />
-                <p  className='secondary-text' >Bác Sĩ Gia Định</p>
-            </div>
-            <div className={cx('specialty-item')} >
-                <img src="https://medpro.vn/_next/image?url=https%3A%2F%2Fcdn-pkh.longvan.net%2Fmedpro-production%2Fdefault%2Favatar%2FChuyenKhoa.png&w=96&q=75" alt="" />
-                <p  className='secondary-text' >Bác Sĩ Gia Định</p>
-            </div>
-            <div className={cx('specialty-item')} >
-                <img src="https://medpro.vn/_next/image?url=https%3A%2F%2Fcdn-pkh.longvan.net%2Fmedpro-production%2Fdefault%2Favatar%2FChuyenKhoa.png&w=96&q=75" alt="" />
-                <p  className='secondary-text' >Bác Sĩ Gia Định</p>
-            </div>
-            <div className={cx('specialty-item')} >
-                <img src="https://medpro.vn/_next/image?url=https%3A%2F%2Fcdn-pkh.longvan.net%2Fmedpro-production%2Fdefault%2Favatar%2FChuyenKhoa.png&w=96&q=75" alt="" />
-                <p  className='secondary-text' >Bác Sĩ Gia Định</p>
-            </div>
-            <div className={cx('specialty-item')} >
-                <img src="https://medpro.vn/_next/image?url=https%3A%2F%2Fcdn-pkh.longvan.net%2Fmedpro-production%2Fdefault%2Favatar%2FChuyenKhoa.png&w=96&q=75" alt="" />
-                <p  className='secondary-text' >Bác Sĩ Gia Định</p>
-            </div>
-           
-            
-        </div>
-    </div>
-  )
-}
+  const { data: specialtyData, error: specialtyError } = useQuery(() =>
+    userService.getSpecialty()
+  );
 
-export default Specialty
+  const listSpecialty = specialtyData?.DT || [];
+
+  
+  const [showAll, setShowAll] = useState(false);
+
+  const itemsToShow = showAll ? listSpecialty : listSpecialty.slice(0,16);
+
+  return (
+    <div className={cx('specialty')}>
+      <h2 className={cx('specialty-title', 'title-section')}>Chuyên Khoa</h2>
+      <div className={cx('specialty-list')}>
+        {itemsToShow.map((item, index) => (
+          <div key={index} className={cx('specialty-item')}>
+            <img src={item.image} alt="" />
+            <p className="secondary-text">{item.name}</p>
+          </div>
+        ))}
+      </div>
+      {listSpecialty.length > 0 && (
+        <div className={cx('show-more-container')}>
+        <button
+          className={cx('show-more-btn')}
+          onClick={() => setShowAll((prev) => !prev)}
+        >
+          {showAll ? 'Show Less' : 'Show More'}
+        </button>
+      </div>
+      )}
+    </div>
+  );
+};
+
+export default Specialty;

@@ -17,16 +17,15 @@ const Department = () => {
   } = useQuery(() => userService.getDepartment())
 
   
-  useEffect(()=> {
-    console.log('departmentData', departmentData)
-  },[departmentData])
+  const listDepartment = departmentData?.DT || []
 
+  console.log('listDepartment', listDepartment)
   
   
   return (
     <div className={cx('department')} >
         <h3 className={cx("department-title", "title-section")} >DANH SÁCH CÁC KHOA CỦA CHÚNG TÔI</h3>
-        <SliderComponent type='department'  numberShow={4} dot={false} />
+        <SliderComponent type='department'  numberShow={4} dot={false} listData={listDepartment} />
     </div>
   )
 }

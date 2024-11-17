@@ -23,6 +23,8 @@ axiosInstance.interceptors.request.use(
 // Interceptor cho phép can thiệp vào quá trình nhận phản hồi (RESPONSE) từ server.
 axiosInstance.interceptors.response.use(
   (response) => {
+
+    console.log('🚀response---->', response);
     return response;
   },
   async (error) => {

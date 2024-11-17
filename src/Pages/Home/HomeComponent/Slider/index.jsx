@@ -7,44 +7,44 @@ import DoctorCard from "@/components/DoctorCard";
 import DepartmentCard from "@/components/DepartmentCard";
 
 const SliderComponent = ({ type = "service", numberShow = 6, autoplayProps, dot = true, listData} ) => {
-  const listServices = [
-    {
-      title: "Khám Tại Cơ Sở",
-      img: "https://medpro.vn/_next/image?url=https%3A%2F%2Fcdn.medpro.vn%2Fprod-partner%2F94fad041-984a-4ed7-99e8-3a940360a1cc-7751fd3f-f46c-436a-af19-2c64d4d5cf25-dkcs.webp&w=64&q=75",
-    },
-    {
-        title: "Khám Tại Cơ Sở",
-        img: "https://medpro.vn/_next/image?url=https%3A%2F%2Fcdn.medpro.vn%2Fprod-partner%2F94fad041-984a-4ed7-99e8-3a940360a1cc-7751fd3f-f46c-436a-af19-2c64d4d5cf25-dkcs.webp&w=64&q=75",
-      },
-      {
-        title: "Khám Tại Cơ Sở",
-        img: "https://medpro.vn/_next/image?url=https%3A%2F%2Fcdn.medpro.vn%2Fprod-partner%2F94fad041-984a-4ed7-99e8-3a940360a1cc-7751fd3f-f46c-436a-af19-2c64d4d5cf25-dkcs.webp&w=64&q=75",
-      },
-      {
-        title: "Khám Tại Cơ Sở",
-        img: "https://medpro.vn/_next/image?url=https%3A%2F%2Fcdn.medpro.vn%2Fprod-partner%2F94fad041-984a-4ed7-99e8-3a940360a1cc-7751fd3f-f46c-436a-af19-2c64d4d5cf25-dkcs.webp&w=64&q=75",
-      },
-      {
-        title: "Khám Tại Cơ Sở",
-        img: "https://medpro.vn/_next/image?url=https%3A%2F%2Fcdn.medpro.vn%2Fprod-partner%2F94fad041-984a-4ed7-99e8-3a940360a1cc-7751fd3f-f46c-436a-af19-2c64d4d5cf25-dkcs.webp&w=64&q=75",
-      },
-      {
-        title: "Khám Tại Cơ Sở",
-        img: "https://medpro.vn/_next/image?url=https%3A%2F%2Fcdn.medpro.vn%2Fprod-partner%2F94fad041-984a-4ed7-99e8-3a940360a1cc-7751fd3f-f46c-436a-af19-2c64d4d5cf25-dkcs.webp&w=64&q=75",
-      },
-      {
-        title: "Khám Tại Cơ Sở",
-        img: "https://medpro.vn/_next/image?url=https%3A%2F%2Fcdn.medpro.vn%2Fprod-partner%2F94fad041-984a-4ed7-99e8-3a940360a1cc-7751fd3f-f46c-436a-af19-2c64d4d5cf25-dkcs.webp&w=64&q=75",
-      },
-      {
-        title: "Khám Tại Cơ Sở",
-        img: "https://medpro.vn/_next/image?url=https%3A%2F%2Fcdn.medpro.vn%2Fprod-partner%2F94fad041-984a-4ed7-99e8-3a940360a1cc-7751fd3f-f46c-436a-af19-2c64d4d5cf25-dkcs.webp&w=64&q=75",
-      },
-      {
-        title: "Khám Tại Cơ Sở",
-        img: "https://medpro.vn/_next/image?url=https%3A%2F%2Fcdn.medpro.vn%2Fprod-partner%2F94fad041-984a-4ed7-99e8-3a940360a1cc-7751fd3f-f46c-436a-af19-2c64d4d5cf25-dkcs.webp&w=64&q=75",
-      },
-  ];
+  // const listServices = [
+  //   {
+  //     title: "Khám Tại Cơ Sở",
+  //     img: "https://medpro.vn/_next/image?url=https%3A%2F%2Fcdn.medpro.vn%2Fprod-partner%2F94fad041-984a-4ed7-99e8-3a940360a1cc-7751fd3f-f46c-436a-af19-2c64d4d5cf25-dkcs.webp&w=64&q=75",
+  //   },
+  //   {
+  //       title: "Khám Tại Cơ Sở",
+  //       img: "https://medpro.vn/_next/image?url=https%3A%2F%2Fcdn.medpro.vn%2Fprod-partner%2F94fad041-984a-4ed7-99e8-3a940360a1cc-7751fd3f-f46c-436a-af19-2c64d4d5cf25-dkcs.webp&w=64&q=75",
+  //     },
+  //     {
+  //       title: "Khám Tại Cơ Sở",
+  //       img: "https://medpro.vn/_next/image?url=https%3A%2F%2Fcdn.medpro.vn%2Fprod-partner%2F94fad041-984a-4ed7-99e8-3a940360a1cc-7751fd3f-f46c-436a-af19-2c64d4d5cf25-dkcs.webp&w=64&q=75",
+  //     },
+  //     {
+  //       title: "Khám Tại Cơ Sở",
+  //       img: "https://medpro.vn/_next/image?url=https%3A%2F%2Fcdn.medpro.vn%2Fprod-partner%2F94fad041-984a-4ed7-99e8-3a940360a1cc-7751fd3f-f46c-436a-af19-2c64d4d5cf25-dkcs.webp&w=64&q=75",
+  //     },
+  //     {
+  //       title: "Khám Tại Cơ Sở",
+  //       img: "https://medpro.vn/_next/image?url=https%3A%2F%2Fcdn.medpro.vn%2Fprod-partner%2F94fad041-984a-4ed7-99e8-3a940360a1cc-7751fd3f-f46c-436a-af19-2c64d4d5cf25-dkcs.webp&w=64&q=75",
+  //     },
+  //     {
+  //       title: "Khám Tại Cơ Sở",
+  //       img: "https://medpro.vn/_next/image?url=https%3A%2F%2Fcdn.medpro.vn%2Fprod-partner%2F94fad041-984a-4ed7-99e8-3a940360a1cc-7751fd3f-f46c-436a-af19-2c64d4d5cf25-dkcs.webp&w=64&q=75",
+  //     },
+  //     {
+  //       title: "Khám Tại Cơ Sở",
+  //       img: "https://medpro.vn/_next/image?url=https%3A%2F%2Fcdn.medpro.vn%2Fprod-partner%2F94fad041-984a-4ed7-99e8-3a940360a1cc-7751fd3f-f46c-436a-af19-2c64d4d5cf25-dkcs.webp&w=64&q=75",
+  //     },
+  //     {
+  //       title: "Khám Tại Cơ Sở",
+  //       img: "https://medpro.vn/_next/image?url=https%3A%2F%2Fcdn.medpro.vn%2Fprod-partner%2F94fad041-984a-4ed7-99e8-3a940360a1cc-7751fd3f-f46c-436a-af19-2c64d4d5cf25-dkcs.webp&w=64&q=75",
+  //     },
+  //     {
+  //       title: "Khám Tại Cơ Sở",
+  //       img: "https://medpro.vn/_next/image?url=https%3A%2F%2Fcdn.medpro.vn%2Fprod-partner%2F94fad041-984a-4ed7-99e8-3a940360a1cc-7751fd3f-f46c-436a-af19-2c64d4d5cf25-dkcs.webp&w=64&q=75",
+  //     },
+  // ];
   const settings = {
     dots: dot, // Hiển thị phân trang
     // infinite: true, // Quay vòng slider
@@ -62,11 +62,11 @@ const SliderComponent = ({ type = "service", numberShow = 6, autoplayProps, dot 
   return (
     <div className="slider-container">
       <Slider {...settings}>
-        {listServices.map((item, index) => {
+        {listData?.map((item, index) => {
           if (type === "service") {
             return (
               <div className="item-service">
-                <img src={item.img} alt="" />
+                <img src={item.icon} alt="" />
                 <p className="main-text">{item.title}</p>
               </div>
             );
@@ -78,8 +78,8 @@ const SliderComponent = ({ type = "service", numberShow = 6, autoplayProps, dot 
             return (
               <>
                 <div className="item-colab" >  
-                     <img src="https://medpro.vn/_next/image?url=https%3A%2F%2Fcdn.medpro.vn%2Fprod-partner%2F9e2176ed-db14-4603-a594-8cefb4c4a2d0-logo-circle-trung-vuong.png&w=64&q=75" alt="" />
-                     <p className="main-text" >Bệnh viện chợ rẫy</p>
+                     <img src={item.icon} alt="" />
+                     <p className="main-text" >{item.title}</p>
                 </div>
               </>
             )
@@ -91,9 +91,10 @@ const SliderComponent = ({ type = "service", numberShow = 6, autoplayProps, dot 
               </div>
             )
           }else if (type = 'department'){
+            
             return (
               <>
-              <DepartmentCard/>
+              <DepartmentCard {...item}/>
               </>
             )
           }
