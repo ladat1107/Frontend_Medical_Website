@@ -3,12 +3,12 @@ import { MenuUnfoldOutlined, MenuFoldOutlined } from '@ant-design/icons';
 import { Button, Layout, theme, Input } from 'antd';
 const { Header } = Layout;
 const { Search } = Input;
-import "./AdminHeader.scss";
+import "./DoctorHeader.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLanguage } from "@fortawesome/free-solid-svg-icons";
 import { faBell, faEnvelope } from '@fortawesome/free-regular-svg-icons'
 const onSearch = (value, _e, info) => console.log(info?.source, value);
-const AdminHeader = (props) => {
+const DoctorHeader = (props) => {
     const {
         token: { colorBgContainer },
     } = theme.useToken();
@@ -17,7 +17,7 @@ const AdminHeader = (props) => {
         props.action(!props.open);
     }
     return (
-        <div className="admin-header-content">
+        <div className="doctor-header-content">
             <Header
                 style={{
                     padding: 0,
@@ -59,4 +59,4 @@ const AdminHeader = (props) => {
     );
 }
 
-export default AdminHeader;
+export default DoctorHeader;

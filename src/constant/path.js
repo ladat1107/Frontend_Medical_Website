@@ -18,6 +18,9 @@ export const PATHS = {
         INFO_HANDBOOK: "/doctorHandbook/:handbookId",
         SCHEDULE: "/doctorSchedule",
     },
+    RECEPTIONIST:{
+        DASHBOARD: "/receptionist",
+    },
     HOME: {
         HOMEPAGE: "/",
         LOGIN: "/login",

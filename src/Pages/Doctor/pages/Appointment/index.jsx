@@ -1,5 +1,5 @@
 import { getAppointments, searchAppointments, searchAppointmentsWithStaffId } from "@/services/doctorService";
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { getTimeSlotById } from "@/utils/formatTimeSlots";
 import { convertDateTime } from "@/utils/formatDate";
 import {convertStartDateToTimestamp, convertEndDateToTimestamp} from "@/utils/convertToTimestamp";
@@ -9,9 +9,11 @@ import "./Appointment.scss";
 import { useMutation } from "@/hooks/useMutation";
 import { useNavigate } from "react-router-dom";
 import { Pagination } from "antd";
+import { AuthenContext } from "@/contexts/AuthenContext";
 
 const Appointment = () => {
     const navigate = useNavigate();
+    const {user} = useContext(AuthenContext);
 
     const [listAppointments, setListAppointments] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
@@ -22,14 +24,7 @@ const Appointment = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [pageSize, setPageSize] = useState(15);
     const [total, setTotal] = useState(0);
-    const [staffId, setStaffId] = useState(1);
-
-    const options = [
-        { value: '1', label: 'Tất cả' },
-        { value: '2', label: 'Đang chờ khám' },
-        { value: '3', label: 'Đã khám' },
-        { value: '4', label: 'Đã hủy' },
-    ];
+    // const [staffId, setStaffId] = useState(user.staff);
 
     let {
         data: dataAppointments,
@@ -37,7 +32,7 @@ const Appointment = () => {
         error: listAppointmentsError,
         execute: fetchAppointment,
     } = useMutation((query) =>
-        searchAppointmentsWithStaffId(currentPage, pageSize, staffId, searchTerm, convertStartDateToTimestamp(startDate), convertEndDateToTimestamp(endDate)))
+        searchAppointmentsWithStaffId(currentPage, pageSize, user.staff, searchTerm, convertStartDateToTimestamp(startDate), convertEndDateToTimestamp(endDate)))
 
     const handleStartDateChange = (date) => {
         setStartDate(date);
@@ -45,10 +40,6 @@ const Appointment = () => {
 
     const handleEndDateChange = (date) => {
         setEndDate(date);
-    };
-
-    const handleSelectedChange = (event) => {
-        setSelectedValue(event.target.value); // Cập nhật giá trị đã chọn
     };
 
     const handleClear = () => {
