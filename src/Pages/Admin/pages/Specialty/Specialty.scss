@@ -17,7 +17,7 @@
 
             .text {
                 font-size: 1.2rem;
-                color: $secondary-color;
+                color: $secondary-color-admin;
             }
 
             .btn-add-specialty {
@@ -59,7 +59,7 @@
 
         .table-specialty {
             border-radius: 10px;
-            box-shadow: $box-shadow-content;
+            box-shadow: $box-shadow-content-admin;
 
 
             .head {
