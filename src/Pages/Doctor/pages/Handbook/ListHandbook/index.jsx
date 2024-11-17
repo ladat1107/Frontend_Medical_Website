@@ -1,15 +1,19 @@
 import { useMutation } from "@/hooks/useMutation";
-import { useEffect, useState } from "react";
-import { getAllHandbooks } from '@/services/doctorService';
+import { useContext, useEffect, useState } from "react";
+import { getAllHandbooks, getAllTags } from '@/services/doctorService';
 import HandbookItem from "../HandbookItem";
 import './ListHandbook.scss';
 import { useNavigate } from "react-router-dom";
-import { Pagination } from 'antd';
+import { message, Pagination } from 'antd';
 import { Modal, Button, Form, Input } from 'antd';
 import { TAGS } from "@/constant/value";
+import SearchBar from "@/components/Search";
+import { AuthenContext } from "@/contexts/AuthenContext";
 
 const ListHandbook = () => {
     const navigate = useNavigate();
+    const {user} = useContext(AuthenContext);
+
     const [numbers, setNumbers] = useState(0);
     const [listHandbooks, setListHandbooks] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
@@ -25,7 +29,6 @@ const ListHandbook = () => {
         }
         return _tags;
     });
-    console.log(allTags)
     const [activeTags, setActiveTags] = useState([]);
 
     //modal's state
@@ -37,43 +40,37 @@ const ListHandbook = () => {
         loading: handbookLoading,
         error: listHandbooksError,
         execute: fetchListHandbooks,
-    } = useMutation((query) => getAllHandbooks(currentPage, pageSize, searchTerm));
+    } = useMutation((query) => getAllHandbooks(currentPage, pageSize, searchTerm, user.staff, filter.join(',')));
 
     useEffect(() => {
         fetchListHandbooks();
-    }, [currentPage, pageSize]);
+    }, [currentPage, pageSize, filter]);
 
     useEffect(() => {
         if (dataHandbooks?.DT) {
             setListHandbooks(dataHandbooks.DT.handBooks);
             setNumbers(dataHandbooks.DT.totalItems);
             setTotal(dataHandbooks.DT.totalItems);
+        } else {
+            setListHandbooks([]);
+            setNumbers(0);
+            setTotal(0);
         }
     }, [dataHandbooks]);
 
-    const {
-        data: dataTags,
-        loading: tagsLoading,
-        error: tagsError,
-        execute: fetchTags,
-    } = useMutation((query) => getAllTags());
-
     const handleTagClick = (item) => {
-        let _listTag = [...allTags];
-        _listTag = _listTag.map(obj =>
-            obj.value === item.value ? { ...obj, checked: !item.checked } : obj
+        setAllTags(prevTags => 
+            prevTags.map(tag => 
+                tag.value === item.value ? { ...tag, checked: !tag.checked } : tag
+            )
         );
-        setAllTags(_listTag);
     };
+
     useEffect(() => {
-        let arr = [];
-        for (let i = 0; i < allTags.length; i++) {
-            if (allTags[i]?.checked) {
-                arr.push(allTags[i]?.label)
-            }
-        }
-        console.log("tag choose ", arr)
-    }, [allTags])
+        const selectedTags = allTags.filter(tag => tag.checked).map(tag => tag.label);
+        setActiveTags(selectedTags); // Sử dụng setActiveTags thay vì push trực tiếp
+    }, [allTags]);
+
     const handleHandbookClick = (handbookId) => {
         navigate(`/doctorHandbook/${handbookId}`);
     };
@@ -101,13 +98,11 @@ const ListHandbook = () => {
     };
 
     const handleOk = () => {
-        //     let arr = []
-        //     for (let i = 0; i < allTags.length; i++) {
-        //         if (allTags[i].checked)
-        //   }
+        setIsModalVisible(false);
+        setFilter(activeTags);
+        setCurrentPage(1); 
+        fetchListHandbooks();
     };
-
-
 
     if (handbookLoading) {
         return <div className="text-center p-4">Loading...</div>;
@@ -119,42 +114,44 @@ const ListHandbook = () => {
 
     return (
         <div className="list-handbook-container">
-            <div className='row'>
-                <div className='col-1 text-end'>
-                    <p className='text-bold'>{numbers} bài</p>
-                </div>
-                <div className='col-6'>
-                    <div className="search-container">
-                        <input
-                            type="text"
-                            placeholder="Nhập để tìm kiếm..."
-                            value={searchTerm}
-                            onChange={handleSearch}
-                        />
-                        <button className='button' onClick={handleSearchButton}>
-                            <i className="fa-solid fa-magnifying-glass"></i>
-                        </button>
+            <div className="list-handbook-header">
+                <div className='row'>
+                    <div className='col-12 mb-2 col-lg-1 parent d-flex justify-content-center align-items-center'>
+                        <p className='text-bold'>{numbers} bài viết</p>
+                    </div>
+                    <div className="col-12 col-lg-6"/>
+                    <div className='col-9 col-lg-4'>
+                        <div className="search-container">
+                            <input
+                                type="text"
+                                placeholder="Nhập để tìm kiếm..."
+                                value={searchTerm}
+                                onChange={handleSearch}
+                            />
+                            <button className='button' onClick={handleSearchButton}>
+                                <i className="fa-solid fa-magnifying-glass"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div className='col-3 col-lg-1 d-flex justify-content-center padding0'>
+                        <span className="filter" onClick={showModal}>
+                            <i className="fa-solid fa-filter"></i>
+                            Lọc
+                        </span>
                     </div>
                 </div>
-            </div>
-            <div className='row mt-2'>
-                <div className='col-1 text-end padding0'>
-                    <span className="filter" onClick={showModal}>
-                        <i className="fa-solid fa-filter"></i>
-                        Lọc
-                    </span>
-                </div>
-                <div className='col-10'>
-                    <div className="search-container">
-                        <input
-                            type="text"
-                            placeholder="Nhập để tìm kiếm..."
-                            value={searchTerm}
-                            onChange={handleSearch}
-                        />
-                        <button className='button' onClick={handleSearchButton}>
-                            <i className="fa-solid fa-magnifying-glass"></i>
-                        </button>
+                <div className={`row ${filter && filter.length > 0 ? 'mt-3' : ''}`}>
+                    <div className='col-12 col-lg-2'/>
+                    <div className='col-12 col-lg-10'>
+                        <div className="list-tag rtl">
+                            {filter.map((tag, index) => (
+                                <div
+                                    key={index}
+                                    className="tag-selected">
+                                    <p>{tag}</p>
+                                </div>
+                            ))}
+                        </div>
                     </div>
                 </div>
             </div>
@@ -162,14 +159,15 @@ const ListHandbook = () => {
             {handbookLoading ? (
                 <div className="text-center py-4">Loading...</div>
             ) : (
-                <div className='row mt-3 item'>
+                <div className='row justify-content-center justify-content-lg-start mt-3 item'>
                     {listHandbooks.length > 0 ? (
                         listHandbooks.map((item) => (
+                            <div className="mt-2 col-9 col-lg-4" key={item.id}>
                             <HandbookItem
                                 key={item.id}
                                 item={item}
-                                onClick={handleHandbookClick}
-                            />
+                                onClick={handleHandbookClick}/>
+                            </div>
                         ))
                     ) : (
                         <div className="text-center py-4">No handbooks found</div>
@@ -186,7 +184,7 @@ const ListHandbook = () => {
                 />
             </div>
             <Modal
-                title="Chọn điều kiện lọc"
+                title="Lọc"
                 open={isModalVisible}
                 onOk={handleOk}
                 onCancel={handleCancel}
@@ -196,13 +194,12 @@ const ListHandbook = () => {
                     form={form}
                     layout="vertical"
                     name="handbookForm">
-                    <div className="list-tag">
+                    <div className="list-tag tag-box mt-3">
                         {allTags.map((tag, index) => (
                             <div
                                 key={index}
                                 className={`tag-item ${tag.checked ? 'active' : ''}`}
-                                onClick={() => { console.log(tag); handleTagClick(tag) }} // Handle tag click by index
-                            >
+                                onClick={() => { handleTagClick(tag) }}>
                                 <p>{tag?.label}</p>
                             </div>
                         ))}

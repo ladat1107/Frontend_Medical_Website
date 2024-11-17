@@ -155,7 +155,7 @@ const Prescription = ({ examinationId, paraclinicalPrice, refresh }) => {
             {contextHolder}
             <div className="pres-container">
                 <div className="row padding">
-                    <div className='col-3 button'>
+                    <div className='col-8 col-lg-3 button'>
                         <button className='add-button' onClick={handleAddPresdetail}>Thêm thuốc</button>
                         <button className='save-button' onClick={handleSaveButton}>Lưu</button>
                     </div>

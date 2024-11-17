@@ -73,16 +73,6 @@ const Examination = () => {
         }
     }, [dataExamination]);
 
-    // useEffect(() => {
-    //     console.log("dataExamination:", dataExamination);
-    //     console.log("examinationData:", examinationData);
-    //     console.log("vitalSignData:", vitalSignData);
-    //     console.log("paraclinicalData:", paraclinicalData);
-    //     console.log("prescriptionData:", prescriptionData);
-    //     console.log("examDataID:", examinationData.id);
-    //     console.log("patientData:", patientData);
-    // }, [dataExamination, examinationData, vitalSignData, paraclinicalData, prescriptionData, patientData]);
-
     const handleRadioChange = (e) => {
         setSelectedRadio(e.target.value);
     };
@@ -100,7 +90,7 @@ const Examination = () => {
                             <div className="row">
                                 {patientData && patientData.cid &&
                                     <>
-                                        <div className="col-5 mb-0">
+                                        <div className="col-12 col-lg-5 mb-0">
                                             <div className="row">
                                                 <div className="col-4">
                                                     <p className="title">Họ tên</p>
@@ -128,7 +118,7 @@ const Examination = () => {
                                                 </div>
                                             </div>
                                         </div>
-                                        <div className="col-5 mb-0">
+                                        <div className="col-12 col-lg-5 mb-0">
                                             <div className="row">
                                                 <div className="col-4">
                                                     <p className="title">Số điện thoại</p>
@@ -160,7 +150,8 @@ const Examination = () => {
                         </div>
                         <div className="exam-content">
                             <p className="exam-header">Thông tin khám bệnh</p>
-                            <div className="radio-inputs">
+                            <div className="radio-inputs row">
+                            <div className="col-6 col-lg-2 d-flex justify-content-center">
                                 <label className="radio">
                                     <input type="radio" name="radio"
                                         value="info"
@@ -170,18 +161,24 @@ const Examination = () => {
                                         Thông tin khám
                                     </span>
                                 </label>
+                            </div>
+                            <div className="col-6 col-lg-2 d-flex justify-content-center">
                                 <label className="radio">
                                     <input type="radio" name="radio"
                                         value="vitalsign"
                                         onChange={handleRadioChange} />
                                     <span className="name">Sinh hiệu</span>
                                 </label>
+                                </div>
+                                <div className="col-6 col-lg-2 d-flex justify-content-center">
                                 <label className="radio">
                                     <input type="radio" name="radio"
                                         value="paraclinical"
                                         onChange={handleRadioChange} />
                                     <span className="name">Cận lâm sàng</span>
                                 </label>
+                            </div>
+                            <div className="col-6 col-lg-2 d-flex justify-content-center">
                                 <label className="radio">
                                     <input type="radio" name="radio"
                                         value="prescription"
@@ -189,6 +186,7 @@ const Examination = () => {
                                     <span className="name">Đơn thuốc</span>
                                 </label>
                             </div>
+                        </div>
                             <hr className="m-0" />
                             <div className="radio-content">
                                 {selectedRadio === 'info' && patientData && patientData.id && (

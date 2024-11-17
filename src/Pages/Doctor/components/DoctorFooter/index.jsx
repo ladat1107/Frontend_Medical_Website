@@ -1,7 +1,7 @@
 
 import { Layout } from "antd";
 const { Footer } = Layout;
-const AdminFooter = () => {
+const DoctorFooter = () => {
     return (
         <Footer
             style={{
@@ -13,4 +13,4 @@ const AdminFooter = () => {
     );
 
 }
-export default AdminFooter;
+export default DoctorFooter;

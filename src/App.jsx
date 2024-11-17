@@ -22,6 +22,8 @@ import Schedule from "./pages/Doctor/pages/Schedule";
 import Specialty from "./pages/Admin/pages/Specialty";
 import Login from "./pages/Login";
 import { PATHS } from "./constant/path";
+import ReceptionistLayout from "./pages/Receptionist";
+import ReceptionistDashboard from "./pages/Receptionist/components/Dashboard";
 import ProfileAdmin from "./pages/Admin/pages/ProfileAdmin";
 function App() {
 
@@ -53,7 +55,9 @@ function App() {
           <Route path={PATHS.STAFF.SCHEDULE} element={<Schedule />} />
           <Route path={PATHS.ADMIN.PROFILE} element={<Profile />} />
         </Route>
-
+        <Route element={<ReceptionistLayout/>}>
+          <Route path={PATHS.RECEPTIONIST.DASHBOARD} element={<ReceptionistDashboard />} />
+        </Route>
       </Route>
     </Routes>
   );

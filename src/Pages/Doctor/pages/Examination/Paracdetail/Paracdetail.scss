@@ -2,4 +2,36 @@
     .gap{
         gap: 10px;
     }
+
+    .padding5{
+        padding: 5px;
+    }
+
+    .image-upload{
+        border: 2px dashed #83BDF4;
+        border-radius: 10px;
+        padding: 5px;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+
+        .container{
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Be Vietnam Pro', sans-serif;
+
+            .image-cloud{
+                font-size: 20px;
+                color: #83BDF4;
+            }
+        }
+
+        .input-upload{
+            color: #438EF3;
+            font-weight: bold;
+            cursor: pointer;
+        }
+    }
 }

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Calendar, dateFnsLocalizer } from 'react-big-calendar';
 import format from 'date-fns/format';
 import parse from 'date-fns/parse';
@@ -11,6 +11,8 @@ import viVN from 'date-fns/locale/vi';
 import { Modal, Form, Input, DatePicker, Button, message } from 'antd';
 import moment from 'moment';
 import './Calendar.scss';
+import { useMutation } from '@/hooks/useMutation';
+import { getScheduleByStaffId } from '@/services/doctorService';
 
 const locales = {
     'vi': viVN,
@@ -85,6 +87,33 @@ const CustomCalendar = () => {
     const [selectedEvent, setSelectedEvent] = useState(null);
     const [form] = Form.useForm();
     const [currentDate, setCurrentDate] = useState(new Date());
+    const [staffId, setStaffId] = useState(1);
+    const [listSchedule, setListSchedule] = useState([]);
+
+    const {
+        data: scheduleData,
+        loading: scheduleLoading,
+        error: scheduleError,
+        execute: fetchSchedule,
+    } = useMutation(() => getScheduleByStaffId(staffId));
+
+    useEffect(() => {
+        fetchSchedule();
+    }, []);
+
+    // Thêm sự kiện vào Calendar từ dữ liệu scheduleData
+    useEffect(() => {
+        if (scheduleData?.DT) {
+            const formattedEvents = scheduleData.DT.map((item) => ({
+                id: item.roomId + item.date,
+                title: `Trực phòng ${item.roomId}`,
+                start: new Date(item.date),
+                end: new Date(item.date),
+            }));
+            setEvents(formattedEvents);
+        }
+    }, [scheduleData]);
+
 
     const handleSelect = ({ start, end }) => {
         const selectedMonth = moment(start).month();

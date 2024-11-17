@@ -1,7 +1,7 @@
 @import "../../../../style/variables.scss";
-
-.handbook-container {
-    padding: 20px;
+.handbook-container{
+    font-family: 'Be Vietnam Pro', sans-serif;
+    background: #F6F8FD;
 
     .button-container {
         display: flex;
@@ -14,7 +14,7 @@
             background-color: $primary-color-admin;
             color: white;
             cursor: pointer;
-            font-weight: bold;
+            font-weight: 600;
 
             i {
                 margin-right: 10px;
@@ -53,7 +53,7 @@
 
     .text-bold {
         margin: 0px;
-        font-weight: bold;
+        font-weight: 600;
     }
 
     .text-start {

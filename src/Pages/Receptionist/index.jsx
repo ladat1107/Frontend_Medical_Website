@@ -1,16 +1,18 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { Layout, theme } from 'antd';
-import SideBar from './components/Sidebar';
-import './Doctor.scss';
-import { Outlet, useLocation, useNavigate } from 'react-router-dom';
-import { AuthenContext } from '@/contexts/AuthenContext';
-import { ROLE } from '@/constant/role';
-import { PATHS } from '@/constant/path';
-import DoctorHeader from './components/DoctorHeader';
-import DoctorFooter from './components/DoctorFooter';
-const { Content } = Layout;
+import { Outlet, useLocation } from "react-router-dom"
+import DoctorFooter from "../Doctor/components/DoctorFooter"
+import { Content } from "antd/es/layout/layout"
+import DoctorHeader from "../Doctor/components/DoctorHeader"
+import { Layout, theme } from "antd"
+import { useContext, useEffect, useState } from "react"
+import { AuthenContext } from "@/contexts/AuthenContext"
+import { ROLE } from "@/constant/role"
+import { PATHS } from "@/constant/path"
+import Sidebar from "./components/Sidebar"
+import "./Receptionist.scss"
 
-const DoctorLayout = () => {
+
+const ReceptionistLayout = () => {
+
     const [collapsed, setCollapsed] = useState(false);
     let { user, logout } = useContext(AuthenContext);
     const location = useLocation();
@@ -29,9 +31,9 @@ const DoctorLayout = () => {
 
     return (
         <>
-            <div className='doctor-content'>
+            <div className='receptionist-content'>
                 <Layout>
-                    <SideBar open={collapsed}
+                    <Sidebar open={collapsed}
                         action={action} />
                     <Layout>
                         <DoctorHeader
@@ -55,4 +57,4 @@ const DoctorLayout = () => {
     )
 }
 
-export default DoctorLayout
+export default ReceptionistLayout

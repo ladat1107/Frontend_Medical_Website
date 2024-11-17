@@ -47,8 +47,7 @@ const Handbook = () => {
                         Cẩm nang sức khỏe cung cấp những thông tin hữu ích về các bệnh lý thường gặp, quy trình khám chữa bệnh, hướng dẫn chăm sóc sức khỏe hằng ngày, và những lưu ý quan trọng trong việc phòng ngừa bệnh, giúp người dùng tự tin và chủ động hơn trong việc bảo vệ sức khỏe bản thân và gia đình.
                     </div>
                 </div>
-                <hr/>
-                <div className='row'>
+                <div className='row mt-3'>
                     { action === 1 && (
                         <ListHandbook />
                     )}

@@ -6,7 +6,7 @@ import { PATHS } from '@/constant/path';
 const items = [
     {
         key: 'sub1',
-        label: (<NavLink to={PATHS.STAFF.APPOINTMENT}>Lịch hẹn</NavLink>),
+        label: (<NavLink to={PATHS.RECEPTIONIST.DASHBOARD}>Dashboard</NavLink>),
         icon: <i className="fa-solid fa-list"></i>,
     },
     {

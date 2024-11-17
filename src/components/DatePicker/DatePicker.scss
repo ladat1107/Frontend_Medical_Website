@@ -1,7 +1,6 @@
 @import "../../style/variables.scss";
-
 .input-date {
-    font-family: "Nunito", sans-serif;
+    font-family: "Be Vietnam Pro", sans-serif;
     border-radius: 8px;
     border: 0;
     font-size: 14px;
@@ -21,11 +20,11 @@
 }
 
 .react-datepicker {
-    font-family: 'Nunito', sans-serif;
-    background-color: #fff;
-    border: 2px solid #ccc;
-    border-radius: 8px;
-    z-index: 1000;
+    font-family: 'Be Vietnam Pro', sans-serif; 
+    background-color: #fff;     
+    border: 2px solid #ccc;    
+    border-radius: 8px;         
+    z-index: 1000;             
 }
 
 .react-datepicker__header {

@@ -1,13 +1,16 @@
-import { useCallback, useState, useEffect, useMemo } from 'react';
+import { useCallback, useState, useEffect, useMemo, useContext } from 'react';
 import PropTypes from 'prop-types';
 import Paracdetail from '../Paracdetail';
 import { notification } from 'antd';
 import { deleteParaclinical } from '@/services/doctorService';
 import './Paraclinical.scss';
+import { AuthenContext } from '@/contexts/AuthenContext';
 
 const Paraclinical = ({ listParaclinicals, examinationId, refresh }) => {
     const [paracDetails, setParacDetails] = useState(listParaclinicals);
     const [nextId, setNextId] = useState(0);
+
+    const {user} = useContext(AuthenContext);
 
     // Notification
     const [api, contextHolder] = notification.useNotification();
@@ -31,7 +34,13 @@ const Paraclinical = ({ listParaclinicals, examinationId, refresh }) => {
             {
                 id: nextId,
                 examinationId: examinationId,
-                isNew: true
+                isNew: true,
+                paraclinical: 0,
+                doctorId: user.staff,
+                result: '',
+                description: '',
+                image: '', // Initialize image in paracDetails
+                price: 0
             }
         ]);
         setNextId(prevId => prevId + 1);
@@ -85,7 +94,7 @@ const Paraclinical = ({ listParaclinicals, examinationId, refresh }) => {
             {contextHolder}
             <div className="parac-container">
                 <div className="row">
-                    <div className='col-3'>
+                    <div className='col-12'>
                         <button className="add-button" onClick={handleAddParacdetail}>Thêm xét nghiệm</button>
                     </div>
                 </div>

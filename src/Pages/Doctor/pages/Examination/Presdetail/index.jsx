@@ -33,11 +33,11 @@ const Presdetail = ({ id, presdetailData, onDelete, options, onChange }) => {
     return (
         <div className="presdetail-container">
             <div className="row center-content">
-                <div className='col-3'>
-                    <div className='row'>
+                <div className='col-12 col-lg-4'>
+                    <div className='col-4 col-lg-12'>
                         <p className='info'>Tên thuốc</p>
                     </div>
-                    <div className='row'>
+                    <div className='col-12 mt-1 col-lg-12'>
                         <SelectBox2
                             className="select-box2"
                             options={options}
@@ -47,37 +47,37 @@ const Presdetail = ({ id, presdetailData, onDelete, options, onChange }) => {
                         />
                     </div>
                 </div>
-                <div className='col-2'>
+                <div className='col-6 mt-2 col-lg-2'>
                     <div className='row'>
                         <p className='title center-content'>Số lượng</p>
                     </div>
-                    <div className='row'>
+                    <div className='row mt-1'>
                         <QuantityInput
                             initialValue={quantity}
                             onChange={handleQuantityChange} />
                     </div>
                 </div>
-                <div className='col-1'>
+                <div className='col-3 mt-2 col-lg-1'>
                     <div className='row'>
                         <p className='title'>Đơn vị</p>
                     </div>
-                    <div className='row'>
+                    <div className='row mt-1'>
                         <p className='suptext'>{medicineUnit}</p>
                     </div>
                 </div>
-                <div className='col-1'>
+                <div className='col-3 mt-2 col-lg-1'>
                     <div className='row'>
                         <p className='title'>Đơn giá</p>
                     </div>
-                    <div className='row'>
+                    <div className='row mt-1'>
                         <p className='suptext'>{selectedPrice.toLocaleString()}</p>  {/* Hiển thị giá */}
                     </div>
                 </div>
-                <div className='col-3'>
+                <div className='col-12 mt-2 col-lg-3'>
                     <div className='row'>
                         <p className='title'>Liều dùng</p>
                     </div>
-                    <div className='row'>
+                    <div className='row mt-1'>
                         <input
                             type="text"
                             className="input"
@@ -86,7 +86,7 @@ const Presdetail = ({ id, presdetailData, onDelete, options, onChange }) => {
                             onChange={(e) => setDosage(e.target.value)} />
                     </div>
                 </div>
-                <div className='col-1'>
+                <div className='col-1 mt-2'>
                     <i className="fa-solid fa-trash red" onClick={onDelete}></i>
                 </div>
             </div>
