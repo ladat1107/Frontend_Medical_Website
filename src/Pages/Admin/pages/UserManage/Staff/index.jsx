@@ -128,7 +128,7 @@ const StaffManage = () => {
                             <table className='w-100'>
                                 <thead>
                                     <tr className="header">
-                                        <th scope="col" className="rounded-top-left p-1">
+                                        <th scope="col" className="rounded-top-left d-none d-md-table-cell">
                                             <div>
                                                 <Checkbox
                                                     checked={checkAll}
@@ -137,7 +137,7 @@ const StaffManage = () => {
                                                 />
                                             </div>
                                         </th>
-                                        <th scope="col" className="text-start px-3 py-0 name">
+                                        <th scope="col" className="text-center px-3 py-0 name">
                                             Họ và tên
                                         </th>
                                         <th scope="col" className="text-start px-3 py-0 ">
@@ -147,15 +147,15 @@ const StaffManage = () => {
                                             Trình độ
                                         </th>
                                         <th scope="col" className="text-start px-1 py-0">
-                                            Phòng khoa
+                                            Khoa
                                         </th>
-                                        <th scope="col" className="text-start px-1 py-0">
+                                        <th scope="col" className="text-start px-1 py-0 d-none d-lg-table-cell">
                                             Số điện thoại
                                         </th>
-                                        <th scope="col" className="text-start px-1 py-0">
+                                        <th scope="col" className="text-start px-1 py-0 d-none d-lg-table-cell">
                                             CCCD
                                         </th>
-                                        <th scope="col" className="text-start px-1 py-0">
+                                        <th scope="col" className="text-start px-1 py-0 d-none d-lg-table-cell">
                                             Trạng thái
                                         </th>
                                         <th scope="col" className="rounded-top-right px-1 py-0">
@@ -169,8 +169,8 @@ const StaffManage = () => {
                                                 listUser.map((item, index) => {
                                                     return (
                                                         <tr key={index} className=" bg-white border-b text-start">
-                                                            <td className="p-1">
-                                                                <div className="flex items-center">
+                                                            <td className="d-none d-md-table-cell">
+                                                                <div className="">
                                                                     <Checkbox
                                                                         checked={item.checked}
                                                                         onChange={() => { handleChange(item, index) }}
@@ -179,7 +179,7 @@ const StaffManage = () => {
                                                             </td>
                                                             <td scope="row" className="d-flex justify-content-start px-1 py-3 min-content-width g-0">
                                                                 <img className="image" src={item?.avatar || LINK.AVATAR_NULL} alt="Jese image" />
-                                                                <div className="ps-1 email ">
+                                                                <div className="ps-1 email">
                                                                     <div className="fw-semibold">{item.lastName + " " + item.firstName}</div>
                                                                     <div className="fw-normal">{item.email}</div>
                                                                 </div>
@@ -194,13 +194,13 @@ const StaffManage = () => {
                                                             <td className="text-start px-1 py-3">
                                                                 {item?.staffUserData?.staffDepartmentData?.name || "Khác"}
                                                             </td>
-                                                            <td className="text-start px-1 py-3">
+                                                            <td className="text-start px-1 py-3 d-none d-lg-table-cell">
                                                                 {item?.phoneNumber || "Không có"}
                                                             </td>
-                                                            <td className="text-start px-1 py-3">
+                                                            <td className="text-start px-1 py-3 d-none d-lg-table-cell">
                                                                 {item?.cid || "Không có"}
                                                             </td>
-                                                            <td className="text-start px-1 py-3">
+                                                            <td className="text-start px-1 py-3 d-none d-lg-table-cell">
                                                                 <Status data={item?.status} />
                                                             </td>
                                                             <td className="px-1 py-3">

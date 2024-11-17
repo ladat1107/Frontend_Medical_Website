@@ -3,6 +3,11 @@
 .admin-content {
     .content-data {
         min-height: 80vh;
+        background: $background-color;
+    }
+
+    .ant-space-item {
+        cursor: pointer;
     }
 
     span {

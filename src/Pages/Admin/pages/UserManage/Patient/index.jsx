@@ -118,15 +118,15 @@ const PatientManage = () => {
                     </div>
                     <div className='table-responsive bg-white'>
                         <div className='table-head d-flex align-items-center'>
-                            <Input className='w-25 my-3 ms-4' size="large" placeholder="Tìm nhân viên" prefix={<SearchOutlined />}
+                            <Input className='w-25 my-3 ms-4' size="large" placeholder="Tìm bệnh nhân" prefix={<SearchOutlined />}
                                 value={search}
                                 onChange={(event) => { handleChangeSearch(event) }} />
                         </div>
                         <div className="px-4">
-                            <table className="w-100 text-start">
-                                <thead className="text-start text-uppercase text-secondary row-1">
+                            <table className="w-100">
+                                <thead className="header">
                                     <tr>
-                                        <th scope="col" className="p-1 ">
+                                        <th scope="col" className="rounded-top-left">
                                             <div className="">
                                                 <Checkbox
                                                     checked={checkAll}
@@ -135,22 +135,22 @@ const PatientManage = () => {
                                                 />
                                             </div>
                                         </th>
-                                        <th scope="col" className="text-start ps-2 py-0 name">
+                                        <th scope="col" className="text-center ps-2 py-0 name">
                                             Họ và tên
                                         </th>
-                                        <th scope="col" className="text-start px-2 py-0">
+                                        <th scope="col" className="text-center px-2 py-0">
                                             Chức vụ
                                         </th>
-                                        <th scope="col" className="text-start px-1 py-0">
+                                        <th scope="col" className="text-center px-1 py-0">
                                             Số điện thoại
                                         </th>
-                                        <th scope="col" className="text-start px-1 py-0">
+                                        <th scope="col" className="text-center px-1 py-0">
                                             CCCD
                                         </th>
-                                        <th scope="col" className="text-start px-1 py-0">
+                                        <th scope="col" className="text-center px-1 py-0">
                                             Trạng thái
                                         </th>
-                                        <th scope="col" className="text-start px-1 py-0">
+                                        <th scope="col" className="rounded-top-right px-1 py-0">
 
                                         </th>
                                     </tr>
@@ -161,9 +161,9 @@ const PatientManage = () => {
                                             {
                                                 listUser.map((item, index) => {
                                                     return (
-                                                        <tr key={index} className="bg-white border-b text-start">
+                                                        <tr key={index} className="bg-white border-b">
                                                             <td>
-                                                                <div className="flex">
+                                                                <div className="">
                                                                     <Checkbox
                                                                         checked={item.checked}
                                                                         onChange={() => { handleChange(item, index) }}
@@ -177,16 +177,16 @@ const PatientManage = () => {
                                                                     <div className="fw-normal">{item.email}</div>
                                                                 </div>
                                                             </th>
-                                                            <td className="text-start px-2 py-3">
+                                                            <td className="text-center px-2 py-3">
                                                                 {item?.userRoleData?.name || "Khác"}
                                                             </td>
-                                                            <td className="text-start px-1 py-3">
+                                                            <td className="text-center px-1 py-3">
                                                                 {item?.phoneNumber || "Không có"}
                                                             </td>
-                                                            <td className="text-start px-1 py-3">
+                                                            <td className="text-center px-1 py-3">
                                                                 {item?.cid || "Không có"}
                                                             </td>
-                                                            <td className="text-start px-1 py-3">
+                                                            <td className="text-center px-1 py-3">
                                                                 <Status data={item?.status} />
                                                             </td>
                                                             <td className="px-6 py-4">

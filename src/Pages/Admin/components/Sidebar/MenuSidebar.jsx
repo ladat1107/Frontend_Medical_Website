@@ -24,7 +24,13 @@ const MenuSidebar = () => {
     const items = [
         {
             type: 'divider',
-        }, {
+        },
+        {
+            key: 'sub1',
+            label: (<NavLink to={PATHS.ADMIN.DASHBOARD}>Trang chủ</NavLink>),
+            icon: <HomeOutlined />,
+        },
+        {
             key: 'sub2',
             label: (<NavLink to={PATHS.ADMIN.PROFILE}>Cá nhân</NavLink>),
             icon: <FontAwesomeIcon icon={faAddressCard} />,
@@ -48,11 +54,7 @@ const MenuSidebar = () => {
                 }] : [])
             ],
         },
-        {
-            key: 'sub1',
-            label: (<NavLink to={PATHS.ADMIN.DASHBOARD}>Trang chủ</NavLink>),
-            icon: <HomeOutlined />,
-        },
+
         {
             key: 'user',
             label: (<NavLink to={PATHS.ADMIN.STAFF_MANAGE}>Người dùng</NavLink>),

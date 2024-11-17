@@ -3,7 +3,7 @@ import { Dropdown, Space } from 'antd';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
 import { STAFF_ROLE } from '@/constant/role';
-
+import './StaffManage.scss';
 const DropdownPosition = ({ onChange }) => {
     let items = [{ label: "Tất cả", value: 0, onClick: () => { handleChangePosition(0) } }];
     for (let i = 0; i < STAFF_ROLE.length; i++) {
@@ -30,9 +30,9 @@ const DropdownPosition = ({ onChange }) => {
             }}
             trigger={['click']}
             overlayClassName="dropdownPosition"
-            placement="bottomRight">
+            placement="bottom">
             <Space>
-                <FontAwesomeIcon className='ms-1' icon={faChevronDown} size='xs' />
+                <FontAwesomeIcon className='ps-1' icon={faChevronDown} size='xs' />
             </Space>
         </Dropdown>
     );

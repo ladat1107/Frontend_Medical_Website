@@ -2,7 +2,6 @@ import React, { useContext } from 'react';
 import { Layout } from 'antd';
 import './Sidebar.scss';
 import MenuSidebar from './MenuSidebar';
-import DropdownProfile from '../Dropdown/DropdownProfile';
 import { AuthenContext } from '@/contexts/AuthenContext';
 import { ALL_ROLE } from '@/constant/role';
 
@@ -41,7 +40,6 @@ const Sidebar = (props) => {
                     <div className='col-8 py-2 ms-1'>
                         <div className='d-flex justify-content-between'>
                             <span><b>{user?.lastName + " " + user?.firstName}</b></span>
-                            <DropdownProfile />
                         </div>
                         <div>
                             {role?.label}

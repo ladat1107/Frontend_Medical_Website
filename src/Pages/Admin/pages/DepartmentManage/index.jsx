@@ -120,18 +120,18 @@ const DepartmentManage = () => {
                         refresh={refresh} />}
                 </div>
 
-                <div className="table-department bg-white ">
-                    <div className="table-head">
+                <div className="department bg-white ">
+                    <div className="head">
                         <Input placeholder="Tìm kiếm" prefix={<SearchOutlined />} className="ms-4 my-3 w-25"
                             value={search}
                             onChange={(event) => { handleChangeSearch(event) }} />
                     </div>
-                    <div className="table-body px-4">
-                        <table className="table">
-                            <thead className="text-uppercase text-secondary row-1">
+                    <div className="px-4">
+                        <table className="w-100">
+                            <thead className="header">
                                 <tr>
-                                    <th scope="col">
-                                        <div className="flex items-center">
+                                    <th scope="col" className="rounded-top-left">
+                                        <div className="p-2">
                                             <Checkbox
                                                 checked={checkAll}
                                                 onChange={() => { handleChangeSelectedAll() }}
@@ -139,23 +139,23 @@ const DepartmentManage = () => {
                                             />
                                         </div>
                                     </th>
-                                    <th scope="col" className="text-secondary px-1">Khoa</th>
-                                    <th scope="col" className="text-secondary px-1">Trưởng khoa</th>
-                                    <th scope="col" className="text-secondary text-center px-1 ">Nhân viên</th>
-                                    <th scope="col" className="text-secondary px-1 ">Số phòng</th>
-                                    <th scope="col" className="text-secondary px-1 d-none d-lg-table-cell">Vị trí</th>
-                                    <th scope="col" className="text-secondary text-center px-1 d-none d-lg-table-cell">Trạng thái</th>
-                                    <th scope="col" className="text-secondary px-1"></th>
+                                    <th scope="col" className=" px-1">Khoa</th>
+                                    <th scope="col" className=" px-1">Trưởng khoa</th>
+                                    <th scope="col" className=" text-center px-1 ">Nhân viên</th>
+                                    <th scope="col" className=" px-1 ">Số phòng</th>
+                                    <th scope="col" className=" px-1 d-none d-lg-table-cell">Vị trí</th>
+                                    <th scope="col" className=" text-center px-1 d-none d-lg-table-cell">Trạng thái</th>
+                                    <th scope="col" className="rounded-top-right px-1"></th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody className="table-body">
                                 {+listDepartment.length > 0 && +totalPages != 0 ?
                                     <>
                                         {
                                             listDepartment.map((item, index) => {
                                                 return (
                                                     <tr key={index} className="text-start">
-                                                        <td className="p-2 ">
+                                                        <td className="p-2">
                                                             <div className="d-flex align-items-center">
                                                                 <Checkbox
                                                                     checked={item.checked}
@@ -164,7 +164,7 @@ const DepartmentManage = () => {
                                                                 />
                                                             </div>
                                                         </td>
-                                                        <td className="text-start px-1 py-2 text-uppercase">
+                                                        <td className="text-start px-1 py-2 name">
                                                             {item?.name || "Khác"}
                                                         </td>
                                                         <td scope="row" className="px-1 py-2 ps-1 dead ">

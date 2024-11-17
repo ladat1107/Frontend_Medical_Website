@@ -5,7 +5,6 @@
     background: white;
 
     .header-sideBar {
-
         width: 100%;
         height: 100%;
 
@@ -21,25 +20,28 @@
         }
     }
 
-    .menu-item {
-        span {
-            font-size: 1.1rem;
-            color: #262626;
-        }
+    // .menu-item {
+    //     span {
+    //         font-size: 1em;
+    //         // color: #262626;
+    //     }
 
-    }
+    // }
 
     a {
         text-decoration: none;
-        font-size: 1.1rem;
+        font-size: 1em;
+        font-weight: 400;
         color: #262626;
 
         &:hover {
             text-decoration: none;
+            color: $primary-color;
         }
 
         &:focus {
             text-decoration: none;
+            color: $primary-color;
         }
     }
 }

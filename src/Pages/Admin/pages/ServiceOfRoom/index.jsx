@@ -275,14 +275,6 @@ const ServiceOfRoom = () => {
                                                                         {item?.description || "Chưa có mô tả"}
                                                                     </div>
                                                                 </td>
-                                                                {/* <td className="text-start px-1 py-3 status">
-                                                                    <div className="status">
-                                                                        {+item?.status === 1 ? <>
-                                                                            <span className="pe-2"><FontAwesomeIcon icon={faCircle} beatFade size="2xs" style={{ color: "#04a9f3", }} /></span>Hoạt động
-                                                                        </> : <>
-                                                                            <span className="pe-2"><FontAwesomeIcon icon={faCircle} size="2xs" style={{ color: "#ec3609", }} /></span>Khóa</>}
-                                                                    </div>
-                                                                </td> */}
                                                                 <td className="text-center px-1 py-3">
                                                                     <Status data={item?.status} />
                                                                 </td>
