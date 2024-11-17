@@ -72,7 +72,7 @@ const SliderComponent = ({ type = "service", numberShow = 6, autoplayProps, dot 
             );
           }else if(type === 'doctor') {
                  return (
-                    <DoctorCard/>
+                    <DoctorCard doctor={item}/>
                  )
           }else if (type === 'colab'){
             return (

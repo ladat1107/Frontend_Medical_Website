@@ -1,4 +1,4 @@
-import "./App.css";
+// import "./App.css";
 import MainLayout from "./layouts/MainLayout";
 import ContactPage from "./pages/Contact/index";
 import AdminHomePage from "./pages/Admin/pages/HomePage";

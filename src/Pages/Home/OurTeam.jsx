@@ -11,16 +11,21 @@ const cx = classNames.bind(styles);
 
 const OurTeam = () => {
 
-    // const {
-    //   data : dotorData,
-    //   error : doctorError
-    // } = useQuery(() => userService)
+    const {
+      data : doctorData,
+      error : doctorError
+    } = useQuery(() => userService.getDoctor())
+
+      
+    const listDoctor = doctorData?.DT || [];
+
+
   return (
     <div className={cx('ourTeam')} >
         <h3 className={cx('ourTeam-title', "title-section")} >
             ĐỘI NGŨ BÁC SĨ
         </h3>
-        <div className={cx('wrapper')} ><SliderComponent type='doctor' numberShow = {4} dot={false} /></div>
+        <div className={cx('wrapper')} ><SliderComponent type='doctor' numberShow = {4} dot={false} listData={listDoctor} /></div>
 
     </div>
   )
