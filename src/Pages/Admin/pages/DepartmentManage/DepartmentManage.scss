@@ -16,7 +16,7 @@
         .first {
             .text {
                 font-size: 1.2rem;
-                color: $secondary-color;
+                color: $secondary-color-admin;
             }
 
             .btn-add-department {
@@ -78,7 +78,7 @@
 
         .insert-department {
             border-radius: 10px;
-            box-shadow: $box-shadow-content;
+            box-shadow: $box-shadow-content-admin;
             background: white;
             margin-bottom: 1rem;
 
@@ -143,13 +143,13 @@
         .department {
             border-radius: 10px;
             width: 100%;
-            box-shadow: $box-shadow-content;
+            box-shadow: $box-shadow-content-admin;
 
             .header {
                 width: 100%;
                 height: 50px;
-                background: $background-table-head;
-                color: $text-head-color;
+                background: $background-table-head-admin;
+                color: $text-head-color-admin;
 
                 .rounded-top-left {
                     border-top-left-radius: 5px;
