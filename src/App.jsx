@@ -27,11 +27,12 @@ function App() {
 
   return (
     <Routes>
-      <Route path={PATHS.HOME.LOGIN} element={<Login />} />
+
       <Route element={<MainLayout />}>
         <Route index element={<HomePage />} />
         <Route path='/contact' element={<ContactPage />} />
       </Route>
+      <Route path={PATHS.HOME.LOGIN} element={<Login />} />
       <Route element={<PrivateRoute />}>
         <Route element={<AdminLayoutTest />}>
           <Route path={PATHS.ADMIN.DASHBOARD} element={<AdminHomePage />} />
