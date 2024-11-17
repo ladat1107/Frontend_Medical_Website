@@ -1,4 +1,4 @@
-import { useAuthenContext } from "@/contexts/AuthenContext";
+
 import SvgIcon from "../SvgIcon";
 import classNames from "classnames/bind";
 import styles from "./header.module.scss";
@@ -7,13 +7,6 @@ import Dropdown from "../Dropdown";
 const cx = classNames.bind(styles);
 
 function Header() {
-  // const { handleLogout, handleLogin, handleShowModal, handleModalClose } =
-  //   useAuthenContext();
-  // const isAuthenticated = false;
-  let isAuthenticated = false;
-  const handleLogout = () => { };
-  const handleShowModal = () => { };
-
   // language
   const items = [
     { title: "Home", icon: <SvgIcon name="tiktok" /> },
@@ -106,8 +99,8 @@ function Header() {
             </div>
 
             <div className={cx("auth")}>
-              <div className={cx("account-btn","header-text")}>Đăng nhập</div>
-              <div className={cx("account-btn","header-text")}>Đăng ký</div>
+              <div className={cx("account-btn", "header-text")}>Đăng nhập</div>
+              <div className={cx("account-btn", "header-text")}>Đăng ký</div>
 
               <div className={cx("language")}>
                 <Dropdown title="Language" items={items} />
@@ -123,12 +116,12 @@ function Header() {
               />
               <div className={cx("hotline-text")}>
                 <p className="header-text" > Ho Tro Dat Kham</p>
-                <p style={{fontSize:"24px", color:"#ffb54a"}} >0353366459</p>
+                <p style={{ fontSize: "24px", color: "#ffb54a" }} >0353366459</p>
               </div>
             </div>
             <div className={cx("nav")}>
               {navMenu.map((item, index) => {
-                return <Dropdown title={item.title}  items={item.inner} key={index} />;
+                return <Dropdown title={item.title} items={item.inner} key={index} />;
               })}
             </div>
           </div>

@@ -4,7 +4,6 @@ import { getTimeSlotById } from "@/utils/formatTimeSlots";
 import { convertDateTime } from "@/utils/formatDate";
 import {convertStartDateToTimestamp, convertEndDateToTimestamp} from "@/utils/convertToTimestamp";
 import SearchBar from "@/components/Search";
-import SelectBox from "@/pages/Doctor/components/Combobox";
 import CustomDatePicker from "@/components/DatePicker";
 import "./Appointment.scss";
 import { useMutation } from "@/hooks/useMutation";
