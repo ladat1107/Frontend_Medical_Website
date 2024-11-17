@@ -1,34 +1,86 @@
 import React from 'react';
-import './footer.scss'; // Đảm bảo bạn đã import file CSS
+import './footer.scss';  
 
 const Footer = () => {
   return (
     <footer className="footer">
       <div className="footer-container">
-        <div className="footer-section">
-          <h3>Thông tin liên hệ</h3>
-          <p><strong>Địa chỉ:</strong> 123 Đường Y tế, Quận 1, Thành phố Hồ Chí Minh</p>
-          <p><strong>Điện thoại:</strong> (028) 1234 5678</p>
-          <p><strong>Email:</strong> contact@hospital.com</p>
+        <div className="footer-left">
+          <img
+            src="https://medpro.vn/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Flogo.d646d4b8.svg&w=1920&q=75" 
+            alt="Logo"
+            className="footer-logo"
+          />
         </div>
-        <div className="footer-section">
-          <h3>Liên kết nhanh</h3>
-          <ul>
-            <li><a href="#about">Giới thiệu</a></li>
-            <li><a href="#services">Dịch vụ</a></li>
-            <li><a href="#contact">Liên hệ</a></li>
-            <li><a href="#faq">Câu hỏi thường gặp</a></li>
-          </ul>
+        <div className="footer-right">
+          <div className="footer-section">
+            <h4>Dịch vụ Y tế</h4>
+            <ul>
+              <li>Đặt khám tại cơ sở</li>
+              <li>Đặt khám theo bác sĩ</li>
+              <li>Tư vấn khám bệnh qua video</li>
+              <li>Đặt lịch xét nghiệm</li>
+              <li>Gói khám sức khỏe</li>
+              <li>Đặt lịch tiêm chủng</li>
+              <li>Y tế tại nhà</li>
+              <li>Thanh toán Viện phí</li>
+            </ul>
+          </div>
+          <div className="footer-section">
+            <h4>Cơ sở y tế</h4>
+            <ul>
+              <li>Bệnh viện công</li>
+              <li>Bệnh viện tư</li>
+              <li>Phòng khám</li>
+              <li>Phòng mạch</li>
+              <li>Xét nghiệm</li>
+              <li>Y tế tại nhà</li>
+              <li>Tiêm chủng</li>
+            </ul>
+          </div>
+          <div className="footer-section">
+            <h4>Hướng dẫn</h4>
+            <ul>
+              <li>Cài đặt ứng dụng</li>
+              <li>Đặt lịch khám</li>
+              <li>Tư vấn khám bệnh qua video</li>
+              <li>Quy trình hoàn phí</li>
+              <li>Câu hỏi thường gặp</li>
+              <li>Quy trình đi khám</li>
+            </ul>
+          </div>
+          <div className="footer-section">
+            <h4>Liên hệ hợp tác</h4>
+            <ul>
+              <li>Tham gia Medpro</li>
+              <li>Khám sức khỏe doanh nghiệp</li>
+              <li>Quảng cáo</li>
+              <li>Tuyển Dụng</li>
+             
+            </ul>
+          </div>
+          <div className="footer-section">
+            <h4>Tin tức </h4>
+            <ul>
+            
+              <li>Tin tức</li>
+              <li>Tin dịch vụ</li>
+              <li>Tin Y Tế</li>
+              <li>Y Học thường thức</li>
+             
+            </ul>
+          </div>
+          <div className="footer-section">
+            <h4>Về Medpro</h4>
+            <ul>
+              <li>Về Medpro</li>
+              <li>Giới thiệu</li>
+              <li>Điều khoản dịch vụ</li>
+              <li>Chính sách bảo mật</li>
+              <li>Quy định sử dụng</li>
+            </ul>
+          </div>
         </div>
-        <div className="footer-section">
-          <h3>Giờ làm việc</h3>
-          <p>Thứ 2 - Thứ 6: 8:00 AM - 5:00 PM</p>
-          <p>Thứ 7: 8:00 AM - 12:00 PM</p>
-          <p>Chủ nhật: Nghỉ</p>
-        </div>
-      </div>
-      <div className="footer-bottom">
-        <p>&copy; {new Date().getFullYear()} Bệnh viện ABC. All rights reserved.</p>
       </div>
     </footer>
   );

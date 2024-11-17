@@ -4,6 +4,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import App from "./App.jsx";
 import { AuthenProvider } from "./contexts/AuthenContext";
+import './style/main.scss';
 import { BrowserRouter } from "react-router-dom";
 ReactDOM.createRoot(document.getElementById("root")).render(
   // <React.StrictMode>

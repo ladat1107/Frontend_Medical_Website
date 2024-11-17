@@ -1,0 +1,32 @@
+.departmentCard {
+  max-width: 300px;
+  padding: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0.1, 0.2, 0.3);
+  border-radius: 15px;
+  margin: 0 10px;
+  background-color: white;
+  img {
+    width: 50%;
+    margin: 30px auto;
+  }
+  .departmentCard-title {
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  .departmentCard-btn {
+    width: 100%;
+    border: solid 1px #00b5f1;
+    margin-top: 20px;
+    padding: 5px 0;
+    text-align: center;
+    border-radius: 10px;
+    background-color: #00b5f1;
+    color: white;
+    cursor: pointer;
+    transition: all 0.3s ease-in;
+    &:hover {
+      background-color: white;
+      color: #00b5f1;
+    }
+  }
+}
