@@ -1,6 +1,8 @@
 @import "../../style/variables.scss";
 
 .admin-content {
+    position: relative;
+
     .content-data {
         min-height: 80vh;
         background: $background-color;

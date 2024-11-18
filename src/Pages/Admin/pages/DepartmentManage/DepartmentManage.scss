@@ -136,6 +136,15 @@
                         }
                     }
                 }
+
+                .editor-container {
+
+                    .section-container,
+                    .input {
+                        position: relative;
+                        z-index: 0;
+                    }
+                }
             }
 
         }

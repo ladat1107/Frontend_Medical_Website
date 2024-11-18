@@ -57,7 +57,7 @@ function App() {
           <Route path={PATHS.STAFF.SCHEDULE} element={<Schedule />} />
           <Route path={PATHS.ADMIN.PROFILE} element={<Profile />} />
         </Route>
-        <Route element={<ReceptionistLayout/>}>
+        <Route element={<ReceptionistLayout />}>
           <Route path={PATHS.RECEPTIONIST.DASHBOARD} element={<ReceptionistDashboard />} />
         </Route>
       </Route> */}

@@ -9,9 +9,11 @@ import emitter from '@/utils/eventEmitter';
 import { EMIT } from '@/constant/value';
 import { AuthenContext } from '@/contexts/AuthenContext';
 import "./Sidebar.scss";
+import { backgroundColor } from '@/style/variables';
 const MenuSidebar = () => {
     let { user } = useContext(AuthenContext);
     const [openKeys, setOpenKeys] = useState([]);
+    const [selectedKeys, setSelectedKeys] = useState("sub2");
 
     const handleOpenChange = (keys) => {
         const latestOpenKey = keys.find(key => openKeys.indexOf(key) === -1);
@@ -32,8 +34,8 @@ const MenuSidebar = () => {
         },
         {
             key: 'sub2',
-            label: (<NavLink to={PATHS.ADMIN.PROFILE}>Cá nhân</NavLink>),
-            icon: <FontAwesomeIcon icon={faAddressCard} />,
+            label: (<NavLink style={{ color: selectedKeys === "sub2" ? "red" : "" }} to={PATHS.ADMIN.PROFILE}>Cá nhân</NavLink>),
+            icon: <FontAwesomeIcon style={{ color: selectedKeys === "sub2" ? "red" : "" }} icon={faAddressCard} />,
             children: [
                 {
                     key: 'personal1',
@@ -53,6 +55,7 @@ const MenuSidebar = () => {
                     }
                 }] : [])
             ],
+            backgroundColor: "red"
         },
 
         {
@@ -63,6 +66,7 @@ const MenuSidebar = () => {
                 {
                     key: 'user1',
                     label: (<NavLink to={PATHS.ADMIN.STAFF_MANAGE}>Nhân viên</NavLink>),
+                    onClick: (value) => { console.log(value) }
                 },
                 {
                     key: 'user2',
@@ -103,8 +107,6 @@ const MenuSidebar = () => {
     return (
         <div className='menu-item'>
             <Menu
-                defaultSelectedKeys={['1']}
-                defaultOpenKeys={['sub1']}
                 openKeys={openKeys} // Truyền state openKeys vào
                 onOpenChange={handleOpenChange}
                 mode="inline"
