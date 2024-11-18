@@ -174,12 +174,9 @@
             }
 
             .table-body {
-
                 tr {
                     background: white;
                     border-bottom: 1px solid #c8c8c8 !important;
-
-
 
                     td {
                         border-bottom: none !important;
@@ -190,32 +187,37 @@
                             white-space: nowrap;
                             overflow: hidden;
                             text-overflow: ellipsis;
+
+                        }
+
+                        .text {
+                            font-weight: 500;
+                            text-transform: uppercase;
+                            color: $secondary-color-admin;
+                            letter-spacing: 0.02em;
+                        }
+
+                        .depar {
+                            .text-up {
+                                font-weight: 400;
+                            }
+
+                            .text-down {
+                                margin-top: 3px;
+                                font-size: 0.9em;
+                                font-style: italic;
+                            }
                         }
                     }
 
                     &:hover {
                         td {
-                            background: #ebecee !important;
+                            background: $hover-color-admin;
                         }
 
-                        background: #ebecee !important;
+                        background:$hover-color-admin;
                     }
                 }
-
-                .dead {
-                    .rounder {
-                        border-radius: 5px;
-                        background-color: white;
-                        border: 1px solid #04a9f3;
-                        color: #04a9f3;
-                        padding: 2px 4px;
-                        font-size: 10px;
-                    }
-                }
-
-
-
-
             }
 
             .footer-table {

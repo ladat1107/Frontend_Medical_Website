@@ -165,20 +165,17 @@ const DepartmentManage = () => {
                                                             </div>
                                                         </td>
                                                         <td className="text-start px-1 py-2 name">
-                                                            {item?.name || "Khác"}
+                                                            <div className="text"> {item?.name || "Khác"}</div>
                                                         </td>
-                                                        <td scope="row" className="px-1 py-2 ps-1 dead ">
-                                                            <div className=" ">
-                                                                {item?.deanDepartmentData?.staffUserData.lastName ?
-                                                                    <div className="">
-                                                                        <div><b>{item?.deanDepartmentData?.staffUserData?.lastName + " " + item?.deanDepartmentData?.staffUserData?.firstName}</b></div>
-                                                                        <div>{item?.deanDepartmentData?.staffUserData?.email}</div>
-                                                                    </div>
-
-                                                                    :
-                                                                    <div><span className="rounder">Trống</span></div>
-                                                                }
-                                                            </div>
+                                                        <td scope="row" className="px-1 py-2 ps-1">
+                                                            {item?.deanDepartmentData?.staffUserData.lastName ?
+                                                                <div className="depar">
+                                                                    <div className="text-up">{item?.deanDepartmentData?.staffUserData?.lastName + " " + item?.deanDepartmentData?.staffUserData?.firstName}</div>
+                                                                    <div className="text-down">{item?.deanDepartmentData?.staffUserData?.email}</div>
+                                                                </div>
+                                                                :
+                                                                <div><span>_</span></div>
+                                                            }
                                                         </td>
                                                         <td className="text-center px-1 py-2">
                                                             <div className="fw-normal"><b>{item?.staffQuantity || "0"}</b></div>

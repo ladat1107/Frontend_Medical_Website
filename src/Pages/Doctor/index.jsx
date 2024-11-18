@@ -42,7 +42,7 @@ const DoctorLayout = () => {
                                 style={{
                                     margin: '24px 16px 0',
                                     borderRadius: borderRadiusLG,
-                                    backgroundColor: colorBgContainer,
+                                    backgroundcolor: colorBgContainer,
                                 }}>
                                 <Outlet />
                             </Content>

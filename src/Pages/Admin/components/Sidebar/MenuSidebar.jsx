@@ -9,7 +9,7 @@ import emitter from '@/utils/eventEmitter';
 import { EMIT } from '@/constant/value';
 import { AuthenContext } from '@/contexts/AuthenContext';
 import "./Sidebar.scss";
-import { backgroundColor } from '@/style/variables';
+import { backgroundColorAdmin } from '@/style/variables';
 const MenuSidebar = () => {
     let { user } = useContext(AuthenContext);
     const [openKeys, setOpenKeys] = useState([]);
@@ -55,7 +55,7 @@ const MenuSidebar = () => {
                     }
                 }] : [])
             ],
-            backgroundColor: "red"
+            backgroundcolor: "red"
         },
 
         {

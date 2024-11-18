@@ -155,7 +155,7 @@ const PatientManage = () => {
                                         </th>
                                     </tr>
                                 </thead>
-                                <tbody className='table-body text-secondary'>
+                                <tbody className='table-body'>
                                     {+listUser.length > 0 && +totalPages != 0 ?
                                         <>
                                             {
@@ -170,9 +170,9 @@ const PatientManage = () => {
                                                                         size="small"
                                                                     /></div>
                                                             </td>
-                                                            <th scope="row" className="d-flex justify-content-start ps-2 py-3 min-content-width g-0">
+                                                            <th scope="row" className="ps-2 py-3 min-content-width g-0">
                                                                 <img className="image" src={item.avatar || LINK.AVATAR_NULL} alt="Jese image" />
-                                                                <div className="ps-1 email ">
+                                                                <div className="ps-2 email ">
                                                                     <div className="fw-semibold">{item.lastName + " " + item.firstName}</div>
                                                                     <div className="fw-normal">{item.email}</div>
                                                                 </div>

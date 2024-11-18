@@ -1,6 +1,7 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { SearchOutlined } from "@ant-design/icons";
 import "./Room.scss";
+import { primaryColorAdmin } from "@/style/variables";
 import { faBed, faPlus, faRotateRight } from "@fortawesome/free-solid-svg-icons";
 import InsertRoom from "./InsertRoom";
 import { useEffect, useState } from "react";
@@ -153,17 +154,17 @@ const Room = () => {
                     />}
                 </div>
                 <div className="table-room bg-white ">
-                    <div className="table-head">
+                    <div>
                         <Input placeholder="Tìm kiếm" prefix={<SearchOutlined />} className="ms-4 my-3 w-25"
                             value={search}
                             onChange={(event) => { handleChangeSearch(event) }} />
                     </div>
-                    <div className="table-body px-4">
-                        <table className="table">
-                            <thead className="text-uppercase text-secondary row-1">
+                    <div className="px-4">
+                        <table className="w-100">
+                            <thead className="header">
                                 <tr>
-                                    <th scope="col">
-                                        <div className="flex items-center">
+                                    <th scope="col" className="rounded-top-left p-2">
+                                        <div>
                                             <Checkbox
                                                 checked={checkAll}
                                                 onChange={() => { handleChangeSelectedAll() }}
@@ -171,17 +172,17 @@ const Room = () => {
                                             />
                                         </div>
                                     </th>
-                                    <th scope="col" className="text-secondary px-1">Tên phòng</th>
-                                    <th scope="col" className="text-secondary px-1"><div>Khoa  <DropdownDepartment
+                                    <th scope="col" className=" px-1">Tên phòng</th>
+                                    <th scope="col" className=" px-1"><div>Khoa  <DropdownDepartment
                                         departments={departments}
                                         change={handleChangeDepartment} />
                                     </div></th>
-                                    <th scope="col" className="text-secondary px-1 text-center">Giường</th>
-                                    <th scope="col" className="text-secondary ps-5">Trạng thái</th>
-                                    <th scope="col" className="text-secondary px-1"></th>
+                                    <th scope="col" className=" px-1 text-center">Giường trống</th>
+                                    <th scope="col" className="text-center ps-5">Trạng thái</th>
+                                    <th scope="col" className="rounded-top-right px-1"></th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody className="table-body ">
                                 {+listRoom.length > 0 && +totalPages != 0 ?
                                     <>
                                         {
@@ -199,10 +200,9 @@ const Room = () => {
                                                             ))}
                                                         title="Dịch vụ"
                                                     >
-                                                        <tr className="text-start">
-
-                                                            <td className="p-2 d-flex align-items-center">
-                                                                <div className="">
+                                                        <tr>
+                                                            <td className="p-2">
+                                                                <div>
                                                                     <Checkbox
                                                                         checked={item.checked}
                                                                         onChange={() => { handleChange(item, index) }}
@@ -217,13 +217,13 @@ const Room = () => {
                                                             </td>
                                                             <td className="text-center px-1 py-2">
                                                                 {item.bedQuantity > 0 ?
-                                                                    <div className="fw-normal"><FontAwesomeIcon className="me-2" icon={faBed} style={{ color: "#336bad", }} /> <b>{item?.bedBusy || 0}</b> / {item?.bedQuantity || 0}</div>
+                                                                    <div className="fw-normal"><b style={{ color: primaryColorAdmin }}>{item?.bedBusy || 0}</b> / {item?.bedQuantity || 0}</div>
                                                                     :
                                                                     <div>
                                                                         -
                                                                     </div>}
                                                             </td>
-                                                            <td className=" ps-5 py-2">
+                                                            <td className="text-center ps-5 py-2">
                                                                 <Status data={item?.status} />
                                                             </td>
                                                             <td className="px-1 py-2 d-flex justify-content-end">
@@ -252,7 +252,7 @@ const Room = () => {
 
                             </tbody>
                         </table>
-                        <div className='footer-table d-flex justify-content-end mx-2'>
+                        <div className='footer-table d-flex justify-content-end mx-2 mt-3'>
                             <div className='select-page'>
                                 <DropdownPaginate page={rowsPerPage}
                                     setPage={handleChangePaginate} />
