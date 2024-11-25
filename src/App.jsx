@@ -25,6 +25,7 @@ import { PATHS } from "./constant/path";
 import ReceptionistLayout from "./pages/Receptionist";
 import ReceptionistDashboard from "./pages/Receptionist/components/Dashboard";
 import ProfileAdmin from "./pages/Admin/pages/ProfileAdmin";
+import DoctorDetail from "./Pages/User/pages/DoctorDetail";
 function App() {
 
   return (
@@ -32,10 +33,11 @@ function App() {
 
       <Route element={<MainLayout />}>
         <Route index element={<HomePage />} />
-        <Route path='/contact' element={<ContactPage />} />
+        <Route path='/doctor-detail' element={<DoctorDetail/>} />
+        {/* <Route path='/doctor-detail' element={<ContactPage />} /> */}
       </Route>
-      <Route path={PATHS.HOME.LOGIN} element={<Login />} />
-      <Route element={<PrivateRoute />}>
+      {/* <Route path={PATHS.HOME.LOGIN} element={<Login />} /> */}
+      {/* <Route element={<PrivateRoute />}>
         <Route element={<AdminLayoutTest />}>
           <Route path={PATHS.ADMIN.DASHBOARD} element={<AdminHomePage />} />
           <Route path={PATHS.ADMIN.PATIENT_MANAGE} element={<PatientManage />} />
@@ -58,7 +60,7 @@ function App() {
         <Route element={<ReceptionistLayout/>}>
           <Route path={PATHS.RECEPTIONIST.DASHBOARD} element={<ReceptionistDashboard />} />
         </Route>
-      </Route>
+      </Route> */}
     </Routes>
   );
 }

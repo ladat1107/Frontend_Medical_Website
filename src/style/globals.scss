@@ -51,6 +51,11 @@ a {
 ul[role='list'],
 ol[role='list'] {
   list-style: none;
+ 
+}
+ul{
+  padding: 0;
+  margin: 0;  
 }
 
 table {
