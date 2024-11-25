@@ -15,7 +15,6 @@ import "./StaffManage.scss";
 import { Input } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
 import Status from '@/pages/Admin/components/Status';
-import { set } from 'lodash';
 
 const StaffManage = () => {
     let [currentPage, setCurrentPage] = useState(1);

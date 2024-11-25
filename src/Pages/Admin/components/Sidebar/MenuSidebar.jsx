@@ -10,8 +10,9 @@ import { EMIT } from '@/constant/value';
 import { AuthenContext } from '@/contexts/AuthenContext';
 import "./Sidebar.scss";
 import { backgroundColorAdmin } from '@/style/variables';
+import { faArrowRightFromBracket, faBookMedical } from '@fortawesome/free-solid-svg-icons';
 const MenuSidebar = () => {
-    let { user } = useContext(AuthenContext);
+    let { user, logout } = useContext(AuthenContext);
     const [openKeys, setOpenKeys] = useState([]);
     const [selectedKeys, setSelectedKeys] = useState("sub2");
 
@@ -100,7 +101,18 @@ const MenuSidebar = () => {
             ],
         },
         {
+            key: 'handbookAdmiin',
+            label: (<NavLink to={PATHS.ADMIN.HANDBOOK_MANAGE}>Cẩm nang sức khỏe</NavLink>),
+            icon: <FontAwesomeIcon icon={faBookMedical} />,
+        },
+        {
             type: 'divider',
+        },
+        {
+            key: 'logout',
+            label: ("Đăng xuất"),
+            icon: <FontAwesomeIcon icon={faArrowRightFromBracket} rotation={180} />,
+            onClick: () => { logout() }
         },
     ];
 

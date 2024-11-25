@@ -26,11 +26,13 @@ import ReceptionistLayout from "./pages/Receptionist";
 import ReceptionistDashboard from "./pages/Receptionist/components/Dashboard";
 import ProfileAdmin from "./pages/Admin/pages/ProfileAdmin";
 import DoctorDetail from "./Pages/User/pages/DoctorDetail";
+import ProfileStaff from "./pages/Doctor/pages/ProfileStaff";
+import HandbookAdmin from "./pages/Admin/pages/HandbookAdmin";
+import HandbookAdminDetail from "./pages/Admin/pages/HandbookAdmin/Detail";
 function App() {
 
   return (
     <Routes>
-
       <Route element={<MainLayout />}>
         <Route index element={<HomePage />} />
         <Route path='/doctor-detail' element={<DoctorDetail/>} />
@@ -47,6 +49,8 @@ function App() {
           <Route path={PATHS.ADMIN.SERVICE_MANAGE} element={<ServiceOfRoom />} />
           <Route path={PATHS.ADMIN.SPECIALTY_MANAGE} element={<Specialty />} />
           <Route path={PATHS.ADMIN.PROFILE} element={<ProfileAdmin />} />
+          <Route path={PATHS.ADMIN.HANDBOOK_MANAGE} element={<HandbookAdmin />} />
+          <Route path={`${PATHS.ADMIN.HANDBOOK_DETAIL}/:id`} element={<HandbookAdminDetail />} />
         </Route>
         <Route element={<DoctorLayout />}>
           <Route path={PATHS.STAFF.DASHBOARD} element={<DoctorHomePage />} />
@@ -55,7 +59,7 @@ function App() {
           <Route path={PATHS.STAFF.HANDBOOK} element={<Handbook />} />
           <Route path={PATHS.STAFF.INFO_HANDBOOK} element={<InfoHandbook />} />
           <Route path={PATHS.STAFF.SCHEDULE} element={<Schedule />} />
-          <Route path={PATHS.ADMIN.PROFILE} element={<Profile />} />
+          <Route path={PATHS.STAFF.PROFILE} element={<ProfileStaff />} />
         </Route>
         <Route element={<ReceptionistLayout />}>
           <Route path={PATHS.RECEPTIONIST.DASHBOARD} element={<ReceptionistDashboard />} />

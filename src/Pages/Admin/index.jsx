@@ -15,7 +15,7 @@ const AdminLayoutTest = () => {
     let { user, logout } = useContext(AuthenContext);
     const location = useLocation();
     useEffect(() => {
-        if (user.role !== ROLE.ADMIN && location.pathname !== PATHS.ADMIN.PROFILE) {  // Clears the localStorage (optional)
+        if (user.role !== ROLE.ADMIN) {  // Clears the localStorage (optional)
             logout(); // Redirect to login page or another appropriate route
         }
     }, [location]);

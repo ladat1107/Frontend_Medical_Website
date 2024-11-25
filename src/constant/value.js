@@ -141,7 +141,6 @@ export const TIMESLOTS = [
         value: "16:30 - 17:00"
     }
 ]
-
 export const POSITION = [
     {
         label: "Bác sĩ",
@@ -172,7 +171,6 @@ export const POSITION = [
         value: "GS"
     }
 ]
-
 export const STATUS = [
     {
         label: "Hoạt động",
@@ -183,7 +181,6 @@ export const STATUS = [
         value: 0
     }
 ]
-
 export const AOB = [
     {
         label: "Chưa biết",
@@ -248,5 +245,23 @@ export const EMIT = {
         staff: "staff",
         insurance: "insurance",
         notifications: "notifications"
+    }
+}
+export const STATUS_HOSPITAL = {
+    ACTIVE: {
+        value: 1,
+        label: "Hoạt động"
+    },
+    INACTIVE: {
+        value: 0,
+        label: "Khóa"
+    },
+    PENDING: {
+        value: 2,
+        label: "Chờ duyệt"
+    },
+    REJECT: {
+        value: 3,
+        label: "Không duyệt"
     }
 }

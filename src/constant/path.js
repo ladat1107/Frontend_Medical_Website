@@ -9,6 +9,8 @@ export const PATHS = {
         SERVICE_MANAGE: "/adminServiceManage",
         PROFILE: "/staffProfile",
         SPECIALTY_MANAGE: "/adminSpecialty",
+        HANDBOOK_MANAGE: "/adminHandbook",
+        HANDBOOK_DETAIL: "/adminHandbookDetail",
     },
     STAFF: {
         DASHBOARD: "/doctor",
@@ -17,8 +19,9 @@ export const PATHS = {
         HANDBOOK: "/doctorHandbook",
         INFO_HANDBOOK: "/doctorHandbook/:handbookId",
         SCHEDULE: "/doctorSchedule",
+        PROFILE: "/doctorProfile",
     },
-    RECEPTIONIST:{
+    RECEPTIONIST: {
         DASHBOARD: "/receptionist",
     },
     HOME: {

@@ -1,4 +1,4 @@
-import React, { createContext, useEffect, useState } from "react";
+import React, { createContext, useContext, useEffect, useState } from "react";
 import { localToken, localUser } from "@/utils/token";
 import { useNavigate } from "react-router-dom";
 import { PATHS } from "@/constant/path";
@@ -47,3 +47,4 @@ export const AuthenProvider = ({ children }) => {
   );
 };
 
+export const useAuthenContext = () => useContext(AuthenContext);

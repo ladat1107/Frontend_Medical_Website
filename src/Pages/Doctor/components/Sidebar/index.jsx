@@ -4,7 +4,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
 import './Sidebar.scss';
 import MenuSidebar from './MenuSidebar';
-import DropdownProfile from '@/pages/Admin/components/Dropdown/DropdownProfile';
 import { AuthenContext } from '@/contexts/AuthenContext';
 import { ALL_ROLE } from '@/constant/role';
 
@@ -43,7 +42,6 @@ const Sidebar = (props) => {
                     <div className='col-8 py-2 ms-1'>
                         <div className='d-flex justify-content-between'>
                             <span><b>{user?.lastName + " " + user?.firstName}</b></span>
-                            <DropdownProfile />
                         </div>
                         <div>
                             {role?.label}
