@@ -2,25 +2,26 @@ import { getAppointments, searchAppointments, searchAppointmentsWithStaffId } fr
 import React, { useContext, useEffect, useState } from 'react'
 import { getTimeSlotById } from "@/utils/formatTimeSlots";
 import { convertDateTime } from "@/utils/formatDate";
-import {convertStartDateToTimestamp, convertEndDateToTimestamp} from "@/utils/convertToTimestamp";
+import { convertStartDateToTimestamp, convertEndDateToTimestamp } from "@/utils/convertToTimestamp";
 import SearchBar from "@/components/Search";
 import CustomDatePicker from "@/components/DatePicker";
 import "./Appointment.scss";
 import { useMutation } from "@/hooks/useMutation";
 import { useNavigate } from "react-router-dom";
 import { Pagination } from "antd";
-import { AuthenContext } from "@/contexts/AuthenContext";
+import { useSelector } from "react-redux";
 
 const Appointment = () => {
     const navigate = useNavigate();
-    const {user} = useContext(AuthenContext);
+    // const {user} = useContext(AuthenContext);
+    let { user } = useSelector((state) => state.authen);
 
     const [listAppointments, setListAppointments] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
     const [selectedValue, setSelectedValue] = useState('1');
-    const [startDate, setStartDate] = useState(new Date()); 
+    const [startDate, setStartDate] = useState(new Date());
     const [endDate, setEndDate] = useState(new Date());
-    
+
     const [currentPage, setCurrentPage] = useState(1);
     const [pageSize, setPageSize] = useState(15);
     const [total, setTotal] = useState(0);
@@ -48,17 +49,17 @@ const Appointment = () => {
         setStartDate(new Date());
         setEndDate(new Date());
     }
-    
+
     useEffect(() => {
         fetchAppointment();
-    },[currentPage, pageSize]);
+    }, [currentPage, pageSize]);
 
     useEffect(() => {
         if (dataAppointments && dataAppointments.DT) {
             setListAppointments(dataAppointments.DT.appointment);
             setTotal(dataAppointments.DT.totalItems);
         }
-    },[dataAppointments]);
+    }, [dataAppointments]);
 
     const handleClickRow = (examinationId) => (event) => {
         navigate(`/doctorExamination/${examinationId}`);
@@ -73,43 +74,43 @@ const Appointment = () => {
         <>
             <div className="appointment-content">
                 <div className="appointment-search row">
-                        <div className="col-12 col-lg-6">
-                            <div className="search-container">
-                                <p className="search-title">Tìm kiếm lịch khám</p>
-                                <SearchBar
-                                    placeholder="Nhập tên bệnh nhân để tìm kiếm..."
-                                    value={searchTerm}
-                                    onChange={(e) => setSearchTerm(e.target.value)} // Cập nhật từ khóa tìm kiếm
-                                    />
+                    <div className="col-12 col-lg-6">
+                        <div className="search-container">
+                            <p className="search-title">Tìm kiếm lịch khám</p>
+                            <SearchBar
+                                placeholder="Nhập tên bệnh nhân để tìm kiếm..."
+                                value={searchTerm}
+                                onChange={(e) => setSearchTerm(e.target.value)} // Cập nhật từ khóa tìm kiếm
+                            />
+                        </div>
+                    </div>
+                    <div className="col-12 col-lg-5">
+                        <div className="search-container">
+                            <p className="search-title">Ngày khám</p>
+                            <div className="date-picker-container">
+                                Từ <CustomDatePicker
+                                    selectedDate={startDate}
+                                    onDateChange={handleStartDateChange}
+                                    placeholder="Chọn ngày..."
+                                />
+                                đến <CustomDatePicker
+                                    selectedDate={endDate}
+                                    onDateChange={handleEndDateChange}
+                                    placeholder="Chọn ngày..."
+                                />
                             </div>
                         </div>
-                        <div className="col-12 col-lg-5">
-                            <div className="search-container">
-                                <p className="search-title">Ngày khám</p>
-                                <div className="date-picker-container">
-                                    Từ <CustomDatePicker
-                                        selectedDate={startDate}
-                                        onDateChange={handleStartDateChange}
-                                        placeholder="Chọn ngày..."
-                                    /> 
-                                    đến <CustomDatePicker
-                                        selectedDate={endDate}
-                                        onDateChange={handleEndDateChange}
-                                        placeholder="Chọn ngày..."
-                                    />
-                                </div>
-                            </div>
+                    </div>
+                    <div className="col-12 col-lg-1">
+                        <div className="button-container">
+                            <button className="clear-button" onClick={() => { handleClear(); fetchAppointment(); }}>
+                                <i className="fa-solid fa-broom"></i>
+                            </button>
+                            <button className="search-button" onClick={fetchAppointment}>
+                                <i className="fa-solid fa-magnifying-glass"></i>
+                            </button>
                         </div>
-                        <div className="col-12 col-lg-1">
-                            <div className="button-container">
-                                <button className="clear-button" onClick={() => { handleClear(); fetchAppointment(); }}>
-                                    <i className="fa-solid fa-broom"></i>
-                                </button>
-                                <button className="search-button" onClick={fetchAppointment}>
-                                    <i className="fa-solid fa-magnifying-glass"></i>
-                                </button>
-                            </div>  
-                        </div>
+                    </div>
                 </div>
                 <div className="appointment-container row">
                     <div className="header">

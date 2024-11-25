@@ -1,6 +1,6 @@
-export const backgroundColor = "#F4F7FE";
-export const backgroundTableHhead = "#dceff8";
-export const primaryColor = "#007BFF";
-export const secondaryColor = "#003553";
+export const backgroundColorAdmin = "#F4F7FE";
+export const backgroundTableHheadAdmin = "#dceff8";
+export const primaryColorAdmin = "#007BFF";
+export const secondaryColorAdmin = "#003553";
 
-export const textHeadColor = "#007BFF";
+export const textHeadColorAdmin = "#007BFF";

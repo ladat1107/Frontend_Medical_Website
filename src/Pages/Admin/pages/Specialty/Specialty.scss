@@ -57,48 +57,42 @@
             }
         }
 
-        .table-specialty {
+        .specialty {
             border-radius: 10px;
             box-shadow: $box-shadow-content-admin;
 
+            .header {
+                width: 100%;
+                height: 50px;
+                background: $background-table-head-admin;
+                color: $text-head-color-admin;
 
-            .head {
-                .search {}
-            }
+                .rounded-top-left {
+                    border-top-left-radius: 5px;
+                }
 
-            .table-body {
-
-                tr {
-                    td {
-                        border-bottom: none !important;
-                    }
-
-                    background: white;
-                    border-bottom: 1px solid #c8c8c8 !important;
-
-                    &:hover {
-                        td {
-                            background: #ebecee !important;
-                        }
-
-                        background: #ebecee !important;
-                    }
+                .rounded-top-right {
+                    border-top-right-radius: 5px;
                 }
 
                 .name {
-                    max-width: 10rem;
-                    white-space: nowrap;
-                    overflow: hidden;
-                    text-overflow: ellipsis;
+                    max-width: 200px;
                 }
+            }
 
-                .row-1 {
-                    th {
-                        border-bottom: none !important;
+            .table-body {
+                tr {
+                    background: white;
+                    border-bottom: 1px solid #c8c8c8;
+
+                    &:hover {
+                        td {
+                            background: $hover-color-admin;
+                        }
+
+                        background: $hover-color-admin;
                     }
                 }
-
-
             }
 
             .footer-table {

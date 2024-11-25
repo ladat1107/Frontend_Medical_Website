@@ -129,3 +129,11 @@ export const blockSpecialty = (data) => {
 export const getSpecialtyById = (id) => {
     return axios.get(`/api/getSpecialtyById?id=${id}`)
 }
+
+//HANDBOOK
+export const updateHandbook = (data) => {
+    return axios.put(`/api/admin/updateHandbookStatus`, data)
+}
+export const getHandbookAdmin = (page, limit, search, status, filter) => {
+    return axios.get(`/api/admin/getHandbookAdmin?page=${+page}&limit=${+limit}&search=${search}&status=${status}&filter=${filter}`)
+}

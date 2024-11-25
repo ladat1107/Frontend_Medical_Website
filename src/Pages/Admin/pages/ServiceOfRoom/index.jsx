@@ -220,17 +220,17 @@ const ServiceOfRoom = () => {
 
                     <div className="col-12 col-lg-9">
                         <div className="table-service bg-white ">
-                            <div className="table-head">
+                            <div>
                                 <Input placeholder="Tìm kiếm" prefix={<SearchOutlined />} className="ms-4 my-3 w-25"
                                     value={search}
                                     onChange={(event) => { handleChangeSearch(event) }} />
                             </div>
-                            <div className="table-body px-4">
-                                <table className="table">
-                                    <thead className="text-uppercase text-secondary row-1">
+                            <div className="px-4">
+                                <table className="w-100">
+                                    <thead className="header">
                                         <tr>
-                                            <th scope="col">
-                                                <div className="flex items-center">
+                                            <th scope="col" className="rounded-top-left p-2">
+                                                <div>
                                                     <Checkbox
                                                         checked={checkAll}
                                                         onChange={() => { handleChangeSelectedAll() }}
@@ -238,34 +238,34 @@ const ServiceOfRoom = () => {
                                                     />
                                                 </div>
                                             </th>
-                                            <th scope="col" className="text-secondary px-1">Tên dịch vụ</th>
-                                            <th scope="col" className="text-secondary text-center pe-5">Giá</th>
-                                            <th scope="col" className="text-secondary px-1 d-none d-lg-block">Mô tả</th>
-                                            <th scope="col" className="text-secondary text-center px-1">Trạng thái</th>
-                                            <th scope="col" className="text-secondary px-1"></th>
+                                            <th scope="col" className="px-1 name">Tên dịch vụ</th>
+                                            <th scope="col" className=" text-end pe-5">Giá</th>
+                                            <th scope="col" className=" px-1 ps-3">Mô tả</th>
+                                            <th scope="col" className=" text-center px-1">Trạng thái</th>
+                                            <th scope="col" className="rounded-top-right px-1"></th>
                                         </tr>
                                     </thead>
-                                    <tbody>
+                                    <tbody className="table-body ">
                                         {+listServiceType.length > 0 && +totalPages != 0 ?
                                             <>
                                                 {
                                                     listServiceType.map((item, index) => {
                                                         return (
-                                                            <tr key={item.id} className="text-start">
-                                                                <td className="p-2 d-flex align-items-center">
-                                                                    <div className="">
+                                                            <tr key={item.id}>
+                                                                <td className="p-2">
+                                                                    <div>
                                                                         <Checkbox
                                                                             checked={item.checked}
                                                                             onChange={() => { handleChange(item, index) }}
                                                                             size="small"
                                                                         /></div>
                                                                 </td>
-                                                                <td title={item.name} className="text-start px-1 py-3 name text-uppercase">
-                                                                    {item?.name || "Khác"}
+                                                                <td title={item.name} className="px-1 py-3 text-uppercase " >
+                                                                    <div className="name "> {item?.name || "Khác"}</div>
                                                                 </td>
                                                                 <td className="text-end pe-5 py-3 price">
                                                                     {item?.price === 0 ?
-                                                                        <div className="free">Miễn phí</div>
+                                                                        <div ><span className="free">Miễn phí</span></div>
                                                                         :
                                                                         <div className="">{formatCurrency(item?.price) || "_"}</div>}
 
@@ -303,7 +303,7 @@ const ServiceOfRoom = () => {
 
                                     </tbody>
                                 </table>
-                                <div className='footer-table d-flex justify-content-end mx-2'>
+                                <div className='footer-table d-flex justify-content-end mx-2 mt-3'>
                                     <div className='select-page'>
                                         <DropdownPaginate page={rowsPerPage}
                                             setPage={handleChangePaginate} />

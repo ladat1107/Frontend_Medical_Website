@@ -4,13 +4,14 @@ import Paracdetail from '../Paracdetail';
 import { notification } from 'antd';
 import { deleteParaclinical } from '@/services/doctorService';
 import './Paraclinical.scss';
-import { AuthenContext } from '@/contexts/AuthenContext';
+import { useSelector } from 'react-redux';
 
 const Paraclinical = ({ listParaclinicals, examinationId, refresh }) => {
     const [paracDetails, setParacDetails] = useState(listParaclinicals);
     const [nextId, setNextId] = useState(0);
 
-    const {user} = useContext(AuthenContext);
+    // const {user} = useContext(AuthenContext);
+    let { user } = useSelector((state) => state.authen);
 
     // Notification
     const [api, contextHolder] = notification.useNotification();

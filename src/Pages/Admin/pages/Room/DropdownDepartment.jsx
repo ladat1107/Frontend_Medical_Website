@@ -3,6 +3,7 @@ import React from 'react';
 import { Dropdown, Space } from 'antd';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
+import { primaryColorAdmin } from "@/style/variables";
 import './DropdownDepartment.scss'
 
 const DropdownDepartment = (props) => {
@@ -23,7 +24,7 @@ const DropdownDepartment = (props) => {
             overlayClassName="custom-dropdown">
             <a onClick={(e) => e.preventDefault()}>
                 <Space>
-                    <FontAwesomeIcon icon={faChevronDown} color='#6c757d' />
+                    <FontAwesomeIcon className='ms-1' icon={faChevronDown} color={primaryColorAdmin} />
                 </Space>
             </a>
         </Dropdown>

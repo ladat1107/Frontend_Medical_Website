@@ -1,11 +1,9 @@
 
 import { Outlet, Navigate } from "react-router-dom";
-import { AuthenContext } from "@/contexts/AuthenContext";
 import { PATHS } from "@/constant/path";
-import { useContext } from "react";
+import { useSelector } from "react-redux";
 const PrivateRouter = () => {
-    const { user } = useContext(AuthenContext);
+    let { user } = useSelector((state) => state.authen);
     return user ? <Outlet /> : <Navigate to={PATHS.HOME.LOGIN} />;
 }
-
 export default PrivateRouter;

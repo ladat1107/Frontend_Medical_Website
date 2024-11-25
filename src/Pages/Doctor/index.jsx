@@ -3,20 +3,24 @@ import { Layout, theme } from 'antd';
 import SideBar from './components/Sidebar';
 import './Doctor.scss';
 import { Outlet, useLocation, useNavigate } from 'react-router-dom';
-import { AuthenContext } from '@/contexts/AuthenContext';
 import { ROLE } from '@/constant/role';
 import { PATHS } from '@/constant/path';
 import DoctorHeader from './components/DoctorHeader';
 import DoctorFooter from './components/DoctorFooter';
+import { useDispatch, useSelector } from 'react-redux';
+import { logout } from '@/redux/authenSlice';
 const { Content } = Layout;
 
 const DoctorLayout = () => {
     const [collapsed, setCollapsed] = useState(false);
-    let { user, logout } = useContext(AuthenContext);
+    let { user } = useSelector((state) => state.authen);
+    let dispatch = useDispatch();
+    let navigate = useNavigate();
     const location = useLocation();
     useEffect(() => {
-        if ((user.role === ROLE.ADMIN || user.role === ROLE.PATIENT) && location.pathname !== PATHS.ADMIN.PROFILE) {  // Clears the localStorage (optional)
-            logout(); // Redirect to login page or another appropriate route
+        if (!user || user.role === ROLE.ADMIN || user.role === ROLE.PATIENT) {
+            dispatch(logout());
+            navigate(PATHS.HOME.LOGIN);
         }
     }, [location]);
     const {
@@ -42,7 +46,7 @@ const DoctorLayout = () => {
                                 style={{
                                     margin: '24px 16px 0',
                                     borderRadius: borderRadiusLG,
-                                    backgroundColor: colorBgContainer,
+                                    backgroundcolor: colorBgContainer,
                                 }}>
                                 <Outlet />
                             </Content>

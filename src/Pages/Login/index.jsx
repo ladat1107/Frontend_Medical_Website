@@ -1,14 +1,15 @@
 import React, { useContext } from 'react';
 import { Button, Checkbox, Form, Input, message } from 'antd';
-import { AuthenContext } from '@/contexts/AuthenContext';
 import "./Login.scss";
 import { handleLogin } from '@/services/adminService';
+import { useDispatch, useSelector } from 'react-redux';
+import { login } from '@/redux/authenSlice';
 const Login = () => {
-    const { login } = useContext(AuthenContext);
+    const dispatch = useDispatch();
     const onFinish = async (values) => {
         let respone = await handleLogin(values);
         if (respone?.data?.EC === 0) {
-            login(respone?.data?.DT)
+            dispatch(login(respone.data.DT));
         } else {
             message.error(respone?.data?.EM || 'Đăng nhập thất bại')
         }

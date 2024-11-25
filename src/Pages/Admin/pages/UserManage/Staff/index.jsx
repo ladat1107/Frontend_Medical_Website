@@ -15,7 +15,6 @@ import "./StaffManage.scss";
 import { Input } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
 import Status from '@/pages/Admin/components/Status';
-import { set } from 'lodash';
 
 const StaffManage = () => {
     let [currentPage, setCurrentPage] = useState(1);
@@ -149,13 +148,13 @@ const StaffManage = () => {
                                         <th scope="col" className="text-start px-1 py-0">
                                             Khoa
                                         </th>
-                                        <th scope="col" className="text-start px-1 py-0 d-none d-lg-table-cell">
+                                        <th scope="col" className="text-center px-1 py-0 d-none d-lg-table-cell">
                                             Số điện thoại
                                         </th>
-                                        <th scope="col" className="text-start px-1 py-0 d-none d-lg-table-cell">
+                                        <th scope="col" className="text-center px-1 py-0 d-none d-lg-table-cell">
                                             CCCD
                                         </th>
-                                        <th scope="col" className="text-start px-1 py-0 d-none d-lg-table-cell">
+                                        <th scope="col" className="text-center px-1 py-0 d-none d-lg-table-cell">
                                             Trạng thái
                                         </th>
                                         <th scope="col" className="rounded-top-right px-1 py-0">
@@ -177,9 +176,9 @@ const StaffManage = () => {
                                                                         size="small"
                                                                     /></div>
                                                             </td>
-                                                            <td scope="row" className="d-flex justify-content-start px-1 py-3 min-content-width g-0">
+                                                            <td scope="row" className="px-1 py-3 min-content-width g-0">
                                                                 <img className="image" src={item?.avatar || LINK.AVATAR_NULL} alt="Jese image" />
-                                                                <div className="ps-1 email">
+                                                                <div className="ps-2 email">
                                                                     <div className="fw-semibold">{item.lastName + " " + item.firstName}</div>
                                                                     <div className="fw-normal">{item.email}</div>
                                                                 </div>
@@ -194,10 +193,10 @@ const StaffManage = () => {
                                                             <td className="text-start px-1 py-3">
                                                                 {item?.staffUserData?.staffDepartmentData?.name || "Khác"}
                                                             </td>
-                                                            <td className="text-start px-1 py-3 d-none d-lg-table-cell">
+                                                            <td className="text-start line px-1 py-3 d-none d-lg-table-cell">
                                                                 {item?.phoneNumber || "Không có"}
                                                             </td>
-                                                            <td className="text-start px-1 py-3 d-none d-lg-table-cell">
+                                                            <td className="text-start line px-1 py-3 d-none d-lg-table-cell">
                                                                 {item?.cid || "Không có"}
                                                             </td>
                                                             <td className="text-start px-1 py-3 d-none d-lg-table-cell">

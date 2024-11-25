@@ -121,6 +121,7 @@ const StaffInfo = (props) => {
                                     ]}
                                 >
                                     <MdEditor style={{
+                                      
                                         padding: "5px",
                                         minHeight: '400px',
                                         borderRadius: "5px"

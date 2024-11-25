@@ -1,23 +1,3 @@
-import { values } from "lodash"
-
-// export const PAGINATE = [
-//     {
-//         id: 1,
-//         value: 10
-//     },
-//     {
-//         id: 2,
-//         value: 25
-//     },
-//     {
-//         id: 3,
-//         value: 50
-//     },
-//     {
-//         id: 4,
-//         value: 100
-//     }
-// ]
 export const GENDER = [
     {
         value: 0,
@@ -40,65 +20,43 @@ export const TABLE = {
 export const TAGS = [
     {
         value: 1,
-        label: "123"
+        label: "Sức khỏe cộng đồng"
     },
     {
         value: 2,
-        label: "ăn ở sạch sẽ"
-    }, {
+        label: "Phòng ngừa bệnh tật"
+    },
+    {
         value: 3,
-        label: "Tag 3"
-    }, {
+        label: "Dinh dưỡng hợp lý"
+    },
+    {
         value: 4,
-        label: "Tag 4"
-    }, {
+        label: "Cẩm nang y tế"
+    },
+    {
         value: 5,
-        label: "Tag 5"
-    }, {
+        label: "Lời khuyên bác sĩ"
+    },
+    {
         value: 6,
-        label: "Tag 6"
-    }, {
+        label: "Cập nhật y học"
+    },
+    {
         value: 7,
-        label: "Tag 7"
-    }, {
+        label: "Chăm sóc sức khỏe trẻ em"
+    },
+    {
         value: 8,
-        label: "Tag 8"
-    }, {
+        label: "Sức khỏe phụ nữ"
+    },
+    {
         value: 9,
-        label: "Tag 9"
-    }, {
+        label: "Kiến thức bệnh lý"
+    },
+    {
         value: 10,
-        label: "Tag 10"
-    }, {
-        value: 11,
-        label: "Tag 11"
-    }, {
-        value: 12,
-        label: "Tag 12"
-    }, {
-        value: 13,
-        label: "Tag 13"
-    }, {
-        value: 14,
-        label: "Tag 14"
-    }, {
-        value: 15,
-        label: "Tag 15"
-    }, {
-        value: 16,
-        label: "Tag 16"
-    }, {
-        value: 17,
-        label: "Tag 17"
-    }, {
-        value: 18,
-        label: "Tag 18"
-    }, {
-        value: 19,
-        label: "Tag 19"
-    }, {
-        value: 20,
-        label: "Tag 20"
+        label: "Sống khỏe mạnh"
     }
 ]
 export const TIMESLOTS = [
@@ -183,7 +141,6 @@ export const TIMESLOTS = [
         value: "16:30 - 17:00"
     }
 ]
-
 export const POSITION = [
     {
         label: "Bác sĩ",
@@ -214,7 +171,6 @@ export const POSITION = [
         value: "GS"
     }
 ]
-
 export const STATUS = [
     {
         label: "Hoạt động",
@@ -225,7 +181,6 @@ export const STATUS = [
         value: 0
     }
 ]
-
 export const AOB = [
     {
         label: "Chưa biết",
@@ -290,5 +245,23 @@ export const EMIT = {
         staff: "staff",
         insurance: "insurance",
         notifications: "notifications"
+    }
+}
+export const STATUS_HOSPITAL = {
+    ACTIVE: {
+        value: 1,
+        label: "Hoạt động"
+    },
+    INACTIVE: {
+        value: 0,
+        label: "Khóa"
+    },
+    PENDING: {
+        value: 2,
+        label: "Chờ duyệt"
+    },
+    REJECT: {
+        value: 3,
+        label: "Không duyệt"
     }
 }

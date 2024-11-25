@@ -3,15 +3,16 @@ import { BASE_URL } from "@/constant/environment";
 import { localToken, localUser } from "./token";
 import { message } from "antd";
 import { PATHS } from "@/constant/path";
+import { store } from "@/redux/store";
 const axiosInstance = axios.create({
   baseURL: BASE_URL,
   withCredentials: true
 });
-
 axiosInstance.interceptors.request.use(
   // config request before sent to sever
   (config) => {
-    config.headers.Authorization = `Bearer ${localToken.get()}`;
+    const token = store.getState().authen.token;
+    config.headers.Authorization = `Bearer ${token}`;
     //console.log("config", config);
     return config;
   },
@@ -23,8 +24,6 @@ axiosInstance.interceptors.request.use(
 // Interceptor cho phép can thiệp vào quá trình nhận phản hồi (RESPONSE) từ server.
 axiosInstance.interceptors.response.use(
   (response) => {
-
-    console.log('🚀response---->', response);
     return response;
   },
   async (error) => {

@@ -1,17 +1,22 @@
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import { HomeOutlined, UserSwitchOutlined, SettingOutlined } from '@ant-design/icons';
 import { Menu } from 'antd';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faAddressCard, faBuilding, faHospital, faIdCard } from '@fortawesome/free-regular-svg-icons';
+import { faAddressCard, faBuilding, faHospital } from '@fortawesome/free-regular-svg-icons';
 import { PATHS } from '@/constant/path';
 import emitter from '@/utils/eventEmitter';
 import { EMIT } from '@/constant/value';
-import { AuthenContext } from '@/contexts/AuthenContext';
 import "./Sidebar.scss";
+import { faArrowRightFromBracket, faBookMedical } from '@fortawesome/free-solid-svg-icons';
+import { useDispatch, useSelector } from 'react-redux';
+import { logout } from '@/redux/authenSlice';
 const MenuSidebar = () => {
-    let { user } = useContext(AuthenContext);
+    let navigate = useNavigate();
+    let { user } = useSelector((state) => state.authen);
+    let dispatch = useDispatch();
     const [openKeys, setOpenKeys] = useState([]);
+    const [selectedKeys, setSelectedKeys] = useState("sub2");
 
     const handleOpenChange = (keys) => {
         const latestOpenKey = keys.find(key => openKeys.indexOf(key) === -1);
@@ -32,8 +37,8 @@ const MenuSidebar = () => {
         },
         {
             key: 'sub2',
-            label: (<NavLink to={PATHS.ADMIN.PROFILE}>Cá nhân</NavLink>),
-            icon: <FontAwesomeIcon icon={faAddressCard} />,
+            label: (<NavLink style={{ color: selectedKeys === "sub2" ? "red" : "" }} to={PATHS.ADMIN.PROFILE}>Cá nhân</NavLink>),
+            icon: <FontAwesomeIcon style={{ color: selectedKeys === "sub2" ? "red" : "" }} icon={faAddressCard} />,
             children: [
                 {
                     key: 'personal1',
@@ -53,6 +58,7 @@ const MenuSidebar = () => {
                     }
                 }] : [])
             ],
+            backgroundcolor: "red"
         },
 
         {
@@ -63,6 +69,7 @@ const MenuSidebar = () => {
                 {
                     key: 'user1',
                     label: (<NavLink to={PATHS.ADMIN.STAFF_MANAGE}>Nhân viên</NavLink>),
+                    onClick: (value) => { console.log(value) }
                 },
                 {
                     key: 'user2',
@@ -96,15 +103,24 @@ const MenuSidebar = () => {
             ],
         },
         {
+            key: 'handbookAdmiin',
+            label: (<NavLink to={PATHS.ADMIN.HANDBOOK_MANAGE}>Cẩm nang sức khỏe</NavLink>),
+            icon: <FontAwesomeIcon icon={faBookMedical} />,
+        },
+        {
             type: 'divider',
+        },
+        {
+            key: 'logout',
+            label: ("Đăng xuất"),
+            icon: <FontAwesomeIcon icon={faArrowRightFromBracket} rotation={180} />,
+            onClick: () => { dispatch(logout()); navigate(PATHS.HOME.LOGIN); }
         },
     ];
 
     return (
         <div className='menu-item'>
             <Menu
-                defaultSelectedKeys={['1']}
-                defaultOpenKeys={['sub1']}
                 openKeys={openKeys} // Truyền state openKeys vào
                 onOpenChange={handleOpenChange}
                 mode="inline"

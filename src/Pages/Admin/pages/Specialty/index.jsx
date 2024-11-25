@@ -252,18 +252,18 @@ const Specialty = () => {
                     </div>
 
                     <div className="col-12 col-lg-8">
-                        <div className="table-specialty bg-white mb-3">
-                            <div className="table-head">
+                        <div className="specialty bg-white mb-3">
+                            <div >
                                 <Input placeholder="Tìm kiếm" prefix={<SearchOutlined />} className="ms-4 my-3 w-25"
                                     value={search}
                                     onChange={(event) => { handleChangeSearch(event) }} />
                             </div>
-                            <div className="table-body px-4">
-                                {!listSpecialtyLoading ? <table className="table">
-                                    <thead className="text-uppercase text-secondary row-1">
+                            <div className="px-4">
+                                <table className="w-100">
+                                    <thead className="header">
                                         <tr>
-                                            <th scope="col">
-                                                <div className="flex items-center">
+                                            <th scope="col" className="rounded-top-left p-2">
+                                                <div>
                                                     <Checkbox
                                                         checked={checkAll}
                                                         onChange={() => { handleChangeSelectedAll() }}
@@ -271,19 +271,19 @@ const Specialty = () => {
                                                     />
                                                 </div>
                                             </th>
-                                            <th scope="col" className="text-secondary px-1">NO</th>
-                                            <th scope="col" className="text-secondary text-start px-1">Chuyên khoa</th>
-                                            <th scope="col" className="text-secondary text-center px-1">Trạng thái</th>
-                                            <th scope="col" className="text-secondary px-1"></th>
+                                            <th scope="col" className="px-1">NO</th>
+                                            <th scope="col" className="text-start px-1">Chuyên khoa</th>
+                                            <th scope="col" className=" text-center px-1">Trạng thái</th>
+                                            <th scope="col" className="px-1 rounded-top-right"></th>
                                         </tr>
                                     </thead>
-                                    <tbody>
-                                        {+listSpecialty.length > 0 && +totalPages != 0 ?
+                                    <tbody className="table-body">
+                                        {+listSpecialty.length > 0 && +totalPages != 0 && !listSpecialtyLoading ?
                                             <>
                                                 {
                                                     listSpecialty.map((item, index) => {
                                                         return (
-                                                            <tr key={item.id} className="text-start">
+                                                            <tr key={item.id}>
                                                                 <td className="p-2 d-flex align-items-center">
                                                                     <div className="">
                                                                         <Checkbox
@@ -292,10 +292,10 @@ const Specialty = () => {
                                                                             size="small"
                                                                         /></div>
                                                                 </td>
-                                                                <td title={item.name} className="text-start px-1 py-3 name text-uppercase">
+                                                                <td title={item.name} className="text-start px-1 py-3">
                                                                     {item?.id || "Khác"}
                                                                 </td>
-                                                                <td className="text-start px-1 py-3 price">
+                                                                <td className="text-start px-1 py-3">
                                                                     {item?.name || "_"}
                                                                 </td>
                                                                 <td className="text-center px-1 py-3">
@@ -323,10 +323,8 @@ const Specialty = () => {
                                                 </td>
                                             </tr>
                                         }
-
                                     </tbody>
-                                </table> :
-                                    <div>Đang tải dữ liệu...</div>}
+                                </table>
 
                                 <div className='footer-table d-flex justify-content-end mx-2'>
                                     <div className='select-page'>
