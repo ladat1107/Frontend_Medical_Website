@@ -30,6 +30,9 @@ import HandbookAdmin from "./layout/Admin/pages/HandbookAdmin/HandbookAdmin";
 import HandbookAdminDetail from "./layout/Admin/pages/HandbookAdmin/Detail";
 import ScheduleManage from "./layout/Admin/pages/ScheduleManage/ScheduleManage";
 import DoctorList from "./layout/User/pages/DoctorList";
+import { useSelector } from "react-redux";
+import { useEffect } from "react";
+import { ROLE } from "./constant/role";
 function App() {
   return (
     <ConfigProvider
