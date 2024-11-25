@@ -38,7 +38,6 @@ function App() {
 
   useEffect(() => {
     if (user) {
-      console.log("user", user);
       if (user.role === ROLE.ADMIN) {
         navigate(PATHS.ADMIN.DASHBOARD);
       } else if (user.role === ROLE.PATIENT) {
@@ -51,14 +50,13 @@ function App() {
   return (
     <Routes>
       <Route element={<MainLayout />}>
+        <Route index element={<HomePage />} />
+        <Route path='/doctor-detail' element={<DoctorDetail />} />
         <Route element={<PrivateRoute />}>
         </Route>
-        <Route index element={<HomePage />} />
-        <Route path='/doctor-detail' element={<DoctorDetail/>} />
-        {/* <Route path='/doctor-detail' element={<ContactPage />} /> */}
       </Route>
-      {/* <Route path={PATHS.HOME.LOGIN} element={<Login />} /> */}
-      {/* <Route element={<PrivateRoute />}>
+      <Route path={PATHS.HOME.LOGIN} element={<Login />} />
+      <Route element={<PrivateRoute />}>
         <Route element={<AdminLayoutTest />}>
           <Route path={PATHS.ADMIN.DASHBOARD} element={<AdminHomePage />} />
           <Route path={PATHS.ADMIN.PATIENT_MANAGE} element={<PatientManage />} />
@@ -83,7 +81,7 @@ function App() {
         <Route element={<ReceptionistLayout />}>
           <Route path={PATHS.RECEPTIONIST.DASHBOARD} element={<ReceptionistDashboard />} />
         </Route>
-      </Route> */}
+      </Route>
     </Routes>
   );
 }
