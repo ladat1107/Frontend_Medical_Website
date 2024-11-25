@@ -12,7 +12,7 @@ export const AuthenProvider = ({ children }) => {
   const navigate = useNavigate();
   useEffect(() => {
     if (!user) {
-      navigate(PATHS.HOME.LOGIN);
+      // navigate(PATHS.HOME.LOGIN);
     }
   }, [user, navigate]);
   const login = async (loginData) => {
@@ -27,7 +27,7 @@ export const AuthenProvider = ({ children }) => {
       if (payload?.user?.role === ROLE.ADMIN) {
         navigate(PATHS.ADMIN.DASHBOARD);
       } else if (payload?.user?.role === ROLE.PATIENT) {
-        navigate(PATHS.HOME.HOMEPAGE);
+        // navigate(PATHS.HOME.HOMEPAGE);
       } else {
         navigate(PATHS.STAFF.DASHBOARD);
       }
@@ -37,7 +37,7 @@ export const AuthenProvider = ({ children }) => {
     localToken.remove();
     localUser.remove();
     setUser(null);
-    navigate(PATHS.HOME.LOGIN);
+    // navigate(PATHS.HOME.LOGIN);
     message.success("Đăng xuất thành công");
   };
   return (

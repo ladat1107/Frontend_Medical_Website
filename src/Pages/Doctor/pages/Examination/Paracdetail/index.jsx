@@ -36,6 +36,7 @@ const Paracdetail = ({ id, paraclinicalData, onDelete, onSaveResult  }) => {
 
     useEffect(() => {
         fetchDoctorName();
+        fetchParaclinical();
     }, []);
 
     useEffect(() => {
@@ -56,9 +57,7 @@ const Paracdetail = ({ id, paraclinicalData, onDelete, onSaveResult  }) => {
         setIsChanged(isDataChanged);
     }, [paraclinical, result, description, image, price, initialparaclinical]);
 
-    useEffect(() => {
-        fetchParaclinical();
-    }, []);
+   
 
     let {
         data: dataParaclinicals,

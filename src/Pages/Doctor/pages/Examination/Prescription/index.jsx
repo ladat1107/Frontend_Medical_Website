@@ -33,6 +33,7 @@ const Prescription = ({ examinationId, paraclinicalPrice, refresh }) => {
 
     useEffect(() => {
         fetchMedicines();
+        fetchPrescription();
     }, []);
 
     useEffect(() => {
@@ -54,9 +55,7 @@ const Prescription = ({ examinationId, paraclinicalPrice, refresh }) => {
         execute: fetchPrescription,
     } = useMutation(() => getPrescriptionByExaminationId(examinationId));
 
-    useEffect(() => {
-        fetchPrescription();
-    }, []);
+   
 
     useEffect(() => {
         if (dataPrescription && dataPrescription.DT) {
