@@ -8,11 +8,12 @@ import Notification from "./section/Notification";
 import { apiService } from "@/services/apiService";
 import useQuery from "@/hooks/useQuery";
 import StaffInfo from "./section/staff";
-import { AuthenContext } from "@/contexts/AuthenContext";
 import { EMIT } from "@/constant/value";
 import emitter from "@/utils/eventEmitter";
+import { useSelector } from "react-redux";
 const Profile = () => {
-    let { user } = useContext(AuthenContext);
+    //let { user } = useContext(AuthenContext);
+    let { user } = useSelector((state) => state.authen);
     let [profile, setProfile] = useState({});
     const [selectedItem, setSelectedItem] = useState(EMIT.EVENT_PROFILE.info);
     const [folks, setListfolks] = useState([]);

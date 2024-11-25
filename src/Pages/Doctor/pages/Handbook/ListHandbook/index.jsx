@@ -1,5 +1,5 @@
 import { useMutation } from "@/hooks/useMutation";
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { getAllHandbooks, getAllTags } from '@/services/doctorService';
 import HandbookItem from "../HandbookItem";
 import './ListHandbook.scss';
@@ -7,12 +7,12 @@ import { useNavigate } from "react-router-dom";
 import { message, Pagination } from 'antd';
 import { Modal, Button, Form, Input } from 'antd';
 import { TAGS } from "@/constant/value";
-import SearchBar from "@/components/Search";
-import { AuthenContext } from "@/contexts/AuthenContext";
+import { useSelector } from "react-redux";
 
 const ListHandbook = () => {
     const navigate = useNavigate();
-    const {user} = useContext(AuthenContext);
+    let { user } = useSelector((state) => state.authen);
+    // const {user} = useContext(AuthenContext);
 
     const [numbers, setNumbers] = useState(0);
     const [listHandbooks, setListHandbooks] = useState([]);
@@ -59,8 +59,8 @@ const ListHandbook = () => {
     }, [dataHandbooks]);
 
     const handleTagClick = (item) => {
-        setAllTags(prevTags => 
-            prevTags.map(tag => 
+        setAllTags(prevTags =>
+            prevTags.map(tag =>
                 tag.value === item.value ? { ...tag, checked: !tag.checked } : tag
             )
         );
@@ -100,7 +100,7 @@ const ListHandbook = () => {
     const handleOk = () => {
         setIsModalVisible(false);
         setFilter(activeTags);
-        setCurrentPage(1); 
+        setCurrentPage(1);
         fetchListHandbooks();
     };
 
@@ -119,7 +119,7 @@ const ListHandbook = () => {
                     <div className='col-12 mb-2 col-lg-1 parent d-flex justify-content-center align-items-center'>
                         <p className='text-bold'>{numbers} bài viết</p>
                     </div>
-                    <div className="col-12 col-lg-6"/>
+                    <div className="col-12 col-lg-6" />
                     <div className='col-9 col-lg-4'>
                         <div className="search-container">
                             <input
@@ -141,7 +141,7 @@ const ListHandbook = () => {
                     </div>
                 </div>
                 <div className={`row ${filter && filter.length > 0 ? 'mt-3' : ''}`}>
-                    <div className='col-12 col-lg-2'/>
+                    <div className='col-12 col-lg-2' />
                     <div className='col-12 col-lg-10'>
                         <div className="list-tag rtl">
                             {filter.map((tag, index) => (
@@ -163,10 +163,10 @@ const ListHandbook = () => {
                     {listHandbooks.length > 0 ? (
                         listHandbooks.map((item) => (
                             <div className="mt-2 col-9 col-lg-4" key={item.id}>
-                            <HandbookItem
-                                key={item.id}
-                                item={item}
-                                onClick={handleHandbookClick}/>
+                                <HandbookItem
+                                    key={item.id}
+                                    item={item}
+                                    onClick={handleHandbookClick} />
                             </div>
                         ))
                     ) : (

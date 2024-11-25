@@ -5,14 +5,14 @@ import { useMutation } from '@/hooks/useMutation';
 import { convertDateTimeToString } from "@/utils/formatDate";
 import ReactMarkdown from 'react-markdown';
 import { useNavigate } from 'react-router-dom';
-import { useAuthenContext } from '@/contexts/AuthenContext';
 import { ROLE } from '@/constant/role';
 import { STATUS_HOSPITAL } from '@/constant/value';
 import { message } from 'antd';
 import { updateHandbook } from '@/services/adminService';
+import { useSelector } from 'react-redux';
 const DetailHandbook = (props) => {
     const navigate = useNavigate();
-    let { user } = useAuthenContext();
+    let { user } = useSelector((state) => state.authen);
     const [isEditing, setIsEditing] = useState(false);
 
     const [doctorName, setDoctorName] = useState("");

@@ -29,9 +29,7 @@ const HandbookAdmin = () => {
         data: dataHandbook,
         loading: listHandbookLoading,
         execute: fetchHandbooks,
-    } = useMutation((query) =>
-        getHandbookAdmin(currentPage, rowsPerPage.id, searchDebounce, status.value, filter.join(','))
-    )
+    } = useMutation((query) => getHandbookAdmin(currentPage, rowsPerPage.id, searchDebounce, status.value, filter.join(',')))
     useEffect(() => {
         if (dataHandbook && dataHandbook.DT && dataHandbook.DT.rows && dataHandbook.DT) {
             let handbook = dataHandbook.DT.rows;
@@ -40,7 +38,7 @@ const HandbookAdmin = () => {
                 handbook[i].statusLabel = status?.label;
             }
             setListHandbook(handbook);
-            setTotalPage(dataHandbook.DT.count / rowsPerPage.value);
+            setTotalPage(dataHandbook.DT.count);
         }
     }, [dataHandbook])
     useEffect(() => {
@@ -110,6 +108,7 @@ const HandbookAdmin = () => {
                         </div>
                         <div>
                             <Pagination align="center"
+                                onChange={(page) => setCurrentPage(page)}
                                 defaultCurrent={currentPage}
                                 total={totalPages} />
                         </div>

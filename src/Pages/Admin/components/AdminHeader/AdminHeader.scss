@@ -7,11 +7,9 @@
     .header {
         .btn {
             width: 64px !important;
+            border: none;
 
             .ant-btn {
-                position: relative;
-                z-index: 2;
-
                 &:hover {
                     background: none;
                 }

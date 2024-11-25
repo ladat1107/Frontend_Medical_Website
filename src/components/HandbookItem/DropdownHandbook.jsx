@@ -5,10 +5,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEllipsisVertical } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from 'react-router-dom';
 import { PATHS } from '@/constant/path';
-import { useAuthenContext } from '@/contexts/AuthenContext';
+import { useSelector } from 'react-redux';
 const DropdownHandbook = (props) => {
     let navigate = useNavigate();
-    let { user } = useAuthenContext();
+    let { user } = useSelector((state) => state.authen);
     const items = [
         {
             label: "Xem chi tiết",

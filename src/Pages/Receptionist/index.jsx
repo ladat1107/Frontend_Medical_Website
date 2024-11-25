@@ -4,7 +4,6 @@ import { Content } from "antd/es/layout/layout"
 import DoctorHeader from "../Doctor/components/DoctorHeader"
 import { Layout, theme } from "antd"
 import { useContext, useEffect, useState } from "react"
-import { AuthenContext } from "@/contexts/AuthenContext"
 import { ROLE } from "@/constant/role"
 import { PATHS } from "@/constant/path"
 import Sidebar from "./components/Sidebar"
@@ -12,7 +11,6 @@ import "./Receptionist.scss"
 
 
 const ReceptionistLayout = () => {
-
     const [collapsed, setCollapsed] = useState(false);
     let { user, logout } = useContext(AuthenContext);
     const location = useLocation();

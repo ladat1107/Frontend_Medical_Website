@@ -3,7 +3,7 @@ import MainLayout from "./layouts/MainLayout";
 import ContactPage from "./pages/Contact/index";
 import AdminHomePage from "./pages/Admin/pages/HomePage";
 import HomePage from "./pages/Home/index";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useNavigate } from "react-router-dom";
 import PrivateRoute from "./components/AuthComponent/PrivateRouter";
 import StaffManage from "./pages/Admin/pages/UserManage/Staff";
 import PatientManage from "./pages/Admin/pages/UserManage/Patient";
@@ -29,11 +29,30 @@ import DoctorDetail from "./Pages/User/pages/DoctorDetail";
 import ProfileStaff from "./pages/Doctor/pages/ProfileStaff";
 import HandbookAdmin from "./pages/Admin/pages/HandbookAdmin";
 import HandbookAdminDetail from "./pages/Admin/pages/HandbookAdmin/Detail";
+import { useSelector } from "react-redux";
+import { useEffect } from "react";
+import { ROLE } from "./constant/role";
 function App() {
+  let navigate = useNavigate();
+  let { user } = useSelector((state) => state.authen);
 
+  useEffect(() => {
+    if (user) {
+      console.log("user", user);
+      if (user.role === ROLE.ADMIN) {
+        navigate(PATHS.ADMIN.DASHBOARD);
+      } else if (user.role === ROLE.PATIENT) {
+        navigate(PATHS.HOME.HOMEPAGE);
+      } else {
+        navigate(PATHS.STAFF.DASHBOARD);
+      }
+    }
+  }, [user]);
   return (
     <Routes>
       <Route element={<MainLayout />}>
+        <Route element={<PrivateRoute />}>
+        </Route>
         <Route index element={<HomePage />} />
         <Route path='/doctor-detail' element={<DoctorDetail/>} />
         {/* <Route path='/doctor-detail' element={<ContactPage />} /> */}

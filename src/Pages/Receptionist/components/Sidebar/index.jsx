@@ -1,15 +1,13 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { Layout } from 'antd';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
 import './Sidebar.scss';
 import MenuSidebar from './MenuSidebar';
-import { AuthenContext } from '@/contexts/AuthenContext';
 import { ALL_ROLE } from '@/constant/role';
+import { useSelector } from 'react-redux';
 
 const { Sider } = Layout;
 const Sidebar = (props) => {
-    let { user } = useContext(AuthenContext);
+    let { user } = useSelector((state) => state.authen);
     let role = ALL_ROLE.find(item => item.value === user?.role);
     return (
         <div className='sidebar-content'>

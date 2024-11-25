@@ -28,7 +28,7 @@ const AdminHeader = (props) => {
                     <div className="btn col-1">
                         <Button
                             type="text"
-                            icon={<FontAwesomeIcon icon={faBars} />}//{props.open ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
+                            icon={<FontAwesomeIcon icon={faBars} />}
                             onClick={() => handleClick()}
                             style={{
                                 fontSize: '16px',
@@ -43,7 +43,6 @@ const AdminHeader = (props) => {
                             <div className="col-lg-6 col-12  d-flex align-items-center">
                                 <Input className='my-3 ms-3' placeholder="Tìm kiếm" prefix={<SearchOutlined />}
                                 />
-                                {/* <Search placeholder="input search text" onSearch={onSearch} enterButton /> */}
                             </div>
                         </div>
                         <div className="icon col-5 col-lg-2 d-flex justify-content-end ">

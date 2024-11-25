@@ -5,28 +5,32 @@ import AdminHeader from './components/AdminHeader';
 import SideBar from './components/Sidebar';
 import './Admin.scss';
 import { Outlet, useLocation, useNavigate } from 'react-router-dom';
-import { AuthenContext } from '@/contexts/AuthenContext';
 import { ROLE } from '@/constant/role';
 import { PATHS } from '@/constant/path';
+import { useDispatch, useSelector } from 'react-redux';
+import { logout } from '@/redux/authenSlice';
 const { Content } = Layout;
 
 const AdminLayoutTest = () => {
     const [collapsed, setCollapsed] = useState(false);
-    let { user, logout } = useContext(AuthenContext);
+    let navigate = useNavigate();
+    let { user } = useSelector((state) => state.authen);
+    let dispatch = useDispatch();
     const location = useLocation();
     useEffect(() => {
         if (user.role !== ROLE.ADMIN) {  // Clears the localStorage (optional)
-            logout(); // Redirect to login page or another appropriate route
+            dispatch(logout());
+            navigate(PATHS.HOME.LOGIN);
         }
     }, [location]);
     const action = (value) => {
         setCollapsed(value);
     }
-
     return (
         <div className='admin-content'>
             <Layout>
-                <SideBar open={collapsed}
+                <SideBar
+                    open={collapsed}
                     action={action} />
                 <Layout>
                     <AdminHeader

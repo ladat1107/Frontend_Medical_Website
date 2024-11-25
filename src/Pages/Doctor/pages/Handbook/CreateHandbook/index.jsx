@@ -1,21 +1,19 @@
 import './CreateHandbook.scss';
 import MarkdownIt from 'markdown-it';
 import MdEditor from 'react-markdown-editor-lite';
-import { Form, Input, message, Progress, Modal, Tag} from 'antd';
-import { useContext, useEffect, useState } from 'react';
+import { Form, message, Progress } from 'antd';
+import { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { getCardActionAreaUtilityClass } from '@mui/material';
-import { CloudUploadOutlined, InboxOutlined, UploadOutlined } from '@ant-design/icons';
+import { CloudUploadOutlined, } from '@ant-design/icons';
 import { getHandbookById, updateHandbook, createHandbook } from '@/services/doctorService';
 import { useNavigate } from 'react-router-dom';
 import { CLOUDINARY_FOLDER, TAGS } from '@/constant/value';
 import { uploadAndDeleteToCloudinary, uploadToCloudinary } from '@/utils/uploadToCloudinary';
-import { AuthenContext } from '@/contexts/AuthenContext';
+import { useSelector } from 'react-redux';
 
 const CreateHandbook = ({ handbookId, isEditMode, onUpdateSuccess, handleCancelEdit }) => {
     const navigate = useNavigate();
-
-    const {user} = useContext(AuthenContext);
+    let { user } = useSelector((state) => state.authen);
     const [markdownValue, setMarkdownValue] = useState("");
     const [htmlContent, setHtmlContent] = useState(markdownValue);
     const [uploading, setUploading] = useState(false);
@@ -57,7 +55,7 @@ const CreateHandbook = ({ handbookId, isEditMode, onUpdateSuccess, handleCancelE
 
                 const fetchedTags = response.data.DT.tags ? response.data.DT.tags.split(',') : [];
                 setActiveTags(fetchedTags);
-                setAllTags(prevTags => 
+                setAllTags(prevTags =>
                     prevTags.map(tag => ({
                         ...tag,
                         checked: fetchedTags.includes(tag.label), // Kiểm tra và set checked
@@ -156,9 +154,9 @@ const CreateHandbook = ({ handbookId, isEditMode, onUpdateSuccess, handleCancelE
     }
 
     const handleAddTag = (e) => {
-        if(e.key === 'Enter') {
+        if (e.key === 'Enter') {
             console.log(tag);
-            if(tag.trim() === '') return;
+            if (tag.trim() === '') return;
             setTagList([...tagList, tag]);
             setTags('');
             console.log(tagList);
@@ -166,8 +164,8 @@ const CreateHandbook = ({ handbookId, isEditMode, onUpdateSuccess, handleCancelE
     }
 
     const handleTagClick = (item) => {
-        setAllTags(prevTags => 
-            prevTags.map(tag => 
+        setAllTags(prevTags =>
+            prevTags.map(tag =>
                 tag.value === item.value ? { ...tag, checked: !tag.checked } : tag
             )
         );
@@ -195,7 +193,7 @@ const CreateHandbook = ({ handbookId, isEditMode, onUpdateSuccess, handleCancelE
                                         placeholder="Nhập tiêu đề..."
                                         value={title}
                                         maxLength={80}
-                                        onChange={handleInputChange('title')} 
+                                        onChange={handleInputChange('title')}
                                         onKeyDown={handleAddTag}
                                     />
                                 </div>
@@ -208,8 +206,8 @@ const CreateHandbook = ({ handbookId, isEditMode, onUpdateSuccess, handleCancelE
                             <div className='col-10'>
                                 <div className="search-container">
                                     <i className="fa-solid fa-note-sticky"></i>
-                                    <input 
-                                        type="text" 
+                                    <input
+                                        type="text"
                                         placeholder="Nhập tiêu đề..."
                                         maxLength={130}
                                         value={description}
@@ -217,7 +215,7 @@ const CreateHandbook = ({ handbookId, isEditMode, onUpdateSuccess, handleCancelE
                                 </div>
                             </div>
                         </div>
-                        
+
                         <div className='row mt-3 align-items-start'>
                             <div className='col-2'>
                                 <p className='text-bold text-start'>Ảnh bìa:</p>
@@ -226,7 +224,7 @@ const CreateHandbook = ({ handbookId, isEditMode, onUpdateSuccess, handleCancelE
                                 <Form.Item>
                                     <div className='image-upload'>
                                         <div className='container'>
-                                            <span className='image-cloud'><CloudUploadOutlined/></span>
+                                            <span className='image-cloud'><CloudUploadOutlined /></span>
                                             <div onClick={() => document.getElementById('input-upload').click()}>
                                                 <span htmlFor={"input-upload"} className='input-upload'>
                                                     Chọn ảnh
@@ -268,14 +266,14 @@ const CreateHandbook = ({ handbookId, isEditMode, onUpdateSuccess, handleCancelE
                         <div className='row mt-3'>
                             <div className='button-container'>
                                 {isEditMode && (
-                                    <button 
+                                    <button
                                         className='button-cancel'
-                                        onClick= {()=>handleCancelEdit()}>
+                                        onClick={() => handleCancelEdit()}>
                                         <i className="fa-solid fa-times"></i>
                                         Hủy
                                     </button>
                                 )}
-                                <button 
+                                <button
                                     className='button'
                                     onClick={handleSave}>
                                     <i className="fa-solid fa-floppy-disk"></i>
