@@ -12,7 +12,7 @@
         background: white;
         height: 105px;
         border-radius: 10px;
-        box-shadow: 4px 4px 8px #e6eaeb, -4px -4px 8px #e6eaeb;
+        border: 2px solid #e6eaeb;
 
         .icon{
             padding: 10px;
@@ -146,33 +146,6 @@
             color: gray;
         }
 
-        .patient-item{
-            padding: 5px;
-            background: white;
-            border-radius: 8px;
-            border: 1.5px solid #e6eaeb;
-            margin-left: 10px;
-            margin-right: 10px;
-
-            i{
-                color: #F44343;
-                padding: 10px;
-
-                &:hover{
-                    cursor: pointer;
-                    background: #ffe3dc;
-                    border-radius: 100%;
-                }
-            }
-
-            &:hover{
-                cursor: pointer;
-                box-shadow: 4px 4px 8px #e6eaeb, -4px -4px 8px #e6eaeb;
-                margin-left: 5px;
-                margin-right: 5px;
-            }
-        }
-
         .add-patient{
             padding: 10px;
             background: white;
@@ -205,6 +178,15 @@
             }
         }
 
+        .no-patient{
+            padding: 10px;
+            background: white;
+            border-radius: 6px;
+            border: 1.5px dashed #c9cccc;
+            margin-left: 10px;
+            margin-right: 10px;
+        }
+
         .bold-text{
             font-weight: 600;
         }
@@ -213,13 +195,44 @@
             color: gray;
         }   
 
-        .special{
+        .special-old{
             background: #ffe3dc;
             color: #FF7752;
             text-align: center;
             border: 1.5px solid #FF7752;
             border-radius: 8px;
             width: 70%;
+            font-size: 13px;
+        }
+
+        .special-children{
+            background: #DDFCED;
+            color: #3AA472;
+            text-align: center;
+            border: 1.5px solid #3AA472;
+            border-radius: 8px;
+            width: 70%;
+            font-size: 13px;
+        }
+
+        .special-disabled{
+            background: #DFEFFF;
+            color: #007BFF;
+            text-align: center;
+            border: 1.5px solid #007BFF;
+            border-radius: 8px;
+            width: 70%;
+            font-size: 13px;
+        }
+
+        .special-pregnant{
+            background: #FFD5D8;
+            color: #ff4851;
+            text-align: center;
+            border: 1.5px solid #ff4851;
+            border-radius: 8px;
+            width: 70%;
+            font-size: 13px;
         }
     }
 }

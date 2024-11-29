@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
 import './RadioButton.scss';
+import PropTypes from 'prop-types';
 
-const RadioButtonList = () => {
-  const [selectedOption, setSelectedOption] = useState('normal');
+const RadioButtonList = ({value, handleChangePrioritize}) => {
+  const [selectedOption, setSelectedOption] = useState(value);
 
   const handleChange = (event) => {
-    setSelectedOption(event.target.value);
+    const newValue = event.target.value;
+    setSelectedOption(newValue);
+    handleChangePrioritize(newValue);
   };
 
   return (
@@ -36,8 +39,8 @@ const RadioButtonList = () => {
                 <input
                     type="radio"
                     name="radio"
-                    value="young"
-                    checked={selectedOption === 'young'}
+                    value="children"
+                    checked={selectedOption === 'children'}
                     onChange={handleChange}
                 />
                 <span className="name">Trẻ em</span>
@@ -67,6 +70,10 @@ const RadioButtonList = () => {
         </div>
     </div>
   );
+};
+RadioButtonList.propTypes = {
+  value: PropTypes.string.isRequired,
+  handleChangePrioritize: PropTypes.func.isRequired,
 };
 
 export default RadioButtonList;

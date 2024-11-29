@@ -35,13 +35,28 @@
         .add-exam-body{
 
             .pation-info{
-                margin-bottom: 15px;
+
+                .text-loading {
+                    p{
+                        color: #007BFF;
+                        font-weight: 600;
+                    }
+                }
+                
+                .text-success {
+                    color: green; /* Màu xanh lá khi tìm thấy */
+                }
+                
+                .text-error {
+                    color: red; /* Màu đỏ khi không tìm thấy */
+                }
+                
 
                 .info-action{
                     display: flex;
                     justify-content: space-between;
 
-                    .add-patient{
+                    .find-patient{
                         height: 2.5em;
                         width: 2.7em;
                         background: #007BFF;
@@ -57,6 +72,34 @@
                             box-shadow: 2px 2px 4px #c5cacb;
                         }
                     }
+
+                    .select-add-exam{
+                        width: 100%;
+                        padding: 7px 10px;
+                        border: 1px solid #ccc;
+                        border-radius: 10px;
+                        box-shadow: 2px 2px 4px #e6eaeb;
+                        outline: none;
+                        margin-right: 20px;
+                        height: 2.7em;
+
+                        .ant-select-selector{
+                            border: none;
+                            box-shadow: none;
+                            padding: none;
+                            font-family: 'Be Vietnam Pro', sans-serif !important; // Áp dụng font
+                            font-size: 15px !important; // Kích thước chữ
+                            color: #333 !important; // Màu chữ (nếu cần)
+
+                            .ant-select-selection-search{
+                                .ant-select-selection-search-input{
+                                    color: black;
+                                    font-family: 'Be Vietnam Pro', sans-serif !important;
+                                    font-size: 15px !important;
+                                }
+                            }
+                        }
+                    }
                 }
 
             }
@@ -68,9 +111,9 @@
                     padding: 10px;
                     background: #EEEEEE;
                     border-radius: 10px;
+                    position: relative;
 
                     .comorbidities-list{
-                        padding: 10px;
 
                         .comorbidities-item{    
                             display: flex;
@@ -99,15 +142,21 @@
                         }
                     }
                     .search-results {
-                        max-height: 150px;
+                        position: absolute;
+                        left: 10px; // Match the padding of the parent container
+                        right: 10px; // Match the padding of the parent container
+                        bottom: calc(100% + 5px); // Position right above the input
+                        max-height: 180px;
                         overflow-y: auto;
                         background: #fff;
-                        border: 1px solid #ccc;
                         border-radius: 5px;
                         box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-                        position: absolute;
-                        width: 100%;
-                        z-index: 1000;
+                        z-index: 1100;
+                        border: 1px solid #ccc;
+                
+                        &:focus-visible {
+                            display: none;
+                        }
                     }
                     
                     .search-item {
@@ -164,6 +213,7 @@
         box-shadow: 2px 2px 4px #e6eaeb;
         outline: none;
         margin-right: 20px;
+        height: 2.7em;
     }
 }
 
