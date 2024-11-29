@@ -110,7 +110,7 @@ const ServiceOfRoom = () => {
                 setObUpdate(null);
                 refresh();
             } else {
-                message.error(response?.data?.EM || "Thất bại")
+                message.error(response?.data?.EM)
             }
         }).catch((error) => {
             console.log("error", error)

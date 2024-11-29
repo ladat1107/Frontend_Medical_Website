@@ -4,12 +4,26 @@ import "./Login.scss";
 import { handleLogin } from '@/services/adminService';
 import { useDispatch, useSelector } from 'react-redux';
 import { login } from '@/redux/authenSlice';
+import { useNavigate } from 'react-router-dom';
+import { ROLE } from '@/constant/role';
+import { PATHS } from '@/constant/path';
 const Login = () => {
     const dispatch = useDispatch();
+    let navigate = useNavigate();
     const onFinish = async (values) => {
         let respone = await handleLogin(values);
         if (respone?.data?.EC === 0) {
             dispatch(login(respone.data.DT));
+            console.log(respone.data.DT.user.role);
+            if (respone.data.DT.user.role) {
+                if (respone.data.DT.user.role === ROLE.ADMIN) {
+                    navigate(PATHS.ADMIN.DASHBOARD);
+                } else if (respone.data.DT.user.role === ROLE.PATIENT) {
+                    navigate(PATHS.HOME.HOMEPAGE);
+                } else {
+                    navigate(PATHS.STAFF.DASHBOARD);
+                }
+            }
         } else {
             message.error(respone?.data?.EM || 'Đăng nhập thất bại')
         }

@@ -89,7 +89,8 @@ const Specialty = () => {
         setUrlImage("");
         setCheckAll(false);
         setObUpdate(null);
-        setCurrentPage(1);
+        setSearch("");
+        fetchSpecialtys();
     }
     let handleUpdate = async (item) => {
         let response = await getSpecialtyById(item.id);
@@ -102,6 +103,10 @@ const Specialty = () => {
         }
     }
     let handleInsertUpdate = async () => {
+        if (!urlImage) {
+            message.error("Vui lòng chọn ảnh");
+            return;
+        }
         form.validateFields().then(async (values) => {
             let response = null;
             if (obUpdate) {
@@ -113,7 +118,7 @@ const Specialty = () => {
                 message.success(response?.data?.EM || "Thành công");
                 refresh();
             } else {
-                message.error(response?.data?.EM || "Thất bại")
+                message.error(response?.data?.EM)
             }
         }).catch((error) => {
             console.log("error", error)

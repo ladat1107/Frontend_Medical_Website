@@ -141,7 +141,7 @@ const CreateUser = (props) => {
                         wrapperCol={{
                             span: 24,
                         }}
-                        validateTrigger="onBlur"
+                        validateTrigger="submit"
                         initialValues={{}}
                         autoComplete="on"
                     >
@@ -163,7 +163,7 @@ const CreateUser = (props) => {
                                         },
                                     ]}
                                 >
-                                    <Input maxLength={50} />
+                                    <Input maxLength={50} placeholder='Vui lòng nhập họ' />
                                 </Form.Item>
                             </Col>
                             <Col xs={24} md={12} lg={6} >
@@ -182,7 +182,7 @@ const CreateUser = (props) => {
                                         },
                                     ]}
                                 >
-                                    <Input maxLength={50} />
+                                    <Input maxLength={50} placeholder='Vui lòng nhập tên' />
                                 </Form.Item>
                             </Col>
                             <Col xs={24} md={12} lg={6} >
@@ -200,7 +200,7 @@ const CreateUser = (props) => {
                                         },
                                     ]}
                                 >
-                                    <Input type='email' />
+                                    <Input type='email' placeholder='Vui lòng nhập email' />
                                 </Form.Item>
                             </Col>
                             <Col xs={24} md={12} lg={6} >
@@ -218,7 +218,7 @@ const CreateUser = (props) => {
                                         }
                                     ]}
                                 >
-                                    <Input type='number' />
+                                    <Input type='number' placeholder='Vui lòng nhập số điện thoại' maxLength={10} />
                                 </Form.Item>
                             </Col>
                             <Col xs={24} md={12} lg={6} >
@@ -236,7 +236,7 @@ const CreateUser = (props) => {
                                         },
                                     ]}
                                 >
-                                    <Input type='number' />
+                                    <Input type='number' placeholder='Vui lòng nhập căn cước công dân' maxLength={12} />
                                 </Form.Item>
                             </Col>
                             <Col xs={24} md={12} lg={6} >

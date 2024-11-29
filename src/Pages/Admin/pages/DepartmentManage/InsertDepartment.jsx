@@ -83,6 +83,7 @@ const InsertDepartment = (props) => {
     let handleInsert = () => {
         if (!imageUrl) {
             message.error('Vui lòng chọn ảnh khoa!')
+            return;
         }
         form.validateFields().then(async (values) => {
             let respone;
@@ -97,6 +98,7 @@ const InsertDepartment = (props) => {
             }
             else {
                 message.error(respone?.data?.EM || "Thêm khoa thất bại")
+                return;
             }
         }).catch((error) => {
             console.log(error)

@@ -29,24 +29,7 @@ import DoctorDetail from "./Pages/User/pages/DoctorDetail";
 import ProfileStaff from "./pages/Doctor/pages/ProfileStaff";
 import HandbookAdmin from "./pages/Admin/pages/HandbookAdmin";
 import HandbookAdminDetail from "./pages/Admin/pages/HandbookAdmin/Detail";
-import { useSelector } from "react-redux";
-import { useEffect } from "react";
-import { ROLE } from "./constant/role";
 function App() {
-  let navigate = useNavigate();
-  let { user } = useSelector((state) => state.authen);
-
-  useEffect(() => {
-    if (user) {
-      if (user.role === ROLE.ADMIN) {
-        navigate(PATHS.ADMIN.DASHBOARD);
-      } else if (user.role === ROLE.PATIENT) {
-        navigate(PATHS.HOME.HOMEPAGE);
-      } else {
-        navigate(PATHS.STAFF.DASHBOARD);
-      }
-    }
-  }, [user]);
   return (
     <Routes>
       <Route element={<MainLayout />}>
