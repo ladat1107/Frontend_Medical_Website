@@ -256,6 +256,17 @@ export const getSpecialties = async () => {
     }
 }
 
+//insuarance
+export const getUserInsuarance = async (userId) => {
+    try{
+        const response = await axios.get(`/api/getUserInsuarance?userId=${userId}`);
+        return response.data;
+    } catch (error) {
+        console.error("Error:", error);
+        throw error;
+    }
+}
+
 export {
     getUserByCid,
     getUserById,

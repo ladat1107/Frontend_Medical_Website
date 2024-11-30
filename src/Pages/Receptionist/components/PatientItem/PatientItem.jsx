@@ -5,9 +5,10 @@ import { updateExamination } from '@/services/doctorService';
 import { message } from 'antd';
 import './PatientItem.scss';
 
-const PatientItem = ({ index, id, name, symptom, special, doctor, room, visit_status, downItem}) => {
+const PatientItem = ({ index, id, name, symptom, special, doctor, room, visit_status, downItem, onClickItem}) => {
 
-    const handleDownItem = async () => {
+    const handleDownItem = async (event) => {
+        event.stopPropagation();
         try{
           const data = {
             id: id,
@@ -60,8 +61,12 @@ const PatientItem = ({ index, id, name, symptom, special, doctor, room, visit_st
         return <p className={`special ${specialClass}`}>{specialText}</p>;
     };
 
+    const handleClickItem = () => {
+      onClickItem(id);
+    }
+
     return (
-        <div className="patient-item mt-2 row">
+        <div className="patient-item mt-2 row" onClick={handleClickItem}>
             <div className="col-1">
                 <p>{index}</p>
             </div>
@@ -82,7 +87,7 @@ const PatientItem = ({ index, id, name, symptom, special, doctor, room, visit_st
             </div>
             <div className="col-1 d-flex justify-content-end">
               {visit_status === 0 && (
-                <i className="fa-solid fa-forward-fast fa-rotate-90 color-down" onClick={handleDownItem}></i>
+                <i className="fa-solid fa-forward-fast fa-rotate-90 color-down" onClick={(event) => handleDownItem(event)}></i>
               )}
               {/* {visit_status === 1 && (
                 <i className="fa-solid fa-forward-fast fa-rotate-270 color-up"></i>
@@ -101,5 +106,6 @@ PatientItem.propTypes = {
     room: PropTypes.string,
     visit_status: PropTypes.number,
     downItem: PropTypes.func,
+    onClickItem: PropTypes.func,
 };
 export default PatientItem;

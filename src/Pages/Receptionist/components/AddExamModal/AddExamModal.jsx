@@ -2,19 +2,18 @@ import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import RadioButtonList from '../RadioButton/RadioButton';
 import { useMutation } from '@/hooks/useMutation';
-import { createExamination, getAllDisease, getSpecialties, getUserByCid } from '@/services/doctorService';
+import { createExamination, getAllDisease, getUserInsuarance, getSpecialties, getUserByCid } from '@/services/doctorService';
 import { message, Select } from 'antd';
 import { getThirdDigitFromLeft, isNumericString } from '@/utils/numberSeries';
 import './AddExamModal.scss';
 
-const AddExamModal = ({ isOpen, onClose, timeSlot, handleAddExamSuscess }) => {
-
+const AddExamModal = ({ isOpen, onClose, timeSlot, handleAddExamSuscess, isEditMode, patientData }) => {
     const [comorbiditiesOptions, setComorbiditiesOptions] = useState([]);
     const [selectedComorbidities, setSelectedComorbidities] = useState([]);
     const [inputComorbidity, setInputComorbidity] = useState('');
     const [shakeId, setShakeId] = useState(null);
     const [showSearchResults, setShowSearchResults] = useState(false);
-    const [prioritize, setPrioritize] = useState('normal');
+    const [prioritize, setPrioritize] = useState(patientData?.special || 'normal');
 
     const [specialtySelected, setSpecialtySelected] = useState(null);
     const [specialtyOptions, setSpecialtyOptions] = useState([]);
@@ -29,6 +28,50 @@ const AddExamModal = ({ isOpen, onClose, timeSlot, handleAddExamSuscess }) => {
     const searchResultsRef = useRef(null);
     const [loading, setLoading] = useState(false);
     const [isSearching, setIsSearching] = useState(false);
+
+    const insuarance = async () => {
+        try{
+            const response = await getUserInsuarance(patientData.userId);
+
+            let insuranceData = null;
+
+            if(response.EC === 0 && response.DT){
+                insuranceData = response.DT;
+                
+            }
+
+            const comorbidityObjects = patientData.comorbidities 
+                ? patientData.comorbidities.split(',').map(comorbidityId => {
+                    const matchedComorbidity = comorbiditiesOptions.find(
+                        option => option.id === comorbidityId
+                    );
+                    return matchedComorbidity;
+                }).filter(Boolean)  // Loại bỏ các entry không khớp
+                : [];
+
+            // Sử dụng dữ liệu từ userExaminationData
+            setUserInfo({
+                id: patientData.userId,
+                firstName: patientData.userExaminationData.firstName,
+                lastName: patientData.userExaminationData.lastName,
+            });
+
+            setSelectedComorbidities(comorbidityObjects);
+            setSymptom(patientData.symptom || '');
+            setInsurance(insuranceData?.userInsuranceData?.insuranceCode || '');
+
+            // Tìm và set specialty
+            const matchedSpecialty = specialtyOptions.find(
+                specialty => specialty.label === patientData.roomName
+            );
+            if (matchedSpecialty) {
+                setSpecialtySelected(matchedSpecialty);
+            }
+        } catch (error) {
+            console.error("Error getting insurance:", error.response?.data || error.message);
+            return null;
+        }
+    }
 
     const {
         data: dataComorbidities,
@@ -69,8 +112,14 @@ const AddExamModal = ({ isOpen, onClose, timeSlot, handleAddExamSuscess }) => {
 
     useEffect(() => {
         fetchComorbidities();
-        fetchSpecialties();
+        fetchSpecialties();  
     }, []);
+
+    useEffect(() => {
+        if(isEditMode) {
+            insuarance();     
+        }
+    }, [comorbiditiesOptions, specialtyOptions]);  
 
     const handleSpecialtyChange = (value) => {
         setSpecialtySelected({
@@ -91,7 +140,7 @@ const AddExamModal = ({ isOpen, onClose, timeSlot, handleAddExamSuscess }) => {
         setUserInfo({});
         setSelectedComorbidities([]);
         setInputComorbidity('');
-        setPrioritize('normal');
+        //setPrioritize('normal');
     }
 
     const handleFindUser = async () => {
@@ -193,7 +242,8 @@ const AddExamModal = ({ isOpen, onClose, timeSlot, handleAddExamSuscess }) => {
             price: specialtySelected.staffPrice,
             comorbidities: selectedComorbidities ? selectedComorbidities.map(item => item.id).join(',') : null,
             time: timeSlot ? timeSlot : null,
-            is_appointment: timeSlot ? 1 : 0
+            is_appointment: timeSlot ? 1 : 0,
+            status: timeSlot ? 2 : 4
         }
 
         try{
@@ -213,56 +263,100 @@ const AddExamModal = ({ isOpen, onClose, timeSlot, handleAddExamSuscess }) => {
         }
     }
 
+    const updateExam = async() => {
+        console.log('Update exam');
+    }
+
     if (!isOpen) return null;
 
     return (
         <div className="add-exam-container">
             <div className="add-exam-content">
-                <div className='add-exam-header'>
-                    Thêm hồ sơ khám bệnh
-                </div>
+                {isEditMode ? (
+                    <div className='add-exam-header'>
+                        Hồ sơ khám bệnh
+                    </div>
+                ) : (   
+                    <div className='add-exam-header'>
+                        Thêm hồ sơ khám bệnh
+                    </div>
+                )}
+                
                 <div className='add-exam-body'>
                     <div className='pation-info'>
-                        <p>Thông tin bệnh nhân:</p>
-                        <div className='info-action'>
-                            <input className='input-add-exam' maxLength={12}
-                                    type='text' value={cid} onChange={(e) => setCid(e.target.value)}
-                                    placeholder='Nhập số CCCD để tìm kiếm...' />
-                            <button className='find-patient' onClick={handleFindUser}>
-                                <i className="fa-solid fa-magnifying-glass"></i>
-                            </button>
-                        </div>
-                        <div className={`patient-name row mt-3 ${
-                            loading ? '' : 
-                            userInfo?.lastName && userInfo?.firstName ? 'text-loading' : 'text-danger ms-1 mb-2'
-                        }`}>
-                            {isSearching && (
-                                loading ? (
-                                    'Đang tìm kiếm...'
-                                ) : userInfo?.lastName && userInfo?.firstName ? (
-                                    <div className='row'>
-                                        <div className='col-12 d-flex flex-row'>
-                                            <div className='col-2'>
-                                                <p>Bệnh nhân:</p>
+                        
+                        {isEditMode ? (
+                            <>
+                                <div className="patient-name row mt-3">
+                                    { userInfo?.lastName && userInfo?.firstName ? (
+                                        <div className='row'>
+                                            <div className='col-12 d-flex flex-row'>
+                                                <div className='col-2'>
+                                                    <p style={{fontWeight: "400"}}>Bệnh nhân:</p>
+                                                </div>
+                                                <div className='col-8'>
+                                                    <p>{userInfo.lastName} {userInfo.firstName}</p>
+                                                </div>
                                             </div>
-                                            <div className='col-8'>
-                                                {userInfo.lastName} {userInfo.firstName}
-                                            </div>
-                                        </div>
-                                        <div className='col-12 d-flex flex-row mt-3 mb-2'>
-                                            <div className='col-2 d-flex align-items-center'>
-                                                <p>Số BHYT:</p>
-                                            </div>
-                                            <div className='col-5'>
-                                                <input className='input-add-exam' style={{margin: 0}} maxLength={10}
-                                                    type='text' value={insurance} onChange={(e) => setInsurance(e.target.value)}
-                                                    placeholder='Nhập số BHYT...' />
+                                            <div className='col-12 d-flex flex-row mt-3 mb-2'>
+                                                <div className='col-2 d-flex align-items-center'>
+                                                    <p style={{fontWeight: "400"}}>Số BHYT:</p>
+                                                </div>
+                                                <div className='col-5'>
+                                                    <input className='input-add-exam' style={{width: "93%"}} maxLength={10}
+                                                        type='text' value={insurance} onChange={(e) => setInsurance(e.target.value)}
+                                                        placeholder='Nhập số BHYT...' />
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                ) :  'Không tìm thấy người dùng'
-                            )}
-                        </div>
+                                    ) :  'Không tìm thấy người dùng' }
+                                </div>
+                            </>
+                        ):(
+                            <>
+                            <p>Thông tin bệnh nhân:</p>
+                                <div className='info-action'>
+                                    <input className='input-add-exam' maxLength={12}
+                                            type='text' value={cid} onChange={(e) => setCid(e.target.value)}
+                                            placeholder='Nhập số CCCD để tìm kiếm...' />
+                                    <button className='find-patient' onClick={handleFindUser}>
+                                        <i className="fa-solid fa-magnifying-glass"></i>
+                                    </button>
+                                </div>
+                                <div className={`patient-name row mt-3 ${
+                                    loading ? '' : 
+                                    userInfo?.lastName && userInfo?.firstName ? 'text-loading' : 'text-danger ms-1 mb-2'
+                                }`}>
+                                    {isSearching && (
+                                        loading ? (
+                                            'Đang tìm kiếm...'
+                                        ) : userInfo?.lastName && userInfo?.firstName ? (
+                                            <div className='row'>
+                                                <div className='col-12 d-flex flex-row'>
+                                                    <div className='col-2'>
+                                                        <p>Bệnh nhân:</p>
+                                                    </div>
+                                                    <div className='col-8'>
+                                                        <p style={{color:"black", fontWeight: "400"}}>{userInfo.lastName} {userInfo.firstName}</p>
+                                                    </div>
+                                                </div>
+                                                <div className='col-12 d-flex flex-row mt-3 mb-2'>
+                                                    <div className='col-2 d-flex align-items-center'>
+                                                        <p>Số BHYT:</p>
+                                                    </div>
+                                                    <div className='col-5'>
+                                                        <input className='input-add-exam' style={{width: "93%"}} maxLength={10}
+                                                            type='text' value={insurance} onChange={(e) => setInsurance(e.target.value)}
+                                                            placeholder='Nhập số BHYT...' />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        ) :  'Không tìm thấy người dùng'
+                                    )}
+                                </div>
+                            </>
+                        )}
+                        
                     </div>
                     <div className='pation-info row mb-4'>
                         <div className='col-7'>
@@ -355,7 +449,11 @@ const AddExamModal = ({ isOpen, onClose, timeSlot, handleAddExamSuscess }) => {
                 </div>
                 <div className='add-exam-footer'>
                     <button className="close-exam-btn" onClick={onClose}>Đóng</button>
-                    <button className='add-exam-btn' onClick={addExam}>Thêm</button>
+                        {isEditMode ? (
+                            <button className='add-exam-btn' onClick={updateExam}>Xác nhận</button>
+                        ) : ( 
+                            <button className='add-exam-btn' onClick={addExam}>Thêm</button>
+                        )}
                 </div>
             </div>
         </div>
@@ -366,7 +464,9 @@ AddExamModal.propTypes = {
     isOpen: PropTypes.bool.isRequired,
     onClose: PropTypes.func.isRequired,
     timeSlot: PropTypes.number,
-    handleAddExamSuscess: PropTypes.func.isRequired
+    handleAddExamSuscess: PropTypes.func.isRequired,
+    isEditMode: PropTypes.bool,
+    patientData: PropTypes.object,
 }
 
 export default AddExamModal;

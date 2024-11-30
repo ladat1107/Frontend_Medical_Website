@@ -1,4 +1,4 @@
-import { Pagination, Select } from "antd";
+import { message, Pagination, Select } from "antd";
 import "./Dashboard.scss"
 import { useEffect, useState } from "react";
 import AddExamModal from "../../components/AddExamModal/AddExamModal";
@@ -12,6 +12,8 @@ const ReceptionistDashboard = () => {
     const today = new Date().toISOString();
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedTimeSlot, setSelectedTimeSlot] = useState(null);
+    const [isEditMode, setIsEditMode] = useState(false);
+    const [patientData, setPatientData] = useState({});
 
     const [currentPage, setCurrentPage] = useState(1);
     const [pageSize, setPageSize] = useState(50);
@@ -24,8 +26,8 @@ const ReceptionistDashboard = () => {
     const [totalPatient, setTotalPatient] = useState(0);
     const [totalAppointment, setTotalAppointment] = useState(0);
 
-    
     const openAddExam = (timeSlot) => {
+        setIsEditMode(false);
         setIsModalOpen(true);
         setSelectedTimeSlot(timeSlot);
     };
@@ -33,6 +35,7 @@ const ReceptionistDashboard = () => {
 
     const [listExam, setListExam] = useState([]);
 
+    // #region Fetch data 
     const {
         data: dataExaminations,
         loading: loadingExaminations,
@@ -53,6 +56,9 @@ const ReceptionistDashboard = () => {
         }
     }, [dataExaminations]);
 
+    // #endregion
+
+    // #region Handle events
     const handlePageChange = (page, pageSize) => {
         setCurrentPage(page);
         setPageSize(pageSize);
@@ -78,6 +84,30 @@ const ReceptionistDashboard = () => {
         fetchExaminations();
     }
 
+    const handleClickItem = (id) => {
+        const selectedPatient = listExam.find(item => item.id === id);
+    
+        if (selectedPatient) {
+            // Hiển thị thông báo thành công
+            message.success(`Đã chọn bệnh nhân ${selectedPatient.userExaminationData.lastName} ${selectedPatient.userExaminationData.firstName}`);
+            
+            // Chuyển sang chế độ chỉnh sửa
+            setIsEditMode(true);
+            
+            // Đặt dữ liệu bệnh nhân
+            setPatientData(selectedPatient);
+            
+            // Mở modal
+            setIsModalOpen(true);
+        } else {
+            // Xử lý trường hợp không tìm thấy bệnh nhân
+            message.error('Không tìm thấy thông tin bệnh nhân');
+        }
+    }
+
+    // #endregion
+
+    // #region Render
     const renderExaminationByTimeSlot = () => {
         // Nếu có chọn time cụ thể, chỉ render time đó
         if (time) {
@@ -141,6 +171,7 @@ const ReceptionistDashboard = () => {
                                 doctor={`${item.examinationStaffData.staffUserData.lastName} ${item.examinationStaffData.staffUserData.firstName}`}
                                 downItem={downItem}
                                 visit_status={item.visit_status}
+                                onClickItem={()=>handleClickItem(item.id)}
                             />
                         ))
                     )}
@@ -155,6 +186,9 @@ const ReceptionistDashboard = () => {
         });
     };
 
+    // #endregion
+
+    // #region Return
     return (
         <div className="dashboard-container">
             <div className="dashboard-header ms-1 row gap2">
@@ -289,7 +323,11 @@ const ReceptionistDashboard = () => {
                 isOpen={isModalOpen} 
                 onClose={closeAddExam} 
                 timeSlot={selectedTimeSlot}
-                handleAddExamSuscess={handleAddExamSuscess} />
+                handleAddExamSuscess={handleAddExamSuscess}
+                isEditMode={isEditMode}
+                patientData={patientData} 
+                key={ patientData? patientData.id + " " + Date.now() : "modal-closed"}
+                />
         </div>
     );
 }
