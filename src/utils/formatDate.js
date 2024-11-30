@@ -37,3 +37,12 @@ export const formatDate = (dateString) => {
   const options = { year: 'numeric', month: 'long', day: 'numeric' };
   return new Date(dateString).toLocaleDateString('vi-VN', options);
 };
+
+export const formatDate1 = (dateString) => {
+  const date = new Date(dateString);
+  const daysOfWeek = ["Chủ nhật", "Thứ 2", "Thứ 3", "Thứ 4", "Thứ 5", "Thứ 6", "Thứ 7"];
+  const dayOfWeek = daysOfWeek[date.getDay()]; // Lấy thứ
+  const day = String(date.getDate()).padStart(2, '0'); // Lấy ngày, thêm '0' nếu cần
+  const month = String(date.getMonth() + 1).padStart(2, '0'); // Lấy tháng, thêm '0' nếu cần
+  return `${dayOfWeek} (${day}/${month})`;
+}

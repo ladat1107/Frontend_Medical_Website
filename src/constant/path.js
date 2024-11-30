@@ -11,6 +11,7 @@ export const PATHS = {
         SPECIALTY_MANAGE: "/adminSpecialty",
         HANDBOOK_MANAGE: "/adminHandbook",
         HANDBOOK_DETAIL: "/adminHandbookDetail",
+        SCHEDULE_MANAGE: "/adminSchedule",
         //EXAMINATION_MANAGE: "/adminExamination",
     },
     STAFF: {

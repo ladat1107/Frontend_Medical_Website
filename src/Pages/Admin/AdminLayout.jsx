@@ -1,8 +1,8 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Layout, theme } from 'antd';
-import AdminFooter from './components/AdminFooter';
-import AdminHeader from './components/AdminHeader';
-import SideBar from './components/Sidebar';
+import AdminFooter from './components/AdminFooter/AdminFooter';
+import AdminHeader from './components/AdminHeader/AdminHeader';
+import SideBar from './components/Sidebar/SidebarAdmin';
 import './Admin.scss';
 import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { ROLE } from '@/constant/role';

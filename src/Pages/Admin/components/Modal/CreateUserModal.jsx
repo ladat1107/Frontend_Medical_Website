@@ -141,7 +141,7 @@ const CreateUser = (props) => {
                         wrapperCol={{
                             span: 24,
                         }}
-                        validateTrigger="submit"
+                        validateTrigger="onBlur"
                         initialValues={{}}
                         autoComplete="on"
                     >
@@ -314,6 +314,7 @@ const CreateUser = (props) => {
                                 >
                                     <Select
                                         placeholder="Chọn chuyên khoa"
+                                        allowClear
                                         showSearch
                                         optionFilterProp="label"
                                         filterSort={(optionA, optionB) =>

@@ -1,34 +1,34 @@
 // import "./App.css";
 import MainLayout from "./layouts/MainLayout";
 import ContactPage from "./pages/Contact/index";
-import AdminHomePage from "./pages/Admin/pages/HomePage";
+import AdminHomePage from "./pages/Admin/pages/HomePage/HomePageAdmin";
 import HomePage from "./pages/Home/index";
 import { Routes, Route, useNavigate } from "react-router-dom";
 import PrivateRoute from "./components/AuthComponent/PrivateRouter";
-import StaffManage from "./pages/Admin/pages/UserManage/Staff";
-import PatientManage from "./pages/Admin/pages/UserManage/Patient";
+import StaffManage from "./pages/Admin/pages/UserManage/Staff/StaffManage";
+import PatientManage from "./pages/Admin/pages/UserManage/Patient/PatientManage";
 import DoctorLayout from "./pages/Doctor";
 import DoctorHomePage from "./pages/Doctor/pages/HomePage";
 import Appointment from "./pages/Doctor/pages/Appointment";
 import Examination from "./pages/Doctor/pages/Examination";
-import AdminLayoutTest from "./pages/Admin";
-import DepartmentManage from "./pages/Admin/pages/DepartmentManage";
-import Room from "./pages/Admin/pages/Room";
-import ServiceOfRoom from "./pages/Admin/pages/ServiceOfRoom";
-import Profile from "./pages/Admin/components/Profile";
+import AdminLayoutTest from "./pages/Admin/AdminLayout";
+import DepartmentManage from "./pages/Admin/pages/DepartmentManage/DepartmentManage";
+import Room from "./pages/Admin/pages/Room/RoomManage";
+import ServiceOfRoom from "./pages/Admin/pages/ServiceOfRoom/ServiceOfRoomManage";
 import Handbook from "./pages/Doctor/pages/Handbook";
 import InfoHandbook from "./pages/Doctor/pages/Handbook/InfoHandbook";
 import Schedule from "./pages/Doctor/pages/Schedule";
-import Specialty from "./pages/Admin/pages/Specialty";
+import Specialty from "./pages/Admin/pages/Specialty/SpecialtyManage";
 import Login from "./pages/Login";
 import { PATHS } from "./constant/path";
 import ReceptionistLayout from "./pages/Receptionist";
 import ReceptionistDashboard from "./pages/Receptionist/components/Dashboard";
-import ProfileAdmin from "./pages/Admin/pages/ProfileAdmin";
+import ProfileAdmin from "./pages/Admin/pages/ProfileAdmin/ProfileAdmin";
 import DoctorDetail from "./Pages/User/pages/DoctorDetail";
 import ProfileStaff from "./pages/Doctor/pages/ProfileStaff";
-import HandbookAdmin from "./pages/Admin/pages/HandbookAdmin";
+import HandbookAdmin from "./pages/Admin/pages/HandbookAdmin/HandbookAdmin";
 import HandbookAdminDetail from "./pages/Admin/pages/HandbookAdmin/Detail";
+import ScheduleManage from "./pages/Admin/pages/ScheduleManage/ScheduleManage";
 function App() {
   return (
     <Routes>
@@ -51,6 +51,7 @@ function App() {
           <Route path={PATHS.ADMIN.PROFILE} element={<ProfileAdmin />} />
           <Route path={PATHS.ADMIN.HANDBOOK_MANAGE} element={<HandbookAdmin />} />
           <Route path={`${PATHS.ADMIN.HANDBOOK_DETAIL}/:id`} element={<HandbookAdminDetail />} />
+          <Route path={PATHS.ADMIN.SCHEDULE_MANAGE} element={<ScheduleManage />} />
         </Route>
         <Route element={<DoctorLayout />}>
           <Route path={PATHS.STAFF.DASHBOARD} element={<DoctorHomePage />} />

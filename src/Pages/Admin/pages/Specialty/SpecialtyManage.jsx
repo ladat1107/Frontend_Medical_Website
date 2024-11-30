@@ -1,4 +1,4 @@
-import "./Specialty.scss"
+import "./SpecialtyManage.scss"
 import { useMutation } from "@/hooks/useMutation";
 import useDebounce from "@/hooks/useDebounce";
 import { useEffect, useState } from "react";

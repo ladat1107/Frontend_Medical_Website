@@ -1,0 +1,28 @@
+@import "../../../../style/variables.scss";
+
+.schedule-manage-content {
+    display: flex;
+    justify-content: center; // Căn giữa theo chiều ngang
+    align-items: center; // Căn giữa theo chiều dọc
+    height: 100%;
+    background: $background-color;
+
+    .container {
+        padding: 0 3%;
+        margin: 0;
+        background: $background-color;
+
+        .schedule-content-header {
+            .text {
+                font-size: 1.2rem;
+                color: $secondary-color-admin;
+            }
+        }
+
+        .schedule1-content {
+            background: white;
+            border-radius: 10px;
+            box-shadow: $box-shadow-content-admin;
+        }
+    }
+}

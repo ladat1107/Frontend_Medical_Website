@@ -17,7 +17,6 @@ import useQuery from "@/hooks/useQuery";
 import Status from "../../components/Status";
 import DropdownAction from "../../components/Dropdown/DropdownAction";
 const Room = () => {
-    let [showDeleteModal, setShowDeleteModal] = useState(false);
     let [showInsert, setShowInsert] = useState(false);
     let [currentPage, setCurrentPage] = useState(1);
     let [rowsPerPage, setRowPaper] = useState({ value: 10, id: 1 });
@@ -143,7 +142,6 @@ const Room = () => {
                             <FontAwesomeIcon
                                 className='me-1 icon' icon={faRotateRight} style={{ color: "#04a9f3", }} /> Tải lại</button>
                     </div>
-
                 </div>
                 <div className={`p-1 animated-div ${showInsert ? 'show' : ''}`}>
                     {showInsert && <InsertRoom
