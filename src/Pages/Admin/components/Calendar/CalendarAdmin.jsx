@@ -1,22 +1,23 @@
-import React, { useState } from "react";
-import { Table, Button, DatePicker, } from 'antd';
+import React, { useEffect, useState } from "react";
+import { Table } from 'antd';
 import dayjs from "dayjs";
 import { formatDate1 } from "@/utils/formatDate";
 import { secondaryColorAdmin } from "@/style/variables";
 import "./Calendar.scss";
 import { ROLE } from "@/constant/role";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCirclePlus, faPlus } from "@fortawesome/free-solid-svg-icons";
+import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { getSchedule } from "@/services/adminService";
 import ScheduleModal from "../Modal/ScheduleModal";
-import { set } from "lodash";
-
+import * as XLSX from "xlsx";
+import { saveAs } from "file-saver";
+// import jsPDF from "jspdf";
+// import "jspdf-autotable";
 const ScheduleTable = (props) => {
-    const [currentWeek, setCurrentWeek] = useState(dayjs());
     const [isModalOpen, setIsModalOpen] = useState(false);
-    let [scheduleUpdate, setScheduleUpdate] = useState({});
+    let [scheduleUpdate, setScheduleUpdate] = useState(null);
     const [shifts, setShifts] = useState([
-        props.schedules.map((schedule) => ({
+        props?.schedules?.map((schedule) => ({
             doctorId: schedule.staffId,
             roomId: schedule.roomId,
             doctor: schedule.staffScheduleData.staffUserData.lastName + " " + schedule.staffScheduleData.staffUserData.firstName,
@@ -24,11 +25,14 @@ const ScheduleTable = (props) => {
             roleId: schedule.staffScheduleData.staffUserData.roleId,
         })),
     ]);
-    const departments = props.listDepartment;
-    // Tạo các ngày trong tuần
-    const daysOfWeek = Array(7).fill(0).map((_, i) => currentWeek.startOf("week").add(i + 1, "day")); // Thứ 2 → Chủ nhật
-
-    // Cột của bảng
+    const departments = props?.listDepartment;
+    const daysOfWeek = props?.daysOfWeek;
+    useEffect(() => {
+        if (props.pdfExport) {
+            exportToExcel();
+            props.setPdfExport(false);
+        }
+    }, [props.pdfExport]);
     const columns = [
         {
             title: "Khoa",
@@ -46,30 +50,28 @@ const ScheduleTable = (props) => {
             key: "roomName",
             width: 50,
         },
-        ...daysOfWeek.map((date) => ({
+        ...daysOfWeek?.map((date) => ({
             title: formatDate1(date),
             dataIndex: date.format("YYYY-MM-DD"),
             key: date.format("YYYY-MM-DD"),
             onCell: (record) => ({
-                onDoubleClick: () => handleGetSchedule(date, record.roomId, record.roomName, record.departmentId),
+                onClick: () => handleGetSchedule(date, record.roomId, record.roomName, record.departmentId),
             }),
             render: (_, record) => {
                 // Lọc lịch trực cho roomId và ngày tương ứng
-                const shiftsForDate = shifts[0].filter(
+                const shiftsForDate = shifts[0]?.filter(
                     (shift) =>
                         shift.roomId === record.roomId &&
                         shift.date === date.format("YYYY-MM-DD")
-
                 );
-                console.log(shiftsForDate);
                 // Hiển thị danh sách bác sĩ và giờ trực
-                return shiftsForDate.length > 0 ? (
+                return shiftsForDate?.length > 0 ? (
                     <div style={{ cursor: "pointer" }} >
                         <ul style={{ padding: 0, listStyleType: "none" }}>
                             {shiftsForDate
-                                .filter((shift) => shift.roleId === ROLE.DOCTOR)
-                                .map((shift) => (
-                                    <li key={`doctor-${shift.doctor}-${shift.date}-${shift.roomId}`}>
+                                ?.filter((shift) => shift.roleId === ROLE.DOCTOR)
+                                ?.map((shift) => (
+                                    <li key={`doctor-${shift.doctor}-${shift.doctorId}-${shift.date}-${shift.roomId}`}>
                                         <div
                                             style={{
                                                 color: secondaryColorAdmin,
@@ -79,8 +81,8 @@ const ScheduleTable = (props) => {
                                     </li>
                                 ))}
                             {shiftsForDate
-                                .filter((shift) => shift.roleId !== ROLE.DOCTOR)
-                                .map((shift) => (
+                                ?.filter((shift) => shift.roleId !== ROLE.DOCTOR)
+                                ?.map((shift) => (
                                     <li key={`other-${shift.doctor}-${shift.date}-${shift.roomId}`}>
                                         {shift.roleId === ROLE.NURSE && (
                                             <span
@@ -103,12 +105,11 @@ const ScheduleTable = (props) => {
             },
         })),
     ];
-    // Hàm tạo dữ liệu cho bảng
     const prepareTableData = (data) => {
         const tableData = [];
-        data.forEach((dept) => {
-            dept.roomData.forEach((room, index) => {
-                tableData.push({
+        data?.forEach((dept) => {
+            dept?.roomData?.forEach((room, index) => {
+                tableData?.push({
                     key: `${dept.name}-${room.id}`,
                     departmentName: dept.name,
                     departmentId: dept.id,
@@ -121,10 +122,6 @@ const ScheduleTable = (props) => {
         return tableData;
     };
     const tableData = prepareTableData(departments);
-    // Điều hướng tuần
-    const handleWeekChange = (direction) => {
-        setCurrentWeek(currentWeek.add(direction, "week"));
-    };
     const handleGetSchedule = async (date, roomId, roomName, departmentId) => {
         date = dayjs(date).format("YYYY-MM-DD HH:mm:ss");
         let response = await getSchedule({ date, roomId });
@@ -138,22 +135,106 @@ const ScheduleTable = (props) => {
         setIsModalOpen(false);
         props.refresh();
     }
+    // const exportPDF = () => {
+    //     const doc = new jsPDF();
+    //     // Thêm font Roboto (hoặc font khác hỗ trợ tiếng Việt)
+    //     doc.setFont("Roboto");
+    //     // Tiêu đề tài liệu
+    //     doc.setFontSize(12);
+    //     doc.text("Lịch Trực Nhân Viên", 14, 10);
+
+    //     const tableColumns = [
+    //         "Khoa",
+    //         "Phòng",
+    //         ...daysOfWeek.map((date) => dayjs(date).format("YYYY-MM-DD")),
+    //     ];
+
+    //     const tableRows = tableData.map((data) => {
+    //         const row = [
+    //             data.departmentName || "",
+    //             data.roomName || "",
+    //             ...daysOfWeek.map((date) => {
+    //                 const shiftsForDate = shifts[0]?.filter(
+    //                     (shift) =>
+    //                         shift.roomId === data.roomId &&
+    //                         shift.date === date.format("YYYY-MM-DD")
+    //                 );
+    //                 return shiftsForDate
+    //                     ?.map(
+    //                         (shift) =>
+    //                             `${shift.roleId === ROLE.DOCTOR
+    //                                 ? `BS.${shift.doctor}`
+    //                                 : shift.doctor
+    //                             }`
+    //                     )
+    //                     .join(", ") || "";
+    //             }),
+    //         ];
+    //         return row;
+    //     });
+    //     console.log(tableRows);
+    //     doc.autoTable({
+    //         head: [tableColumns],
+    //         body: tableRows,
+    //         startY: 20,
+    //         styles: { font: "Roboto", fontSize: 12, cellPadding: 5 },
+    //         headStyles: { fillColor: [22, 160, 133], textColor: [255, 255, 255], fontSize: 12 },
+    //         bodyStyles: { fontSize: 12 },
+    //     });
+
+    //     // Lưu file
+    //     doc.save("lich_truc.pdf");
+    // };
+
+    const exportToExcel = () => {
+        // Chuẩn bị dữ liệu để xuất
+        const excelData = [];
+
+        // Đưa dữ liệu departments vào Excel
+        departments.forEach((dept) => {
+            dept?.roomData?.forEach((room) => {
+                const row = {
+                    Khoa: dept.name,
+                    Phòng: room.name,
+                };
+
+                // Thêm thông tin các ngày trong tuần vào hàng này
+                daysOfWeek.forEach((date) => {
+                    const formattedDate = date.format("YYYY-MM-DD");
+                    const shiftsForDate = shifts[0]?.filter(
+                        (shift) =>
+                            shift.roomId === room.id &&
+                            shift.date === formattedDate
+                    );
+                    row[formattedDate] = shiftsForDate?.length
+                        ? shiftsForDate
+                            ?.map(
+                                (shift) =>
+                                    `${shift.roleId === ROLE.DOCTOR ? 'BS' : 'NV'}: ${shift.doctor}`
+                            )
+                            .join(', ')
+                        : "Trống"; // Nếu không có ca trực
+                });
+                excelData.push(row);
+            });
+        });
+
+        console.log("check row: ", excelData);
+        // Tạo worksheet và workbook
+        // const worksheet = XLSX.utils.json_to_sheet(excelData);
+        // const workbook = XLSX.utils.book_new();
+        // XLSX.utils.book_append_sheet(workbook, worksheet, "Lịch trực");
+
+        const worksheet = XLSX.utils.json_to_sheet(excelData);
+        const workbook = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(workbook, worksheet, "Lịch trực");
+
+        // Xuất file Excel
+        XLSX.writeFile(workbook, "data.xlsx");
+    };
+
     return (
         <div className="admin-calender">
-            <div style={{ marginBottom: 16 }}>
-                <Button onClick={() => handleWeekChange(-1)}>Tuần trước</Button>
-                <Button onClick={() => handleWeekChange(1)} style={{ marginLeft: 8 }}>
-                    Tuần sau
-                </Button>
-                <DatePicker
-                    picker="week"
-                    onChange={(value) => setCurrentWeek(value)}
-                    style={{ marginLeft: 8 }}
-                />
-                <Button onClick={() => setIsModalOpen(true)} style={{ marginLeft: 8 }}>
-                    Thêm lịch trực
-                </Button>
-            </div>
             <Table
                 className="custom-schedule-table"
                 style={{ userSelect: "none" }}
@@ -161,10 +242,12 @@ const ScheduleTable = (props) => {
                 dataSource={tableData}
                 pagination={false}
             />
-            <ScheduleModal
-                open={isModalOpen}
-                data={scheduleUpdate}
-                refresh={refresh} />
+            {scheduleUpdate &&
+                <ScheduleModal
+                    open={isModalOpen}
+                    data={scheduleUpdate}
+                    closeModal={() => { setScheduleUpdate(null); setIsModalOpen(false) }}
+                    refresh={refresh} />}
         </div>
     );
 };

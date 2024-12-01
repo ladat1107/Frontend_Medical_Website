@@ -1,53 +1,53 @@
 
-import { Modal, Form, Select, message } from 'antd';
+import { Modal, Form, Select, message, Button } from 'antd';
 
 import { formatDate } from "@/utils/formatDate";
 import { primaryColorAdmin } from '@/style/variables';
 import { ROLE } from '@/constant/role';
 import { useEffect, useState } from 'react';
 import { createSchedule } from '@/services/adminService';
+import "./Modal.scss";
 
 const ScheduleModal = (props) => {
     let date = formatDate(props?.data?.date);
     let roomName = props?.data?.roomName;
-    let listStaff = props.departmentId === "2" ? props?.data?.listStaff : props?.data?.listStaff?.roomDepartmentData?.staffDepartmentData
+    let listStaff = props.data.departmentId === 2 ? props?.data?.listStaff : props?.data?.listStaff?.roomDepartmentData?.staffDepartmentData
     let listStaffOnSchedule = props?.data?.schedule;
     let [listDoctor, setListDoctor] = useState([]);
     let [listNurse, setListNurse] = useState([]);
+    let [errorText, setErrorText] = useState('');
     useEffect(() => {
         let _listDoctor = [];
         let _listNurse = [];
         if (listStaff?.length > 0) {
             listStaff?.forEach((staff) => {
                 if (staff.staffUserData.roleId === ROLE.DOCTOR) {
-                    _listDoctor.push({ label: `${staff.staffUserData.lastName} ${staff.staffUserData.firstName}`, value: staff.staffUserData.id });
+                    _listDoctor.push({ label: `${staff.staffUserData.lastName} ${staff.staffUserData.firstName}`, value: +staff.id });
                 }
                 if (staff.staffUserData.roleId === ROLE.NURSE) {
-                    _listNurse.push({ label: `${staff.staffUserData.lastName} ${staff.staffUserData.firstName}`, value: staff.staffUserData.id });
+                    _listNurse.push({ label: `${staff.staffUserData.lastName} ${staff.staffUserData.firstName}`, value: +staff.id });
                 }
             });
             setListDoctor(_listDoctor);
             setListNurse(_listNurse);
         }
-    }, [listStaff]);
-    useEffect(() => {
         let arrDoctor = [];
         let arrNurse = [];
         if (listStaffOnSchedule?.length > 0) {
             listStaffOnSchedule?.forEach((staff) => {
                 if (staff.staffScheduleData.staffUserData.roleId === ROLE.DOCTOR) {
-                    arrDoctor.push(staff.staffScheduleData.staffUserData.id);
+                    arrDoctor.push(+staff.staffId);
                 }
                 if (staff.staffScheduleData.staffUserData.roleId === ROLE.NURSE) {
-                    arrNurse.push(staff.staffScheduleData.staffUserData.id);
+                    arrNurse.push(+staff.staffId);
                 }
             });
-            form.setFieldsValue({
-                doctorId: arrDoctor,
-                nurseId: arrNurse
-            });
         }
-    }, [listStaffOnSchedule]);
+        form.setFieldsValue({
+            doctorId: arrDoctor,
+            nurseId: arrNurse
+        });
+    }, []);
     const [form] = Form.useForm();
     const handleAdd = () => {
         form.validateFields().then(async (values) => {
@@ -70,6 +70,9 @@ const ScheduleModal = (props) => {
             if (response.data.EC === 0) {
                 message.success(response.data.EM)
                 handleClose();
+                props.refresh();
+            } else if (response.data.EC === 2) {
+                setErrorText(response.data.EM);
             } else {
                 message.error(response.data.EM)
             }
@@ -79,8 +82,9 @@ const ScheduleModal = (props) => {
         });
     };
     const handleClose = () => {
+        setErrorText('');
         form.resetFields();
-        props.refresh();
+        props.closeModal()
     }
     return (
         <Modal
@@ -88,7 +92,14 @@ const ScheduleModal = (props) => {
             title={<span style={{ color: primaryColorAdmin, fontSize: "1em" }}>Thêm lịch trực</span>}
             open={props.open}
             onCancel={() => handleClose()}
-            onOk={() => form.submit()}
+            footer={[
+                <Button key="cancel" onClick={() => handleClose()}>
+                    Đóng
+                </Button>,
+                <Button key="submit" type="primary" onClick={() => handleAdd()}>
+                    Cập nhật lịch trực
+                </Button>,
+            ]}
             maskClosable={false}
         >
             <Form
@@ -105,16 +116,22 @@ const ScheduleModal = (props) => {
                 }}
                 onFinish={() => handleAdd()}>
                 <Form.Item className='mt-4' name="roomId">
-                    <div><b>{roomName}</b> __ Ngày: {date}</div>
+                    <>
+                        <div><b>{roomName}</b></div>
+                        <div style={{ color: 'gray', fontSize: "0.9em" }}> Ngày: {date}</div>
+                        {errorText && <div style={{ color: 'red' }}>{errorText}</div>}
+                    </>
                 </Form.Item>
                 <Form.Item name="doctorId" label="Bác sĩ">
                     <Select
                         mode="multiple"
+                        onChange={() => setErrorText('')}
                         options={listDoctor} />
                 </Form.Item>
                 <Form.Item name="nurseId" label="Điều dưỡng">
                     <Select
                         mode="multiple"
+                        onChange={() => setErrorText('')}
                         options={listNurse} />
                 </Form.Item>
             </Form>

@@ -1,5 +1,3 @@
-
-
 /* Reset CSS */
 *,
 *::before,
@@ -8,17 +6,19 @@
   padding: 0;
   box-sizing: border-box;
 }
+
 p {
-    margin: 0  !important;
+  margin: 0 !important;
 }
+
 html,
 body {
   height: 100%;
   font-size: 100%;
   line-height: 1.5;
+  font-family: 'Be Vietnam Pro', sans-serif ;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  
 }
 
 img,
@@ -51,11 +51,12 @@ a {
 ul[role='list'],
 ol[role='list'] {
   list-style: none;
- 
+
 }
-ul{
+
+ul {
   padding: 0;
-  margin: 0;  
+  margin: 0;
 }
 
 table {

@@ -83,8 +83,8 @@ const CreateUser = (props) => {
                 setOptionRole(STAFF_ROLE);
                 form.setFieldsValue({
                     departmentId: userUpdate?.staffUserData?.departmentId || "",
-                    shortDescription: userUpdate?.staffUserData?.shortDescription || "",
-                    specialtyId: userUpdate?.staffUserData?.specialtyId || "",
+                    shortDescription: userUpdate?.staffUserData?.shortDescription || '',
+                    specialtyId: userUpdate?.staffUserData?.specialtyId || null,
                     position: userUpdate?.staffUserData?.position?.split(",") || [],
                     price: userUpdate?.staffUserData?.price || "",
                     markDownContent: userUpdate?.staffUserData?.staffDescriptionData?.markDownContent || "",

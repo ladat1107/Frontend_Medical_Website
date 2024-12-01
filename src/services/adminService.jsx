@@ -149,3 +149,6 @@ export const getSchedule = (query) => {
 export const createSchedule = (data) => {
     return axios.post(`/api/admin/createSchedule`, data)
 }
+export const arrangeSchedule = (data) => {
+    return axios.post(`/api/admin/arrangSchedule`, data)
+}

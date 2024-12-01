@@ -1,12 +1,13 @@
 import HandbookItem from "@/components/HandbookItem";
 import "./HandbookAdmin.scss";
-import { Form, Input, Pagination, Select } from "antd";
+import { Form, Input, Pagination, Select, Spin } from "antd";
 import { SearchOutlined } from "@mui/icons-material";
 import { useEffect, useState } from "react";
 import { STATUS_HOSPITAL, TAGS } from "@/constant/value";
 import { useMutation } from "@/hooks/useMutation";
 import useDebounce from "@/hooks/useDebounce";
 import { getHandbookAdmin } from "@/services/adminService";
+import Loading from "@/components/Loading/Loading";
 const statusArray = Object.values(STATUS_HOSPITAL);
 statusArray.unshift({ value: "", label: "Tất cả" });
 const HandbookAdmin = () => {
@@ -99,20 +100,21 @@ const HandbookAdmin = () => {
 
                         </div>
                     </div>
+                    {listHandbookLoading ? <Loading /> :
+                        <div className="col-12 col-lg-9">
+                            <div className="row">
+                                {listHandbook.length > 0 && listHandbook.map((item, index) => (<HandbookItem
+                                    data={item}
+                                    index={index} />))}
+                            </div>
+                            <div>
+                                <Pagination align="center"
+                                    onChange={(page) => setCurrentPage(page)}
+                                    defaultCurrent={currentPage}
+                                    total={totalPages} />
+                            </div>
+                        </div>}
 
-                    <div className="col-12 col-lg-9">
-                        <div className="row">
-                            {listHandbook.length > 0 && listHandbook.map((item, index) => (<HandbookItem
-                                data={item}
-                                index={index} />))}
-                        </div>
-                        <div>
-                            <Pagination align="center"
-                                onChange={(page) => setCurrentPage(page)}
-                                defaultCurrent={currentPage}
-                                total={totalPages} />
-                        </div>
-                    </div>
                 </div>
             </div>
 

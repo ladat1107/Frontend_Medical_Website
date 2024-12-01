@@ -98,10 +98,6 @@ const Room = () => {
         handleShow(false)
         fetchRooms();
     }
-    let handleDelete = (item) => {
-        setObDelete({ ...item })
-        setShowDeleteModal(true)
-    }
     let handleShow = (value) => {
         setObUpdate(null)
         setShowDeleteModal(value)
