@@ -21,8 +21,7 @@ import Schedule from "./layout/Doctor/pages/Schedule";
 import Specialty from "./layout/Admin/pages/Specialty/SpecialtyManage";
 import Login from "./layout/User/pages/Login";
 import { PATHS } from "./constant/path";
-import ReceptionistLayout from "./layout/Receptionist";
-import ReceptionistDashboard from "./layout/Receptionist/components/Dashboard";
+import ReceptionistDashboard from "./layout/Receptionist/pages/Dashboard";
 import ProfileAdmin from "./layout/Admin/pages/ProfileAdmin/ProfileAdmin";
 import DoctorDetail from "./layout/User/pages/DoctorDetail";
 import ProfileStaff from "./layout/Doctor/pages/ProfileStaff";
@@ -30,25 +29,8 @@ import HandbookAdmin from "./layout/Admin/pages/HandbookAdmin/HandbookAdmin";
 import HandbookAdminDetail from "./layout/Admin/pages/HandbookAdmin/Detail";
 import ScheduleManage from "./layout/Admin/pages/ScheduleManage/ScheduleManage";
 import DoctorList from "./layout/User/pages/DoctorList";
-import { useSelector } from "react-redux";
-import { useEffect } from "react";
-import { ROLE } from "./constant/role";
-import { ConfigProvider } from "antd";
 function App() {
-  let navigate = useNavigate();
-  let { user } = useSelector((state) => state.authen);
 
-  useEffect(() => {
-    if (user) {
-      if (user.role === ROLE.ADMIN) {
-        navigate(PATHS.ADMIN.DASHBOARD);
-      } else if (user.role === ROLE.PATIENT) {
-        navigate(PATHS.HOME.HOMEPAGE);
-      } else {
-        navigate(PATHS.STAFF.DASHBOARD);
-      }
-    }
-  }, [user]);
   return (
     <ConfigProvider
       theme={{
