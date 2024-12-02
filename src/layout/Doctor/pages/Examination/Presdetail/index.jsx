@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import './Presdetail.scss';
-import SelectBox2 from '@/pages/Doctor/components/Selectbox';
+import SelectBox2 from '@/layout/Doctor/components/Selectbox';
 import PropTypes from 'prop-types';
-import QuantityInput from '@/pages/Doctor/components/QuantityInput';
+import QuantityInput from '@/layout/Doctor/components/QuantityInput';
 
 const Presdetail = ({ id, presdetailData, onDelete, options, onChange }) => {
     const [medicineId, setMedicineId] = useState(presdetailData.medicineId || 0);

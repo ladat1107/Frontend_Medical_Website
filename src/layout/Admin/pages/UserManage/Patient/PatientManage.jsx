@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
-import DropdownPaginate from "@/pages/Admin/components/Dropdown/DropdownPaginate";
+import DropdownPaginate from "@/layout/Admin/components/Dropdown/DropdownPaginate";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import { getUser, getUserById } from "@/services/adminService";
 import Checkbox from '@mui/material/Checkbox';
-import PaginateCustom from "@/pages/Admin/components/Paginate/PaginateCustom";
-import DropdownAction from "@/pages/Admin/components/Dropdown/DropdownAction";
-import CreateUserModal from "@/pages/Admin/components/Modal/CreateUserModal";
+import PaginateCustom from "@/layout/Admin/components/Paginate/PaginateCustom";
+import DropdownAction from "@/layout/Admin/components/Dropdown/DropdownAction";
+import CreateUserModal from "@/layout/Admin/components/Modal/CreateUserModal";
 import Loading from "@/components/Loading/Loading";
 import "./PatientManage.scss";
 import { useMutation } from "@/hooks/useMutation";
@@ -15,7 +15,7 @@ import useDebounce from "@/hooks/useDebounce";
 import { LINK, TABLE } from "@/constant/value";
 import { Input, message } from "antd";
 import { SearchOutlined } from '@ant-design/icons';
-import Status from "@/pages/Admin/components/Status";
+import Status from "@/layout/Admin/components/Status";
 
 const PatientManage = () => {
     let [currentPage, setCurrentPage] = useState(1);

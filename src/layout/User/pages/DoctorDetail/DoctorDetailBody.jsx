@@ -8,6 +8,7 @@ import styles from "./doctorDetail.module.scss";
 const cx = classNames.bind(styles);
 
 const DoctorDetailBody = () => {
+    
   return (
     <div className={cx('doctor-body')} >
 

@@ -1,11 +1,11 @@
 import { useContext, useEffect, useState } from "react";
 import PropTypes from 'prop-types';
 import "./ExamInfo.scss"
-import SelectBox from "@/pages/Doctor/components/Combobox";
+import SelectBox from "@/layout/Doctor/components/Combobox";
 import CustomDatePicker from "@/components/DatePicker";
 import { useMutation } from "@/hooks/useMutation";
 import { updateExamination, getAllDisease } from "@/services/doctorService";
-import MultiSelect from "@/pages/Doctor/components/MultiSelect";
+import MultiSelect from "@/layout/Doctor/components/MultiSelect";
 import { convertDateTime } from "@/utils/convertToTimestamp";
 import { notification } from 'antd';
 

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, {  useEffect, useState } from 'react';
 import { Layout, message, theme } from 'antd';
 import SideBar from './components/Sidebar';
 import './Doctor.scss';
