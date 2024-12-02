@@ -29,6 +29,7 @@ import ProfileStaff from "./pages/Doctor/pages/ProfileStaff";
 import HandbookAdmin from "./pages/Admin/pages/HandbookAdmin/HandbookAdmin";
 import HandbookAdminDetail from "./pages/Admin/pages/HandbookAdmin/Detail";
 import ScheduleManage from "./pages/Admin/pages/ScheduleManage/ScheduleManage";
+import DoctorList from "./Pages/User/pages/DoctorList";
 function App() {
   return (
     <ConfigProvider
@@ -41,9 +42,9 @@ function App() {
       <Routes>
         <Route element={<MainLayout />}>
           <Route index element={<HomePage />} />
-          <Route path='/doctor-detail' element={<DoctorDetail />} />
-          <Route element={<PrivateRoute />}>
           </Route>
+        <Route path='/doctor-detail' element={<DoctorDetail/>} />
+        <Route path='/doctor-list' element={<DoctorList/>} />
         </Route>
         <Route path={PATHS.HOME.LOGIN} element={<Login />} />
         <Route element={<PrivateRoute />}>
