@@ -4,11 +4,6 @@ import { formatCurrency } from "@/utils/formatCurrency";
 
            
 const DoctorCard = ({doctor}) => {
-  
-
-
- 
-  
   return (
     <div className="doctor-card">
       <img className="avatar" src={doctor?.examinationStaffData?.staffUserData?.avatar} alt={`${doctor?.examinationStaffData?.staffUserData?.firstName} avatar`} />

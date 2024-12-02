@@ -1,20 +1,20 @@
 import React, { useEffect, useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlus } from '@fortawesome/free-solid-svg-icons'
-import DropdownPaginate from '@/pages/Admin/components/Dropdown/DropdownPaginate';
-import DropdownAction from '@/pages/Admin/components/Dropdown/DropdownAction';
+import DropdownPaginate from '@/layout/Admin/components/Dropdown/DropdownPaginate';
+import DropdownAction from '@/layout/Admin/components/Dropdown/DropdownAction';
 import DropdownPosition from './DropDownPosition';
 import useDebounce from '@/hooks/useDebounce';
 import Checkbox from '@mui/material/Checkbox';
-import CreateUserModal from '@/pages/Admin/components/Modal/CreateUserModal';
-import PaginateCustom from '@/pages/Admin/components/Paginate/PaginateCustom';
+import CreateUserModal from '@/layout/Admin/components/Modal/CreateUserModal';
+import PaginateCustom from '@/layout/Admin/components/Paginate/PaginateCustom';
 import { getUser, getUserById } from "@/services/adminService";
 import { useMutation } from '@/hooks/useMutation';
 import { LINK, TABLE } from '@/constant/value';
 import "./StaffManage.scss";
 import { Input } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
-import Status from '@/pages/Admin/components/Status';
+import Status from '@/layout/Admin/components/Status';
 
 const StaffManage = () => {
     let [currentPage, setCurrentPage] = useState(1);

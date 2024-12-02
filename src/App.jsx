@@ -1,35 +1,35 @@
 import { ConfigProvider } from "antd";
-import MainLayout from "./layouts/MainLayout";
-import ContactPage from "./pages/Contact/index";
-import AdminHomePage from "./pages/Admin/pages/HomePage/HomePageAdmin";
-import HomePage from "./pages/Home/index";
-import { Routes, Route, useNavigate } from "react-router-dom";
+import MainLayout from "./layout/User/index";
+import ContactPage from "./layout/User/pages/Contact/index";
+import AdminHomePage from "./layout/Admin/pages/HomePage/HomePageAdmin";
+import HomePage from "./layout/User/pages/Home/index";
+import { Routes, Route } from "react-router-dom";
 import PrivateRoute from "./components/AuthComponent/PrivateRouter";
-import StaffManage from "./pages/Admin/pages/UserManage/Staff/StaffManage";
-import PatientManage from "./pages/Admin/pages/UserManage/Patient/PatientManage";
-import DoctorLayout from "./pages/Doctor";
-import DoctorHomePage from "./pages/Doctor/pages/HomePage";
-import Appointment from "./pages/Doctor/pages/Appointment";
-import Examination from "./pages/Doctor/pages/Examination";
-import AdminLayoutTest from "./pages/Admin/AdminLayout";
-import DepartmentManage from "./pages/Admin/pages/DepartmentManage/DepartmentManage";
-import Room from "./pages/Admin/pages/Room/RoomManage";
-import ServiceOfRoom from "./pages/Admin/pages/ServiceOfRoom/ServiceOfRoomManage";
-import Handbook from "./pages/Doctor/pages/Handbook";
-import InfoHandbook from "./pages/Doctor/pages/Handbook/InfoHandbook";
-import Schedule from "./pages/Doctor/pages/Schedule";
-import Specialty from "./pages/Admin/pages/Specialty/SpecialtyManage";
-import Login from "./pages/Login";
+import StaffManage from "./layout/Admin/pages/UserManage/Staff/StaffManage";
+import PatientManage from "./layout/Admin/pages/UserManage/Patient/PatientManage";
+import DoctorLayout from "./layout/Doctor";
+import DoctorHomePage from "./layout/Doctor/pages/HomePage";
+import Appointment from "./layout/Doctor/pages/Appointment";
+import Examination from "./layout/Doctor/pages/Examination";
+import AdminLayoutTest from "./layout/Admin/AdminLayout";
+import DepartmentManage from "./layout/Admin/pages/DepartmentManage/DepartmentManage";
+import Room from "./layout/Admin/pages/Room/RoomManage";
+import ServiceOfRoom from "./layout/Admin/pages/ServiceOfRoom/ServiceOfRoomManage";
+import Handbook from "./layout/Doctor/pages/Handbook";
+import InfoHandbook from "./layout/Doctor/pages/Handbook/InfoHandbook";
+import Schedule from "./layout/Doctor/pages/Schedule";
+import Specialty from "./layout/Admin/pages/Specialty/SpecialtyManage";
+import Login from "./layout/User/pages/Login";
 import { PATHS } from "./constant/path";
-import ReceptionistLayout from "./pages/Receptionist";
-import ReceptionistDashboard from "./pages/Receptionist/components/Dashboard";
-import ProfileAdmin from "./pages/Admin/pages/ProfileAdmin/ProfileAdmin";
-import DoctorDetail from "./Pages/User/pages/DoctorDetail";
-import ProfileStaff from "./pages/Doctor/pages/ProfileStaff";
-import HandbookAdmin from "./pages/Admin/pages/HandbookAdmin/HandbookAdmin";
-import HandbookAdminDetail from "./pages/Admin/pages/HandbookAdmin/Detail";
-import ScheduleManage from "./pages/Admin/pages/ScheduleManage/ScheduleManage";
-import DoctorList from "./Pages/User/pages/DoctorList";
+import ReceptionistLayout from "./layout/Receptionist";
+import ReceptionistDashboard from "./layout/Receptionist/components/Dashboard";
+import ProfileAdmin from "./layout/Admin/pages/ProfileAdmin/ProfileAdmin";
+import DoctorDetail from "./layout/User/pages/DoctorDetail";
+import ProfileStaff from "./layout/Doctor/pages/ProfileStaff";
+import HandbookAdmin from "./layout/Admin/pages/HandbookAdmin/HandbookAdmin";
+import HandbookAdminDetail from "./layout/Admin/pages/HandbookAdmin/Detail";
+import ScheduleManage from "./layout/Admin/pages/ScheduleManage/ScheduleManage";
+import DoctorList from "./layout/User/pages/DoctorList";
 function App() {
   return (
     <ConfigProvider
@@ -42,10 +42,10 @@ function App() {
       <Routes>
         <Route element={<MainLayout />}>
           <Route index element={<HomePage />} />
-          </Route>
-        <Route path='/doctor-detail' element={<DoctorDetail/>} />
-        <Route path='/doctor-list' element={<DoctorList/>} />
+          <Route path='/doctor-detail' element={<DoctorDetail />} />
+          <Route path='/doctor-list' element={<DoctorList />} />
         </Route>
+
         <Route path={PATHS.HOME.LOGIN} element={<Login />} />
         <Route element={<PrivateRoute />}>
           <Route element={<AdminLayoutTest />}>

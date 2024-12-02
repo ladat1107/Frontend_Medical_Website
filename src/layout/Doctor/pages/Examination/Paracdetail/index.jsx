@@ -1,4 +1,4 @@
-import SelectBox2 from "@/pages/Doctor/components/Selectbox";
+import SelectBox2 from "@/layout/Doctor/components/Selectbox";
 import { Form, message, Progress } from 'antd';
 import { useEffect, useState } from "react";
 import PropTypes from 'prop-types';
@@ -10,7 +10,7 @@ import { CLOUDINARY_FOLDER } from "@/constant/value";
 import { uploadToCloudinary } from "@/utils/uploadToCloudinary";
 
 
-const Paracdetail = ({ id, paraclinicalData, onDelete, onSaveResult  }) => {
+const Paracdetail = ({ id, paraclinicalData, onDelete, onSaveResult }) => {
     const [isNew, setIsNew] = useState(paraclinicalData.isNew || false);
     const [initialparaclinical, setInitialParaclinical] = useState(paraclinicalData);
     const [isChanged, setIsChanged] = useState(false);
@@ -22,7 +22,7 @@ const Paracdetail = ({ id, paraclinicalData, onDelete, onSaveResult  }) => {
     const [description, setDescription] = useState(paraclinicalData.description || '');
     const [image, setImage] = useState(paraclinicalData.image || '');
     const [price, setPrice] = useState(paraclinicalData.price || 0);
-    
+
     const [uploading, setUploading] = useState(false);
     const [uploadProgress, setUploadProgress] = useState(0);
     const [doctorName, setDoctorName] = useState('');
@@ -57,15 +57,15 @@ const Paracdetail = ({ id, paraclinicalData, onDelete, onSaveResult  }) => {
         setIsChanged(isDataChanged);
     }, [paraclinical, result, description, image, price, initialparaclinical]);
 
-   
+
 
     let {
         data: dataParaclinicals,
         loading: comorbiditiesLoading,
         error: comorbiditiesError,
         execute: fetchParaclinical,
-    } = useMutation((query) => 
-        getAllRoomTypes()  
+    } = useMutation((query) =>
+        getAllRoomTypes()
     );
 
     useEffect(() => {
@@ -76,7 +76,7 @@ const Paracdetail = ({ id, paraclinicalData, onDelete, onSaveResult  }) => {
                 price: item.price,
             }));
             setParacOptions(paracOptions);
-        }        
+        }
     }, [dataParaclinicals]);
 
     const handleParacChange = (value) => {
@@ -132,9 +132,9 @@ const Paracdetail = ({ id, paraclinicalData, onDelete, onSaveResult  }) => {
             price: price,
         }
 
-        try{
+        try {
             const response = await createOrUpdateParaclinical(data);
-            if (response && response.EC === 0 && response.DT === true) { 
+            if (response && response.EC === 0 && response.DT === true) {
                 onSaveResult(data, true, response.EM);
                 setInitialParaclinical(data);
                 setIsNew(false);
@@ -184,21 +184,21 @@ const Paracdetail = ({ id, paraclinicalData, onDelete, onSaveResult  }) => {
                         <p>Kết quả:</p>
                     </div>
                     <div className="col-7 mt-3 col-lg-4">
-                        <input type="text" 
-                            className="input" 
+                        <input type="text"
+                            className="input"
                             value={result}
                             onChange={handleResultChange}
-                            placeholder="Nhập kết quả xét nghiệm"/>
+                            placeholder="Nhập kết quả xét nghiệm" />
                     </div>
                     <div className="col-5 mt-3 col-lg-2">
                         <p>Mô tả:</p>
                     </div>
                     <div className="col-7 mt-3 col-lg-4">
-                        <input type="text" 
-                        className="input" 
-                        value={description}
-                        onChange={handleDescriptionChange}
-                        placeholder="Mô tả chi tiết kết quả"/>
+                        <input type="text"
+                            className="input"
+                            value={description}
+                            onChange={handleDescriptionChange}
+                            placeholder="Mô tả chi tiết kết quả" />
                     </div>
                 </div>
                 <div className="row align-items-start">
@@ -209,7 +209,7 @@ const Paracdetail = ({ id, paraclinicalData, onDelete, onSaveResult  }) => {
                         <Form.Item>
                             <div className='image-upload'>
                                 <div className='container'>
-                                    <span className='image-cloud'><CloudUploadOutlined/></span>
+                                    <span className='image-cloud'><CloudUploadOutlined /></span>
                                     <div style={{ cursor: 'pointer' }} onClick={() => document.getElementById(`input-upload-${id}`).click()}>
                                         <span htmlFor={`input-upload-${id}`} className='input-upload'>
                                             Chọn ảnh
@@ -222,7 +222,7 @@ const Paracdetail = ({ id, paraclinicalData, onDelete, onSaveResult  }) => {
                                     )}
                                     {image && (
                                         <div>
-                                            <img src={image} alt="Uploaded" style={{ width: "100%"}} />
+                                            <img src={image} alt="Uploaded" style={{ width: "100%" }} />
                                         </div>
                                     )}
                                 </div>
@@ -242,8 +242,8 @@ const Paracdetail = ({ id, paraclinicalData, onDelete, onSaveResult  }) => {
                     <div className='col-12 col-lg-5'>
                         <div className="row">
                             <div className="col-4 padding5">
-                                <button 
-                                    className="delete-button" 
+                                <button
+                                    className="delete-button"
                                     onClick={() => onDelete(id)}>
                                     Xóa
                                 </button>
@@ -251,7 +251,7 @@ const Paracdetail = ({ id, paraclinicalData, onDelete, onSaveResult  }) => {
                             {!isNew && (
                                 <>
                                     <div className="col-4 padding5">
-                                        <button 
+                                        <button
                                             className={`restore-button ${(!isChanged) ? 'disabled' : ''}`}
                                             onClick={handleRestoreButton}
                                             disabled={!isChanged}>
@@ -261,7 +261,7 @@ const Paracdetail = ({ id, paraclinicalData, onDelete, onSaveResult  }) => {
                                 </>
                             )}
                             <div className="col-4 padding5">
-                                <button 
+                                <button
                                     className={`save-button ${(!isChanged) ? 'disabled' : ''}`}
                                     onClick={handleSaveButton}
                                     disabled={!isChanged}>
