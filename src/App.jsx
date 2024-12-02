@@ -33,7 +33,22 @@ import DoctorList from "./layout/User/pages/DoctorList";
 import { useSelector } from "react-redux";
 import { useEffect } from "react";
 import { ROLE } from "./constant/role";
+import { ConfigProvider } from "antd";
 function App() {
+  let navigate = useNavigate();
+  let { user } = useSelector((state) => state.authen);
+
+  useEffect(() => {
+    if (user) {
+      if (user.role === ROLE.ADMIN) {
+        navigate(PATHS.ADMIN.DASHBOARD);
+      } else if (user.role === ROLE.PATIENT) {
+        navigate(PATHS.HOME.HOMEPAGE);
+      } else {
+        navigate(PATHS.STAFF.DASHBOARD);
+      }
+    }
+  }, [user]);
   return (
     <ConfigProvider
       theme={{
@@ -56,24 +71,22 @@ function App() {
             <Route path={PATHS.ADMIN.PATIENT_MANAGE} element={<PatientManage />} />
             <Route path={PATHS.ADMIN.STAFF_MANAGE} element={<StaffManage />} />
             <Route path={PATHS.ADMIN.DEPARTMENT_MANAGE} element={<DepartmentManage />} />
-            <Route path={PATHS.ADMIN.ROOM_MANAGE} element={<Room />} />
             <Route path={PATHS.ADMIN.SERVICE_MANAGE} element={<ServiceOfRoom />} />
+            <Route path={PATHS.ADMIN.ROOM_MANAGE} element={<Room />} />
             <Route path={PATHS.ADMIN.SPECIALTY_MANAGE} element={<Specialty />} />
             <Route path={PATHS.ADMIN.PROFILE} element={<ProfileAdmin />} />
             <Route path={PATHS.ADMIN.HANDBOOK_MANAGE} element={<HandbookAdmin />} />
             <Route path={`${PATHS.ADMIN.HANDBOOK_DETAIL}/:id`} element={<HandbookAdminDetail />} />
             <Route path={PATHS.ADMIN.SCHEDULE_MANAGE} element={<ScheduleManage />} />
           </Route>
-          <Route element={<DoctorLayout />}>
             <Route path={PATHS.STAFF.DASHBOARD} element={<DoctorHomePage />} />
+          <Route element={<DoctorLayout />}>
             <Route path={PATHS.STAFF.APPOINTMENT} element={<Appointment />} />
             <Route path={PATHS.STAFF.EXAMINATION} element={<Examination />} />
             <Route path={PATHS.STAFF.HANDBOOK} element={<Handbook />} />
             <Route path={PATHS.STAFF.INFO_HANDBOOK} element={<InfoHandbook />} />
             <Route path={PATHS.STAFF.SCHEDULE} element={<Schedule />} />
             <Route path={PATHS.STAFF.PROFILE} element={<ProfileStaff />} />
-          </Route>
-          <Route element={<ReceptionistLayout />}>
             <Route path={PATHS.RECEPTIONIST.DASHBOARD} element={<ReceptionistDashboard />} />
           </Route>
         </Route>

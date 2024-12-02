@@ -7,6 +7,7 @@ import useQuery from "@/hooks/useQuery";
 import moment from 'moment-timezone';
 import { updateProfileInfo } from "@/services/adminService";
 import dayjs from 'dayjs';
+
 const Information = (props) => {
   let [form] = Form.useForm();
   let [isUpdate, setIsUpdate] = useState(false);

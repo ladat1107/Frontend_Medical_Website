@@ -1,4 +1,4 @@
-import { Outlet, useLocation } from "react-router-dom"
+import { Outlet, useLocation, useNavigate } from "react-router-dom"
 import DoctorFooter from "../Doctor/components/DoctorFooter"
 import { Content } from "antd/es/layout/layout"
 import DoctorHeader from "../Doctor/components/DoctorHeader"
@@ -8,15 +8,20 @@ import { ROLE } from "@/constant/role"
 import { PATHS } from "@/constant/path"
 import Sidebar from "./components/Sidebar"
 import "./Receptionist.scss"
+import { useDispatch, useSelector } from "react-redux"
+import { logout } from '@/redux/authenSlice';
 
 
 const ReceptionistLayout = () => {
     const [collapsed, setCollapsed] = useState(false);
-    let { user, logout } = useContext(AuthenContext);
+    let { user } = useSelector((state) => state.authen);
+    let dispatch = useDispatch();
+    let navigate = useNavigate();
     const location = useLocation();
     useEffect(() => {
         if ((user.role === ROLE.ADMIN || user.role === ROLE.PATIENT) && location.pathname !== PATHS.ADMIN.PROFILE) {  // Clears the localStorage (optional)
-            logout(); // Redirect to login page or another appropriate route
+            dispatch(logout());
+            navigate(PATHS.HOME.LOGIN);
         }
     }, [location]);
     const {

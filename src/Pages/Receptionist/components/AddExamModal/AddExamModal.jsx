@@ -1,14 +1,13 @@
 import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import RadioButtonList from '../RadioButton/RadioButton';
-import { useMutation } from '@/hooks/useMutation';
-import { createExamination, getAllDisease, getUserInsuarance, getSpecialties, getUserByCid } from '@/services/doctorService';
+import { createExamination, getUserInsuarance, getUserByCid, updateExamination } from '@/services/doctorService';
 import { message, Select } from 'antd';
 import { getThirdDigitFromLeft, isNumericString } from '@/utils/numberSeries';
 import './AddExamModal.scss';
+import AddUserModal from '../AddUserModal/AddUserModal';
 
-const AddExamModal = ({ isOpen, onClose, timeSlot, handleAddExamSuscess, isEditMode, patientData }) => {
-    const [comorbiditiesOptions, setComorbiditiesOptions] = useState([]);
+const AddExamModal = ({ isOpen, onClose, timeSlot, handleAddExamSuscess, isEditMode, examId, patientData, comorbiditiesOptions, specialtyOptions }) => {
     const [selectedComorbidities, setSelectedComorbidities] = useState([]);
     const [inputComorbidity, setInputComorbidity] = useState('');
     const [shakeId, setShakeId] = useState(null);
@@ -16,7 +15,6 @@ const AddExamModal = ({ isOpen, onClose, timeSlot, handleAddExamSuscess, isEditM
     const [prioritize, setPrioritize] = useState(patientData?.special || 'normal');
 
     const [specialtySelected, setSpecialtySelected] = useState(null);
-    const [specialtyOptions, setSpecialtyOptions] = useState([]);
 
     const [userInfo, setUserInfo] = useState({});
     const [cid, setCid] = useState('');
@@ -27,7 +25,9 @@ const AddExamModal = ({ isOpen, onClose, timeSlot, handleAddExamSuscess, isEditM
     const inputRef = useRef(null);
     const searchResultsRef = useRef(null);
     const [loading, setLoading] = useState(false);
-    const [isSearching, setIsSearching] = useState(false);
+    const [isSearched, setIsSearched] = useState(false);
+
+    const [isUserModalOpen, setIsUserModalOpen] = useState(false);
 
     const insuarance = async () => {
         try{
@@ -46,7 +46,7 @@ const AddExamModal = ({ isOpen, onClose, timeSlot, handleAddExamSuscess, isEditM
                         option => option.id === comorbidityId
                     );
                     return matchedComorbidity;
-                }).filter(Boolean)  // Loại bỏ các entry không khớp
+                }).filter(Boolean)
                 : [];
 
             // Sử dụng dữ liệu từ userExaminationData
@@ -55,6 +55,8 @@ const AddExamModal = ({ isOpen, onClose, timeSlot, handleAddExamSuscess, isEditM
                 firstName: patientData.userExaminationData.firstName,
                 lastName: patientData.userExaminationData.lastName,
             });
+
+            setInsurance(patientData.userExaminationData.userInsuranceData?.insuranceCode || '');
 
             setSelectedComorbidities(comorbidityObjects);
             setSymptom(patientData.symptom || '');
@@ -72,48 +74,6 @@ const AddExamModal = ({ isOpen, onClose, timeSlot, handleAddExamSuscess, isEditM
             return null;
         }
     }
-
-    const {
-        data: dataComorbidities,
-        loading: comorbiditiesLoading,
-        error: comorbiditiesError,
-        execute: fetchComorbidities,
-    } = useMutation(() => getAllDisease());
-
-    useEffect(() => {
-        if (dataComorbidities?.DT) {
-            const options = dataComorbidities.DT.map(item => ({
-                id: item.code,
-                label: item.disease,
-            }));
-            setComorbiditiesOptions(options);
-        }
-    }, [dataComorbidities]);
-
-    const {
-        data: dataSpecialties,
-        loading: specialtiesLoading,
-        error: specialtiesError,
-        execute: fetchSpecialties,
-    } = useMutation(() => getSpecialties());
-
-    useEffect(() => {
-        if (dataSpecialties?.DT) {
-            const options = dataSpecialties.DT.map(item => ({
-                value: item.id,
-                label: item.name,
-                staffId: item.staffId,
-                staffName: item.staffName,
-                staffPrice: item.staffPrice
-            }));
-            setSpecialtyOptions(options);
-        }
-    }, [dataSpecialties]);
-
-    useEffect(() => {
-        fetchComorbidities();
-        fetchSpecialties();  
-    }, []);
 
     useEffect(() => {
         if(isEditMode) {
@@ -140,10 +100,18 @@ const AddExamModal = ({ isOpen, onClose, timeSlot, handleAddExamSuscess, isEditM
         setUserInfo({});
         setSelectedComorbidities([]);
         setInputComorbidity('');
-        //setPrioritize('normal');
+        setPrioritize('normal');
+    }
+
+    const handleAddUserSuscess = (data) => {
+        resetForm();
+        setIsSearched(true);
+        setUserInfo(data.user);
+        setInsurance(data.insurance?.insuranceCode || '');
     }
 
     const handleFindUser = async () => {
+        setInsurance('');
         try {
             if (!cid) {
                 message.error('Vui lòng nhập số CCCD để tìm kiếm');
@@ -157,13 +125,13 @@ const AddExamModal = ({ isOpen, onClose, timeSlot, handleAddExamSuscess, isEditM
                 return;
             }
 
-            setLoading(true);
-            setIsSearching(true);
+            setIsSearched(true);
             
+            setLoading(true);
             const response = await getUserByCid(cid);
             if (response.data.DT) {
-                // Nếu tìm thấy người dùng
                 setUserInfo(response.data.DT);
+                setInsurance(response.data.DT.userInsuranceData?.insuranceCode || '');
             } else {
                 setUserInfo({});
             }
@@ -184,6 +152,12 @@ const AddExamModal = ({ isOpen, onClose, timeSlot, handleAddExamSuscess, isEditM
         setInputComorbidity(event.target.value);
         setShowSearchResults(true);
     };
+
+    const handleAddUser = () => {
+        setIsUserModalOpen(true);
+        setIsSearched(false);
+    }
+    const closeAddUser = () => setIsUserModalOpen(false);
 
     // Chọn bệnh đi kèm
     const handleSelectComorbidity = (comorbidity) => {
@@ -225,7 +199,7 @@ const AddExamModal = ({ isOpen, onClose, timeSlot, handleAddExamSuscess, isEditM
 
     const addExam = async() => {
 
-        if(!userInfo?.id || !cid || !specialtySelected || !symptom) {
+        if(!userInfo?.id || !cid || !specialtySelected ) {
             message.error('Thông tin không hợp lệ!');
             return;
         }
@@ -264,7 +238,43 @@ const AddExamModal = ({ isOpen, onClose, timeSlot, handleAddExamSuscess, isEditM
     }
 
     const updateExam = async() => {
-        console.log('Update exam');
+
+        if(!userInfo?.id || !specialtySelected ) {
+            message.error('Thông tin không hợp lệ!');
+            return;
+        }
+
+        let insuranceCoverage = getThirdDigitFromLeft(insurance);
+
+        const data = {
+            id: examId,
+            userId: userInfo.id,
+            staffId: specialtySelected.staffId,
+            symptom: symptom,
+            special: prioritize ? prioritize : "normal",
+            insuranceCoverage: insuranceCoverage || null,
+            roomName:  specialtySelected.label,
+            price: specialtySelected.staffPrice,
+            comorbidities: selectedComorbidities ? selectedComorbidities.map(item => item.id).join(',') : null,
+            is_appointment: 0,
+            status: 4
+        }   
+        
+        try{
+            const response = await updateExamination(data);
+  
+            if(response.EC === 0  && response.DT.includes(1)){
+                message.success('Cập nhật bệnh nhân thành công');
+                handleAddExamSuscess();
+                resetForm();
+                onClose();
+            } else {
+              message.error('Cập nhật bệnh nhân thất bại');
+            }
+        } catch (error) {
+            console.error("Error:", error);
+            message.error('Cập nhật bệnh nhân thất bại');
+        }
     }
 
     if (!isOpen) return null;
@@ -284,7 +294,6 @@ const AddExamModal = ({ isOpen, onClose, timeSlot, handleAddExamSuscess, isEditM
                 
                 <div className='add-exam-body'>
                     <div className='pation-info'>
-                        
                         {isEditMode ? (
                             <>
                                 <div className="patient-name row mt-3">
@@ -309,25 +318,25 @@ const AddExamModal = ({ isOpen, onClose, timeSlot, handleAddExamSuscess, isEditM
                                                 </div>
                                             </div>
                                         </div>
-                                    ) :  'Không tìm thấy người dùng' }
+                                    ) :  'Loading...' }
                                 </div>
                             </>
                         ):(
                             <>
                             <p>Thông tin bệnh nhân:</p>
                                 <div className='info-action'>
-                                    <input className='input-add-exam' maxLength={12}
+                                    <input className='input-add-exam' maxLength={12} onBlur={handleFindUser}
                                             type='text' value={cid} onChange={(e) => setCid(e.target.value)}
                                             placeholder='Nhập số CCCD để tìm kiếm...' />
-                                    <button className='find-patient' onClick={handleFindUser}>
-                                        <i className="fa-solid fa-magnifying-glass"></i>
+                                    <button className='find-patient' onClick={handleAddUser}>
+                                        <i className="fa-solid fa-plus"></i>
                                     </button>
                                 </div>
                                 <div className={`patient-name row mt-3 ${
                                     loading ? '' : 
                                     userInfo?.lastName && userInfo?.firstName ? 'text-loading' : 'text-danger ms-1 mb-2'
                                 }`}>
-                                    {isSearching && (
+                                    {isSearched && (
                                         loading ? (
                                             'Đang tìm kiếm...'
                                         ) : userInfo?.lastName && userInfo?.firstName ? (
@@ -345,13 +354,19 @@ const AddExamModal = ({ isOpen, onClose, timeSlot, handleAddExamSuscess, isEditM
                                                         <p>Số BHYT:</p>
                                                     </div>
                                                     <div className='col-5'>
-                                                        <input className='input-add-exam' style={{width: "93%"}} maxLength={10}
-                                                            type='text' value={insurance} onChange={(e) => setInsurance(e.target.value)}
-                                                            placeholder='Nhập số BHYT...' />
+                                                        <input 
+                                                            className='input-add-exam' 
+                                                            style={{width: "93%"}} 
+                                                            maxLength={10}
+                                                            type='text' 
+                                                            value={insurance} 
+                                                            onChange={(e) => setInsurance(e.target.value)}
+                                                            placeholder='Nhập số BHYT...' 
+                                                        />
                                                     </div>
                                                 </div>
                                             </div>
-                                        ) :  'Không tìm thấy người dùng'
+                                        ) :  'Không tìm thấy bệnh nhân...'
                                     )}
                                 </div>
                             </>
@@ -377,7 +392,7 @@ const AddExamModal = ({ isOpen, onClose, timeSlot, handleAddExamSuscess, isEditM
                         <div className='col-5'>
                             <p>Bác sĩ:</p>
                             <div className='info-action'>
-                                <input className='input-add-exam' maxLength={12} readOnly
+                                <input className='input-add-exam' maxLength={12} readOnly style={{marginRight: 0}}
                                         type='text' value={specialtySelected ? specialtySelected.staffName : 'Chưa chọn phòng khám'} 
                                         placeholder='Chọn phòng khám trước' />
                             </div>
@@ -456,6 +471,11 @@ const AddExamModal = ({ isOpen, onClose, timeSlot, handleAddExamSuscess, isEditM
                         )}
                 </div>
             </div>
+            <AddUserModal
+                isOpen={isUserModalOpen}
+                onClose={closeAddUser}
+                handleAddUserSuscess={handleAddUserSuscess}
+            />
         </div>
     );
 };
@@ -466,7 +486,10 @@ AddExamModal.propTypes = {
     timeSlot: PropTypes.number,
     handleAddExamSuscess: PropTypes.func.isRequired,
     isEditMode: PropTypes.bool,
+    examId: PropTypes.number,
     patientData: PropTypes.object,
+    comorbiditiesOptions: PropTypes.array,
+    specialtyOptions: PropTypes.array,
 }
 
 export default AddExamModal;

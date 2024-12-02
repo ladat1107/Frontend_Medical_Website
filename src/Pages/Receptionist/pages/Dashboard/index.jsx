@@ -1,9 +1,9 @@
-import { message, Pagination, Select } from "antd";
+import { message, Pagination, Select, Spin } from "antd";
 import "./Dashboard.scss"
 import { useEffect, useState } from "react";
 import AddExamModal from "../../components/AddExamModal/AddExamModal";
 import { useMutation } from "@/hooks/useMutation";
-import { getExaminations } from "@/services/doctorService";
+import { getAllDisease, getExaminations, getSpecialties } from "@/services/doctorService";
 import PatientItem from "../../components/PatientItem/PatientItem";
 import { TIMESLOTS } from "@/constant/value";
 import { convertDateTime } from "@/utils/formatDate";
@@ -14,6 +14,7 @@ const ReceptionistDashboard = () => {
     const [selectedTimeSlot, setSelectedTimeSlot] = useState(null);
     const [isEditMode, setIsEditMode] = useState(false);
     const [patientData, setPatientData] = useState({});
+    const [examId, setExamId] = useState(null);
 
     const [currentPage, setCurrentPage] = useState(1);
     const [pageSize, setPageSize] = useState(50);
@@ -21,10 +22,55 @@ const ReceptionistDashboard = () => {
     const [isAppointment, setIsAppointment] = useState(1);
     const [time, setTime] = useState(null);
     const [search, setSearch] = useState('');
-    const status = 2;
+    const [status, setStatus] = useState(2);
 
     const [totalPatient, setTotalPatient] = useState(0);
     const [totalAppointment, setTotalAppointment] = useState(0);
+
+    const [comorbiditiesOptions, setComorbiditiesOptions] = useState([]);
+    const [specialtyOptions, setSpecialtyOptions] = useState([]);
+
+    const {
+        data: dataComorbidities,
+        loading: comorbiditiesLoading,
+        error: comorbiditiesError,
+        execute: fetchComorbidities,
+    } = useMutation(() => getAllDisease());
+
+    useEffect(() => {
+        if (dataComorbidities?.DT) {
+            const options = dataComorbidities.DT.map(item => ({
+                id: item.code,
+                label: item.disease,
+            }));
+            setComorbiditiesOptions(options);
+        }
+    }, [dataComorbidities]);
+
+    const {
+        data: dataSpecialties,
+        loading: specialtiesLoading,
+        error: specialtiesError,
+        execute: fetchSpecialties,
+    } = useMutation(() => getSpecialties());
+
+    useEffect(() => {
+        if (dataSpecialties?.DT) {
+            const options = dataSpecialties.DT.map(item => ({
+                value: item.id,
+                label: item.name,
+                staffId: item.staffId,
+                staffName: item.staffName,
+                staffPrice: item.staffPrice
+            }));
+            setSpecialtyOptions(options);
+        }
+    }, [dataSpecialties]);
+
+    useEffect(() => {
+        fetchComorbidities();
+        fetchSpecialties();  
+    }, []);
 
     const openAddExam = (timeSlot) => {
         setIsEditMode(false);
@@ -57,7 +103,7 @@ const ReceptionistDashboard = () => {
     }, [dataExaminations]);
 
     // #endregion
-
+    
     // #region Handle events
     const handlePageChange = (page, pageSize) => {
         setCurrentPage(page);
@@ -69,7 +115,8 @@ const ReceptionistDashboard = () => {
     }
 
     const handelSelectChange = (value) => {
-        setIsAppointment(value === 'appointment' ? 1 : 0 );
+        setStatus(value === 'appointment' ? 2 : 4 );
+        setIsAppointment(value === 'appointment' ? 1 : 0);
     }
     
     const handleTimeChange = (value) => {
@@ -86,18 +133,12 @@ const ReceptionistDashboard = () => {
 
     const handleClickItem = (id) => {
         const selectedPatient = listExam.find(item => item.id === id);
-    
         if (selectedPatient) {
-            // Hiển thị thông báo thành công
-            message.success(`Đã chọn bệnh nhân ${selectedPatient.userExaminationData.lastName} ${selectedPatient.userExaminationData.firstName}`);
-            
-            // Chuyển sang chế độ chỉnh sửa
+
+            setExamId(id);
             setIsEditMode(true);
-            
-            // Đặt dữ liệu bệnh nhân
             setPatientData(selectedPatient);
             
-            // Mở modal
             setIsModalOpen(true);
         } else {
             // Xử lý trường hợp không tìm thấy bệnh nhân
@@ -134,6 +175,7 @@ const ReceptionistDashboard = () => {
                                 doctor={`${item.examinationStaffData.staffUserData.lastName} ${item.examinationStaffData.staffUserData.firstName}`}
                                 downItem={downItem}
                                 visit_status={item.visit_status}
+                                onClickItem={()=>handleClickItem(item.id)}
                             />
                         ))
                     )}
@@ -285,49 +327,64 @@ const ReceptionistDashboard = () => {
                 </div>
             </div>
             <div className="dashboard-content mt-4">
-                {isAppointment === 1 && (
-                    renderExaminationByTimeSlot()
+                {loadingExaminations ? (
+                    <div className="loading">
+                        <Spin />
+                    </div>
+                ) : (
+                    <>
+                        {isAppointment === 1 && (
+                            renderExaminationByTimeSlot()
+                        )}
+                        { isAppointment === 0 && (
+                            listExam && listExam.length > 0 ? listExam.map((item, index) => (
+                                <PatientItem
+                                        key={item.id}
+                                        index={index + 1}
+                                        id={item.id}
+                                        name={`${item.userExaminationData.lastName} ${item.userExaminationData.firstName}`}
+                                        symptom={item.symptom}
+                                        special={item.special}
+                                        room={item.roomName}
+                                        doctor={`${item.examinationStaffData.staffUserData.lastName} ${item.examinationStaffData.staffUserData.firstName}`}
+                                        downItem={downItem}
+                                        visit_status={item.visit_status}
+                                        onClickItem={()=>handleClickItem(item.id)}
+                                    />
+                            )):(
+                                <div className="no-patient d-flex justify-content-center mt-2">
+                                    <p>Không tìm thấy bệnh nhân!</p>
+                                </div>
+                            )
+                        )}
+                    </>
                 )}
-                { isAppointment === 0 && (
-                    listExam && listExam.length > 0 ? listExam.map((item, index) => (
-                        <PatientItem
-                                key={item.id}
-                                index={index + 1}
-                                id={item.id}
-                                name={`${item.userExaminationData.lastName} ${item.userExaminationData.firstName}`}
-                                symptom={item.symptom}
-                                special={item.special}
-                                room={item.roomName}
-                                doctor={`${item.examinationStaffData.staffUserData.lastName} ${item.examinationStaffData.staffUserData.firstName}`}
-                                downItem={downItem}
-                                visit_status={item.visit_status}
-                            />
-                    )):(
-                        <div className="no-patient d-flex justify-content-center mt-2">
-                            <p>Không tìm thấy bệnh nhân!</p>
-                        </div>
-                    )
-                )}
-
             </div>
             <div className='row mt-4'>
-                <Pagination
-                    align="center"
-                    current={currentPage}
-                    pageSize={pageSize}
-                    total={total}
-                    onChange={handlePageChange}
-                />
+                {!loadingExaminations && isAppointment !== 1 && listExam.length > 0 && (
+                    <Pagination
+                        align="center"
+                        current={currentPage}
+                        pageSize={pageSize}
+                        total={total}
+                        onChange={handlePageChange}
+                    />
+                )}
             </div>
-            <AddExamModal 
-                isOpen={isModalOpen} 
-                onClose={closeAddExam} 
-                timeSlot={selectedTimeSlot}
-                handleAddExamSuscess={handleAddExamSuscess}
-                isEditMode={isEditMode}
-                patientData={patientData} 
-                key={ patientData? patientData.id + " " + Date.now() : "modal-closed"}
-                />
+            { isModalOpen && (
+                <AddExamModal 
+                    isOpen={isModalOpen} 
+                    onClose={closeAddExam} 
+                    timeSlot={selectedTimeSlot}
+                    handleAddExamSuscess={handleAddExamSuscess}
+                    isEditMode={isEditMode}
+                    patientData={patientData} 
+                    examId={examId}
+                    comorbiditiesOptions={comorbiditiesOptions}
+                    specialtyOptions={specialtyOptions}
+                    key={patientData? patientData.id + " " + Date.now() : "modal-closed"}
+                    />
+            )}
         </div>
     );
 }

@@ -55,7 +55,7 @@ const RadioButtonList = ({value, handleChangePrioritize}) => {
                         checked={selectedOption === 'disabled'}
                         onChange={handleChange}
                     />
-                    <span className="name">Người tàn tật</span>
+                    <span className="name">Người khuyết tật</span>
                 </label>
 
                 <label className="radio me-1">

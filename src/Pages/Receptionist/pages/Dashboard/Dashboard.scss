@@ -2,6 +2,7 @@
     background: #F8FAFF;
     padding: 10px;
     font-family: 'Be Vietnam Pro', sans-serif;
+    min-height: 100vh;
 
     .gap2{
         gap: 2em;
@@ -113,7 +114,8 @@
             border: 1px solid rgb(211, 211, 211); 
             padding: 0 20px; 
             border-radius: 6px;
-            background: white;
+            background: #007BFF;
+            color: white;
 
             &:hover{
                 cursor: pointer;
@@ -140,6 +142,13 @@
     }
 
     .dashboard-content{
+        .loading{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 20vh;
+        }
+
         .time{
             font-size: 1em;
             font-weight: 500;

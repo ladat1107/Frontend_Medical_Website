@@ -13,6 +13,7 @@ import moment from 'moment';
 import './Calendar.scss';
 import { useMutation } from '@/hooks/useMutation';
 import { getScheduleByStaffId } from '@/services/doctorService';
+import { useSelector } from 'react-redux';
 
 const locales = {
     'vi': viVN,
@@ -82,12 +83,12 @@ const messages = {
 };
 
 const CustomCalendar = () => {
+    let { user } = useSelector((state) => state.authen);
     const [events, setEvents] = useState([]);
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [selectedEvent, setSelectedEvent] = useState(null);
     const [form] = Form.useForm();
     const [currentDate, setCurrentDate] = useState(new Date());
-    const [staffId, setStaffId] = useState(1);
     const [listSchedule, setListSchedule] = useState([]);
 
     const {
@@ -95,7 +96,7 @@ const CustomCalendar = () => {
         loading: scheduleLoading,
         error: scheduleError,
         execute: fetchSchedule,
-    } = useMutation(() => getScheduleByStaffId(staffId));
+    } = useMutation(() => getScheduleByStaffId(user.staff));
 
     useEffect(() => {
         fetchSchedule();
@@ -106,7 +107,7 @@ const CustomCalendar = () => {
         if (scheduleData?.DT) {
             const formattedEvents = scheduleData.DT.map((item) => ({
                 id: item.roomId + item.date,
-                title: `Trực phòng ${item.roomId}`,
+                title: item.scheduleRoomData.name,
                 start: new Date(item.date),
                 end: new Date(item.date),
             }));
