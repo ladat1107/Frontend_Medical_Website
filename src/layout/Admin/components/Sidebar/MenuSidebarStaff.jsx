@@ -12,8 +12,16 @@ const MenuSidebar = () => {
     let dispatch = useDispatch();
     const items = [
         {
+            type: 'divider',
+        },
+        {
+            key: 'sub2',
+            label: (<NavLink to={PATHS.RECEPTIONIST.DASHBOARD}>Lịch hẹn</NavLink>),
+            icon: <i className="fa-solid fa-list"></i>,
+        },
+        {
             key: 'sub1',
-            label: (<NavLink to={PATHS.STAFF.APPOINTMENT}>Lịch hẹn</NavLink>),
+            label: (<NavLink to={PATHS.STAFF.APPOINTMENT}>Khám bệnh</NavLink>),
             icon: <i className="fa-solid fa-list"></i>,
         },
         {

@@ -5,7 +5,12 @@ const getAppointments = () => {
 }
 
 const getUserByCid = (cid) => {
-    return axios.get(`/api/getUserByCid?cid=${cid}`)
+    try{
+        return axios.get(`/api/getUserByCid?cid=${cid}`)
+    } catch (error) {
+        console.error("Error getting user by cid:", error.response?.data || error.message);
+        throw error; 
+    }
 }
 
 const getUserById = (id) => {
@@ -50,6 +55,19 @@ const searchAppointmentsWithStaffId = (page, limit, staffId, search, from, to) =
 };
 
 // Examination
+export const getExaminations = async (date, status, is_appointment, page, limit, search, time) => {
+    try {
+        if(!time) time = '';
+        
+        const response = await axios.get(`/api/getExaminations?date=${date}&status=${status}&is_appointment=${is_appointment}&page=${+page}&limit=${+limit}&search=${search}&time=${time}`);
+        //console.log("Response:", response.data); 
+        return response;
+    } catch (error) {
+        console.error("Error:", error);
+        throw error;
+    }
+}
+
 const getExaminationById = (id) => {
     try{
         return axios.get(`/api/getExaminationById?id=${id}`)
@@ -221,6 +239,28 @@ const getScheduleByStaffId = async (staffId) => {
         const response = await axios.get(`/api/getScheduleByStaffId?staffId=${staffId}`);
         //console.log("Response:", response.data); 
         return response;
+    } catch (error) {
+        console.error("Error:", error);
+        throw error;
+    }
+}
+
+//specialty
+export const getSpecialties = async () => {
+    try {
+        const response = await axios.get(`/api/getSpecialtiesByDepartment`);
+        return response;
+    } catch (error) {
+        console.error("Error:", error);
+        throw error;
+    }
+}
+
+//insuarance
+export const getUserInsuarance = async (userId) => {
+    try{
+        const response = await axios.get(`/api/getUserInsuarance?userId=${userId}`);
+        return response.data;
     } catch (error) {
         console.error("Error:", error);
         throw error;

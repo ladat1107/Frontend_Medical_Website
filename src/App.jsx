@@ -21,8 +21,7 @@ import Schedule from "./layout/Doctor/pages/Schedule";
 import Specialty from "./layout/Admin/pages/Specialty/SpecialtyManage";
 import Login from "./layout/User/pages/Login";
 import { PATHS } from "./constant/path";
-import ReceptionistLayout from "./layout/Receptionist";
-import ReceptionistDashboard from "./layout/Receptionist/components/Dashboard";
+import ReceptionistDashboard from "./layout/Receptionist/pages/Dashboard";
 import ProfileAdmin from "./layout/Admin/pages/ProfileAdmin/ProfileAdmin";
 import DoctorDetail from "./layout/User/pages/DoctorDetail";
 import ProfileStaff from "./layout/Doctor/pages/ProfileStaff";
@@ -31,6 +30,7 @@ import HandbookAdminDetail from "./layout/Admin/pages/HandbookAdmin/Detail";
 import ScheduleManage from "./layout/Admin/pages/ScheduleManage/ScheduleManage";
 import DoctorList from "./layout/User/pages/DoctorList";
 function App() {
+
   return (
     <ConfigProvider
       theme={{
@@ -53,24 +53,22 @@ function App() {
             <Route path={PATHS.ADMIN.PATIENT_MANAGE} element={<PatientManage />} />
             <Route path={PATHS.ADMIN.STAFF_MANAGE} element={<StaffManage />} />
             <Route path={PATHS.ADMIN.DEPARTMENT_MANAGE} element={<DepartmentManage />} />
-            <Route path={PATHS.ADMIN.ROOM_MANAGE} element={<Room />} />
             <Route path={PATHS.ADMIN.SERVICE_MANAGE} element={<ServiceOfRoom />} />
+            <Route path={PATHS.ADMIN.ROOM_MANAGE} element={<Room />} />
             <Route path={PATHS.ADMIN.SPECIALTY_MANAGE} element={<Specialty />} />
             <Route path={PATHS.ADMIN.PROFILE} element={<ProfileAdmin />} />
             <Route path={PATHS.ADMIN.HANDBOOK_MANAGE} element={<HandbookAdmin />} />
             <Route path={`${PATHS.ADMIN.HANDBOOK_DETAIL}/:id`} element={<HandbookAdminDetail />} />
             <Route path={PATHS.ADMIN.SCHEDULE_MANAGE} element={<ScheduleManage />} />
           </Route>
-          <Route element={<DoctorLayout />}>
             <Route path={PATHS.STAFF.DASHBOARD} element={<DoctorHomePage />} />
+          <Route element={<DoctorLayout />}>
             <Route path={PATHS.STAFF.APPOINTMENT} element={<Appointment />} />
             <Route path={PATHS.STAFF.EXAMINATION} element={<Examination />} />
             <Route path={PATHS.STAFF.HANDBOOK} element={<Handbook />} />
             <Route path={PATHS.STAFF.INFO_HANDBOOK} element={<InfoHandbook />} />
             <Route path={PATHS.STAFF.SCHEDULE} element={<Schedule />} />
             <Route path={PATHS.STAFF.PROFILE} element={<ProfileStaff />} />
-          </Route>
-          <Route element={<ReceptionistLayout />}>
             <Route path={PATHS.RECEPTIONIST.DASHBOARD} element={<ReceptionistDashboard />} />
           </Route>
         </Route>

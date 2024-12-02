@@ -1,6 +1,6 @@
-import React, {  useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Layout, message, theme } from 'antd';
-import SideBar from './components/Sidebar';
+import SideBar from '@/layout/Admin/components/Sidebar/SidebarAdmin';
 import './Doctor.scss';
 import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { ROLE } from '@/constant/role';

@@ -1,5 +1,10 @@
+@import "../../style/variables.scss";
+
 .doctor-content {
-    .content-data{
-        background: #F5F8FC;
+    position: relative;
+
+    .content-data {
+        min-height: 80vh;
+        background: $background-color;
     }
 }

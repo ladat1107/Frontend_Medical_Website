@@ -11,7 +11,7 @@ export const logoutUser = () => {
 }
 // USER MANAGEMENT
 export const createUser = (data) => {
-    return axios.post(`/api/admin/createUser`, data)
+    return axios.post(`/api/createUser`, data)
 }
 export const getUser = (page, limit, search, position) => {
     return axios.get(`/api/admin/getAllUser?page=${+page}&limit=${+limit}&position=[${position}]&search=${search}`)

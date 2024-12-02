@@ -2,17 +2,14 @@
 
     .rbc-event {
         background: white;
-        color: #438EF3;
-        font-weight: bold ;
-        border: 1.5px solid #438EF3;
-        box-shadow: 5px 5px 10px #d3d3d3,
-                    -5px -5px 10px #ededed;
+        color: black;
         margin: 5px;
-        height: 230%;
+        height: 100%;
         width: 93%;
         
         .rbc-event-content {
             width: 100%;
+            white-space: normal;
         }
     }
     
@@ -32,6 +29,10 @@
     .rbc-date-bg{
         border: 10px solid #E5E5E5;
         border-radius: 10px;
+    }
+
+    .rbc-button-link{
+        color: #007BFF;
     }
 
     .rbc-month-header {

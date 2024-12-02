@@ -1,7 +1,8 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Layout } from 'antd';
 import './Sidebar.scss';
-import MenuSidebar from './MenuSidebar';
+import MenuSidebarAdmin from './MenuSidebarAdmin';
+import MenuSidebar from '@/layout/Admin/components/Sidebar/MenuSidebarStaff';
 import { ALL_ROLE } from '@/constant/role';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
@@ -9,7 +10,6 @@ import { useSelector } from 'react-redux';
 
 const { Sider } = Layout;
 const Sidebar = (props) => {
-    //let { user } = useContext(AuthenContext);
     let { user } = useSelector((state) => state.authen);
     let role = ALL_ROLE.find(item => item.value === user?.role);
     let [broken, setBroken] = useState(false);
@@ -55,7 +55,7 @@ const Sidebar = (props) => {
                     </div>
                     }
                 </div>
-                <MenuSidebar />
+                {user.staff ? <MenuSidebar /> : <MenuSidebarAdmin />}
             </Sider >
         </div >
 

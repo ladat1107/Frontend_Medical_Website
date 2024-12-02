@@ -29,6 +29,5 @@ export const PATHS = {
     HOME: {
         HOMEPAGE: "/",
         LOGIN: "/login",
-        LOGOUT: "/logout",
     }
 }
