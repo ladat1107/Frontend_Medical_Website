@@ -1,7 +1,7 @@
 import { useMutation } from "@/hooks/useMutation";
 import "./Profile.scss";
 import { getSpecialtySelect, getUserById } from "@/services/adminService";
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Information from "./section/Information";
 import Password from "./section/Password";
 import Notification from "./section/Notification";

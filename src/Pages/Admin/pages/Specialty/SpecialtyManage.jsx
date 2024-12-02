@@ -1,5 +1,4 @@
-import { createServiceOfRoom, getServiceById, getServiceOfRoom, updateServiceOfRoom } from "@/services/adminService";
-import "./ServiceOfRoom.scss";
+import "./SpecialtyManage.scss"
 import { useMutation } from "@/hooks/useMutation";
 import useDebounce from "@/hooks/useDebounce";
 import { useEffect, useState } from "react";
@@ -7,70 +6,74 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowsRotate, faRotateRight } from "@fortawesome/free-solid-svg-icons";
 import DropdownPaginate from "../../components/Dropdown/DropdownPaginate";
 import PaginateCustom from "../../components/Paginate/PaginateCustom";
-import { Button, Checkbox, Col, Form, Input, InputNumber, message, Row, Select } from "antd";
-import { SearchOutlined } from "@ant-design/icons";
-import { STATUS, TABLE } from "@/constant/value";
-import { formatCurrency } from "@/utils/formatCurrency";
+import { Button, Checkbox, Col, Form, Input, InputNumber, message, Progress, Row, Select } from "antd";
+import { CloudUploadOutlined, SearchOutlined } from "@ant-design/icons";
+import { CLOUDINARY_FOLDER, STATUS, TABLE } from "@/constant/value";
 import Status from "../../components/Status";
 import DropdownAction from "../../components/Dropdown/DropdownAction";
+import { createSpecialty, getAllSpecialtyAdmin, getSpecialtyById, updateSpecialty } from "@/services/adminService";
+import { uploadAndDeleteToCloudinary } from "@/utils/uploadToCloudinary";
 const { TextArea } = Input;
-const ServiceOfRoom = () => {
+const Specialty = () => {
     let [form] = Form.useForm();
+    const [uploadProgress, setUploadProgress] = useState(0);
+    const [uploading, setUploading] = useState(false);
     let [currentPage, setCurrentPage] = useState(1);
     let [rowsPerPage, setRowPaper] = useState({ value: 10, id: 1 });
     let [totalPages, setTotalPage] = useState(0);
-    let [listServiceType, setListServiceType] = useState([]);
+    let [listSpecialty, setListSpecialty] = useState([]);
     let [checkAll, setCheckAll] = useState(false);
     let [search, setSearch] = useState("");
     let [obUpdate, setObUpdate] = useState(null);
+    let [urlImage, setUrlImage] = useState("");
     let searchDebounce = "";
     let {
-        data: dataServiceType,
-        loading: listServiceTypeLoading,
-        error: listServiceTypeError,
-        execute: fetchServiceTypes,
+        data: dataSpecialty,
+        loading: listSpecialtyLoading,
+        error: listSpecialtyError,
+        execute: fetchSpecialtys,
     } = useMutation((query) =>
-        getServiceOfRoom(currentPage, rowsPerPage.id, searchDebounce)
+        getAllSpecialtyAdmin(currentPage, rowsPerPage.id, searchDebounce)
     )
     useEffect(() => {
-        if (dataServiceType && dataServiceType.DT && dataServiceType.DT.rows && dataServiceType.DT) {
-            let _listServiceType = [...dataServiceType.DT.rows];
-            for (let i = 0; i < _listServiceType.length; i++) {
-                _listServiceType[i].checked = false;
+        if (dataSpecialty && dataSpecialty.DT && dataSpecialty.DT.rows && dataSpecialty.DT) {
+            let _listSpecialty = [...dataSpecialty.DT.rows];
+            for (let i = 0; i < _listSpecialty.length; i++) {
+                _listSpecialty[i].checked = false;
             }
-            setListServiceType(_listServiceType);
-            setTotalPage(dataServiceType.DT.count / rowsPerPage.value);
+            setListSpecialty(_listSpecialty);
+            setTotalPage(dataSpecialty.DT.count / rowsPerPage.value);
         }
-    }, [dataServiceType])
+    }, [dataSpecialty])
 
     useEffect(() => {
-        fetchServiceTypes();
+        fetchSpecialtys();
     }, [currentPage, useDebounce(search, 500), rowsPerPage]);
     useEffect(() => {
         if (obUpdate && obUpdate.id) {
             form.setFieldsValue({
-                name: obUpdate.name,
-                price: obUpdate.price,
-                description: obUpdate.description,
+                name: obUpdate?.name || "",
+                shortDescription: obUpdate?.shortDescription || "",
                 status: obUpdate.status
             })
         }
+        setUrlImage(obUpdate?.image || "")
     }, [obUpdate]);
     let handleChange = (item) => {
-        let _listService = [...listServiceType];
-        _listService = _listService.map(obj =>
+        let _listSpecialty = [...listSpecialty];
+        _listSpecialty = _listSpecialty.map(obj =>
             obj.id === item.id ? { ...obj, checked: !item.checked } : obj
         );
         setCheckAll(false);
-        setListServiceType(_listService);
+        setListSpecialty(_listSpecialty);
     };
     let handleChangeSelectedAll = () => {
-        let _listService = [...listServiceType];
+        let _listSpecialty = [...listSpecialty];
         setCheckAll(!checkAll);
-        _listService = _listService.map(obj =>
+        _listSpecialty = _listSpecialty.map(obj =>
             checkAll === true ? { ...obj, checked: false } : { ...obj, checked: true }
         );
-        setListServiceType(_listService);
+        setListSpecialty(_listSpecialty);
     }
     let handleChangePaginate = (item) => {
         setRowPaper(item);
@@ -82,54 +85,78 @@ const ServiceOfRoom = () => {
         setCurrentPage(1)
     }
     let refresh = () => {
+        form.resetFields();
+        setUrlImage("");
         setCheckAll(false);
-        fetchServiceTypes();
         setObUpdate(null);
+        setSearch("");
+        fetchSpecialtys();
     }
     let handleUpdate = async (item) => {
-        let response = await getServiceById(item.id);
+        let response = await getSpecialtyById(item.id);
         if (response?.data?.EC == 0) {
             let value = response?.data?.DT;
             setObUpdate(value)
         } else {
-            message.error(response?.data?.EM || "Không thể chọn dịch vụ")
+            message.error(response?.data?.EM || "Không thể chọn chuyên khoa")
             refresh();
         }
     }
     let handleInsertUpdate = async () => {
+        if (!urlImage) {
+            message.error("Vui lòng chọn ảnh");
+            return;
+        }
         form.validateFields().then(async (values) => {
             let response = null;
             if (obUpdate) {
-                response = await updateServiceOfRoom({ ...values, price: values.price + "", id: obUpdate.id })
+                response = await updateSpecialty({ ...values, image: urlImage, id: obUpdate.id })
             } else {
-                response = await createServiceOfRoom({ ...values, price: values.price + "" })
+                response = await createSpecialty({ ...values, image: urlImage })
             }
             if (response?.data?.EC === 0) {
                 message.success(response?.data?.EM || "Thành công");
-                form.resetFields();
-                setObUpdate(null);
                 refresh();
             } else {
-                message.error(response?.data?.EM || "Thất bại")
+                message.error(response?.data?.EM)
             }
         }).catch((error) => {
             console.log("error", error)
         });
 
     }
+    const handleImageChange = async (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+        setUploading(true); // Bắt đầu upload
+        setUploadProgress(0); // Đặt lại tiến trình về 0
+        try {
+            // Gọi hàm upload với callback để cập nhật tiến trình
+            const url = await uploadAndDeleteToCloudinary(file, CLOUDINARY_FOLDER.SPECIALTY, urlImage, (progress) => {
+                setUploadProgress(progress);
+            });
+            setUrlImage(url); // Lưu URL ảnh sau khi upload
+            message.success("Upload thành công!");
+        } catch (error) {
+            message.error("Upload thất bại. Vui lòng thử lại.");
+            console.error(error);
+        } finally {
+            setUploading(false); // Kết thúc upload
+        }
+    };
     return (
-        < div className="service-of-room-content" >
+        < div className="specialty-of-room-content" >
             <div className="container">
-                <div className="service-of-room-content-header d-flex align-items-center justify-content-between py-3">
-                    <div className="text">DỊCH VỤ</div>
-                    <button className='py-1 px-2 btn-refresh-service ms-3' onClick={() => refresh()}>
+                <div className="specialty-of-room-content-header d-flex align-items-center justify-content-between py-3">
+                    <div className="text">CHUYÊN KHOA</div>
+                    <button className='py-1 px-2 btn-refresh-specialty ms-3' onClick={() => refresh()}>
                         <FontAwesomeIcon
                             className='me-1 icon' icon={faRotateRight} style={{ color: "#04a9f3", }} /> Tải lại</button>
                 </div>
                 <div className="row d-flex flex-lg-row-reverse justify-content-between align-items-start">
-                    <div className="ps-3 pb-3 col-12 col-lg-3">
+                    <div className="ps-3 pb-3 col-12 col-lg-4">
                         <div className="insert-update p-3">
-                            <div className=""><span className="me-2">{obUpdate ? "CẬP NHẬT" : "THÊM DỊCH VỤ "}</span>
+                            <div className=""><span className="me-2">{obUpdate ? "CẬP NHẬT" : "THÊM CHUYÊN KHOA "}</span>
                                 <FontAwesomeIcon onClick={() => { form.resetFields(); setObUpdate(null) }}
                                     icon={faArrowsRotate} spinPulse style={{ color: "#04a9f3", cursor: "pointer" }} /></div>
                             <hr />
@@ -151,39 +178,50 @@ const ServiceOfRoom = () => {
                                 <Row >
                                     <Col span={24}>
                                         <Form.Item
-                                            preserve={false}
                                             name={"name"}
-                                            label="Tên dịch vụ"
+                                            label="Chuyên khoa"
                                             rules={[{
                                                 required: true,
-                                                message: 'Vui lòng nhập tên dịch vụ!',
+                                                message: 'Vui lòng nhập tên chuyên khoa!',
                                             }]}>
-                                            <Input placeholder="Nhập tên dịch vụ" />
+                                            <Input placeholder="Nhập chuyên khoa" />
                                         </Form.Item>
                                     </Col>
                                     <Col span={24}>
                                         <Form.Item
-                                            name={"price"}
-                                            label="Giá dịch vụ"
-                                            rules={[{
-                                                required: true,
-                                                message: 'Vui lòng nhập giá dịch vụ!',
-                                            },
-                                            {
-                                                pattern: /^[0-9]*$/,
-                                                message: 'Vui lòng nhập số!',
-                                            }]}>
-
-                                            <InputNumber placeholder="Nhập giá dịch vụ" suffix="VNĐ" style={{ width: "100%" }} />
-                                        </Form.Item>
-                                    </Col>
-                                    <Col span={24}>
-                                        <Form.Item
-                                            name="description"
-                                            label="Mô tả"
+                                            name="shortDescription"
+                                            label="Giới thiệu"
                                         >
-                                            <TextArea rows={4} placeholder="Mô tả dịch vụ" />
+                                            <TextArea rows={5} placeholder="Giới thiệu về chuyên khoa" />
                                         </Form.Item>
+                                    </Col>
+                                    <Col span={24}>
+                                        <Form.Item
+                                            name={"image"}
+                                            label="Hình ảnh"
+
+                                        >
+                                            <div className='image-upload'>
+                                                <input type="file" id='input-upload' hidden={true} onChange={handleImageChange} />
+                                                <div className='container'>
+                                                    <span><CloudUploadOutlined /></span>
+                                                    <div><span htmlFor={"input-upload"}
+                                                        onClick={() => document.getElementById('input-upload').click()}>Chọn ảnh</span> đăng tải.</div>
+                                                    {uploading && (
+                                                        <div style={{ marginTop: '20px', width: '100%' }}>
+                                                            <Progress percent={uploadProgress} status="active" />
+                                                        </div>
+                                                    )}
+                                                    {urlImage && (
+                                                        <div>
+                                                            <img src={urlImage} alt="Uploaded" style={{ width: "100%", borderRadius: "10px" }} />
+                                                        </div>
+                                                    )}
+                                                </div>
+                                            </div>
+
+                                        </Form.Item>
+
                                     </Col>
                                     {obUpdate &&
                                         <Col span={24}>
@@ -218,9 +256,9 @@ const ServiceOfRoom = () => {
                         </div>
                     </div>
 
-                    <div className="col-12 col-lg-9">
-                        <div className="table-service bg-white ">
-                            <div>
+                    <div className="col-12 col-lg-8">
+                        <div className="specialty bg-white mb-3">
+                            <div >
                                 <Input placeholder="Tìm kiếm" prefix={<SearchOutlined />} className="ms-4 my-3 w-25"
                                     value={search}
                                     onChange={(event) => { handleChangeSearch(event) }} />
@@ -238,42 +276,32 @@ const ServiceOfRoom = () => {
                                                     />
                                                 </div>
                                             </th>
-                                            <th scope="col" className="px-1 name">Tên dịch vụ</th>
-                                            <th scope="col" className=" text-end pe-5">Giá</th>
-                                            <th scope="col" className=" px-1 ps-3">Mô tả</th>
+                                            <th scope="col" className="px-1">NO</th>
+                                            <th scope="col" className="text-start px-1">Chuyên khoa</th>
                                             <th scope="col" className=" text-center px-1">Trạng thái</th>
-                                            <th scope="col" className="rounded-top-right px-1"></th>
+                                            <th scope="col" className="px-1 rounded-top-right"></th>
                                         </tr>
                                     </thead>
-                                    <tbody className="table-body ">
-                                        {+listServiceType.length > 0 && +totalPages != 0 ?
+                                    <tbody className="table-body">
+                                        {+listSpecialty.length > 0 && +totalPages != 0 && !listSpecialtyLoading ?
                                             <>
                                                 {
-                                                    listServiceType.map((item, index) => {
+                                                    listSpecialty.map((item, index) => {
                                                         return (
                                                             <tr key={item.id}>
-                                                                <td className="p-2">
-                                                                    <div>
+                                                                <td className="p-2 d-flex align-items-center">
+                                                                    <div className="">
                                                                         <Checkbox
                                                                             checked={item.checked}
                                                                             onChange={() => { handleChange(item, index) }}
                                                                             size="small"
                                                                         /></div>
                                                                 </td>
-                                                                <td title={item.name} className="px-1 py-3 text-uppercase " >
-                                                                    <div className="name "> {item?.name || "Khác"}</div>
+                                                                <td title={item.name} className="text-start px-1 py-3">
+                                                                    {item?.id || "Khác"}
                                                                 </td>
-                                                                <td className="text-end pe-5 py-3 price">
-                                                                    {item?.price === 0 ?
-                                                                        <div ><span className="free">Miễn phí</span></div>
-                                                                        :
-                                                                        <div className="">{formatCurrency(item?.price) || "_"}</div>}
-
-                                                                </td>
-                                                                <td title={item.description} className="text-start px-1 py-3 description">
-                                                                    <div>
-                                                                        {item?.description || "Chưa có mô tả"}
-                                                                    </div>
+                                                                <td className="text-start px-1 py-3">
+                                                                    {item?.name || "_"}
                                                                 </td>
                                                                 <td className="text-center px-1 py-3">
                                                                     <Status data={item?.status} />
@@ -284,7 +312,7 @@ const ServiceOfRoom = () => {
                                                                             data={item}
                                                                             action={handleUpdate}
                                                                             refresh={refresh}
-                                                                            table={TABLE.SERVICE}
+                                                                            table={TABLE.SPECIALTY}
                                                                         />
                                                                     </div>
                                                                 </td>
@@ -300,15 +328,16 @@ const ServiceOfRoom = () => {
                                                 </td>
                                             </tr>
                                         }
-
                                     </tbody>
                                 </table>
-                                <div className='footer-table d-flex justify-content-end mx-2 mt-3'>
+
+                                <div className='footer-table d-flex justify-content-end mx-2'>
                                     <div className='select-page'>
                                         <DropdownPaginate page={rowsPerPage}
                                             setPage={handleChangePaginate} />
                                     </div>
-                                    <PaginateCustom totalPageCount={totalPages}
+                                    <PaginateCustom
+                                        totalPageCount={totalPages}
                                         setPage={setCurrentPage} />
                                 </div>
                             </div>
@@ -319,4 +348,4 @@ const ServiceOfRoom = () => {
         </div >
     );
 }
-export default ServiceOfRoom;
+export default Specialty;

@@ -48,6 +48,9 @@ export const createDepartment = (data) => {
 export const getNameDepartment = () => {
     return axios.get(`/api/getAllNameDepartment`)
 }
+export const getDepartmentDuty = () => {
+    return axios.get(`/api/admin/getDepartmentDuty`)
+}
 export const getDepartment = (page, limit, search) => {
     return axios.get(`/api/getAllDepartment?page=${+page}&limit=${+limit}&search=${search}`)
 }
@@ -136,4 +139,16 @@ export const updateHandbook = (data) => {
 }
 export const getHandbookAdmin = (page, limit, search, status, filter) => {
     return axios.get(`/api/admin/getHandbookAdmin?page=${+page}&limit=${+limit}&search=${search}&status=${status}&filter=${filter}`)
+}
+
+
+// SCHEDULE MANAGEMENT
+export const getSchedule = (query) => {
+    return axios.get(`/api/admin/getAllSchedules`, { params: query })
+}
+export const createSchedule = (data) => {
+    return axios.post(`/api/admin/createSchedule`, data)
+}
+export const arrangeSchedule = (data) => {
+    return axios.post(`/api/admin/arrangSchedule`, data)
 }

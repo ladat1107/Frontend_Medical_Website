@@ -19,13 +19,14 @@ const DropdownAction = (props) => {
     }
     return (
         <div>
-            <DropdownMenu className="dropdown"
+            <DropdownMenu
                 placement="left-start"
+                position="bottom left"
                 trigger={({ triggerRef, ...props }) => (
                     <IconButton {...props} icon={MoreVerticalIcon} label="more" ref={triggerRef} />
                 )}
                 shouldRenderToParent>
-                <DropdownItemGroup className="item">
+                <DropdownItemGroup >
                     <DropdownItem onClick={() => { handleUpdate() }} >
                         <span className="update" > <FontAwesomeIcon className="me-1" icon={faFilePen} size="lg" /> Cập nhật</span>
                     </DropdownItem>

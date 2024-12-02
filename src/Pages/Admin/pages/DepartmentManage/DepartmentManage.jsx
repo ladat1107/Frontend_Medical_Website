@@ -79,7 +79,7 @@ const DepartmentManage = () => {
         setCheckAll(false);
         setObUpdate(null);
         setShowInsert(false);
-        setCurrentPage(1);
+        fetchDepartments();
     }
     let handleUpdate = async (item) => {
         setShowInsert(false)
