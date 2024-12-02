@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Table } from 'antd';
 import dayjs from "dayjs";
-import { formatDate1 } from "@/utils/formatDate";
+import { formatDate, formatDate1 } from "@/utils/formatDate";
 import { secondaryColorAdmin } from "@/style/variables";
 import "./Calendar.scss";
 import { ROLE } from "@/constant/role";
@@ -83,7 +83,7 @@ const ScheduleTable = (props) => {
                             {shiftsForDate
                                 ?.filter((shift) => shift.roleId !== ROLE.DOCTOR)
                                 ?.map((shift) => (
-                                    <li key={`other-${shift.doctor}-${shift.date}-${shift.roomId}`}>
+                                    <li key={`nurse-${shift.doctor}-${shift.doctorId}-${shift.date}-${shift.roomId}`}>
                                         {shift.roleId === ROLE.NURSE && (
                                             <span
                                                 style={{
@@ -101,7 +101,6 @@ const ScheduleTable = (props) => {
                 ) : (<div >
                     <FontAwesomeIcon className="icon-plus-center" icon={faPlus} />
                 </div>);
-                // onDoubleClick={() => handleGetSchedule(date, record.roomId, record.roomName)}
             },
         })),
     ];
@@ -189,7 +188,6 @@ const ScheduleTable = (props) => {
     const exportToExcel = () => {
         // Chuẩn bị dữ liệu để xuất
         const excelData = [];
-
         // Đưa dữ liệu departments vào Excel
         departments.forEach((dept) => {
             dept?.roomData?.forEach((room) => {
@@ -218,19 +216,13 @@ const ScheduleTable = (props) => {
                 excelData.push(row);
             });
         });
-
-        console.log("check row: ", excelData);
-        // Tạo worksheet và workbook
-        // const worksheet = XLSX.utils.json_to_sheet(excelData);
-        // const workbook = XLSX.utils.book_new();
-        // XLSX.utils.book_append_sheet(workbook, worksheet, "Lịch trực");
-
         const worksheet = XLSX.utils.json_to_sheet(excelData);
         const workbook = XLSX.utils.book_new();
         XLSX.utils.book_append_sheet(workbook, worksheet, "Lịch trực");
 
         // Xuất file Excel
-        XLSX.writeFile(workbook, "data.xlsx");
+        XLSX.writeFile(workbook, `Lich_truc_${formatDate(new Date())}
+    }.xlsx`);
     };
 
     return (
