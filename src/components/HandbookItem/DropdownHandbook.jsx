@@ -9,16 +9,23 @@ import { useSelector } from 'react-redux';
 const DropdownHandbook = (props) => {
     let navigate = useNavigate();
     let { user } = useSelector((state) => state.authen);
+    let handleClick = () => {
+        if (user.staff) {
+            navigate(PATHS.STAFF.HANDBOOK + `/${props.id}`)
+        } else {
+            navigate(PATHS.ADMIN.HANDBOOK_DETAIL + "/" + props.id)
+        }
+    }
     const items = [
         {
             label: "Xem chi tiết",
             key: '0',
-            onClick: () => { navigate(PATHS.ADMIN.HANDBOOK_DETAIL + "/" + props.id) }
+            onClick: () => { handleClick() }
         },
         ...(user?.staff ? [{
             label: "Chỉnh sửa",
             key: '1',
-            onClick: () => { alert("Chỉnh sửa") }
+            onClick: () => { props.handleUpdate(props.id) }
         }] : []),
     ];
     return (

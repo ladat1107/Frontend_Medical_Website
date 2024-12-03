@@ -377,9 +377,7 @@ const CreateUser = (props) => {
                                         onChange={handleEditorChange} />
                                 </Form.Item>
                             </Col>
-
                         </Row>}
-
                     </Form>
                 </Modal>
             </div >

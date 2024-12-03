@@ -15,11 +15,10 @@ import AdminLayoutTest from "./layout/Admin/AdminLayout";
 import DepartmentManage from "./layout/Admin/pages/DepartmentManage/DepartmentManage";
 import Room from "./layout/Admin/pages/Room/RoomManage";
 import ServiceOfRoom from "./layout/Admin/pages/ServiceOfRoom/ServiceOfRoomManage";
-import Handbook from "./layout/Doctor/pages/Handbook";
-import InfoHandbook from "./layout/Doctor/pages/Handbook/InfoHandbook";
+import Handbook from "./layout/Doctor/pages/Handbook/Handnook";
 import Schedule from "./layout/Doctor/pages/Schedule";
 import Specialty from "./layout/Admin/pages/Specialty/SpecialtyManage";
-import Login from "./layout/User/pages/Login";
+import Login from "./layout/User/pages/Login/Login";
 import { PATHS } from "./constant/path";
 import ReceptionistDashboard from "./layout/Receptionist/pages/Dashboard";
 import ProfileAdmin from "./layout/Admin/pages/ProfileAdmin/ProfileAdmin";
@@ -30,8 +29,8 @@ import HandbookAdminDetail from "./layout/Admin/pages/HandbookAdmin/Detail";
 import ScheduleManage from "./layout/Admin/pages/ScheduleManage/ScheduleManage";
 import DoctorList from "./layout/User/pages/DoctorList";
 import BlogList from "./layout/User/pages/BlogList";
+import HandbookDetail from "./layout/Doctor/pages/Handbook/HandbookDetail/HandbookDetail";
 function App() {
-
   return (
     <ConfigProvider
       theme={{
@@ -63,12 +62,13 @@ function App() {
             <Route path={`${PATHS.ADMIN.HANDBOOK_DETAIL}/:id`} element={<HandbookAdminDetail />} />
             <Route path={PATHS.ADMIN.SCHEDULE_MANAGE} element={<ScheduleManage />} />
           </Route>
-          <Route path={PATHS.STAFF.DASHBOARD} element={<DoctorHomePage />} />
+
           <Route element={<DoctorLayout />}>
+            <Route path={PATHS.STAFF.DASHBOARD} element={<DoctorHomePage />} />
             <Route path={PATHS.STAFF.APPOINTMENT} element={<Appointment />} />
             <Route path={PATHS.STAFF.EXAMINATION} element={<Examination />} />
             <Route path={PATHS.STAFF.HANDBOOK} element={<Handbook />} />
-            <Route path={PATHS.STAFF.INFO_HANDBOOK} element={<InfoHandbook />} />
+            <Route path={`${PATHS.STAFF.HANDBOOK}/:id`} element={<HandbookDetail />} />
             <Route path={PATHS.STAFF.SCHEDULE} element={<Schedule />} />
             <Route path={PATHS.STAFF.PROFILE} element={<ProfileStaff />} />
             <Route path={PATHS.RECEPTIONIST.DASHBOARD} element={<ReceptionistDashboard />} />

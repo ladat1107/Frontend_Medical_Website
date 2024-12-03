@@ -3,11 +3,17 @@ import axios from "@/utils/axiosInstance";
 export const handleRegisterUser = (data) => {
     return axios.post(`/api/registerUser`, data)
 }
+export const handleConfirmUser = (data) => {
+    return axios.post(`/api/confirmUser`, data)
+}
 export const handleLogin = (data) => {
-    return axios.post(`/handleLogin`, data)
+    return axios.post(`/api/handleLogin`, data)
+}
+export const handleForgotPassword = (data) => {
+    return axios.post(`/api/forgotPassword`, data)
 }
 export const logoutUser = () => {
-    return axios.post(`/handleLogout`)
+    return axios.post(`/api/handleLogout`)
 }
 // USER MANAGEMENT
 export const createUser = (data) => {

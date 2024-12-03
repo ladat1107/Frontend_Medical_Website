@@ -3,10 +3,17 @@ import SvgIcon from "../SvgIcon";
 import classNames from "classnames/bind";
 import styles from "./header.module.scss";
 import Dropdown from "../Dropdown";
+import { useNavigate } from "react-router-dom";
+import { PATHS } from "@/constant/path";
+import { useDispatch, useSelector } from "react-redux";
+import { logout } from "@/redux/authenSlice";
 // Tạo instance của classnames với bind styles
 const cx = classNames.bind(styles);
 
 function Header() {
+  let navigate = useNavigate();
+  let { user } = useSelector(state => state.authen);
+  let dispatch = useDispatch();
   // language
   const items = [
     { title: "Home", icon: <SvgIcon name="tiktok" /> },
@@ -99,8 +106,9 @@ function Header() {
             </div>
 
             <div className={cx("auth")}>
-              <div className={cx("account-btn", "header-text")}>Đăng nhập</div>
-              <div className={cx("account-btn", "header-text")}>Đăng ký</div>
+              {user ?
+                <div className={cx("account-btn", "header-text")} onClick={() => { dispatch(logout()), navigate(PATHS.HOME.LOGIN) }} >Đăng xuất</div> :
+                <div className={cx("account-btn", "header-text")} onClick={() => navigate(PATHS.HOME.LOGIN)}>Đăng nhập</div>}
 
               <div className={cx("language")}>
                 <Dropdown title="Language" items={items} />

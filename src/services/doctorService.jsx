@@ -180,11 +180,9 @@ const upsertPrescription = async (data) => {
 }
 
 //Hand book
-const getAllHandbooks = async (page, limit, search, staffId, filter) => {
+const getAllHandbooks = async (page, limit, search, staffId, filter, status) => {
     try {
-        console.log("Data:", filter);
-        const response = await axios.get(`/api/getAllHandBooks?page=${page}&limit=${limit}&search=${search}&filter=${filter}&staffId=${staffId}`);
-        //console.log("Response:", response.data); 
+        const response = await axios.get(`/api/getAllHandBooks?page=${page}&limit=${limit}&search=${search}&filter=${filter}&staffId=${staffId}&status=${status}`);
         return response;
     } catch (error) {
         console.error("Error:", error);
