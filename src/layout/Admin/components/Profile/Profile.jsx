@@ -11,8 +11,8 @@ import StaffInfo from "./section/staff";
 import { EMIT } from "@/constant/value";
 import emitter from "@/utils/eventEmitter";
 import { useSelector } from "react-redux";
+import Loading from "@/components/Loading/Loading";
 const Profile = () => {
-    //let { user } = useContext(AuthenContext);
     let { user } = useSelector((state) => state.authen);
     let [profile, setProfile] = useState({});
     const [selectedItem, setSelectedItem] = useState(EMIT.EVENT_PROFILE.info);
@@ -68,7 +68,7 @@ const Profile = () => {
     }
     return (
         <div className="staff-profile" >
-            <div className="container row py-5 d-flex justify-content-start">
+            {listProfileLoading ? <Loading /> : <div className="container row py-5 d-flex justify-content-start">
                 <div className="right-profile col-10 ps-5">
                     <div className="content">
                         {selectedItem === EMIT.EVENT_PROFILE.info && profile?.id && folks.length > 0 &&
@@ -93,7 +93,8 @@ const Profile = () => {
                         {selectedItem === EMIT.EVENT_PROFILE.notifications && <Notification />}
                     </div>
                 </div>
-            </div>
+            </div>}
+
         </div >
     )
 }

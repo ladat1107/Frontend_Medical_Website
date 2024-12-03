@@ -7,6 +7,7 @@ import useQuery from "@/hooks/useQuery";
 import moment from 'moment-timezone';
 import { updateProfileInfo } from "@/services/adminService";
 import dayjs from 'dayjs';
+import Loading from "@/components/Loading/Loading";
 
 const Information = (props) => {
   let [form] = Form.useForm();
@@ -560,5 +561,6 @@ const Information = (props) => {
       </Form>
     </div >
   )
+
 }
 export default Information;

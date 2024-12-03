@@ -70,7 +70,7 @@ function App() {
             <Route path={PATHS.STAFF.HANDBOOK} element={<Handbook />} />
             <Route path={`${PATHS.STAFF.HANDBOOK}/:id`} element={<HandbookDetail />} />
             <Route path={PATHS.STAFF.SCHEDULE} element={<Schedule />} />
-            <Route path={PATHS.STAFF.PROFILE} element={<ProfileStaff />} />
+            <Route path={PATHS.STAFF.PROFILE} element={<ProfileStaff />} /> 
             <Route path={PATHS.RECEPTIONIST.DASHBOARD} element={<ReceptionistDashboard />} />
           </Route>
 

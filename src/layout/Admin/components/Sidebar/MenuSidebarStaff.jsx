@@ -6,13 +6,41 @@ import { PATHS } from '@/constant/path';
 import { logout } from '@/redux/authenSlice';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRightFromBracket } from '@fortawesome/free-solid-svg-icons';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { EMIT } from '@/constant/value';
+import { faAddressCard } from '@fortawesome/free-regular-svg-icons';
+import emitter from '@/utils/eventEmitter';
 
 const MenuSidebar = () => {
+    let { user } = useSelector(state => state.authen);
     let dispatch = useDispatch();
     const items = [
         {
             type: 'divider',
+        },
+        {
+            key: 'personalStaff',
+            label: (<NavLink to={PATHS.STAFF.PROFILE}>Cá nhân</NavLink>), //style={{ color: selectedKeys === "sub2" ? "red" : "" }}
+            icon: <FontAwesomeIcon icon={faAddressCard} />,  // style={{ color: selectedKeys === "sub2" ? "red" : "" }}
+            children: [
+                {
+                    key: 'personalStaff1',
+                    label: 'Thông tin cá nhân',
+                    onClick: () => { emitter.emit(EMIT.EVENT_PROFILE.key, EMIT.EVENT_PROFILE.info); }
+                },
+                {
+                    key: 'personalStaff2',
+                    label: 'Đổi mật khẩu',
+                    onClick: () => { emitter.emit(EMIT.EVENT_PROFILE.key, EMIT.EVENT_PROFILE.changePassword); }
+                },
+                ...(user?.staff ? [{
+                    key: 'personalStaff3',
+                    label: "Hồ sơ",
+                    onClick: () => {
+                        emitter.emit(EMIT.EVENT_PROFILE.key, EMIT.EVENT_PROFILE.staff);
+                    }
+                }] : [])
+            ],
         },
         {
             key: 'sub2',
