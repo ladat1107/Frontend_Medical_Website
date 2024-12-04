@@ -4,7 +4,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useMutation } from '@/hooks/useMutation';
 import { getAllMedicinesForExam, getPrescriptionByExaminationId, upsertPrescription } from '@/services/doctorService';
 import PropTypes from 'prop-types';
-import { notification } from 'antd';
+import { notification, Spin } from 'antd';
 
 const Prescription = ({ examinationId, paraclinicalPrice, refresh }) => {
     const [presDetails, setPresDetails] = useState([]);
@@ -160,7 +160,9 @@ const Prescription = ({ examinationId, paraclinicalPrice, refresh }) => {
                     </div>
                 </div>
                 {prescriptionLoading ? (
-                    <div>Loading...</div>
+                    <div className="loading text-center mt-1 mb-1">
+                        <Spin />
+                    </div>
                 ) : (
                     <>
                         <div className="row padding gap">

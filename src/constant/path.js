@@ -24,6 +24,7 @@ export const PATHS = {
     },
     RECEPTIONIST: {
         DASHBOARD: "/receptionist",
+        CASHIER: "/cashier",
     },
     HOME: {
         HOMEPAGE: "/",

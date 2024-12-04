@@ -55,11 +55,12 @@ const searchAppointmentsWithStaffId = (page, limit, staffId, search, from, to) =
 };
 
 // Examination
-export const getExaminations = async (date, status, is_appointment, page, limit, search, time) => {
+export const getExaminations = async (date, status, staffId, is_appointment, page, limit, search, time) => {
     try {
-        if (!time) time = '';
-
-        const response = await axios.get(`/api/getExaminations?date=${date}&status=${status}&is_appointment=${is_appointment}&page=${+page}&limit=${+limit}&search=${search}&time=${time}`);
+        if(!time) time = '';
+        if(!staffId) staffId = '';
+        
+        const response = await axios.get(`/api/getExaminations?date=${date}&status=${status}&staffId=${staffId}&is_appointment=${is_appointment}&page=${+page}&limit=${+limit}&search=${search}&time=${time}`);
         //console.log("Response:", response.data); 
         return response;
     } catch (error) {

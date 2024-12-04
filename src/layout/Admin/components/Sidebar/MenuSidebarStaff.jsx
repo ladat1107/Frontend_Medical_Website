@@ -53,6 +53,11 @@ const MenuSidebar = () => {
             icon: <i className="fa-solid fa-list"></i>,
         },
         {
+            key: 'sub3',
+            label: (<NavLink to={PATHS.RECEPTIONIST.CASHIER}>Thanh toán</NavLink>),
+            icon: <i className="fa-solid fa-list"></i>,
+        },
+        {
             key: 'sub5',
             label: (<NavLink to={PATHS.STAFF.HANDBOOK}>Cẩm nang</NavLink>),
             icon: <i className="fa-solid fa-book"></i>,

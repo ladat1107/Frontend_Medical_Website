@@ -31,6 +31,7 @@ import DoctorList from "./layout/User/pages/DoctorList";
 import BlogList from "./layout/User/pages/BlogList";
 import HandbookDetail from "./layout/Doctor/pages/Handbook/HandbookDetail/HandbookDetail";
 import Booking from "./layout/User/pages/Booking/Booking";
+import Cashier from "./layout/Receptionist/pages/Dashboard/cashier";
 function App() {
   return (
     <ConfigProvider
@@ -64,9 +65,7 @@ function App() {
             <Route path={`${PATHS.ADMIN.HANDBOOK_DETAIL}/:id`} element={<HandbookAdminDetail />} />
             <Route path={PATHS.ADMIN.SCHEDULE_MANAGE} element={<ScheduleManage />} />
           </Route>
-
           <Route element={<DoctorLayout />}>
-            <Route path={PATHS.STAFF.DASHBOARD} element={<DoctorHomePage />} />
             <Route path={PATHS.STAFF.APPOINTMENT} element={<Appointment />} />
             <Route path={PATHS.STAFF.EXAMINATION} element={<Examination />} />
             <Route path={PATHS.STAFF.HANDBOOK} element={<Handbook />} />
@@ -74,6 +73,8 @@ function App() {
             <Route path={PATHS.STAFF.SCHEDULE} element={<Schedule />} />
             <Route path={PATHS.STAFF.PROFILE} element={<ProfileStaff />} />
             <Route path={PATHS.RECEPTIONIST.DASHBOARD} element={<ReceptionistDashboard />} />
+            <Route path={PATHS.STAFF.DASHBOARD} element={<DoctorHomePage />} />
+            <Route path={PATHS.RECEPTIONIST.CASHIER} element={<Cashier />} />
           </Route>
 
         </Route>

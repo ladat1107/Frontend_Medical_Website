@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import RadioButtonList from '../RadioButton/RadioButton';
 import { createExamination, getUserInsuarance, getUserByCid, updateExamination } from '@/services/doctorService';
-import { message, Select } from 'antd';
+import { message, Select, Spin } from 'antd';
 import { getThirdDigitFromLeft, isNumericString } from '@/utils/numberSeries';
 import './AddExamModal.scss';
 import AddUserModal from '../AddUserModal/AddUserModal';
@@ -107,6 +107,7 @@ const AddExamModal = ({ isOpen, onClose, timeSlot, handleAddExamSuscess, isEditM
         resetForm();
         setIsSearched(true);
         setUserInfo(data.user);
+        setCid(data.user.cid);
         setInsurance(data.insurance?.insuranceCode || '');
     }
 
@@ -318,7 +319,11 @@ const AddExamModal = ({ isOpen, onClose, timeSlot, handleAddExamSuscess, isEditM
                                                 </div>
                                             </div>
                                         </div>
-                                    ) :  'Loading...' }
+                                    ) :  (
+                                        <div className="text-center mb-3">
+                                            <Spin />
+                                        </div>
+                                    )}
                                 </div>
                             </>
                         ):(
@@ -338,7 +343,9 @@ const AddExamModal = ({ isOpen, onClose, timeSlot, handleAddExamSuscess, isEditM
                                 }`}>
                                     {isSearched && (
                                         loading ? (
-                                            'Đang tìm kiếm...'
+                                            <div className="loading text-center">
+                                                <Spin />
+                                            </div>
                                         ) : userInfo?.lastName && userInfo?.firstName ? (
                                             <div className='row'>
                                                 <div className='col-12 d-flex flex-row'>

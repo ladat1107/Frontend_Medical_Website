@@ -1,8 +1,3 @@
-.container {
-    padding-top: 10px;
-    padding-bottom: 10px;
-    background-color: #f8faff;
-}
 
 .exam-content{
     display: flex;
@@ -16,6 +11,15 @@
     margin-bottom: 20px;
 }
 
+.no-patient{
+    padding: 10px;
+    background: white;
+    border-radius: 6px;
+    border: 1.5px dashed #c9cccc;
+    margin-left: 10px;
+    width: 98%
+}
+
 .exam-header {
     font-family: 'Be Vietnam Pro', sans-serif;
     font-size: 16px;
@@ -27,7 +31,7 @@
 .title{
     font-family: 'Be Vietnam Pro', sans-serif;
     font-size: 14px;
-    font-weight: 700;
+    font-weight: 500;
     color: gray;
     margin-bottom: 10px;
 }
@@ -35,7 +39,7 @@
 .info{
     font-family: 'Be Vietnam Pro', sans-serif;
     font-size: 14px;
-    font-weight: 600;
+    font-weight: 400;
     color: black;
     margin-bottom: 10px;
 }

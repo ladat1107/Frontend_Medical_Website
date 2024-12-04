@@ -1,13 +1,14 @@
 import { getExaminations } from "@/services/doctorService";
 import React, { useEffect, useState } from 'react'
-import "./Appointment.scss";
+// import "./Appointment.scss";
 import { useMutation } from "@/hooks/useMutation";
 import { useNavigate } from "react-router-dom";
-import { Pagination, Select, Spin } from "antd";
+import { message, Pagination, Spin } from "antd";
 import { useSelector } from "react-redux";
 import PatientItem from "@/layout/Receptionist/components/PatientItem/PatientItem";
+import PayModal from "../../components/PayModal/PayModal";
 
-const Appointment = () => {
+const Cashier = () => {
     const navigate = useNavigate();
     let { user } = useSelector((state) => state.authen);
     const today = new Date().toISOString();
@@ -15,15 +16,36 @@ const Appointment = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [pageSize, setPageSize] = useState(50);
     const [total, setTotal] = useState(0);
-    const [time, setTime] = useState(null);
     const [search, setSearch] = useState('');
     const [listExam, setListExam] = useState([]);
-    const [status, setStatus] = useState(5);
+    const [status, setStatus] = useState(4);
+    const [patientData, setPatientData] = useState({});
+    const [examId, setExamId] = useState(0);
+
     const isAppointment = 0;
 
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
-    const handleClickRow = (examinationId) => {
-        navigate(`/doctorExamination/${examinationId}`);
+    const handlePay = (id) => {
+        const selectedPatient = listExam.find(item => item.id === id);
+
+        if (selectedPatient) {
+            setExamId(id);
+            setPatientData(selectedPatient);
+            setIsModalOpen(true);
+        } else {
+            // Xử lý trường hợp không tìm thấy bệnh nhân
+            message.error('Không tìm thấy thông tin bệnh nhân');
+        }
+    }
+    const closePay = () => setIsModalOpen(false);
+
+    // const handleClickRow = (examinationId) => {
+    //     navigate(`/doctorExamination/${examinationId}`);
+    // }
+
+    const onPaySusscess = (data) => {
+        fetchExaminations();
     }
 
     const handlePageChange = (page, pageSize) => {
@@ -49,11 +71,11 @@ const Appointment = () => {
         loading: loadingExaminations,
         error: errorExaminations,
         execute: fetchExaminations,
-    } = useMutation(() => getExaminations(today, status, user.staff, isAppointment, currentPage, pageSize, search, time))
+    } = useMutation(() => getExaminations(today, status, '', '', currentPage, pageSize, search, ''))
 
     useEffect(() => {
         fetchExaminations();
-    }, [isAppointment, status, search, time, currentPage, pageSize]);
+    }, [status, search, currentPage, pageSize]);
 
     useEffect(() => {
         if (dataExaminations) {
@@ -64,18 +86,10 @@ const Appointment = () => {
 
     // #endregion
 
-
     return (
         <>
             <div className="appointment-content">
                 <div className="search-container row">
-                    <div className="col-2">
-                        <p className="search-title">Trạng thái</p>
-                        <Select className="select-box" defaultValue="5" onChange={handelSelectChange}>
-                            <Select.Option value="5">Khám mới</Select.Option>
-                            <Select.Option value="6">Khám cũ</Select.Option>
-                        </Select>
-                    </div>
                     <div className="col-6">
                         <p className="search-title">Tìm kiếm đơn khám</p>
                         <input type="text" className="search-box" 
@@ -105,7 +119,7 @@ const Appointment = () => {
                                         doctor={`${item.examinationStaffData.staffUserData.lastName} ${item.examinationStaffData.staffUserData.firstName}`}
                                         downItem={downItem}
                                         visit_status={item.visit_status}
-                                        onClickItem={()=>handleClickRow(item.id)}
+                                        onClickItem={()=>handlePay(item.id)}
                                     />
                             )):(
                                 <div className="no-patient d-flex justify-content-center mt-2">
@@ -126,9 +140,18 @@ const Appointment = () => {
                         )}
                     </div>
                 </div>
+                {listExam.length > 0 &&
+                    <PayModal
+                        isOpen={isModalOpen}
+                        onClose={closePay}
+                        onPaySusscess={onPaySusscess}
+                        patientData={patientData}
+                        examId={examId}
+                    />
+                }
             </div>
         </>
     )
 }
 
-export default Appointment
+export default Cashier

@@ -9,6 +9,7 @@ import { useMutation } from "@/hooks/useMutation";
 import { convertDateTime } from "@/utils/formatDate";
 import { convertGender } from "@/utils/convertGender";
 import { useParams } from "react-router-dom";
+import { Spin } from "antd";
 
 const Examination = () => {
     const { examId } = useParams();
@@ -81,7 +82,9 @@ const Examination = () => {
         <>
             <div className="container">
                 {isLoading ? (
-                    <div>Loading...</div>
+                    <div className="loading text-center">
+                        <Spin />
+                    </div>
                 ) : (
                     <>
                         <div className="exam-content">
@@ -137,10 +140,10 @@ const Examination = () => {
                                             </div>
                                             <div className="row">
                                                 <div className="col-4">
-                                                    <p className="title">Ghi chú</p>
+                                                    <p className="title">BHYT:</p>
                                                 </div>
                                                 <div className="col-8">
-                                                    <p className="info">??????</p>
+                                                    <p className="info">{patientData.userInsuranceData.insuranceCode}</p>
                                                 </div>
                                             </div>
                                         </div>

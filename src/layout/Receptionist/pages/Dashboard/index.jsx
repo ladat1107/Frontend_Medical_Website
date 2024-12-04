@@ -23,6 +23,7 @@ const ReceptionistDashboard = () => {
     const [time, setTime] = useState(null);
     const [search, setSearch] = useState('');
     const [status, setStatus] = useState(2);
+    const [listExam, setListExam] = useState([]);
 
     const [totalPatient, setTotalPatient] = useState(0);
     const [totalAppointment, setTotalAppointment] = useState(0);
@@ -79,7 +80,6 @@ const ReceptionistDashboard = () => {
     };
     const closeAddExam = () => setIsModalOpen(false);
 
-    const [listExam, setListExam] = useState([]);
 
     // #region Fetch data 
     const {
@@ -87,7 +87,7 @@ const ReceptionistDashboard = () => {
         loading: loadingExaminations,
         error: errorExaminations,
         execute: fetchExaminations,
-    } = useMutation(() => getExaminations(today, status, isAppointment, currentPage, pageSize, search, time))
+    } = useMutation(() => getExaminations(today, status, '', isAppointment, currentPage, pageSize, search, time))
 
     useEffect(() => {
         fetchExaminations();
