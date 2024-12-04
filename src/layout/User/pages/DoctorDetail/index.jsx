@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import classNames from "classnames/bind";
 import styles from "./doctorDetail.module.scss";
 // Tạo instance của classnames với bind styles
@@ -7,18 +7,54 @@ import Container from "@/components/Container";
 import DoctorDetailHeader from "./DoctorDetailHeader";
 import DoctorDetailBody from "./DoctorDetailBody";
 import DoctorDetailRelated from "./DoctorDetailRelated";
-
-
+import { useLocation, useParams } from "react-router-dom";
+import userService from "@/services/userService";
+import useQuery from "@/hooks/useQuery";
+import { useMutation } from "@/hooks/useMutation";
+import { get } from "lodash";
 
 const DoctorDetail = () => {
+  let { id } = useParams();
+  let location = useLocation();
+  const {
+    data: doctorData,
+    error: doctorError,
+    execute: getDoctorDetail,
+  } = useMutation(() => userService.getDoctorDetail({ id }));
+  const doctor = doctorData?.DT || {};
+  const {
+    data: handbookData,
+    error: handbookError,
+    execute: getHandbook,
+  } = useMutation(() => userService.getHandbook({ departmentId: doctor?.staffUserData?.departmentId }));
+  const {
+    data: doctorListData,
+    error: doctorListError,
+    execute: getDoctorList,
+  } = useMutation(() => userService.getDoctor({ departmentId: doctor?.staffUserData?.departmentId }));
+  useEffect(() => {
+    if (doctor?.staffUserData?.departmentId) {
+      getHandbook();
+      getDoctorList();
+    }
+  }, [doctor])
+  useEffect(() => {
+    if (id) {
+      getDoctorDetail();
+    }
+  }, [location]);
+  const handbook = handbookData?.DT?.length > 0 ? handbookData.DT : [{}];
+  const doctorList = doctorListData?.DT?.length > 0 ? doctorListData.DT : [{}];
   return (
     <div className={cx('bg')} >
-      <Container>
-         <DoctorDetailHeader/>
-         <DoctorDetailBody/>
-         <DoctorDetailRelated/>
-        
-      </Container>
+      {doctor && handbook.length > 0 && doctorList.length > 0 &&
+        <Container>
+          <DoctorDetailHeader data={doctor} />
+          <DoctorDetailBody data={doctor} handbook={handbook} />
+          <DoctorDetailRelated doctorList={doctorList} />
+        </Container>
+      }
+
     </div>
   );
 };

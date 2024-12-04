@@ -4,6 +4,7 @@ import { localToken, localUser } from "./token";
 import { message } from "antd";
 import { PATHS } from "@/constant/path";
 import { store } from "@/redux/store";
+import { logout, setToken } from "@/redux/authenSlice";
 const axiosInstance = axios.create({
   baseURL: BASE_URL,
   withCredentials: true
@@ -36,21 +37,19 @@ axiosInstance.interceptors.response.use(
         const res = await axiosInstance.get("/refreshToken");
         if (res?.data?.EC === 0) {
           let newToken = res.data.DT;
-          localToken.set(newToken);
+          store.dispatch(setToken(newToken));
           // Thay đổi token trong header của yêu cầu ban đầu
           originalRequest.headers.Authorization = `Bearer ${newToken}`;
           // Gọi lại yêu cầu ban đầu với token mới
           return axiosInstance(originalRequest);
         }
         else {
-          localToken.remove();
-          localUser.remove();
+          store.dispatch(logout());
           window.location.href = PATHS.HOME.LOGIN;
           message.error(res?.data?.EM || "Có lỗi xảy ra");
         }
       } catch (error) {
-        localToken.remove();
-        localUser.remove();
+        store.dispatch(logout());
         window.location.href = PATHS.HOME.LOGIN;
         message.error("Có lỗi xảy ra");
       }

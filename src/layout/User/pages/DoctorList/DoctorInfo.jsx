@@ -3,10 +3,14 @@ import classNames from "classnames/bind";
 import styles from "./doctorList.module.scss";
 // Tạo instance của classnames với bind styles
 const cx = classNames.bind(styles);
-import Container from "@/components/Container";
 import DoctorCard from "./Component";
+import { formatCurrency } from "@/utils/formatCurrency";
+import { useNavigate } from "react-router-dom";
+import { PATHS } from "@/constant/path";
 
-const DoctorInfo = () => {
+const DoctorInfo = (props) => {
+  let { doctorList } = props;
+  let navigate = useNavigate();
   return (
     <div className={cx("doctor-info")}>
       <div className={cx("head-section")}>
@@ -36,69 +40,19 @@ const DoctorInfo = () => {
         </div>
       </div>
       <div className={cx('list-item')} >
-      <DoctorCard
-        name="Bác sĩ Nguyễn Văn A"
-        specialty="Tim mạch"
-        price="300.000"
-        visits="1200"
-        rating="4.8"
-      />
-      <DoctorCard
-        name="Bác sĩ Nguyễn Văn A"
-        specialty="Tim mạch"
-        price="300.000"
-        visits="1200"
-        rating="4.8"
-      />
-      <DoctorCard
-        name="Bác sĩ Nguyễn Văn A"
-        specialty="Tim mạch"
-        price="300.000"
-        visits="1200"
-        rating="4.8"
-      />
-      <DoctorCard
-        name="Bác sĩ Nguyễn Văn A"
-        specialty="Tim mạch"
-        price="300.000"
-        visits="1200"
-        rating="4.8"
-      />
-      <DoctorCard
-        name="Bác sĩ Nguyễn Văn A"
-        specialty="Tim mạch"
-        price="300.000"
-        visits="1200"
-        rating="4.8"
-      />
-      <DoctorCard
-        name="Bác sĩ Nguyễn Văn A"
-        specialty="Tim mạch"
-        price="300.000"
-        visits="1200"
-        rating="4.8"
-      />
-      <DoctorCard
-        name="Bác sĩ Nguyễn Văn A"
-        specialty="Tim mạch"
-        price="300.000"
-        visits="1200"
-        rating="4.8"
-      />
-      <DoctorCard
-        name="Bác sĩ Nguyễn Văn A"
-        specialty="Tim mạch"
-        price="300.000"
-        visits="1200"
-        rating="4.8"
-      />
-       <DoctorCard
-        name="Bác sĩ Nguyễn Văn A"
-        specialty="Tim mạch"
-        price="300.000"
-        visits="1200"
-        rating="4.8"
-      />
+        {doctorList?.length > 0 && doctorList.map((item, index) => (
+          <div
+            key={index}
+            onClick={() => { navigate(`${PATHS.HOME.DOCTOR_DETAIL}/${item?.examinationStaffData?.staffUserData?.id}`) }}>
+            <DoctorCard
+              avatar={item?.examinationStaffData?.staffUserData?.avatar}
+              name={item?.examinationStaffData?.staffUserData?.lastName + " " + item?.examinationStaffData?.staffUserData?.firstName}
+              specialty={item?.examinationStaffData?.staffSpecialtyData?.name}
+              price={formatCurrency(item?.examinationStaffData?.price)}
+              visits={item?.examinationsCount}
+              rating="4.8" />
+          </div>
+        ))}
       </div>
     </div>
   );

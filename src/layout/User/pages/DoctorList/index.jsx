@@ -4,22 +4,24 @@ import styles from "./doctorList.module.scss";
 // Tạo instance của classnames với bind styles
 const cx = classNames.bind(styles);
 import Container from "@/components/Container";
-import DoctorCard from "./Component";
 import Banner from "./Banner";
 import DoctorInfo from "./DoctorInfo";
+import userService from "@/services/userService";
+import useQuery from "@/hooks/useQuery";
 
 const DoctorList = () => {
+  const {
+    data: doctorData,
+  } = useQuery(() => userService.getDoctor());
+  const doctorList = doctorData?.DT || [];
   return (
     <div>
-        <Banner/>
-        <div className={cx('bg')} >
+      <Banner />
+      <div className={cx('bg')} >
         <Container>
-        <DoctorInfo/>
+          {doctorList?.length > 0 && <DoctorInfo doctorList={doctorList} />}
         </Container>
-        </div>
-       
-
-     
+      </div>
     </div>
   );
 };

@@ -16,8 +16,8 @@ const Information = (props) => {
   let [uploading, setUploading] = useState(false);
   let [profile, setProfile] = useState(props.data);
   let [imageUrl, setImageUrl] = useState(profile?.avatar);
-  let currentResidentData = profile?.currentResident?.split(",") || [];
-  let birthData = profile?.address?.split(",") || [];
+  let currentResidentData = profile?.currentResident?.split("%") || [];
+  let birthData = profile?.address?.split("%") || [];
   let [province, setProvince] = useState([]);
   let [currentProvinceId, setCurrentProvinceId] = useState(+currentResidentData[3]);
   let [birthProvinceId, setBirthProvinceId] = useState(+birthData[3]);
@@ -146,8 +146,8 @@ const Information = (props) => {
           ...values,
           id: profile?.id,
           avatar: imageUrl,
-          address: values.birthAddress + "," + values.birthWard + "," + values.birthDistrict + "," + values.birthProvince,
-          currentResident: values.currentAddress + "," + values.currentWard + "," + values.currentDistrict + "," + values.currentProvince,
+          address: values.birthAddress + "%" + values.birthWard + "%" + values.birthDistrict + "&" + values.birthProvince,
+          currentResident: values.currentAddress + "%" + values.currentWard + "%" + values.currentDistrict + "%" + values.currentProvince,
           dob: values.dob.format('YYYY-MM-DD HH:mm:ss')
         });
         if (respone?.data?.EC === 0) {

@@ -228,7 +228,8 @@ export const MARITALSTATUS = [
     },
 ]
 export const LINK = {
-    AVATAR_NULL: "https://t4.ftcdn.net/jpg/05/11/55/91/360_F_511559113_UTxNAE1EP40z1qZ8hIzGNrB0LwqwjruK.jpg"
+    AVATAR_NULL: "https://t4.ftcdn.net/jpg/05/11/55/91/360_F_511559113_UTxNAE1EP40z1qZ8hIzGNrB0LwqwjruK.jpg",
+    IMAGE_HANDBOOK: "https://medpro.vn/_next/image?url=https%3A%2F%2Fcms.medpro.com.vn%2Fuploads%2F1732334644872_df53184776.png&w=1920&q=75"
 }
 export const CLOUDINARY_FOLDER = {
     AVATAR: "Avatar",

@@ -5,11 +5,11 @@ const getAppointments = () => {
 }
 
 const getUserByCid = (cid) => {
-    try{
+    try {
         return axios.get(`/api/getUserByCid?cid=${cid}`)
     } catch (error) {
         console.error("Error getting user by cid:", error.response?.data || error.message);
-        throw error; 
+        throw error;
     }
 }
 
@@ -57,8 +57,8 @@ const searchAppointmentsWithStaffId = (page, limit, staffId, search, from, to) =
 // Examination
 export const getExaminations = async (date, status, is_appointment, page, limit, search, time) => {
     try {
-        if(!time) time = '';
-        
+        if (!time) time = '';
+
         const response = await axios.get(`/api/getExaminations?date=${date}&status=${status}&is_appointment=${is_appointment}&page=${+page}&limit=${+limit}&search=${search}&time=${time}`);
         //console.log("Response:", response.data); 
         return response;
@@ -69,11 +69,11 @@ export const getExaminations = async (date, status, is_appointment, page, limit,
 }
 
 const getExaminationById = (id) => {
-    try{
+    try {
         return axios.get(`/api/getExaminationById?id=${id}`)
     } catch (error) {
         console.error("Error getting examination by id:", error.response?.data || error.message);
-        throw error; 
+        throw error;
     }
 }
 
@@ -85,7 +85,7 @@ const createExamination = async (data) => {
         return response.data;
     } catch (error) {
         console.error("Error creating examination:", error.response?.data || error.message);
-        throw error; 
+        throw error;
     }
 };
 
@@ -97,7 +97,7 @@ const updateExamination = async (data) => {
         return response.data;
     } catch (error) {
         console.error("Error updating examination:", error.response?.data || error.message);
-        throw error; 
+        throw error;
     }
 };
 
@@ -130,7 +130,7 @@ const createOrUpdateVitalSign = async (data) => {
         return response.data;
     } catch (error) {
         console.error("Error creating vital sign:", error.response?.data || error.message);
-        throw error; 
+        throw error;
     }
 }
 
@@ -142,7 +142,7 @@ const createOrUpdateParaclinical = async (data) => {
         return response.data;
     } catch (error) {
         console.error("Error creating paraclinical:", error.response?.data || error.message);
-        throw error; 
+        throw error;
     }
 }
 
@@ -175,14 +175,14 @@ const upsertPrescription = async (data) => {
         return response.data;
     } catch (error) {
         console.error("Error upserting prescription:", error.response?.data || error.message);
-        throw error; 
+        throw error;
     }
 }
 
 //Hand book
-const getAllHandbooks = async (page, limit, search, staffId, filter, status) => {
+const getAllHandbooks = async (page, limit, search, filter, status) => {
     try {
-        const response = await axios.get(`/api/getAllHandBooks?page=${page}&limit=${limit}&search=${search}&filter=${filter}&staffId=${staffId}&status=${status}`);
+        const response = await axios.get(`/api/getAllHandBooks?page=${page}&limit=${limit}&search=${search}&filter=${filter}&status=${status}`);
         return response;
     } catch (error) {
         console.error("Error:", error);
@@ -207,7 +207,7 @@ const createHandbook = async (data) => {
         return response.data;
     } catch (error) {
         console.error("Error creating handbook:", error.response?.data || error.message);
-        throw error; 
+        throw error;
     }
 }
 
@@ -217,7 +217,7 @@ const updateHandbook = async (data) => {
         return response.data;
     } catch (error) {
         console.error("Error updating handbook:", error.response?.data || error.message);
-        throw error; 
+        throw error;
     }
 }
 
@@ -256,7 +256,7 @@ export const getSpecialties = async () => {
 
 //insuarance
 export const getUserInsuarance = async (userId) => {
-    try{
+    try {
         const response = await axios.get(`/api/getUserInsuarance?userId=${userId}`);
         return response.data;
     } catch (error) {
@@ -268,7 +268,7 @@ export const getUserInsuarance = async (userId) => {
 export {
     getUserByCid,
     getUserById,
-    
+
     getAppointments,
     searchAppointments,
     searchAppointmentsWithStaffId,
