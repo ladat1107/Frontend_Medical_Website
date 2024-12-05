@@ -5,10 +5,16 @@ const userService = {
     return axiosInstance.get(`api/getDepartmenHome${query}`);
   },
   getDoctor(query = "") {
-    return axiosInstance.get(`api/getDoctorHome${query}`)
+    return axiosInstance.get(`api/getDoctorHome`, { params: query });
   },
-  getSpecialty(query="") {
+  getSpecialty(query = "") {
     return axiosInstance.get(`api/getSpcialtyHome${query}`)
+  },
+  getDoctorDetail(query = "") {
+    return axiosInstance.get(`api/getUserById`, { params: query })
+  },
+  getHandbook(query = "") {
+    return axiosInstance.get(`api/getHandBookHome`, { params: query })
   }
 };
 
