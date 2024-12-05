@@ -29,6 +29,7 @@ import HandbookAdmin from "./layout/Admin/pages/HandbookAdmin/HandbookAdmin";
 import HandbookAdminDetail from "./layout/Admin/pages/HandbookAdmin/Detail";
 import ScheduleManage from "./layout/Admin/pages/ScheduleManage/ScheduleManage";
 import DoctorList from "./layout/User/pages/DoctorList";
+import BlogList from "./layout/User/pages/BlogList";
 function App() {
 
   return (
@@ -44,6 +45,7 @@ function App() {
           <Route index element={<HomePage />} />
           <Route path='/doctor-detail' element={<DoctorDetail />} />
           <Route path='/doctor-list' element={<DoctorList />} />
+          <Route path={PATHS.HOME.HANDBOOK_LIST} element={<BlogList />} />
         </Route>
 
         <Route path={PATHS.HOME.LOGIN} element={<Login />} />
@@ -61,7 +63,7 @@ function App() {
             <Route path={`${PATHS.ADMIN.HANDBOOK_DETAIL}/:id`} element={<HandbookAdminDetail />} />
             <Route path={PATHS.ADMIN.SCHEDULE_MANAGE} element={<ScheduleManage />} />
           </Route>
-            <Route path={PATHS.STAFF.DASHBOARD} element={<DoctorHomePage />} />
+          <Route path={PATHS.STAFF.DASHBOARD} element={<DoctorHomePage />} />
           <Route element={<DoctorLayout />}>
             <Route path={PATHS.STAFF.APPOINTMENT} element={<Appointment />} />
             <Route path={PATHS.STAFF.EXAMINATION} element={<Examination />} />
@@ -71,6 +73,7 @@ function App() {
             <Route path={PATHS.STAFF.PROFILE} element={<ProfileStaff />} />
             <Route path={PATHS.RECEPTIONIST.DASHBOARD} element={<ReceptionistDashboard />} />
           </Route>
+
         </Route>
       </Routes>
     </ConfigProvider>

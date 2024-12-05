@@ -28,6 +28,7 @@ export const PATHS = {
     },
     HOME: {
         HOMEPAGE: "/",
+        HANDBOOK_LIST: "/handbookList",
         LOGIN: "/login",
     }
 }
