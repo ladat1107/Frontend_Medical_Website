@@ -15,6 +15,7 @@ import Statistical from "./Statistical";
 import Dowload from "./Dowload";
 import Media from "./Media";
 import VideoComponent from "@/components/Video";
+import Blog from "./Blog";
 // Tạo instance của classnames với bind styles
 const cx = classNames.bind(styles);
 
@@ -61,6 +62,7 @@ const HomePage = () => {
       </Container>
       <div className={cx("bg-statistical")}>
         <Container>
+          <Blog/>
           <Statistical />
         </Container>
       </div>
