@@ -7,6 +7,9 @@ import { useNavigate } from "react-router-dom";
 import { PATHS } from "@/constant/path";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "@/redux/authenSlice";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCalendarCheck, faHospital } from "@fortawesome/free-regular-svg-icons";
+import { faStethoscope, faSyringe } from "@fortawesome/free-solid-svg-icons";
 // Tạo instance của classnames với bind styles
 const cx = classNames.bind(styles);
 
@@ -25,27 +28,19 @@ function Header() {
 
   const navMenu = [
     {
-      title: "Cơ sở",
+      title: "Dịch vụ",
       inner: [
-        { title: "medical", icon: null },
+        { title: "Đặt lịch khám", icon: <FontAwesomeIcon icon={faCalendarCheck} />, action: PATHS.HOME.BOOKING },
         { title: "medical", icon: null },
         { title: "medical", icon: null },
       ],
     },
     {
-      title: "y tế",
+      title: "Bệnh viện",
       inner: [
-        { title: "medical", icon: null },
-        { title: "medical", icon: null },
-        { title: "medical", icon: null },
-      ],
-    },
-    {
-      title: "Khám sức",
-      inner: [
-        { title: "medical", icon: null },
-        { title: "medical", icon: null },
-        { title: "medical", icon: null },
+        { title: "Bác sĩ", icon: <FontAwesomeIcon icon={faSyringe} />, action: PATHS.HOME.DOCTOR_LIST },
+        { title: "Khoa", icon: <FontAwesomeIcon icon={faHospital} /> },
+        { title: "Chuyên khoa", icon: <FontAwesomeIcon icon={faStethoscope} /> },
       ],
     },
     {
@@ -107,8 +102,10 @@ function Header() {
 
             <div className={cx("auth")}>
               {user ?
-                <div className={cx("account-btn", "header-text")} onClick={() => { dispatch(logout()), navigate(PATHS.HOME.LOGIN) }} >Đăng xuất</div> :
-                <div className={cx("account-btn", "header-text")} onClick={() => navigate(PATHS.HOME.LOGIN)}>Đăng nhập</div>}
+                <div className={cx("account-btn", "header-text")} onClick={() => { dispatch(logout()), navigate(PATHS.HOME.LOGIN) }} >Đăng xuất</div>
+                :
+                <div className={cx("account-btn", "header-text")} onClick={() => navigate(PATHS.HOME.LOGIN)}>Đăng nhập</div>
+              }
 
               <div className={cx("language")}>
                 <Dropdown title="Language" items={items} />

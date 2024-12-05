@@ -2,11 +2,12 @@ import React, { useState } from 'react';
 import { Menu, MenuItem, Button, ListItemIcon } from '@mui/material';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import './dropdown.scss'; // Import SCSS
+import { useNavigate } from 'react-router-dom';
 
 function Dropdown({ title, items }) {
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
-
+  let navigate = useNavigate();
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -14,7 +15,10 @@ function Dropdown({ title, items }) {
   const handleClose = () => {
     setAnchorEl(null);
   };
-
+  const handleAction = (action) => {
+    navigate(action);
+    handleClose();
+  }
   return (
     <div className="dropdown">
       <Button
@@ -23,9 +27,9 @@ function Dropdown({ title, items }) {
         aria-expanded={open ? 'true' : undefined}
         onClick={handleClick}
         endIcon={<KeyboardArrowDownIcon className={open ? 'Mui-expanded' : ''} />}
-        
+
       >
-       <p className='header-text' > {title}</p>
+        <p className='header-text' > {title}</p>
       </Button>
       <Menu
         id="dropdown-menu"
@@ -37,7 +41,7 @@ function Dropdown({ title, items }) {
         }}
       >
         {items.map((item, index) => (
-          <MenuItem key={index} onClick={handleClose}>
+          <MenuItem key={index} onClick={() => handleAction(item.action)}>
             {item.icon && <ListItemIcon>{item.icon}</ListItemIcon>}
             <p  >{item.title}</p>
           </MenuItem>

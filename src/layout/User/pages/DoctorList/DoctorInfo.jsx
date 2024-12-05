@@ -43,13 +43,13 @@ const DoctorInfo = (props) => {
         {doctorList?.length > 0 && doctorList.map((item, index) => (
           <div
             key={index}
-            onClick={() => { navigate(`${PATHS.HOME.DOCTOR_DETAIL}/${item?.examinationStaffData?.staffUserData?.id}`) }}>
+            onClick={() => { navigate(`${PATHS.HOME.DOCTOR_DETAIL}/${item?.staffUserData?.id}`) }}>
             <DoctorCard
-              avatar={item?.examinationStaffData?.staffUserData?.avatar}
-              name={item?.examinationStaffData?.staffUserData?.lastName + " " + item?.examinationStaffData?.staffUserData?.firstName}
+              avatar={item?.staffUserData?.avatar}
+              name={item?.staffUserData?.lastName + " " + item?.staffUserData?.firstName}
               specialty={item?.examinationStaffData?.staffSpecialtyData?.name}
-              price={formatCurrency(item?.examinationStaffData?.price)}
-              visits={item?.examinationsCount}
+              price={formatCurrency(item?.price || 0)}
+              visits={item?.examinationsCount?.length || 0}
               rating="4.8" />
           </div>
         ))}

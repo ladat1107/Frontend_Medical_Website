@@ -7,14 +7,15 @@ const DoctorCard = ({ avatar, name, specialty, price, visits, rating }) => {
   return (
     <div className="doctor-card">
       <img src={avtTest} alt={`${name}'s avatar`} className="doctor-card__avatar" />
+      <h4 className="doctor-card__name">{name}</h4>
       <div className="doctor-card__info">
-        <h3 className="doctor-card__name">{name}</h3>
+
         <p className="doctor-card__specialty" style={{ display: "flex", alignItems: "center", gap: "10px" }} >
-          <FaStethoscope className="doctor-card__icon" /> {specialty}
+          <FaStethoscope className="doctor-card__icon" /> {specialty || "Đa khoa"}
         </p>
         <div className="doctor-card__details">
           <p className="doctor-card__price" style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-            <FaDollarSign className="doctor-card__icon" /> Giá khám: {price}₫
+            <FaDollarSign className="doctor-card__icon" /> Giá khám: {price}
           </p>
           <p className="doctor-card__visits" style={{ display: "flex", alignItems: "center", gap: "10px" }}>
             <FaUserCheck className="doctor-card__icon" /> Lượt khám: {visits}
@@ -23,8 +24,8 @@ const DoctorCard = ({ avatar, name, specialty, price, visits, rating }) => {
             <FaStar className="doctor-card__icon" /> Đánh giá: {rating} ⭐
           </p>
         </div>
-        <div className='btn-booking' >Đặt khám ngay</div>
       </div>
+      <div className='btn-booking' >Đặt khám ngay</div>
     </div>
   );
 };

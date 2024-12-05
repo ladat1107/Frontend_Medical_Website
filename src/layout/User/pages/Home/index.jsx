@@ -16,11 +16,12 @@ import Dowload from "./Dowload";
 import Media from "./Media";
 import VideoComponent from "@/components/Video";
 import Blog from "./Blog";
+import DoctorCard from "@/layout/User/pages/DoctorList/Component";
 // Tạo instance của classnames với bind styles
 const cx = classNames.bind(styles);
 
 const HomePage = () => {
-  
+
   const listAdvertisement = [
     "https://medpro.vn/_next/image?url=https%3A%2F%2Fcdn.medpro.vn%2Fprod-partner%2F4edacddd-7280-41e0-b6c9-3eb7d438c107-banner_cashback_1180x310_desktop.jpg&w=1200&q=100",
     "https://medpro.vn/_next/image?url=https%3A%2F%2Fcdn.medpro.vn%2Fprod-partner%2Fce76da74-5584-451b-b417-c3b68ce49cfa-viettel_money_banner_fb_1180x310_copy2_copy.png&w=1200&q=100",

@@ -1,8 +1,4 @@
-import { PATHS } from '@/constant/path';
-import { ROLE } from '@/constant/role';
 import { createSlice } from '@reduxjs/toolkit';
-import { message } from 'antd';
-import { set } from 'lodash';
 
 const initialState = {
     isLoggedIn: false,
@@ -26,7 +22,6 @@ export const authenSlice = createSlice({
             state.isLoggedIn = false;
             state.token = "";
             state.user = null;
-
         },
     },
 });

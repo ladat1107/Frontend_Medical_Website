@@ -9,9 +9,7 @@ import DoctorDetailBody from "./DoctorDetailBody";
 import DoctorDetailRelated from "./DoctorDetailRelated";
 import { useLocation, useParams } from "react-router-dom";
 import userService from "@/services/userService";
-import useQuery from "@/hooks/useQuery";
 import { useMutation } from "@/hooks/useMutation";
-import { get } from "lodash";
 
 const DoctorDetail = () => {
   let { id } = useParams();
@@ -54,7 +52,6 @@ const DoctorDetail = () => {
           <DoctorDetailRelated doctorList={doctorList} />
         </Container>
       }
-
     </div>
   );
 };

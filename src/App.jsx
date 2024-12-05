@@ -30,6 +30,7 @@ import ScheduleManage from "./layout/Admin/pages/ScheduleManage/ScheduleManage";
 import DoctorList from "./layout/User/pages/DoctorList";
 import BlogList from "./layout/User/pages/BlogList";
 import HandbookDetail from "./layout/Doctor/pages/Handbook/HandbookDetail/HandbookDetail";
+import Booking from "./layout/User/pages/Booking/Booking";
 function App() {
   return (
     <ConfigProvider
@@ -44,6 +45,7 @@ function App() {
           <Route index element={<HomePage />} />
           <Route path={`${PATHS.HOME.DOCTOR_DETAIL}/:id`} element={<DoctorDetail />} />
           <Route path={PATHS.HOME.DOCTOR_LIST} element={<DoctorList />} />
+          <Route path={PATHS.HOME.BOOKING} element={<Booking />} />
           <Route path={PATHS.HOME.HANDBOOK_LIST} element={<BlogList />} />
         </Route>
 
