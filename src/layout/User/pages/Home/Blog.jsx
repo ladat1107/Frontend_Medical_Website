@@ -22,6 +22,7 @@ const Blog = () => {
       <div className={cx("blog-item-wrapper")}>
         <div className={cx("blog-item-left")}>
           <img
+            style={{ borderRadius: "10px" }}
             src={listBlog[0]?.image || "https://medpro.vn/_next/image?url=https%3A%2F%2Fcms.medpro.com.vn%2Fuploads%2F1732788380111_39096d0123.png&w=1920&q=75"}
             alt="Ảnh bài viết"
           />
@@ -38,7 +39,7 @@ const Blog = () => {
           {listBlog.slice(1, 5).map((item, index) => (
             <div className={cx("blog-inner-item")} key={index}>
               <img
-                style={{ width: "100%", height: "200px" }}
+                style={{ width: "100%", height: "200px", borderRadius: "10px" }}
                 src={item?.image || "https://medpro.vn/_next/image?url=https%3A%2F%2Fcms.medpro.com.vn%2Fuploads%2F1732788380111_39096d0123.png&w=1920&q=75"}
                 alt="Ảnh bài viết"
               />
