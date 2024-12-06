@@ -186,12 +186,12 @@ const Prescription = ({ examinationId, paraclinicalPrice, refresh }) => {
                         </div>
                     </>
                 )}
-                <div className="row padding">
+                <div className="row padding" style={{alignItems: "self-start"}}>
                     <div className='col-2'>
                         <p className='title'>Ghi chú:</p>
                     </div>
                     <div className='col-10'>
-                        <input
+                        <textarea
                             value={note}
                             onChange={(e) => setNote(e.target.value)}
                             type="text"

@@ -115,6 +115,10 @@ const getAllRoomTypes = () => {
     return axios.get(`/api/getAllServiceTypes`)
 }
 
+export const getServiceLaboratory = () => {
+    return axios.get(`/api/getServiceLaboratory`)
+}
+
 const getAllMedicinesForExam = () => {
     return axios.get(`/api/getAllMedicinesForExam`)
 }
@@ -145,6 +149,10 @@ const createOrUpdateParaclinical = async (data) => {
         console.error("Error creating paraclinical:", error.response?.data || error.message);
         throw error;
     }
+}
+
+export const createRequestParaclinical = async (data) => {
+    return axios.post(`/api/createRequestParaclinical`, data);
 }
 
 const deleteParaclinical = async (data) => {

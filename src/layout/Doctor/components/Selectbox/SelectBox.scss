@@ -8,12 +8,12 @@
 
     .ant-select {
       width: 100%;
-      background-color: #005ebd !important;
+      background-color: white !important;
 
       &-selector {
-        border: 1.5px solid #91c5f5 !important; // Remove border
+        border: 1.5px solid rgb(229, 229, 229) !important; // Remove border
         box-shadow: none !important; // Remove box-shadow
-        background-color: #EDF6FF !important; // Make background transparent
+        background-color: white !important; // Make background transparent
         border-radius: 8px !important; // Add border-radius
 
         &:hover {
@@ -67,12 +67,12 @@
         padding: 8px 12px;
 
         &-option-selected {
-          background-color: #EDF6FF !important;
+          background-color: white !important;
           font-weight: 600;
         }
 
         &-option-active {
-          background-color: #EDF6FF !important;
+          background-color: white !important;
         }
       }
     }

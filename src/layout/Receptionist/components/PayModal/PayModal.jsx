@@ -31,7 +31,6 @@ const PayModal = ({ isOpen, onClose, onPaySusscess, examId, patientData }) => {
 
         try{
             let response = await updateExamination(data)
-            console.log(response)
             if(response.EC === 0  && response.DT.includes(1)){
                 message.success('Cập nhật bệnh nhân thành công');
                 onPaySusscess();

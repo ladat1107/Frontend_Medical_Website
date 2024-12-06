@@ -10,6 +10,20 @@
         margin: 0;
     }
 
+    .input {
+        padding: 8px 10px;
+        border-radius: 6px;
+        border: 1.5px solid rgb(211, 211, 211);  
+        width: 100%;
+        outline: none;
+        background: white;
+        box-shadow: none;
+
+        &:focus{
+            border: 1.5px solid #438EF3;
+        }
+    }
+
     .padding5{
         padding: 5px;
     }
