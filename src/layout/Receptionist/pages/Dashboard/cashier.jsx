@@ -1,16 +1,11 @@
-import { getExaminations } from "@/services/doctorService";
+import { getListToPay } from "@/services/doctorService";
 import React, { useEffect, useState } from 'react'
-// import "./Appointment.scss";
 import { useMutation } from "@/hooks/useMutation";
-import { useNavigate } from "react-router-dom";
 import { message, Pagination, Spin } from "antd";
-import { useSelector } from "react-redux";
 import PatientItem from "@/layout/Receptionist/components/PatientItem/PatientItem";
 import PayModal from "../../components/PayModal/PayModal";
 
 const Cashier = () => {
-    const navigate = useNavigate();
-    let { user } = useSelector((state) => state.authen);
     const today = new Date().toISOString();
 
     const [currentPage, setCurrentPage] = useState(1);
@@ -18,20 +13,22 @@ const Cashier = () => {
     const [total, setTotal] = useState(0);
     const [search, setSearch] = useState('');
     const [listExam, setListExam] = useState([]);
-    const [status, setStatus] = useState(4);
+    const [statusPay, setStatus] = useState(4);
     const [patientData, setPatientData] = useState({});
     const [examId, setExamId] = useState(0);
+    const [type, setType] = useState('examination');
 
     const isAppointment = 0;
 
     const [isModalOpen, setIsModalOpen] = useState(false);
 
     const handlePay = (id) => {
-        const selectedPatient = listExam.find(item => item.id === id);
+        const selectedPatient = listExam.find(item => item.data.id === id);
 
         if (selectedPatient) {
             setExamId(id);
-            setPatientData(selectedPatient);
+            setType(selectedPatient.type);
+            setPatientData(selectedPatient.data);
             setIsModalOpen(true);
         } else {
             // Xử lý trường hợp không tìm thấy bệnh nhân
@@ -39,10 +36,6 @@ const Cashier = () => {
         }
     }
     const closePay = () => setIsModalOpen(false);
-
-    // const handleClickRow = (examinationId) => {
-    //     navigate(`/doctorExamination/${examinationId}`);
-    // }
 
     const onPaySusscess = (data) => {
         fetchExaminations();
@@ -61,26 +54,22 @@ const Cashier = () => {
         setSearch(e.target.value);
     }
 
-    const handelSelectChange = (value) => {
-        setStatus(value);
-    }
-
     // #region Fetch data 
     const {
         data: dataExaminations,
         loading: loadingExaminations,
         error: errorExaminations,
         execute: fetchExaminations,
-    } = useMutation(() => getExaminations(today, status, '', '', currentPage, pageSize, search, ''))
+    } = useMutation(() => getListToPay(today, statusPay, currentPage, pageSize, search))
 
     useEffect(() => {
         fetchExaminations();
-    }, [status, search, currentPage, pageSize]);
+    }, [statusPay, search, currentPage, pageSize]);
 
     useEffect(() => {
         if (dataExaminations) {
-            setTotal(dataExaminations.DT.totalItems);
-            setListExam(dataExaminations.DT.examinations);
+            setTotal(dataExaminations.DT.pagination.totalItems);
+            setListExam(dataExaminations.DT.list);
         }
     }, [dataExaminations]);
 
@@ -108,19 +97,37 @@ const Cashier = () => {
                                 <Spin />
                             </div>
                         ) : ( listExam && listExam.length > 0 ? listExam.map((item, index) => (
-                                <PatientItem
-                                        key={item.id}
+                                item.type === 'examination' ? (
+                                    <PatientItem
+                                        key={item.data.id}
                                         index={index + 1}
-                                        id={item.id}
-                                        name={`${item.userExaminationData.lastName} ${item.userExaminationData.firstName}`}
-                                        symptom={item.symptom}
-                                        special={item.special}
-                                        room={item.roomName}
-                                        doctor={`${item.examinationStaffData.staffUserData.lastName} ${item.examinationStaffData.staffUserData.firstName}`}
+                                        id={item.data.id}
+                                        name={`${item.data.userExaminationData.lastName} ${item.data.userExaminationData.firstName}`}
+                                        symptom={item.type}
+                                        special={item.data.special}
+                                        room={item.data.roomName}
+                                        doctor={`${item.data.examinationStaffData.staffUserData.lastName} ${item.data.examinationStaffData.staffUserData.firstName}`}
                                         downItem={downItem}
-                                        visit_status={item.visit_status}
-                                        onClickItem={()=>handlePay(item.id)}
+                                        visit_status={item.data.visit_status}
+                                        onClickItem={()=>handlePay(item.data.id)}
+                                        sort={false}
                                     />
+                                ) : (
+                                    <PatientItem
+                                        key={item.data.id}
+                                        index={index + 1}
+                                        id={item.data.id}
+                                        name={`${item.data.examinationResultParaclincalData.userExaminationData.lastName} ${item.data.examinationResultParaclincalData.userExaminationData.firstName}`}
+                                        symptom={item.type}
+                                        special={item.data.examinationResultParaclincalData.special}
+                                        room={item.data.roomParaclinicalData.name}
+                                        doctor={`${item.data.doctorParaclinicalData.staffUserData.lastName} ${item.data.doctorParaclinicalData.staffUserData.firstName}`}
+                                        downItem={downItem}
+                                        visit_status={item.data.visit_status}
+                                        onClickItem={()=>handlePay(item.data.id)}
+                                        sort={false}
+                                    />
+                                )
                             )):(
                                 <div className="no-patient d-flex justify-content-center mt-2">
                                     <p>Không tìm thấy bệnh nhân!</p>
@@ -128,7 +135,7 @@ const Cashier = () => {
                             )
                         )}
                     </div>
-                    <div className='row'>
+                    <div className='row mt-3'>
                         {!loadingExaminations && isAppointment !== 1 && listExam.length > 0 && (
                             <Pagination
                                 align="center"
@@ -146,6 +153,7 @@ const Cashier = () => {
                         onClose={closePay}
                         onPaySusscess={onPaySusscess}
                         patientData={patientData}
+                        type={type}
                         examId={examId}
                     />
                 }

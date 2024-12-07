@@ -143,7 +143,7 @@ const Examination = () => {
                                                     <p className="title">BHYT:</p>
                                                 </div>
                                                 <div className="col-8">
-                                                    <p className="info">{patientData.userInsuranceData.insuranceCode}</p>
+                                                    <p className="info">{patientData.userInsuranceData?.insuranceCode}</p>
                                                 </div>
                                             </div>
                                         </div>

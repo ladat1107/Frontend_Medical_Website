@@ -48,14 +48,26 @@ const MenuSidebar = () => {
             icon: <i className="fa-solid fa-list"></i>,
         },
         {
-            key: 'sub1',
-            label: (<NavLink to={PATHS.STAFF.APPOINTMENT}>Khám bệnh</NavLink>),
-            icon: <i className="fa-solid fa-list"></i>,
-        },
-        {
             key: 'sub3',
             label: (<NavLink to={PATHS.RECEPTIONIST.CASHIER}>Thanh toán</NavLink>),
             icon: <i className="fa-solid fa-list"></i>,
+        },
+        {
+            key: 'sub4',
+            label: 'Danh sách khám bệnh',
+            icon: <i className="fa-solid fa-list"></i>,
+            children: [
+                {
+                    key: '9',
+                    label: (<NavLink to={PATHS.STAFF.APPOINTMENT}>Khám bệnh</NavLink>),
+                    icon: <i className="fa-solid fa-stethoscope"></i>,
+                },
+                {
+                    key: '10',
+                    label: (<NavLink to={PATHS.STAFF.PARACLINICAL}>Cận lâm sàng</NavLink>),
+                    icon: <i className="fa-solid fa-microscope"></i>,
+                }
+            ],
         },
         {
             key: 'sub5',
@@ -75,29 +87,6 @@ const MenuSidebar = () => {
             label: ("Đăng xuất"),
             icon: <FontAwesomeIcon icon={faArrowRightFromBracket} rotation={180} />,
             onClick: () => { dispatch(logout()); }
-        },
-        {
-            key: 'sub4',
-            label: 'Navigation Three',
-            icon: <SettingOutlined />,
-            children: [
-                {
-                    key: '9',
-                    label: 'Option 9',
-                },
-                {
-                    key: '10',
-                    label: 'Option 10',
-                },
-                {
-                    key: '11',
-                    label: 'Option 11',
-                },
-                {
-                    key: '12',
-                    label: 'Option 12',
-                },
-            ],
         },
         {
             key: 'grp',

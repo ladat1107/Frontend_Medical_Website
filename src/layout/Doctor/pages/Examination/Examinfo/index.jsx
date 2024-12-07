@@ -130,7 +130,8 @@ const ExamInfo = ({ examData, refresh }) => {
             price: formData.price,
             special: formData.special,
             paymentDoctorStatus: 1,
-            insuranceCoverage: 1
+            insuranceCoverage: 1,
+            status: 6,
         };
 
         try {

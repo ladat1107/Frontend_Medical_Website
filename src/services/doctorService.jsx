@@ -69,6 +69,11 @@ export const getExaminations = async (date, status, staffId, is_appointment, pag
     }
 }
 
+export const getListToPay = async (date, statusPay, page, limit, search) => {
+    const response = await axios.get(`/api/getListToPay?date=${date}&statusPay=${statusPay}&page=${+page}&limit=${+limit}&search=${search}`);
+    return response;
+}
+
 const getExaminationById = (id) => {
     try {
         return axios.get(`/api/getExaminationById?id=${id}`)
@@ -118,6 +123,7 @@ const getAllRoomTypes = () => {
 export const getServiceLaboratory = () => {
     return axios.get(`/api/getServiceLaboratory`)
 }
+
 
 const getAllMedicinesForExam = () => {
     return axios.get(`/api/getAllMedicinesForExam`)
@@ -171,6 +177,15 @@ const deleteParaclinical = async (data) => {
     }
 }
 
+export const updateParaclinical = async (data) => {
+    const response = await axios.put(`/api/updateParaclinical`, data);
+    return response.data;
+}
+
+export const getParaclinicals = async (date, status, staffId, page, limit, search) => {
+    const response = await axios.get(`/api/getParaclinicals?date=${date}&status=${status}&staffId=${staffId}&page=${+page}&limit=${+limit}&search=${search}`);
+    return response;
+}
 
 //Prescription
 const getPrescriptionByExaminationId = async (examinationId) => {

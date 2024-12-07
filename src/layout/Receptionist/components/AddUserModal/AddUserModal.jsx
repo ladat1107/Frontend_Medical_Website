@@ -1,7 +1,7 @@
 import { Col, DatePicker, Form, message, Row } from 'antd';
 import './AddUserModal.scss'
 import PropTypes from 'prop-types';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Input from '@/components/Input';
 import { createUser } from '@/services/adminService';
 
@@ -36,6 +36,20 @@ const AddUserModal = ({ isOpen, onClose, handleAddUserSuscess}) => {
             message.error('Thêm người dùng thất bại!')
         }
     }
+
+    useEffect(() => {
+        // Thêm logic ngăn cuộn trang khi modal mở
+        if (isOpen) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = 'unset';
+        }
+
+        // Cleanup effect khi component unmount
+        return () => {
+            document.body.style.overflow = 'unset';
+        };
+    }, [isOpen]);
 
     if (!isOpen) return null
 

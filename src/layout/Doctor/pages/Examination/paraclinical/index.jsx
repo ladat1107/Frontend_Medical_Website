@@ -1,15 +1,13 @@
-import { useCallback, useState, useEffect, useMemo, useContext, useRef } from 'react';
+import { useState, useEffect, useMemo, useRef } from 'react';
 import PropTypes from 'prop-types';
 import Paracdetail from '../Paracdetail';
-import { message, notification } from 'antd';
-import { createRequestParaclinical, deleteParaclinical, getServiceLaboratory } from '@/services/doctorService';
+import { message } from 'antd';
+import { createRequestParaclinical, getServiceLaboratory } from '@/services/doctorService';
 import './Paraclinical.scss';
-import { useSelector } from 'react-redux';
 import { useMutation } from '@/hooks/useMutation';
 
 const Paraclinical = ({ listParaclinicals, examinationId, refresh }) => {
     const [paracDetails, setParacDetails] = useState(listParaclinicals);
-    const [nextId, setNextId] = useState(0);
 
     const [inputParac, setInputParac] = useState('');
     const [shakeId, setShakeId] = useState(null);
@@ -20,19 +18,6 @@ const Paraclinical = ({ listParaclinicals, examinationId, refresh }) => {
     const paraclinicalContainerRef = useRef(null);
     const inputRef = useRef(null);
     const searchResultsRef = useRef(null);
-
-    // const {user} = useContext(AuthenContext);
-    let { user } = useSelector((state) => state.authen);
-
-    // Notification
-    const [api, contextHolder] = notification.useNotification();
-
-    const openNotification = (message, type = 'info') => {
-        api[type]({
-            message: message,
-            placement: 'bottomRight',
-        });
-    };
 
     //Paraclinical options
     let {
@@ -55,77 +40,9 @@ const Paraclinical = ({ listParaclinicals, examinationId, refresh }) => {
         }
     }, [dataParaclinicals]);
 
-    //#region Cận lâm sàn cũ
-    // Tính toán nextId ban đầu
-    useEffect(() => {
-        const maxId = Math.max(...listParaclinicals.map(detail => detail.id), -1);
-        setNextId(maxId + 1);
-    }, [listParaclinicals]);
-
-    const handleAddParacdetail = useCallback(() => {
-        setParacDetails(prevDetails => [
-            ...prevDetails,
-            {
-                id: nextId,
-                examinationId: examinationId,
-                isNew: true,
-                paraclinical: 0,
-                doctorId: user.staff,
-                result: '',
-                description: '',
-                image: '', // Initialize image in paracDetails
-                price: 0
-            }
-        ]);
-        setNextId(prevId => prevId + 1);
-    }, [nextId, examinationId]);
-
-    const handleDeleteParacdetail = useCallback(async (id) => {
-
-        const isExistingParaclinical = listParaclinicals.some(detail => detail.id === id);
-
-        if (isExistingParaclinical) {
-            try {
-                const response = await deleteParaclinical({ id, examinationId });
-                // Sửa lại điều kiện kiểm tra
-                if (response && response.EC === 0 && response.DT === 1) {
-                    openNotification('Xóa xét nghiệm thành công!', 'success');
-                    setParacDetails(prevDetails => prevDetails.filter(detail => detail.id !== id));
-                } else {
-                    openNotification('Xóa xét nghiệm thất bại.', 'error');
-                    console.error("Error deleting paraclinical:", response);
-                }
-            } catch (error) {
-                console.error("Lỗi khi xóa xét nghiệm:", error.response?.data || error.message);
-                openNotification('Xóa xét nghiệm thất bại.', 'error');
-            }
-        } else {
-            setParacDetails(prevDetails => prevDetails.filter(detail => detail.id !== id));
-        }
-    }, [examinationId, listParaclinicals]);
-
-
-    const handleSaveResult = useCallback((savedData, success, message) => {
-        if (success) {
-            openNotification(message, 'success');
-            setParacDetails(prevDetails =>
-                prevDetails.map(detail =>
-                    detail.id === savedData.id ? { ...detail, ...savedData } : detail
-                )
-            );
-            refresh();
-        } else {
-            openNotification(message, 'error');
-        }
-    }, []);
-
     const sortedParacDetails = useMemo(() => {
         return [...paracDetails].sort((a, b) => b.id - a.id);
     }, [paracDetails]);
-
-    // #endregion
-
-    // #region Cận lâm sàn
 
     const handleParacRequest = async () => {
         if (selectedParaclinicals.length === 0) {
@@ -143,11 +60,11 @@ const Paraclinical = ({ listParaclinicals, examinationId, refresh }) => {
 
         // console.log("Response:", response);
         if (response.data && response.data.EC === 0) {
-            openNotification('Tạo yêu cầu xét nghiệm thành công!', 'success');
+            message.success('Tạo yêu cầu xét nghiệm thành công!');
             refresh();
             setSelectedParaclinicals([]);
         } else {
-            openNotification('Tạo yêu cầu xét nghiệm thất bại.', 'error');
+            message.error('Tạo yêu cầu xét nghiệm thất bại!');
             console.error("Error creating paraclinical request:", response);
         }
     }
@@ -186,6 +103,15 @@ const Paraclinical = ({ listParaclinicals, examinationId, refresh }) => {
             setTimeout(() => setShakeId(null), 1000);
             return;
         }
+
+        const isDuplicate = paracDetails.some(detail => 
+            detail.paraclinical === paraclinical.id 
+        );
+
+        if (isDuplicate) {
+            message.warning('Xét nghiệm đã tồn tại trong danh sách!');
+            return;
+        }
     
         setSelectedParaclinicals((prevSelected) => [
             ...prevSelected,
@@ -199,22 +125,19 @@ const Paraclinical = ({ listParaclinicals, examinationId, refresh }) => {
         setSelectedParaclinicals(selectedParaclinicals.filter(item => item.id !== id));
     };
 
-    // #endregion
-
     return (
         <>
-            {contextHolder}
             <div className="parac-container">
                 <div className='exam-info mt-4'>
                     <div 
                         ref={paraclinicalContainerRef} 
-                        className='comorbidities-action'
+                        className='paraclinicals-action'
                     >
-                        <div className='comorbidities-list'>
+                        <div className='paraclinicals-list'>
                             {selectedParaclinicals.map(comorbidity => (
                                 <div
                                     key={comorbidity.id}
-                                    className={`comorbidities-item mb-2 ${shakeId === comorbidity.id ? 'shake' : ''}`}
+                                    className={`paraclinicals-item mb-2 ${shakeId === comorbidity.id ? 'shake' : ''}`}
                                 >
                                     <p>{comorbidity.label}</p>
                                     <i 
@@ -266,8 +189,6 @@ const Paraclinical = ({ listParaclinicals, examinationId, refresh }) => {
                                 key={detail.id}
                                 id={detail.id}
                                 paraclinicalData={detail}
-                                onSaveResult={handleSaveResult}
-                                onDelete={handleDeleteParacdetail}
                             />
                         ))
                     ) : (

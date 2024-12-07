@@ -1,29 +1,42 @@
-import { getExaminations } from "@/services/doctorService";
-import React, { useEffect, useState } from 'react'
-import "./Appointment.scss";
 import { useMutation } from "@/hooks/useMutation";
-import { useNavigate } from "react-router-dom";
-import { Pagination, Select, Spin } from "antd";
+import { getParaclinicals } from "@/services/doctorService";
+import { message, Pagination, Select, Spin } from "antd";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import PatientItem from "@/layout/Receptionist/components/PatientItem/PatientItem";
+import PatientItem from "../../components/PatientItem/PatientItem";
+import ParacModal from "./ParacModal/ParacModal";
 
-const Appointment = () => {
-    const navigate = useNavigate();
+
+const ParaclinicalList = () => {
     let { user } = useSelector((state) => state.authen);
     const today = new Date().toISOString();
 
     const [currentPage, setCurrentPage] = useState(1);
     const [pageSize, setPageSize] = useState(50);
     const [total, setTotal] = useState(0);
-    const [time, setTime] = useState(null);
     const [search, setSearch] = useState('');
     const [listExam, setListExam] = useState([]);
     const [status, setStatus] = useState(5);
-    const isAppointment = 0;
 
+    const [patientData, setPatientData] = useState({});
+    const [examId, setExamId] = useState(null);
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
-    const handleClickRow = (examinationId) => {
-        navigate(`/doctorExamination/${examinationId}`);
+    const handleParac = (id) => {
+        const selectedPatient = listExam.find(item => item.id === id);
+
+        if (selectedPatient) {
+            setExamId(id);
+            setPatientData(selectedPatient);
+            setIsModalOpen(true);
+        } else {
+            message.error('Không tìm thấy thông tin bệnh nhân');
+        }
+    }
+    const closePay = () => setIsModalOpen(false);
+
+    const onSusscess = (data) => {
+        fetchExaminations();
     }
 
     const handlePageChange = (page, pageSize) => {
@@ -49,19 +62,19 @@ const Appointment = () => {
         loading: loadingExaminations,
         error: errorExaminations,
         execute: fetchExaminations,
-    } = useMutation(() => getExaminations(today, status, user.staff, isAppointment, currentPage, pageSize, search, time))
+    } = useMutation(() => getParaclinicals(today, status, user.staff, currentPage, pageSize, search))
 
     useEffect(() => {
         fetchExaminations();
-    }, [isAppointment, status, search, time, currentPage, pageSize]);
+    }, [status, search, currentPage, pageSize]);
 
     useEffect(() => {
         if (dataExaminations) {
             setTotal(dataExaminations.DT.totalItems);
             setListExam(dataExaminations.DT.examinations);
+            
         }
     }, [dataExaminations]);
-
     // #endregion
 
 
@@ -73,12 +86,11 @@ const Appointment = () => {
                         <p className="search-title">Trạng thái</p>
                         <Select className="select-box" defaultValue="5" onChange={handelSelectChange}>
                             <Select.Option value="5">Khám mới</Select.Option>
-                            <Select.Option value="6">Đang khám</Select.Option>
                             <Select.Option value="7">Đã xong</Select.Option>
                         </Select>
                     </div>
                     <div className="col-6">
-                        <p className="search-title">Tìm kiếm đơn khám</p>
+                        <p className="search-title">Tìm kiếm cận lâm sàn</p>
                         <input type="text" className="search-box" 
                                 placeholder="Nhập tên bệnh nhân để tìm kiếm..." 
                                 value={search}
@@ -87,7 +99,7 @@ const Appointment = () => {
                 </div>
                 <div className="appointment-container mt-3 row">
                     <div className="header">
-                        <p className="title">Danh sách đơn khám</p>
+                        <p className="title">Danh sách cận lâm sàn</p>
                     </div>
                     <div className="schedule-content text-center">
                         {loadingExaminations ? (
@@ -99,14 +111,14 @@ const Appointment = () => {
                                         key={item.id}
                                         index={index + 1}
                                         id={item.id}
-                                        name={`${item.userExaminationData.lastName} ${item.userExaminationData.firstName}`}
-                                        symptom={'Triệu chứng: ' + item.symptom}
-                                        special={item.special}
-                                        room={item.roomName}
-                                        doctor={`${item.examinationStaffData.staffUserData.lastName} ${item.examinationStaffData.staffUserData.firstName}`}
+                                        name={`${item.examinationResultParaclincalData.userExaminationData.lastName} ${item.examinationResultParaclincalData.userExaminationData.firstName}`}
+                                        symptom={item.paraclinicalData.name}
+                                        special={item.examinationResultParaclincalData.special}
+                                        room={item.roomParaclinicalData.name}
+                                        doctor={`${item.doctorParaclinicalData.staffUserData.lastName} ${item.doctorParaclinicalData.staffUserData.firstName}`}
                                         downItem={downItem}
-                                        visit_status={item.visit_status}
-                                        onClickItem={()=>handleClickRow(item.id)}
+                                        visit_status={item.name}
+                                        onClickItem={()=>handleParac(item.id)}
                                         sort={false}
                                     />
                             )):(
@@ -117,7 +129,7 @@ const Appointment = () => {
                         )}
                     </div>
                     <div className='row'>
-                        {!loadingExaminations && isAppointment !== 1 && listExam.length > 0 && (
+                        {!loadingExaminations !== 1 && listExam.length > 0 && (
                             <Pagination
                                 align="center"
                                 current={currentPage}
@@ -128,9 +140,18 @@ const Appointment = () => {
                         )}
                     </div>
                 </div>
+                {listExam.length > 0 && examId &&
+                    <ParacModal
+                        isOpen={isModalOpen}
+                        onClose={closePay}
+                        onSusscess={onSusscess}
+                        patientData={patientData}
+                        paracId={examId}
+                    />
+                }
             </div>
         </>
     )
 }
 
-export default Appointment
+export default ParaclinicalList;

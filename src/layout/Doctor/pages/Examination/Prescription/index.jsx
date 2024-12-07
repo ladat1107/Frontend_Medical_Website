@@ -4,7 +4,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useMutation } from '@/hooks/useMutation';
 import { getAllMedicinesForExam, getPrescriptionByExaminationId, upsertPrescription } from '@/services/doctorService';
 import PropTypes from 'prop-types';
-import { notification, Spin } from 'antd';
+import { message, notification, Spin } from 'antd';
 
 const Prescription = ({ examinationId, paraclinicalPrice, refresh }) => {
     const [presDetails, setPresDetails] = useState([]);
@@ -134,10 +134,10 @@ const Prescription = ({ examinationId, paraclinicalPrice, refresh }) => {
         try {
             const response = await upsertPrescription(data);
             if (response && response.EC === 0 && response.DT === true) {
-                openNotification('Lưu đơn thuốc thành công!', 'success');
+                message.success('Lưu đơn thuốc thành công!');
                 refresh();
             } else {
-                openNotification('Lưu đơn thuốc thất bại.', 'error');
+                message.error(response.EM || 'Lưu đơn thuốc thất bại!');
             }
         } catch (error) {
             console.error("Lỗi khi tạo đơn thuốc:", error.response?.data || error.message);
@@ -207,14 +207,14 @@ const Prescription = ({ examinationId, paraclinicalPrice, refresh }) => {
                         <p className='payment'>{prescriptionPrice.toLocaleString()} VND</p>
                     </div>
                 </div>
-                <div className="row padding">
+                {/* <div className="row padding">
                     <div className='col-2'>
                         <p className='title'>Dịch vụ kỹ thuật:</p>
                     </div>
                     <div className='col-10'>
                         <p className='payment'>{paraclinicalPrice.toLocaleString()} VND</p>
                     </div>
-                </div>
+                </div> */}
                 <div className="row padding">
                     <div className='col-2'>
                         <p className='title'>BHYT thanh toán:</p>

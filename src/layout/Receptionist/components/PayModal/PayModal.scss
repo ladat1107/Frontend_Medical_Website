@@ -10,6 +10,7 @@
     align-items: center;
     z-index: 1000;
     font-family: "Be Vietnam Pro", sans-serif !important;
+    
 
     .payment-content{
         background: white;
@@ -53,6 +54,51 @@
                 border: 1px solid #007BFF;
             }
         }
+
+        textarea{
+            padding: 4px 10px;
+            border-radius: 6px;
+            border: 1px solid rgb(211, 211, 211);  
+            height: 32px;
+            width: 250px;
+            outline: none;
+        
+            &:focus{
+                border: 1px solid #007BFF;
+            }
+        
+            &:hover{
+                border: 1px solid #007BFF;
+            }
+        }
+
+        .image-upload{
+            border: 2px dashed #83BDF4;
+            border-radius: 10px;
+            padding: 5px;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+    
+            .container{
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                font-family: 'Be Vietnam Pro', sans-serif;
+    
+                .image-cloud{
+                    font-size: 20px;
+                    color: #83BDF4;
+                }
+            }
+    
+            .input-upload{
+                color: #438EF3;
+                font-weight: bold;
+                cursor: pointer;
+            }
+        }
         
         .bold-text{
             font-weight: 600;
@@ -68,7 +114,7 @@
             text-align: center;
             border: 1.5px solid #FF7752;
             border-radius: 8px;
-            width: 100%;
+            width: 80%;
             font-size: 13px;
         }
         
@@ -78,7 +124,7 @@
             text-align: center;
             border: 1.5px solid #3AA472;
             border-radius: 8px;
-            width: 100%;
+            width: 80%;
             font-size: 13px;
         }
         
@@ -88,7 +134,7 @@
             text-align: center;
             border: 1.5px solid #007BFF;
             border-radius: 8px;
-            width: 30%;
+            width: 80%;
             font-size: 13px;
         }
         
@@ -98,7 +144,7 @@
             text-align: center;
             border: 1.5px solid #ff4851;
             border-radius: 8px;
-            width: 30%;
+            width: 80%;
             font-size: 13px;
         }
 

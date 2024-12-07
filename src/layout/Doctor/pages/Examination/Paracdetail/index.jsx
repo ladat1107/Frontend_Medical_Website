@@ -8,7 +8,7 @@ import { CLOUDINARY_FOLDER } from "@/constant/value";
 import { uploadToCloudinary } from "@/utils/uploadToCloudinary";
 
 
-const Paracdetail = ({ id, paraclinicalData, onDelete, onSaveResult }) => {
+const Paracdetail = ({ id, paraclinicalData }) => {
 
     const [paraclinicalName, setParaclinicalName] = useState(paraclinicalData.paraclinicalData.name || '');
     const [result, setResult] = useState(paraclinicalData.result || '');
@@ -42,6 +42,10 @@ const Paracdetail = ({ id, paraclinicalData, onDelete, onSaveResult }) => {
             setUploading(false); // Kết thúc upload
         }
     };
+
+    const zoomImage = () => {
+        window.open(image, "_blank");
+    }
 
 
     return (
@@ -114,7 +118,10 @@ const Paracdetail = ({ id, paraclinicalData, onDelete, onSaveResult }) => {
                                     </div>
                                     {image && (
                                         <div>
-                                            <img src={image} alt="Uploaded" style={{ width: "100%" }} />
+                                            <img src={image} 
+                                                alt="Uploaded" 
+                                                style={{ width: "100%", cursor: "pointer" }} 
+                                                onClick={zoomImage}/>
                                         </div>
                                     )}
                                 </div>

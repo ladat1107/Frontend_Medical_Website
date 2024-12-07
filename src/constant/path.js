@@ -17,6 +17,7 @@ export const PATHS = {
     STAFF: {
         DASHBOARD: "/doctor",
         APPOINTMENT: "/doctorAppointment",
+        PARACLINICAL: "/doctorParaclinical",
         EXAMINATION: "/doctorExamination/:examId",
         HANDBOOK: "/doctorHandbook",
         SCHEDULE: "/doctorSchedule",

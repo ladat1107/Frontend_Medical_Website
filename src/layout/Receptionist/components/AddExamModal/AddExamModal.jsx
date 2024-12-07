@@ -37,7 +37,6 @@ const AddExamModal = ({ isOpen, onClose, timeSlot, handleAddExamSuscess, isEditM
 
             if(response.EC === 0 && response.DT){
                 insuranceData = response.DT;
-                
             }
 
             const comorbidityObjects = patientData.comorbidities 
@@ -56,11 +55,10 @@ const AddExamModal = ({ isOpen, onClose, timeSlot, handleAddExamSuscess, isEditM
                 lastName: patientData.userExaminationData.lastName,
             });
 
-            setInsurance(patientData.userExaminationData.userInsuranceData?.insuranceCode || '');
 
             setSelectedComorbidities(comorbidityObjects);
             setSymptom(patientData.symptom || '');
-            setInsurance(insuranceData?.userInsuranceData?.insuranceCode || '');
+            setInsurance(patientData.insuaranceCode || '');
 
             // Tìm và set specialty
             const matchedSpecialty = specialtyOptions.find(
@@ -198,9 +196,23 @@ const AddExamModal = ({ isOpen, onClose, timeSlot, handleAddExamSuscess, isEditM
         };
     }, []);
 
+    useEffect(() => {
+        // Thêm logic ngăn cuộn trang khi modal mở
+        if (isOpen) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = 'unset';
+        }
+
+        // Cleanup effect khi component unmount
+        return () => {
+            document.body.style.overflow = 'unset';
+        };
+    }, [isOpen]);
+
     const addExam = async() => {
 
-        if(!userInfo?.id || !cid || !specialtySelected ) {
+        if(!userInfo?.id || !cid || !specialtySelected || !symptom) {
             message.error('Thông tin không hợp lệ!');
             return;
         }
@@ -213,6 +225,7 @@ const AddExamModal = ({ isOpen, onClose, timeSlot, handleAddExamSuscess, isEditM
             symptom: symptom,
             special: prioritize ? prioritize : "normal",
             insuranceCoverage: insuranceCoverage || null,
+            insuaranceCode: insurance,
             roomName:  specialtySelected.label,
             price: specialtySelected.staffPrice,
             comorbidities: selectedComorbidities ? selectedComorbidities.map(item => item.id).join(',') : null,
@@ -223,7 +236,6 @@ const AddExamModal = ({ isOpen, onClose, timeSlot, handleAddExamSuscess, isEditM
 
         try{
             const response = await createExamination(data);
-            console.log('Add examination response:', response);
             if(response.EC === 0 && response.DT && response.DT.id) {
                 message.success('Thêm khám bệnh thành công!');
                 handleAddExamSuscess();
@@ -254,6 +266,7 @@ const AddExamModal = ({ isOpen, onClose, timeSlot, handleAddExamSuscess, isEditM
             symptom: symptom,
             special: prioritize ? prioritize : "normal",
             insuranceCoverage: insuranceCoverage || null,
+            insuaranceCode: insurance,
             roomName:  specialtySelected.label,
             price: specialtySelected.staffPrice,
             comorbidities: selectedComorbidities ? selectedComorbidities.map(item => item.id).join(',') : null,
