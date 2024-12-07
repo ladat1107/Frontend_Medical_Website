@@ -11,7 +11,6 @@ import { PATHS } from "@/constant/path";
 const cx = classNames.bind(styles);
 
 const HeadBlogList = (props) => {
-  console.log("props", props.list);
   let listHandbook = props?.list || [];
   let navigate = useNavigate();
   return (
