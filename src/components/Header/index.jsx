@@ -3,10 +3,21 @@ import SvgIcon from "../SvgIcon";
 import classNames from "classnames/bind";
 import styles from "./header.module.scss";
 import Dropdown from "../Dropdown";
+import { useNavigate } from "react-router-dom";
+import { PATHS } from "@/constant/path";
+import { useDispatch, useSelector } from "react-redux";
+import { logout } from "@/redux/authenSlice";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCalendarCheck, faHospital } from "@fortawesome/free-regular-svg-icons";
+import { faStethoscope, faSyringe } from "@fortawesome/free-solid-svg-icons";
+import { TAGS } from "@/constant/value";
 // Tạo instance của classnames với bind styles
 const cx = classNames.bind(styles);
 
 function Header() {
+  let navigate = useNavigate();
+  let { user } = useSelector(state => state.authen);
+  let dispatch = useDispatch();
   // language
   const items = [
     { title: "Home", icon: <SvgIcon name="tiktok" /> },
@@ -18,36 +29,28 @@ function Header() {
 
   const navMenu = [
     {
-      title: "Cơ sở",
+      title: "Dịch vụ",
       inner: [
-        { title: "medical", icon: null },
+        { title: "Đặt lịch khám", icon: <FontAwesomeIcon icon={faCalendarCheck} />, action: PATHS.HOME.BOOKING },
         { title: "medical", icon: null },
         { title: "medical", icon: null },
       ],
     },
     {
-      title: "y tế",
+      title: "Bệnh viện",
       inner: [
-        { title: "medical", icon: null },
-        { title: "medical", icon: null },
-        { title: "medical", icon: null },
+        { title: "Bác sĩ", icon: <FontAwesomeIcon icon={faSyringe} />, action: PATHS.HOME.DOCTOR_LIST },
+        { title: "Khoa", icon: <FontAwesomeIcon icon={faHospital} /> },
+        { title: "Chuyên khoa", icon: <FontAwesomeIcon icon={faStethoscope} /> },
       ],
     },
     {
-      title: "Khám sức",
+      title: "Cẩm nang y tế",
       inner: [
-        { title: "medical", icon: null },
-        { title: "medical", icon: null },
-        { title: "medical", icon: null },
-      ],
-    },
-    {
-      title: "Tin tức",
-      inner: [
-        { title: "medical", icon: null },
-        { title: "medical", icon: null },
-        { title: "medical", icon: null },
-      ],
+        { title: TAGS[2].label, icon: null, action: `${PATHS.HOME.HANDBOOK_LIST}/${TAGS[2].value}` },
+        { title: TAGS[4].label, icon: null, action: `${PATHS.HOME.HANDBOOK_LIST}/${TAGS[4].value}` },
+        { title: TAGS[5].label, icon: null, action: `${PATHS.HOME.HANDBOOK_LIST}/${TAGS[5].value}` },
+      ]
     },
     {
       title: "Hướng dẫn",
@@ -99,8 +102,11 @@ function Header() {
             </div>
 
             <div className={cx("auth")}>
-              <div className={cx("account-btn", "header-text")}>Đăng nhập</div>
-              <div className={cx("account-btn", "header-text")}>Đăng ký</div>
+              {user ?
+                <div className={cx("account-btn", "header-text")} onClick={() => { dispatch(logout()), navigate(PATHS.HOME.LOGIN) }} >Đăng xuất</div>
+                :
+                <div className={cx("account-btn", "header-text")} onClick={() => navigate(PATHS.HOME.LOGIN)}>Đăng nhập</div>
+              }
 
               <div className={cx("language")}>
                 <Dropdown title="Language" items={items} />

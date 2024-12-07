@@ -23,7 +23,7 @@ const DoctorLayout = () => {
             message.success("Đăng xuất thành công");
             navigate(PATHS.HOME.LOGIN);
         }
-    }, []);
+    }, [location]);
     const {
         token: { colorBgContainer, borderRadiusLG },
     } = theme.useToken();

@@ -7,37 +7,36 @@ import SliderComponent from './Components/Slider';
 // Tạo instance của classnames với bind styles
 const cx = classNames.bind(styles);
 
-const BodyBlogList = () => {
-
-    const a = [1,2,3,4,5,6,7,,8,0]
+const BodyBlogList = (props) => {
+  let { list1, list2, list3 } = props;
   return (
     <div className={cx('body-list-blog')}  >
-       
-       <div className={cx('slider-section')} >
-          <div className={cx('title-top')} >
-            <h3>TIN Y TẾ</h3>
-            <span className={cx('line')} ></span>
-          </div>
 
-          <SliderComponent listData={a} numberShow={4} dot={false} />
-       </div>
-       <div className={cx('slider-section')} >
-          <div className={cx('title-top')} >
-            <h3>TIN DỊCH VỤ</h3>
-            <span className={cx('line')} ></span>
-          </div>
+      <div className={cx('slider-section')} >
+        <div className={cx('title-top')} >
+          <h3>DINH DƯỠNG HỢP LÝ</h3>
+          <span className={cx('line')} ></span>
+        </div>
 
-          <SliderComponent listData={a} numberShow={4} dot={false}/>
-       </div>
-       <div className={cx('slider-section')} >
-          <div className={cx('title-top')} >
-            <h3>Y TẾ THƯỜNG THỨC</h3>
-            <span className={cx('line')} ></span>
-          </div>
+        <SliderComponent listData={list1} numberShow={4} dot={false} autoplayProps={true} />
+      </div>
+      <div className={cx('slider-section')} >
+        <div className={cx('title-top')} >
+          <h3>LỜI KHUYÊN BÁC SĨ</h3>
+          <span className={cx('line')} ></span>
+        </div>
 
-          <SliderComponent listData={a} numberShow={4}dot={false} />
-       </div>
-        
+        <SliderComponent listData={list2} numberShow={4} dot={false} autoplayProps={true} />
+      </div>
+      <div className={cx('slider-section')} >
+        <div className={cx('title-top')} >
+          <h3>CẬP NHẬT Y HỌC</h3>
+          <span className={cx('line')} ></span>
+        </div>
+
+        <SliderComponent listData={list3} numberShow={4} dot={false} autoplayProps={true} />
+      </div>
+
     </div>
   )
 }

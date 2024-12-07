@@ -12,20 +12,17 @@ const cx = classNames.bind(styles);
 
 const Department = () => {
   const {
-    data : departmentData,
-    error : departmentError
+    data: departmentData,
+    error: departmentError
   } = useQuery(() => userService.getDepartment())
 
-  
+
   const listDepartment = departmentData?.DT || []
 
-  console.log('listDepartment', listDepartment)
-  
-  
   return (
     <div className={cx('department')} >
-        <h3 className={cx("department-title", "title-section")} >DANH SÁCH CÁC KHOA CỦA CHÚNG TÔI</h3>
-        <SliderComponent type='department'  numberShow={4} dot={false} listData={listDepartment} />
+      <h3 className={cx("department-title", "title-section")} >DANH SÁCH CÁC KHOA CỦA CHÚNG TÔI</h3>
+      <SliderComponent type='department' numberShow={4} dot={false} listData={listDepartment} />
     </div>
   )
 }

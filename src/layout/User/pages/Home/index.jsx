@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 import Marquee from "@/components/Marquee";
 
@@ -16,6 +16,7 @@ import Dowload from "./Dowload";
 import Media from "./Media";
 import VideoComponent from "@/components/Video";
 import Blog from "./Blog";
+import DoctorCard from "@/layout/User/pages/DoctorList/Component";
 // Tạo instance của classnames với bind styles
 const cx = classNames.bind(styles);
 

@@ -1,16 +1,16 @@
 import "./HandbookItem.scss";
 import DropdownHandbook from "./DropdownHandbook";
 import { formatDate } from "@/utils/formatDate";
-import { useEffect } from "react";
-import { STATUS_HOSPITAL } from "@/constant/value";
-const statusArray = Object.values(STATUS_HOSPITAL);
 const HandbookItem = (props) => {
     let handbook = props?.data;
     return (
         <div className=" col-12 col-md-6 col-lg-4 ps-3 py-4" key={props?.index}>
             <div className="handbook-item-cart w-100">
                 <div className="handbook-image" style={{ backgroundImage: `url(${handbook?.image || 'https://ant-cra.cremawork.com/assets/images/extra-pages/blog/blog-img.png'})` }}>
-                    <DropdownHandbook id={handbook.id} />
+                    <DropdownHandbook 
+                    id={handbook.id}
+                    handleUpdate={props.handleUpdate}
+                     />
                 </div>
                 <div className="handbook-content">
                     <div className="time"> {formatDate(handbook?.createdAt)}</div>

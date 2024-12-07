@@ -3,8 +3,10 @@ import "./Loading.scss"
 import { Spin } from 'antd';
 const Loading = () => {
     return (
-        <Spin wrapperClassName="content-spin" tip="Loading...">
-        </Spin>
+        <div className='loading-spin'>
+            <Spin tip="Loading..." />
+        </div>
+
     );
 };
 

@@ -1,39 +1,10 @@
 .create-handbook-container {
-    font-family: 'Be Vietnam Pro', sans-serif;
+    background: white;
     padding: 20px;
+    border-radius: 15px;
+    box-shadow: 4px 4px 8px #cdd3d6, -4px -4px 8px #e5ebef;
+    margin: 0 0 20px 0;
 
-
-    .create-content{
-        background: white;
-        padding: 20px;
-        border-radius: 15px;
-        box-shadow: 4px 4px 8px #cdd3d6, -4px -4px 8px #e5ebef;
-    }
-
-    .tag-content{
-        background: white;
-        padding: 5px;
-        border-radius: 15px;
-        box-shadow: 4px 4px 8px #cdd3d6, -4px -4px 8px #e5ebef;
-
-        i{
-            margin-right: 10px;
-            color: #83BDF4;
-        }
-
-        p{
-            text-align: center;
-            margin: 0px;
-            font-weight: 600;
-        }
-
-        .tag-title{
-            display: flex;
-            justify-content: left;
-            align-items: center;
-        }
-    }
-    
     .search-container {
         padding: 5px;
         border-bottom: 1px solid #83BDF4;
@@ -73,7 +44,7 @@
             }
         }
 
-        .button-cancel{
+        .button-cancel {
             padding: 6px 16px;
             border-radius: 5px;
             border: none;
@@ -82,7 +53,7 @@
             cursor: pointer;
             font-weight: 600;
 
-            i{
+            i {
                 margin-right: 10px;
             }
         }
@@ -117,51 +88,16 @@
     .input-tag {
         display: flex;
         align-items: center; // Căn giữa theo chiều dọc
-        
+
         .input-container {
             display: flex;
             align-items: center; // Căn giữa theo chiều dọc
             gap: 8px; // Khoảng cách giữa Input và Button
             width: 100%;
-            
+
             .ant-input {
                 flex: 1; // Cho phép input chiếm phần không gian còn lại
             }
         }
     }
-
-    .list-tag {
-        font-family: 'Be Vietnam Pro', sans-serif;
-        display: flex;
-        flex-wrap: wrap;
-        gap: 10px;
-        font-weight: 400;
-
-        .tag-item {
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center;
-            border: 1.5px solid #F4F4F5;
-            background: #F4F4F5;
-            color: rgb(85, 85, 85);
-            border-radius: 5px;
-            width: fit-content;
-            white-space: nowrap; 
-            padding: 3px 12px;
-            cursor: pointer;
-
-        }
-
-        p {
-            margin: 0; 
-            display: inline-block;
-            font-weight: 400;
-        }
-
-        .active{
-            border: 2px solid #e7e7e7;
-            background: white;
-            color: black;
-        }
-    }
-}    
+}

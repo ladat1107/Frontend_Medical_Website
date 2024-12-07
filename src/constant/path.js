@@ -19,7 +19,6 @@ export const PATHS = {
         APPOINTMENT: "/doctorAppointment",
         EXAMINATION: "/doctorExamination/:examId",
         HANDBOOK: "/doctorHandbook",
-        INFO_HANDBOOK: "/doctorHandbook/:handbookId",
         SCHEDULE: "/doctorSchedule",
         PROFILE: "/doctorProfile",
     },
@@ -28,7 +27,11 @@ export const PATHS = {
     },
     HOME: {
         HOMEPAGE: "/",
+        DOCTOR_DETAIL: "/doctor-detail",
+        DOCTOR_LIST: "/doctor-list",
         HANDBOOK_LIST: "/handbookList",
+        HANDBOOK_DETAIL: "/handbookDetail",
+        BOOKING: "/make-appointment",
         LOGIN: "/login",
     }
 }
