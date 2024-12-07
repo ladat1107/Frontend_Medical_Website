@@ -46,7 +46,7 @@ function App() {
           <Route path={`${PATHS.HOME.DOCTOR_DETAIL}/:id`} element={<DoctorDetail />} />
           <Route path={PATHS.HOME.DOCTOR_LIST} element={<DoctorList />} />
           <Route path={PATHS.HOME.BOOKING} element={<Booking />} />
-          <Route path={PATHS.HOME.HANDBOOK_LIST} element={<BlogList />} />
+          <Route path={`${PATHS.HOME.HANDBOOK_LIST}/:id`} element={<BlogList />} />
         </Route>
 
         <Route path={PATHS.HOME.LOGIN} element={<Login />} />

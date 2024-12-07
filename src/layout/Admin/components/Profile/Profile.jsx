@@ -12,6 +12,7 @@ import { EMIT } from "@/constant/value";
 import emitter from "@/utils/eventEmitter";
 import { useSelector } from "react-redux";
 import Loading from "@/components/Loading/Loading";
+import { set } from "lodash";
 const Profile = () => {
     let { user } = useSelector((state) => state.authen);
     let [profile, setProfile] = useState({});
@@ -56,14 +57,15 @@ const Profile = () => {
     useEffect(() => {
         fetchProfile();
         emitter.on(EMIT.EVENT_PROFILE.key, handleEvent);
-
         // Cleanup khi component unmount để tránh rò rỉ bộ nhớ
         return () => {
             emitter.removeListener(EMIT.EVENT_PROFILE.key, handleEvent);
         };
 
     }, []);
-    let refresh = () => {
+    let refresh = (value) => {
+        dataProfile = null;
+        setSelectedItem(value);
         fetchProfile();
     }
     return (
@@ -73,17 +75,20 @@ const Profile = () => {
                     <div className="content">
                         {selectedItem === EMIT.EVENT_PROFILE.info && profile?.id && folks.length > 0 &&
                             <Information
-                                refresh={refresh}
+                                page={EMIT.EVENT_PROFILE.info}
+                                refresh={(value) => refresh(value)}
                                 folks={folks}
                                 data={profile}
                                 key={Date.now() + profile.id}
                             />}
                         {selectedItem === EMIT.EVENT_PROFILE.changePassword && profile?.id &&
                             <Password
+                                page={EMIT.EVENT_PROFILE.changePassword}
                                 data={profile.id}
                             />}
                         {selectedItem === EMIT.EVENT_PROFILE.staff && specialty.length > 0 && <StaffInfo
-                            refresh={refresh}
+                            page={EMIT.EVENT_PROFILE.staff}
+                            refresh={(value) => refresh(value)}
                             department={profile?.staffUserData?.staffDepartmentData}
                             specialty={specialty}
                             data={profile}

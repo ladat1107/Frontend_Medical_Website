@@ -51,6 +51,7 @@
         box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
 
         .header {
+            position: relative;
             background: linear-gradient(36deg, #00b5f1, #00e0ff);
             color: white;
             text-align: center;
@@ -59,6 +60,14 @@
             padding: 10px;
             border-radius: 10px 10px 0 0;
             margin-bottom: 10px;
+
+            .icon-back {
+                position: absolute;
+                top: 15px;
+                left: 25px;
+                cursor: pointer;
+            }
+
         }
 
         .content {
@@ -66,8 +75,11 @@
 
             .specialty-list,
             .doctor-list {
+                min-height: 500px;
                 max-height: 500px;
-                overflow-y: auto;
+                overflow: scroll;
+                scrollbar-width: none;
+                -ms-overflow-style: none;
 
                 .specialty-item {
                     padding: 10px;
@@ -134,15 +146,71 @@
                         padding: 2px 0;
                         margin: 5px 0;
                     }
-
-                    // strong {
-                    //     color: #007bff;
-                    // }
                 }
 
             }
+
+            .month-booking {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                width: 100%;
+                margin-bottom: 1rem;
+                font-size: 1.2rem;
+                font-weight: 600;
+                color: $primary-color-admin;
+                gap: 15px;
+
+                .icon-next {
+                    color: $primary-color-admin;
+                    cursor: pointer;
+                }
+            }
+
+            .days {
+                display: grid;
+                grid-template-columns: repeat(7, 1fr);
+                gap: 0.5rem;
+
+                .day {
+                    text-align: center;
+                    padding: 1rem;
+                    border-radius: 5px;
+                    cursor: pointer;
+                    background-color: #f9f9f9;
+
+                    &.active {
+                        background-color: #00bfff;
+                        color: #fff;
+                    }
+
+                    &.disabled {
+                        pointer-events: none;
+                        color: #ccc;
+                    }
+                }
+            }
         }
 
+        .time-slots {
+            margin-top: 2rem;
 
+            .slot {
+                margin-right: 0.5rem;
+                margin-bottom: 0.5rem;
+                display: inline-block;
+                padding: 0.5rem 1rem;
+                border: 1px solid #00bfff;
+                border-radius: 5px;
+                cursor: pointer;
+                transition: background-color 0.2s;
+
+                &:hover {
+                    background-color: #00bfff;
+                    color: #fff;
+                }
+            }
+        }
     }
+
 }

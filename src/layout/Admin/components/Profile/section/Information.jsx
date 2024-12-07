@@ -152,7 +152,7 @@ const Information = (props) => {
         });
         if (respone?.data?.EC === 0) {
           message.success(respone?.data?.EM || "Cập nhật thông tin thành công!")
-          props.refresh();
+          props.refresh(props.page);
         } else {
           message.error(respone?.data?.EM || "Cập nhật thông tin thất bại!")
         }

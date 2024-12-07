@@ -106,134 +106,134 @@ const PatientManage = () => {
         }
     }
     return (
-        listUserLoading ? <Loading /> :
-            <div className='patient-manage'>
-                <div className='container'>
-                    <div className='first d-flex align-items-center justify-content-between py-3'>
-                        <div className="text">BỆNH NHÂN</div>
-                        <button className=' py-1 px-2 btn-add-user' onClick={() => { hanldeCreateUser() }}>
-                            <FontAwesomeIcon className='me-1 icon' icon={faPlus} style={{ color: "#0A8FDC", }} />
-                            Thêm mới
-                        </button>
+        // listUserLoading ? <Loading /> :
+        <div className='patient-manage'>
+            <div className='container'>
+                <div className='first d-flex align-items-center justify-content-between py-3'>
+                    <div className="text">BỆNH NHÂN</div>
+                    <button className=' py-1 px-2 btn-add-user' onClick={() => { hanldeCreateUser() }}>
+                        <FontAwesomeIcon className='me-1 icon' icon={faPlus} style={{ color: "#0A8FDC", }} />
+                        Thêm mới
+                    </button>
+                </div>
+                <div className='table-responsive bg-white'>
+                    <div className='table-head d-flex align-items-center'>
+                        <Input className='w-25 my-3 ms-4' size="large" placeholder="Tìm bệnh nhân" prefix={<SearchOutlined />}
+                            value={search}
+                            onChange={(event) => { handleChangeSearch(event) }} />
                     </div>
-                    <div className='table-responsive bg-white'>
-                        <div className='table-head d-flex align-items-center'>
-                            <Input className='w-25 my-3 ms-4' size="large" placeholder="Tìm bệnh nhân" prefix={<SearchOutlined />}
-                                value={search}
-                                onChange={(event) => { handleChangeSearch(event) }} />
-                        </div>
-                        <div className="px-4">
-                            <table className="w-100">
-                                <thead className="header">
+                    <div className="px-4">
+                        <table className="w-100">
+                            <thead className="header">
+                                <tr>
+                                    <th scope="col" className="rounded-top-left">
+                                        <div className="">
+                                            <Checkbox
+                                                checked={checkAll}
+                                                onChange={() => { handleChangeSelectedAll() }}
+                                                size="small"
+                                            />
+                                        </div>
+                                    </th>
+                                    <th scope="col" className="text-center ps-2 py-0 name">
+                                        Họ và tên
+                                    </th>
+                                    <th scope="col" className="text-center px-2 py-0">
+                                        Chức vụ
+                                    </th>
+                                    <th scope="col" className="text-center px-1 py-0">
+                                        Số điện thoại
+                                    </th>
+                                    <th scope="col" className="text-center px-1 py-0">
+                                        CCCD
+                                    </th>
+                                    <th scope="col" className="text-center px-1 py-0">
+                                        Trạng thái
+                                    </th>
+                                    <th scope="col" className="rounded-top-right px-1 py-0">
+
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody className='table-body'>
+                                {+listUser.length > 0 && +totalPages != 0 ?
+                                    <>
+                                        {
+                                            listUser.map((item, index) => {
+                                                return (
+                                                    <tr key={index} className="bg-white border-b">
+                                                        <td>
+                                                            <div className="">
+                                                                <Checkbox
+                                                                    checked={item.checked}
+                                                                    onChange={() => { handleChange(item, index) }}
+                                                                    size="small"
+                                                                /></div>
+                                                        </td>
+                                                        <th scope="row" className="ps-2 py-3 min-content-width g-0">
+                                                            <img className="image" src={item.avatar || LINK.AVATAR_NULL} alt="Jese image" />
+                                                            <div className="ps-2 email ">
+                                                                <div className="fw-semibold">{item.lastName + " " + item.firstName}</div>
+                                                                <div className="fw-normal">{item.email}</div>
+                                                            </div>
+                                                        </th>
+                                                        <td className="text-center px-2 py-3">
+                                                            {item?.userRoleData?.name || "Khác"}
+                                                        </td>
+                                                        <td className="text-center px-1 py-3">
+                                                            {item?.phoneNumber || "Không có"}
+                                                        </td>
+                                                        <td className="text-center px-1 py-3">
+                                                            {item?.cid || "Không có"}
+                                                        </td>
+                                                        <td className="text-center px-1 py-3">
+                                                            <Status data={item?.status} />
+                                                        </td>
+                                                        <td className="px-6 py-4">
+                                                            <div className='iconDetail'>
+                                                                <DropdownAction
+                                                                    data={item}
+                                                                    action={handleUpdate}
+                                                                    refresh={refresh}
+                                                                    table={TABLE.USER}
+                                                                />
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                )
+
+                                            })
+                                        }
+                                    </> :
                                     <tr>
-                                        <th scope="col" className="rounded-top-left">
-                                            <div className="">
-                                                <Checkbox
-                                                    checked={checkAll}
-                                                    onChange={() => { handleChangeSelectedAll() }}
-                                                    size="small"
-                                                />
-                                            </div>
-                                        </th>
-                                        <th scope="col" className="text-center ps-2 py-0 name">
-                                            Họ và tên
-                                        </th>
-                                        <th scope="col" className="text-center px-2 py-0">
-                                            Chức vụ
-                                        </th>
-                                        <th scope="col" className="text-center px-1 py-0">
-                                            Số điện thoại
-                                        </th>
-                                        <th scope="col" className="text-center px-1 py-0">
-                                            CCCD
-                                        </th>
-                                        <th scope="col" className="text-center px-1 py-0">
-                                            Trạng thái
-                                        </th>
-                                        <th scope="col" className="rounded-top-right px-1 py-0">
-
-                                        </th>
+                                        <td colSpan="7" className="text-center">
+                                            <span className="text-gray-500">Không có dữ liệu</span>
+                                        </td>
                                     </tr>
-                                </thead>
-                                <tbody className='table-body'>
-                                    {+listUser.length > 0 && +totalPages != 0 ?
-                                        <>
-                                            {
-                                                listUser.map((item, index) => {
-                                                    return (
-                                                        <tr key={index} className="bg-white border-b">
-                                                            <td>
-                                                                <div className="">
-                                                                    <Checkbox
-                                                                        checked={item.checked}
-                                                                        onChange={() => { handleChange(item, index) }}
-                                                                        size="small"
-                                                                    /></div>
-                                                            </td>
-                                                            <th scope="row" className="ps-2 py-3 min-content-width g-0">
-                                                                <img className="image" src={item.avatar || LINK.AVATAR_NULL} alt="Jese image" />
-                                                                <div className="ps-2 email ">
-                                                                    <div className="fw-semibold">{item.lastName + " " + item.firstName}</div>
-                                                                    <div className="fw-normal">{item.email}</div>
-                                                                </div>
-                                                            </th>
-                                                            <td className="text-center px-2 py-3">
-                                                                {item?.userRoleData?.name || "Khác"}
-                                                            </td>
-                                                            <td className="text-center px-1 py-3">
-                                                                {item?.phoneNumber || "Không có"}
-                                                            </td>
-                                                            <td className="text-center px-1 py-3">
-                                                                {item?.cid || "Không có"}
-                                                            </td>
-                                                            <td className="text-center px-1 py-3">
-                                                                <Status data={item?.status} />
-                                                            </td>
-                                                            <td className="px-6 py-4">
-                                                                <div className='iconDetail'>
-                                                                    <DropdownAction
-                                                                        data={item}
-                                                                        action={handleUpdate}
-                                                                        refresh={refresh}
-                                                                        table={TABLE.USER}
-                                                                    />
-                                                                </div>
-                                                            </td>
-                                                        </tr>
-                                                    )
+                                }
 
-                                                })
-                                            }
-                                        </> :
-                                        <tr>
-                                            <td colSpan="7" className="text-center">
-                                                <span className="text-gray-500">Không có dữ liệu</span>
-                                            </td>
-                                        </tr>
-                                    }
-
-                                </tbody>
-                            </table>
-                        </div>
-                        <div className='footer-table d-flex justify-content-end mx-2'>
-                            <div className='select-page'>
-                                <DropdownPaginate page={rowsPerPage}
-                                    setPage={handleChangePaginate} />
-                            </div>
-                            <PaginateCustom totalPageCount={totalPages}
-                                setPage={setCurrentPage} />
-                        </div>
+                            </tbody>
+                        </table>
                     </div>
-                    <CreateUserModal
-                        show={showCreateUserModal}
-                        isShow={handleShow}
-                        obUpdate={obUpdate}
-                        refresh={refresh}
-                        table={TABLE.USER}
-                        key={obUpdate ? obUpdate.id : "modal-closed"} />
-                </div >
-
+                    <div className='footer-table d-flex justify-content-end mx-2'>
+                        <div className='select-page'>
+                            <DropdownPaginate page={rowsPerPage}
+                                setPage={handleChangePaginate} />
+                        </div>
+                        <PaginateCustom totalPageCount={totalPages}
+                            setPage={setCurrentPage} />
+                    </div>
+                </div>
+                <CreateUserModal
+                    show={showCreateUserModal}
+                    isShow={handleShow}
+                    obUpdate={obUpdate}
+                    refresh={refresh}
+                    table={TABLE.USER}
+                    key={obUpdate ? obUpdate.id : "modal-closed"} />
             </div >
+
+        </div >
     );
 }
 

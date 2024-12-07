@@ -10,6 +10,7 @@ import { logout } from "@/redux/authenSlice";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCalendarCheck, faHospital } from "@fortawesome/free-regular-svg-icons";
 import { faStethoscope, faSyringe } from "@fortawesome/free-solid-svg-icons";
+import { TAGS } from "@/constant/value";
 // Tạo instance của classnames với bind styles
 const cx = classNames.bind(styles);
 
@@ -44,12 +45,12 @@ function Header() {
       ],
     },
     {
-      title: "Tin tức",
+      title: "Cẩm nang y tế",
       inner: [
-        { title: "medical", icon: null },
-        { title: "medical", icon: null },
-        { title: "medical", icon: null },
-      ],
+        { title: TAGS[2].label, icon: null, action: `${PATHS.HOME.HANDBOOK_LIST}/${TAGS[2].value}` },
+        { title: TAGS[4].label, icon: null, action: `${PATHS.HOME.HANDBOOK_LIST}/${TAGS[4].value}` },
+        { title: TAGS[5].label, icon: null, action: `${PATHS.HOME.HANDBOOK_LIST}/${TAGS[5].value}` },
+      ]
     },
     {
       title: "Hướng dẫn",

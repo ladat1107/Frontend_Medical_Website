@@ -14,7 +14,7 @@ const SliderComponent = ({
 }) => {
   const settings = {
     dots: dot, // Hiển thị phân trang
-    // infinite: true, // Quay vòng slider
+    infinite: true, // Quay vòng slider
     speed: 800, // Tốc độ chuyển slide
     slidesToShow: numberShow, // Số lượng slide hiển thị cùng lúc
     slidesToScroll: 1, // Số slide chuyển mỗi lần
@@ -32,7 +32,7 @@ const SliderComponent = ({
         {listData?.map((item, index) => {
           return (
             <>
-             <BigBlog  key={index}/>
+              <BigBlog data={item} key={index} />
             </>
           );
         })}

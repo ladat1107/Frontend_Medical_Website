@@ -6,7 +6,7 @@ import { faBed, faPlus, faRotateRight } from "@fortawesome/free-solid-svg-icons"
 import InsertRoom from "./InsertRoom";
 import { useEffect, useState } from "react";
 import { useMutation } from "@/hooks/useMutation";
-import { getAllRoom, getNameDepartment, getRoomById } from "@/services/adminService";
+import { getAllRoom, getNameDepartment, getRoomById, getServiceSearch, getSpecialtySelect } from "@/services/adminService";
 import { Checkbox, Input, Popover } from "antd";
 import DropdownPaginate from "../../components/Dropdown/DropdownPaginate";
 import PaginateCustom from "../../components/Paginate/PaginateCustom";
@@ -26,9 +26,12 @@ const Room = () => {
     let [search, setSearch] = useState("");
     let [obUpdate, setObUpdate] = useState({});
     let searchDebounce = "";
-    let [obDelete, setObDelete] = useState({});
     let [departments, setDepartments] = useState([]);
     let { data: departmentData } = useQuery(() => getNameDepartment())
+    let [specialty, setSpecailty] = useState([]);
+    let { data: specialtyData } = useQuery(() => getSpecialtySelect())
+    let [services, setServices] = useState([]);
+    let { data: serviceData } = useQuery(() => getServiceSearch())
     let [searchDepartment, setSearchDepartment] = useState(0);
     useEffect(() => {
         if (departmentData && departmentData?.DT?.length > 0) {
@@ -40,9 +43,7 @@ const Room = () => {
         loading: listRoomLoading,
         error: listRoomError,
         execute: fetchRooms,
-    } = useMutation((query) =>
-        getAllRoom(currentPage, rowsPerPage.id, searchDebounce, searchDepartment)
-    )
+    } = useMutation((query) => getAllRoom(currentPage, rowsPerPage.id, searchDebounce, searchDepartment))
     useEffect(() => {
         if (dataRoom && dataRoom.DT && dataRoom.DT.rows && dataRoom.DT) {
             let _listRoom = [...dataRoom.DT.rows];
@@ -68,6 +69,17 @@ const Room = () => {
     useEffect(() => {
         fetchRooms();
     }, [currentPage, useDebounce(search, 500), rowsPerPage, searchDepartment]);
+    useEffect(() => {
+        if (specialtyData && specialtyData?.DT?.length > 0) {
+            setSpecailty(specialtyData.DT);
+        }
+    }, [specialtyData])
+    useEffect(() => {
+        if (serviceData && serviceData?.DT?.length > 0) {
+            setServices(serviceData.DT);
+        }
+    }, [serviceData])
+
     let handleChange = (item) => {
         let _listRoom = [...listRoom];
         _listRoom = _listRoom.map(obj =>
@@ -100,7 +112,6 @@ const Room = () => {
     }
     let handleShow = (value) => {
         setObUpdate(null)
-        setShowDeleteModal(value)
     }
     let handleUpdate = async (item) => {
         setShowInsert(false)
@@ -140,7 +151,9 @@ const Room = () => {
                     </div>
                 </div>
                 <div className={`p-1 animated-div ${showInsert ? 'show' : ''}`}>
-                    {showInsert && <InsertRoom
+                    {showInsert && specialty?.length > 0 && services?.length > 0 && <InsertRoom
+                        specialty={specialty}
+                        services={services}
                         obUpdate={obUpdate}
                         departments={departments}
                         handleShowInsert={handleShowInsert}

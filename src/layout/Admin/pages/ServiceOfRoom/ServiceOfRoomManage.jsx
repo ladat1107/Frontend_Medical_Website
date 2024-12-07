@@ -52,7 +52,8 @@ const ServiceOfRoom = () => {
                 name: obUpdate.name,
                 price: obUpdate.price,
                 description: obUpdate.description,
-                status: obUpdate.status
+                status: obUpdate.status,
+                isLaboratory: obUpdate.isLaboratory === 1 ? true : false
             })
         }
     }, [obUpdate]);
@@ -177,6 +178,12 @@ const ServiceOfRoom = () => {
                                             <InputNumber placeholder="Nhập giá dịch vụ" suffix="VNĐ" style={{ width: "100%" }} />
                                         </Form.Item>
                                     </Col>
+                                    <Form.Item
+                                        name="isLaboratory"
+                                        valuePropName="checked"
+                                    >
+                                        <Checkbox >Không phải dịch vụ CLS</Checkbox>
+                                    </Form.Item>
                                     <Col span={24}>
                                         <Form.Item
                                             name="description"
@@ -204,8 +211,6 @@ const ServiceOfRoom = () => {
                                                 </Select>
                                             </Form.Item></Col>
                                     }
-
-
                                     <Col xs={24} style={{ display: 'flex', justifyContent: 'flex-end' }} >
                                         <Form.Item>
                                             <Button type="primary" htmlType="submit"
@@ -217,7 +222,6 @@ const ServiceOfRoom = () => {
                             </Form>
                         </div>
                     </div>
-
                     <div className="col-12 col-lg-9">
                         <div className="table-service bg-white ">
                             <div>

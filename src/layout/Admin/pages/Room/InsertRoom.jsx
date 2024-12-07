@@ -12,21 +12,7 @@ const InsertRoom = (props) => {
     let [minBed, setMinBed] = useState(0);
     let col = 8;
     let departments = props.departments;
-    let [services, setServices] = useState([]);
-    let { data: serviceData } = useQuery(() => getServiceSearch())
-    let [specialty, setSpecailty] = useState([]);
-    let { data: specialtyData } = useQuery(() => getSpecialtySelect())
     let [roomUpdate, setRoomUpdate] = useState(props.obUpdate);
-    useEffect(() => {
-        if (serviceData && serviceData?.DT?.length > 0) {
-            setServices(serviceData.DT);
-        }
-    }, [serviceData])
-    useEffect(() => {
-        if (specialtyData && specialtyData?.DT?.length > 0) {
-            setSpecailty(specialtyData.DT);
-        }
-    }, [specialtyData])
     useEffect(() => {
         if (roomUpdate?.id) {
             setMinBed(roomUpdate?.bedRoomData.length);
@@ -173,7 +159,7 @@ const InsertRoom = (props) => {
                                         filterSort={(optionA, optionB) =>
                                             (optionA?.label ?? '').toLowerCase().localeCompare((optionB?.label ?? '').toLowerCase())
                                         }
-                                        options={services}
+                                        options={props?.services}
                                     >
                                     </Select>
                                 </Form.Item>
@@ -198,7 +184,7 @@ const InsertRoom = (props) => {
                                             filterSort={(optionA, optionB) =>
                                                 (optionA?.label ?? '').toLowerCase().localeCompare((optionB?.label ?? '').toLowerCase())
                                             }
-                                            options={specialty}
+                                            options={props?.specialty}
                                         >
                                         </Select>
                                     </Form.Item>
