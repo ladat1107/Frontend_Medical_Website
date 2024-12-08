@@ -22,7 +22,6 @@ const Login = () => {
     }
     let [isShow, setIsShow] = useState(open.login);
     let [form] = Form.useForm();
-    let [register, setRegister] = useState(false);
     const dispatch = useDispatch();
     let navigate = useNavigate();
     const location = useLocation();

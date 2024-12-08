@@ -1,7 +1,7 @@
 {
   "name": "cfd-studio",
   "private": true,
-  "proxy": "https://vapi.vnappmob.com",
+  "proxy": "https://api.nosomovo.xyz",
   "version": "0.0.0",
   "type": "module",
   "scripts": {

@@ -33,7 +33,7 @@ const BookingCalendar = (props) => {
                         );
 
                         // Nếu thời gian không hợp lệ, trả về null, ngược lại trả về label
-                        return isTimeUnavailable ? null : item.label;
+                        return isTimeUnavailable ? null : item;
                     }).filter(time => time !== null), // Lọc bỏ các giá trị null
                 }
             });
@@ -92,17 +92,17 @@ const BookingCalendar = (props) => {
 
     const renderTimeSlots = () => {
         if (!selectedDate) return null;
-
         const schedule = listSchedule.find((item) => item.date === selectedDate);
 
         return (
             <div className="time-slots">
                 {schedule?.times.map((slot, idx) => (
-                    <div key={idx} className="slot">
-                        {slot}
+                    <div key={idx} className="slot" onClick={() => props.next({ date: schedule.date, time: slot })}>
+                        {slot.label}
                     </div>
-                ))}
-            </div>
+                ))
+                }
+            </div >
         );
     };
     return (

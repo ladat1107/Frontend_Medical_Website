@@ -46,3 +46,7 @@ export const formatDate1 = (dateString) => {
   const month = String(date.getMonth() + 1).padStart(2, '0'); // Lấy tháng, thêm '0' nếu cần
   return `${dayOfWeek} (${day}/${month})`;
 }
+export const formatDateDD_MM = (dateString) => {
+  const [year, month, day] = dateString.split("-");
+  return `${day}/${month}`;
+}

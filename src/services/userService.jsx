@@ -18,6 +18,18 @@ const userService = {
   },
   getScheduleApoinment(query = "") {
     return axiosInstance.get(`api/getScheduleApoinment`, { params: query })
+  },
+  getFolk() {
+    return axiosInstance.get(`api/getFolk`);
+  },
+  getUserById(query = "") {
+    return axiosInstance.get(`/api/getProfile`, { params: query });
+  },
+  confirmBooking(data) {
+    return axiosInstance.post(`/api/confirmBooking`, data);
+  },
+  confirmTokenBooking(data) {
+    return axiosInstance.post(`/api/confirmTokenBooking`, data);
   }
 };
 

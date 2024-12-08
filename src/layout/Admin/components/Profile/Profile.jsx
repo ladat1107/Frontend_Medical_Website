@@ -12,7 +12,6 @@ import { EMIT } from "@/constant/value";
 import emitter from "@/utils/eventEmitter";
 import { useSelector } from "react-redux";
 import Loading from "@/components/Loading/Loading";
-import { set } from "lodash";
 const Profile = () => {
     let { user } = useSelector((state) => state.authen);
     let [profile, setProfile] = useState({});
@@ -26,7 +25,7 @@ const Profile = () => {
         loading: listProfileLoading,
         execute: fetchProfile,
     } = useMutation((query) =>
-        getUserById(user.id)
+        getUserById({ id: "null" })
     )
     useEffect(() => {
         if (specialtyData && specialtyData?.DT?.length > 0) {
