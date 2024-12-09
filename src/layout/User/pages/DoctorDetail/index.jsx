@@ -6,7 +6,7 @@ const cx = classNames.bind(styles);
 import Container from "@/components/Container";
 import DoctorDetailHeader from "./DoctorDetailHeader";
 import DoctorDetailBody from "./DoctorDetailBody";
-import DoctorDetailRelated from "./DoctorDetailRelated";
+import DoctorDetailRelated from "../BlogDetail/section/BlogRelated";
 import { useLocation, useParams } from "react-router-dom";
 import userService from "@/services/userService";
 import { useMutation } from "@/hooks/useMutation";

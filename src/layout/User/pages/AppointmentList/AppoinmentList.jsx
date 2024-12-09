@@ -1,4 +1,4 @@
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import "./AppoimentList.scss";
 import userService from "@/services/userService";
 import { message } from "antd";
@@ -11,8 +11,10 @@ import { formatDate } from "@/utils/formatDate";
 import { faBriefcaseMedical, faLocationDot, faMapLocationDot, faMobileScreen, faVenusMars } from "@fortawesome/free-solid-svg-icons";
 import { TIMESLOTS } from "@/constant/value";
 import dayjs from "dayjs";
+import { PATHS } from "@/constant/path";
 const AppointmentList = () => {
     const location = useLocation();
+    let navigate = useNavigate();
     let [listAppoinment, setListAppoinment] = useState([]);
     const queryParams = new URLSearchParams(location.search);
     const {
@@ -26,8 +28,10 @@ const AppointmentList = () => {
                 const response = await userService.confirmTokenBooking({ token: confirmToken });
                 if (response?.data?.EC === 0 || response?.data?.EC === 1) {
                     message.success(response?.data?.EM);
+                    navigate(PATHS.HOME.APPOINTMENT_LIST);
                 } else {
                     message.error(response?.data?.EM);
+                    navigate(PATHS.HOME.APPOINTMENT_LIST);
                 }
             };
             fetchConfirmAsync();

@@ -16,6 +16,9 @@ const userService = {
   getHandbook(query = "") {
     return axiosInstance.get(`api/getHandBookHome`, { params: query })
   },
+  getHandbookDetail(query = "") {
+    return axiosInstance.get(`api/getHandBookById`, { params: query })
+  },
   getScheduleApoinment(query = "") {
     return axiosInstance.get(`api/getScheduleApoinment`, { params: query })
   },
