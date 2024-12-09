@@ -1,8 +1,6 @@
 @import "/src/style/variables.scss";
 
 .appoinment-list {
-    height: 60vh;
-
     .title {
         margin: 20px 0;
         font-size: 20px;
@@ -20,28 +18,42 @@
             flex-direction: column;
             background: white;
             padding: 16px;
-            margin-bottom: 16px;
-            border-radius: 8px;
+            border: 3px solid $primary-color-admin;
+            border-radius: 15px;
             box-shadow: 2px 6px 6px rgba(3, 52, 73, 0.2);
+            margin-bottom: 30px;
 
             .patient-info {
-                p {
-                    margin: 4px 0;
-                    font-size: 14px;
-                    color: #555;
 
-                    i {
-                        margin-right: 8px;
-                        color: #888;
+                .text-in {
+                    margin: 10px 0 !important;
+                    color: #938b8b;
+                    font-size: 16px;
+
+                    .b {
+                        padding-left: 10px;
+                        font-weight: 500;
                     }
 
-                    b {
-                        font-weight: bold;
-                        color: #333;
+                    .c {
+                        padding-left: 30px;
+                        color: $secondary-color-admin;
+                        font-weight: 600;
+
                     }
 
-                    span {
-                        color: #0073e6;
+
+                }
+
+                .text-in-tc {
+                    color: #1890ff;
+                    font-size: 16px;
+                    font-weight: 600;
+                    margin: 10px;
+
+                    .c {
+                        padding-left: 10px;
+                        color: $secondary-color-admin;
                         font-weight: 600;
                     }
                 }
@@ -50,14 +62,13 @@
 
         .patient-actions {
             display: flex;
-            // flex-direction: column;
-            gap: 8px;
+            justify-content: end;
 
             .btn {
                 font-size: 14px;
                 padding: 8px 12px;
                 border: none;
-                border-radius: 4px;
+                border-radius: 8px;
                 cursor: pointer;
 
                 &.delete {
@@ -65,15 +76,6 @@
                     color: white;
                 }
 
-                &.edit {
-                    background: #1890ff;
-                    color: white;
-                }
-
-                &.details {
-                    background: #52c41a;
-                    color: white;
-                }
             }
 
         }

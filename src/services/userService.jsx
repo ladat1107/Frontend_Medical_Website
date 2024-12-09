@@ -33,7 +33,12 @@ const userService = {
   },
   getAppoinment(query = "") {
     return axiosInstance.get(`/api/getAppoinment`, { params: query });
-  }
+  },
+  cancelAppoinment(data) {
+    return axiosInstance.delete(`/api/cancelAppoinment`, {
+      params: { id: data.id },
+    });
+  },
 };
 
 export default userService

@@ -2,11 +2,23 @@ import { useLocation } from "react-router-dom";
 import "./AppoimentList.scss";
 import userService from "@/services/userService";
 import { message } from "antd";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Container from "@/components/Container";
+import useQuery from "@/hooks/useQuery";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faAddressCard, faCalendarCheck, faCircleUser, faClock, faEnvelope } from "@fortawesome/free-regular-svg-icons";
+import { formatDate } from "@/utils/formatDate";
+import { faBriefcaseMedical, faLocationDot, faMapLocationDot, faMobileScreen, faVenusMars } from "@fortawesome/free-solid-svg-icons";
+import { TIMESLOTS } from "@/constant/value";
+import dayjs from "dayjs";
 const AppointmentList = () => {
     const location = useLocation();
+    let [listAppoinment, setListAppoinment] = useState([]);
     const queryParams = new URLSearchParams(location.search);
+    const {
+        data: appoinmentData,
+    } = useQuery(() => userService.getAppoinment({ status: 2 }));
+
     useEffect(() => {
         let confirmToken = queryParams.get('confirm');
         if (confirmToken !== null) {
@@ -21,45 +33,20 @@ const AppointmentList = () => {
             fetchConfirmAsync();
         }
     }, []);
-    const fakePatientData = [
-        {
-            id: 1,
-            name: "LA VĂN GIÀU",
-            dob: "11/07/2003",
-            phone: "032****761",
-            gender: "Nam",
-            address: "Ho Chi Minh, Xã Hiệp Phước, Huyện Nhà Bè, Thành phố Hồ Chí Minh",
-            ethnicity: "Kinh",
-        },
-        {
-            id: 2,
-            name: "LA TIẾN ĐẠT",
-            dob: "11/07/2003",
-            phone: "036****761",
-            gender: "Nam",
-            address: "Ho Chi Minh, Phường Linh Tây, Thành phố Thủ Đức, Thành phố Hồ Chí Minh",
-            ethnicity: "Kinh",
-        },
-        {
-            id: 3,
-            name: "NGUYỄN THỊ HOA",
-            dob: "15/05/1995",
-            phone: "090****123",
-            gender: "Nữ",
-            address: "Hà Nội, Phường Láng Hạ, Quận Đống Đa, Thành phố Hà Nội",
-            ethnicity: "Tày",
-        },
-        {
-            id: 4,
-            name: "PHẠM QUANG HUY",
-            dob: "22/10/1980",
-            phone: "098****456",
-            gender: "Nam",
-            address: "Đà Nẵng, Quận Hải Châu, Thành phố Đà Nẵng",
-            ethnicity: "Kinh",
-        },
-    ];
-
+    useEffect(() => {
+        if (appoinmentData) {
+            setListAppoinment(appoinmentData.DT);
+        }
+    }, [appoinmentData]);
+    let handleCancel = async (profile) => {
+        const response = await userService.cancelAppoinment(profile);
+        if (response?.data?.EC === 0) {
+            message.success(response?.data?.EM);
+            setListAppoinment(listAppoinment.filter((item) => item.id !== profile.id));
+        } else {
+            message.error(response?.data?.EM);
+        }
+    }
     return (
         <div className="bg-white" >
             <Container>
@@ -68,33 +55,76 @@ const AppointmentList = () => {
                         <div className="title">Danh sách lịch hẹn</div>
                     </div>
                     <div className="list-item-app">
-                        {fakePatientData.map((profile, index) => (
+                        {listAppoinment?.length > 0 && listAppoinment.map((profile, index) => (
                             <div className="patient-card" key={index}>
-                                <div className="patient-info">
-                                    <p>
-                                        <i className="icon-user"></i> <b>Họ và tên:</b> <span>{profile.name}</span>
-                                    </p>
-                                    <p>
-                                        <i className="icon-calendar"></i> <b>Ngày sinh:</b> <span>{profile.dob}</span>
-                                    </p>
-                                    <p>
-                                        <i className="icon-phone"></i> <b>Số điện thoại:</b> <span>{profile.phone}</span>
-                                    </p>
-                                    <p>
-                                        <i className="icon-gender"></i> <b>Giới tính:</b> <span>{profile.gender}</span>
-                                    </p>
-                                    <p>
-                                        <i className="icon-location"></i> <b>Địa chỉ:</b> <span>{profile.address}</span>
-                                    </p>
-                                    <p>
-                                        <i className="icon-people"></i> <b>Dân tộc:</b> <span>{profile.ethnicity}</span>
-                                    </p>
+                                <div className="patient-info row">
+                                    <div className="col-6">
+                                        <div className="text-in row">
+                                            <div className="col-3">
+                                                <FontAwesomeIcon icon={faCircleUser} /> <span className="b">Họ và tên:</span>
+                                            </div>
+                                            <span className="c col-8">{profile?.userExaminationData?.lastName + " " + profile?.userExaminationData?.firstName}</span>
+                                        </div>
+                                        <div className="text-in row">
+                                            <div className="col-3">
+                                                <FontAwesomeIcon icon={faAddressCard} />  <span className="b">CCCD:</span>
+                                            </div>
+                                            <span className="c col-8">{profile?.userExaminationData?.cid || "Chưa cập nhật"}</span>
+                                        </div>
+                                        <div className="text-in row">
+                                            <div className="col-3">
+                                                <FontAwesomeIcon icon={faEnvelope} />  <span className="b">Email:</span>
+                                            </div>
+                                            <span className="c col-8">{profile?.userExaminationData?.email || "Chưa cập nhật"}</span>
+                                        </div>
+                                        <div className="text-in row">
+                                            <div className="col-3">
+                                                <FontAwesomeIcon icon={faCalendarCheck} /><span className="b">Ngày sinh:</span>
+                                            </div>
+                                            <span className="c col-8">{profile?.userExaminationData?.dob ? formatDate(profile?.userExaminationData?.dob) : "Chưa cập nhật"}</span>
+                                        </div>
+                                        <div className="text-in row">
+                                            <div className="col-3"> <FontAwesomeIcon icon={faMobileScreen} /> <span className="b">SĐT:</span></div>
+                                            <span className="c col-8">{profile?.userExaminationData?.phoneNumber || "Chưa cập nhật"}</span>
+                                        </div>
+                                    </div>
+                                    <div className="col-6">
+                                        <div className="text-in row">
+                                            <div className="col-3">
+                                                <FontAwesomeIcon icon={faVenusMars} />  <span className="b">Giới tính:</span>
+                                            </div>
+                                            <span className="c col-8">{profile?.userExaminationData?.gender === 0 ? "Nam" : "Nữ"}</span>
+                                        </div>
+                                        <div className="text-in row">
+                                            <div className="col-3">
+                                                <FontAwesomeIcon icon={faBriefcaseMedical} />  <span className="b">{profile?.examinationStaffData?.positon || "Bác sĩ"}:</span>
+                                            </div>
+                                            <span className="c col-8">
+                                                {profile?.examinationStaffData?.staffUserData?.lastName + " " + profile?.examinationStaffData?.staffUserData?.firstName} ( Chuyên khoa: {profile?.examinationStaffData?.staffSpecialtyData?.name})
+                                            </span>
+                                        </div>
+                                        <div className="text-in row">
+                                            <div className="col-3">
+                                                <FontAwesomeIcon icon={faClock} /> <span className="b">Thời gian:</span>
+                                            </div>
+                                            <span className="c col-8">{TIMESLOTS[profile?.time - 1].label} ngày {formatDate(profile?.admissionDate || new Date())}</span>
+                                        </div>
+                                        <div className="text-in row">
+                                            <div className="col-3">
+                                                <FontAwesomeIcon icon={faLocationDot} /> <span className="b">Phòng:</span>
+                                            </div>
+                                            <span className="c col-8">{profile?.roomName || "Chưa cập nhật"}</span>
+                                        </div>
+                                    </div>
+                                    <div className="text-in-tc">
+                                        <span>Triệu chứng: </span>
+                                        <span className="c"> {profile?.symptom || "Chưa cập nhật"}</span>
+                                    </div>
                                 </div>
-                                <div className="patient-actions">
-                                    <button className="btn delete">Xóa hồ sơ</button>
-                                    <button className="btn edit">Sửa hồ sơ</button>
-                                    <button className="btn details">Chi tiết</button>
-                                </div>
+                                {dayjs(profile?.admissionDate).isSame(dayjs(), "day") ? <div></div> : <div className="patient-actions">
+                                    <button className="btn delete" onClick={() => handleCancel(profile)}>Hủy lịch hẹn</button>
+                                </div>}
+
                             </div>
                         ))}
                     </div>
