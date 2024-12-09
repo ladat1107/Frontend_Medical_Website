@@ -74,6 +74,21 @@ const AddExamModal = ({ isOpen, onClose, timeSlot, handleAddExamSuscess, isEditM
     }
 
     useEffect(() => {
+        // Thêm logic ngăn cuộn trang khi modal mở
+        if (isOpen) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = 'unset';
+        }
+
+        // Cleanup effect khi component unmount
+        return () => {
+            document.body.style.overflow = 'unset';
+        };
+    }, [isOpen]);
+
+
+    useEffect(() => {
         if(isEditMode) {
             insuarance();     
         }
@@ -291,6 +306,29 @@ const AddExamModal = ({ isOpen, onClose, timeSlot, handleAddExamSuscess, isEditM
         }
     }
 
+    const deleteExam = async() => {
+        const data = {
+            id: examId,
+            status: 0
+        }
+
+        try{
+            const response = await updateExamination(data);
+  
+            if(response.EC === 0  && response.DT.includes(1)){
+                message.success('Hủy lịch khám thành công');
+                handleAddExamSuscess();
+                resetForm();
+                onClose();
+            } else {
+              message.error('Hủy lịch khám thất bại');
+            }
+        } catch (error) {
+            console.error("Error:", error);
+            message.error('Hủy lịch khám thất bại');
+        }
+    }
+
     if (!isOpen) return null;
 
     return (
@@ -484,11 +522,14 @@ const AddExamModal = ({ isOpen, onClose, timeSlot, handleAddExamSuscess, isEditM
                 </div>
                 <div className='add-exam-footer'>
                     <button className="close-exam-btn" onClick={onClose}>Đóng</button>
-                        {isEditMode ? (
+                    {isEditMode ? (
+                        <>
+                            <button style={{background: "#F44343"}} className='add-exam-btn me-2' onClick={deleteExam}>Hủy lịch</button>
                             <button className='add-exam-btn' onClick={updateExam}>Xác nhận</button>
-                        ) : ( 
-                            <button className='add-exam-btn' onClick={addExam}>Thêm</button>
-                        )}
+                        </>
+                    ) : ( 
+                        <button className='add-exam-btn' onClick={addExam}>Thêm</button>
+                    )}
                 </div>
             </div>
             <AddUserModal

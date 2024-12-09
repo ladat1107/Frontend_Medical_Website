@@ -72,7 +72,8 @@ const Prescription = ({ examinationId, paraclinicalPrice, refresh }) => {
             setPrescriptionPrice(dataPrescription.DT.totalMoney);
             setNextId(details.length + 1);
 
-            setTotalMoney(dataPrescription.DT.totalMoney + paraclinicalPrice - insuranceCoverage);
+            // setTotalMoney(dataPrescription.DT.totalMoney + paraclinicalPrice - insuranceCoverage);
+            setTotalMoney(dataPrescription.DT.totalMoney - insuranceCoverage);
         }
     }, [dataPrescription]);
 
@@ -128,8 +129,6 @@ const Prescription = ({ examinationId, paraclinicalPrice, refresh }) => {
                 dosage: detail.dosage
             }))
         };
-
-        console.log('data', data);
 
         try {
             const response = await upsertPrescription(data);

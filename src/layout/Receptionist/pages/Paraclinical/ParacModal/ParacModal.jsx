@@ -1,15 +1,12 @@
 
 import { PropTypes } from 'prop-types';
-import { formatCurrency } from '@/utils/formatCurrency';
 import { Form, message, Progress } from 'antd';
 import { useEffect, useState } from 'react';
 import { updateParaclinical } from '@/services/doctorService';
-import { getThirdDigitFromLeft } from '@/utils/numberSeries';
 import '../../../components/PayModal/PayModal.scss';
 import { uploadToCloudinary } from '@/utils/uploadToCloudinary';
 import { CLOUDINARY_FOLDER } from '@/constant/value';
 import { CloudUploadOutlined } from '@mui/icons-material';
-import { set } from 'lodash';
 
 const ParacModal = ({ isOpen, onClose, onSusscess, paracId, patientData }) => {
 

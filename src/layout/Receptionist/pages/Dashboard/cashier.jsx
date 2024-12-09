@@ -1,7 +1,7 @@
 import { getListToPay } from "@/services/doctorService";
 import React, { useEffect, useState } from 'react'
 import { useMutation } from "@/hooks/useMutation";
-import { message, Pagination, Spin } from "antd";
+import { message, Pagination, Select, Spin } from "antd";
 import PatientItem from "@/layout/Receptionist/components/PatientItem/PatientItem";
 import PayModal from "../../components/PayModal/PayModal";
 
@@ -73,12 +73,23 @@ const Cashier = () => {
         }
     }, [dataExaminations]);
 
+    const handelSelectChange = (value) => {
+        setStatus(value);
+    }
+
     // #endregion
 
     return (
         <>
             <div className="appointment-content">
                 <div className="search-container row">
+                    <div className="col-2">
+                        <p className="search-title">Trạng thái</p>
+                        <Select className="select-box" defaultValue="4" onChange={handelSelectChange}>
+                            <Select.Option value="4">Chưa thanh toán</Select.Option>
+                            <Select.Option value="5">Đã thanh toán</Select.Option>
+                        </Select>
+                    </div>
                     <div className="col-6">
                         <p className="search-title">Tìm kiếm đơn khám</p>
                         <input type="text" className="search-box" 

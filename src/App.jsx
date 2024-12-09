@@ -33,6 +33,7 @@ import HandbookDetail from "./layout/Doctor/pages/Handbook/HandbookDetail/Handbo
 import Booking from "./layout/User/pages/Booking/Booking";
 import Cashier from "./layout/Receptionist/pages/Dashboard/cashier";
 import ParaclinicalList from "./layout/Receptionist/pages/Paraclinical";
+import Prescribe from "./layout/Receptionist/pages/Prescribe";
 function App() {
   return (
     <ConfigProvider
@@ -77,6 +78,7 @@ function App() {
             <Route path={PATHS.STAFF.DASHBOARD} element={<DoctorHomePage />} />
             <Route path={PATHS.RECEPTIONIST.CASHIER} element={<Cashier />} />
             <Route path={PATHS.STAFF.PARACLINICAL} element={<ParaclinicalList />} />
+            <Route path={PATHS.RECEPTIONIST.PRESCRIBE} element={<Prescribe />} />
           </Route>
 
         </Route>

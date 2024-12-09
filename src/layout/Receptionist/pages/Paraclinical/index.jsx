@@ -1,16 +1,17 @@
 import { useMutation } from "@/hooks/useMutation";
 import { getParaclinicals } from "@/services/doctorService";
-import { message, Pagination, Select, Spin } from "antd";
+import { DatePicker, message, Pagination, Select, Spin } from "antd";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import PatientItem from "../../components/PatientItem/PatientItem";
 import ParacModal from "./ParacModal/ParacModal";
+import dayjs from "dayjs";
 
 
 const ParaclinicalList = () => {
     let { user } = useSelector((state) => state.authen);
-    const today = new Date().toISOString();
 
+    const [currentDate, setCurrentDate] = useState(dayjs());
     const [currentPage, setCurrentPage] = useState(1);
     const [pageSize, setPageSize] = useState(50);
     const [total, setTotal] = useState(0);
@@ -62,11 +63,11 @@ const ParaclinicalList = () => {
         loading: loadingExaminations,
         error: errorExaminations,
         execute: fetchExaminations,
-    } = useMutation(() => getParaclinicals(today, status, user.staff, currentPage, pageSize, search))
+    } = useMutation(() => getParaclinicals(currentDate, status, user.staff, currentPage, pageSize, search))
 
     useEffect(() => {
         fetchExaminations();
-    }, [status, search, currentPage, pageSize]);
+    }, [status, search, currentPage, pageSize, currentDate]);
 
     useEffect(() => {
         if (dataExaminations) {
@@ -89,8 +90,16 @@ const ParaclinicalList = () => {
                             <Select.Option value="7">Đã xong</Select.Option>
                         </Select>
                     </div>
+                    {status == 7 && (
+                        <div className="col-2">
+                            <p className="search-title">Ngày</p>
+                            <DatePicker className="date-picker" 
+                                value={currentDate} allowClear={false}  
+                                onChange={(date) => setCurrentDate(date)}/>
+                        </div>
+                    )}
                     <div className="col-6">
-                        <p className="search-title">Tìm kiếm cận lâm sàn</p>
+                        <p className="search-title">Tìm kiếm bệnh nhân</p>
                         <input type="text" className="search-box" 
                                 placeholder="Nhập tên bệnh nhân để tìm kiếm..." 
                                 value={search}

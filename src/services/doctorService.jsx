@@ -187,6 +187,21 @@ export const getParaclinicals = async (date, status, staffId, page, limit, searc
     return response;
 }
 
+export const getPrescriptions = async (date, status, staffId, page, limit, search) => {
+    const response = await axios.get(`/api/getPrescriptions?date=${date}&status=${status}&staffId=${staffId}&page=${+page}&limit=${+limit}&search=${search}`);
+    return response;
+}
+
+export const updatePrescription = async (data) => {
+    const response = await axios.put(`/api/updatePrescription`, data);
+    return response.data;
+}
+
+export const getMedicalHistories = async (userId) => {
+    const response = await axios.get(`/api/getMedicalHistories?userId=${userId}`);
+    return response;
+}
+
 //Prescription
 const getPrescriptionByExaminationId = async (examinationId) => {
     return axios.get(`/api/getPrescriptionByExaminationId?examinationId=${examinationId}`)

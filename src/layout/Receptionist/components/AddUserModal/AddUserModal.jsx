@@ -14,11 +14,20 @@ const AddUserModal = ({ isOpen, onClose, handleAddUserSuscess}) => {
             lastName: form.getFieldValue('lastName'),
             firstName: form.getFieldValue('firstName'),
             cid: form.getFieldValue('cid'),
-            phone: form.getFieldValue('phone'),
-            address: form.getFieldValue('address'),
+            phoneNumber: form.getFieldValue('phone'),
             dob: form.getFieldValue('dob'),
             insuranceCode: form.getFieldValue('insuranceCode'),
             roleId: 2
+        }
+
+        if(!data.lastName || !data.firstName || !data.cid){
+            message.error('Vui lòng nhập đầy đủ thông tin!')
+            return
+        }
+
+        if(data.cid.length !== 12 || data.phoneNumber.length !== 10){
+            message.error('Vui lòng nhập đúng định dạng!')
+            return
         }
 
         try{
@@ -78,7 +87,7 @@ const AddUserModal = ({ isOpen, onClose, handleAddUserSuscess}) => {
                         validateTrigger="onBlur"
                     >
                         <Row gutter={[16, 8]}>
-                            <Col sm={24} lg={12}>
+                            <Col sm={24} lg={24}>
                                 <Form.Item
                                     name={"lastName"}
                                     label="Họ và tên lót"
@@ -89,7 +98,7 @@ const AddUserModal = ({ isOpen, onClose, handleAddUserSuscess}) => {
                                     <Input placeholder="Nhập họ và tên lót" className='input-add-user' />
                                 </Form.Item>
                             </Col>
-                            <Col sm={24} lg={12}>
+                            <Col sm={24} lg={24}>
                                 <Form.Item
                                     name={"firstName"}
                                     label="Tên"
@@ -110,7 +119,14 @@ const AddUserModal = ({ isOpen, onClose, handleAddUserSuscess}) => {
                                     },{
                                         pattern: /^[0-9]*$/g,
                                         message: 'Vui lòng nhập số!',
-                                    }]}>
+                                    },{
+                                        validator: (_, value) => {
+                                            if (value && value.length !== 12) {
+                                                return Promise.reject(new Error('Căn cước công dân phải đủ 12 ký tự!'));
+                                            }
+                                            return Promise.resolve();
+                                        },
+                                    },]}>
                                     <Input placeholder="Nhập căn cước công dân" maxLength={12} className='input-add-user'/>
                                 </Form.Item>
                             </Col>
@@ -121,16 +137,16 @@ const AddUserModal = ({ isOpen, onClose, handleAddUserSuscess}) => {
                                     rules={[{
                                         pattern: /^[0-9]*$/g,
                                         message: 'Vui lòng nhập số!',
-                                    }]}
+                                    },{
+                                        validator: (_, value) => {
+                                            if (value && value.length !== 10) {
+                                                return Promise.reject(new Error('Số điện thoại phải đủ 10 ký tự!'));
+                                            }
+                                            return Promise.resolve();
+                                        },
+                                    },]}
                                 >
                                     <Input placeholder="Nhập số điện thoại" maxLength={10} className='input-add-user'/>
-                                </Form.Item>
-                            </Col>
-                            <Col sm={24} lg={24}>
-                                <Form.Item
-                                    name={"address"}
-                                    label="Địa chỉ">
-                                    <Input placeholder="Nhập địa chỉ" className='input-add-user'/>
                                 </Form.Item>
                             </Col>
                             <Col sm={24} lg={12}>

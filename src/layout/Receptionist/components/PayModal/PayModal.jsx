@@ -256,12 +256,12 @@ const PayModal = ({ isOpen, onClose, onPaySusscess, examId, type, patientData })
                             <p>{formatCurrency(data.price)}</p>
                         </div>
                         <div className='col-1'/>
-                        <div className='col-2 d-flex align-items-center'>
+                        {/* <div className='col-2 d-flex align-items-center'>
                             <p style={{fontWeight: "400"}}>Thanh toán:</p>
                         </div>
                         <div className='col-3'>
                             <p>Chưa tính</p>
-                        </div>
+                        </div> */}
                     </div>
                 </div>
                 <div className='payment-footer mt-4'>
