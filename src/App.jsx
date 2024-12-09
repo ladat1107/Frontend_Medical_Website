@@ -35,6 +35,7 @@ import Cashier from "./layout/Receptionist/pages/Dashboard/cashier";
 import ParaclinicalList from "./layout/Receptionist/pages/Paraclinical";
 import Prescribe from "./layout/Receptionist/pages/Prescribe";
 import AppointmentList from "./layout/User/pages/AppointmentList/appoinmentList";
+import ProfileUser from "./layout/User/pages/ProfileUser/ProfileUser";
 function App() {
   return (
     <ConfigProvider
@@ -51,6 +52,7 @@ function App() {
           <Route path={PATHS.HOME.DOCTOR_LIST} element={<DoctorList />} />
           <Route path={PATHS.HOME.BOOKING} element={<Booking />} />
           <Route path={`${PATHS.HOME.HANDBOOK_LIST}/:id`} element={<BlogList />} />
+          <Route path={PATHS.HOME.PROFILE} element={<ProfileUser />} />
           <Route path={PATHS.HOME.APPOINTMENT_LIST} element={<AppointmentList />} />
         </Route>
 

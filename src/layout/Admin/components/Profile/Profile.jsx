@@ -5,7 +5,6 @@ import { useEffect, useState } from "react";
 import Information from "./section/Information";
 import Password from "./section/Password";
 import Notification from "./section/Notification";
-import { apiService } from "@/services/apiService";
 import useQuery from "@/hooks/useQuery";
 import StaffInfo from "./section/staff";
 import { EMIT } from "@/constant/value";
@@ -69,7 +68,7 @@ const Profile = () => {
     }
     return (
         <div className="staff-profile" >
-            <div className="container row py-5 d-flex justify-content-start">
+            <div className="container d-flex justify-content-center">
                 <div className="right-profile col-10 ps-5">
                     <div className="content-profile">
                         {selectedItem === EMIT.EVENT_PROFILE.info && profile?.id && folks.length > 0 &&
