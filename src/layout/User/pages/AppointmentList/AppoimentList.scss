@@ -1,3 +1,83 @@
+@import "/src/style/variables.scss";
+
 .appoinment-list {
     height: 60vh;
+
+    .title {
+        margin: 20px 0;
+        font-size: 20px;
+        font-weight: 700;
+        color: $main-text-color;
+    }
+
+    .list-item-app {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+
+        .patient-card {
+            display: flex;
+            flex-direction: column;
+            background: white;
+            padding: 16px;
+            margin-bottom: 16px;
+            border-radius: 8px;
+            box-shadow: 2px 6px 6px rgba(3, 52, 73, 0.2);
+
+            .patient-info {
+                p {
+                    margin: 4px 0;
+                    font-size: 14px;
+                    color: #555;
+
+                    i {
+                        margin-right: 8px;
+                        color: #888;
+                    }
+
+                    b {
+                        font-weight: bold;
+                        color: #333;
+                    }
+
+                    span {
+                        color: #0073e6;
+                        font-weight: 600;
+                    }
+                }
+            }
+        }
+
+        .patient-actions {
+            display: flex;
+            // flex-direction: column;
+            gap: 8px;
+
+            .btn {
+                font-size: 14px;
+                padding: 8px 12px;
+                border: none;
+                border-radius: 4px;
+                cursor: pointer;
+
+                &.delete {
+                    background: #ff4d4f;
+                    color: white;
+                }
+
+                &.edit {
+                    background: #1890ff;
+                    color: white;
+                }
+
+                &.details {
+                    background: #52c41a;
+                    color: white;
+                }
+            }
+
+        }
+
+
+    }
 }

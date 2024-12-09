@@ -4,10 +4,9 @@ import { useEffect, useState } from "react";
 import { AOB, CLOUDINARY_FOLDER, GENDER, LINK, MARITALSTATUS, RH } from "@/constant/value";
 import { apiService } from "@/services/apiService";
 import useQuery from "@/hooks/useQuery";
-import moment from 'moment-timezone';
 import { updateProfileInfo } from "@/services/adminService";
 import dayjs from 'dayjs';
-import Loading from "@/components/Loading/Loading";
+import "../Profile.scss";
 
 const Information = (props) => {
   let [form] = Form.useForm();
@@ -20,7 +19,7 @@ const Information = (props) => {
   let birthData = profile?.address?.split("%") || [];
   let [province, setProvince] = useState([]);
   let [currentProvinceId, setCurrentProvinceId] = useState(+currentResidentData[3]);
-  let [birthProvinceId, setBirthProvinceId] = useState(+birthData[3]);
+  let [birthProvinceId, setBirthProvinceId] = useState(+birthData[3] || null);
   let [currentDistrictId, setCurrentDistrictId] = useState(+currentResidentData[2]);
   let [birthDistrictId, setBirthDistrictId] = useState(+birthData[2]);
   let [currentListDistrict, setCurrentListDistrict] = useState([]);
@@ -33,7 +32,7 @@ const Information = (props) => {
     firstName: profile?.firstName || "",
     email: profile?.email || "",
     cid: profile?.cid || "",
-    gender: +(profile?.gender + ""),
+    gender: +(profile?.gender || 0),
     phoneNumber: profile?.phoneNumber || "",
     folk: profile?.folk || null,
     ABOBloodGroup: profile?.ABOBloodGroup,
@@ -67,10 +66,10 @@ const Information = (props) => {
   );
   useEffect(() => {
     if (provinceData) {
-      let _province = provinceData.map((item) => {
+      let _province = provinceData.data?.map((item) => {
         return {
           value: +item.id,
-          label: item.name
+          label: item.full_name
         }
       })
       setProvince(_province);
@@ -78,10 +77,10 @@ const Information = (props) => {
   }, [provinceData])
   useEffect(() => {
     if (currentDistrictList) {
-      let _district = currentDistrictList.map((item) => {
+      let _district = currentDistrictList.data?.map((item) => {
         return {
           value: +item.id,
-          label: item.name
+          label: item.full_name
         }
       })
       setCurrentListDistrict(_district);
@@ -89,10 +88,10 @@ const Information = (props) => {
   }, [currentDistrictList])
   useEffect(() => {
     if (birthDistrictList) {
-      let _district = birthDistrictList.map((item) => {
+      let _district = birthDistrictList.data?.map((item) => {
         return {
           value: +item.id,
-          label: item.name
+          label: item.full_name
         }
       })
       setBirthListDistrict(_district);
@@ -100,10 +99,10 @@ const Information = (props) => {
   }, [birthDistrictList])
   useEffect(() => {
     if (currentWardList) {
-      let _ward = currentWardList.map((item) => {
+      let _ward = currentWardList.data?.map((item) => {
         return {
           value: +item.id,
-          label: item.name
+          label: item.full_name
         }
       })
       setCurrentListWard(_ward);
@@ -111,10 +110,10 @@ const Information = (props) => {
   }, [currentWardList])
   useEffect(() => {
     if (birthWardList) {
-      let _ward = birthWardList.map((item) => {
+      let _ward = birthWardList.data?.map((item) => {
         return {
           value: +item.id,
-          label: item.name
+          label: item.full_name
         }
       })
       setBirthListWard(_ward);
@@ -146,9 +145,9 @@ const Information = (props) => {
           ...values,
           id: profile?.id,
           avatar: imageUrl,
-          address: values.birthAddress + "%" + values.birthWard + "%" + values.birthDistrict + "&" + values.birthProvince,
+          address: values.birthAddress + "%" + values.birthWard + "%" + values.birthDistrict + "%" + values.birthProvince,
           currentResident: values.currentAddress + "%" + values.currentWard + "%" + values.currentDistrict + "%" + values.currentProvince,
-          dob: values.dob.format('YYYY-MM-DD HH:mm:ss')
+          dob: values?.dob ? dayjs(values.dob).format('YYYY-MM-DD') : null,
         });
         if (respone?.data?.EC === 0) {
           message.success(respone?.data?.EM || "Cập nhật thông tin thành công!")
@@ -169,7 +168,7 @@ const Information = (props) => {
     setImageUrl(profile?.avatar);
   }
   return (
-    <div className='information'>
+    <div className='information-profile'>
       <Form
         layout={'horizontal'}
         form={form}
@@ -185,7 +184,7 @@ const Information = (props) => {
         }}
         validateTrigger="submit"
       >
-        <Row className="row" >
+        <Row className="bg-content-profile" >
           <Col xs={24}>
             <Form.Item
               name={"image"}
@@ -325,7 +324,7 @@ const Information = (props) => {
             </Form.Item>
           </Col>
         </Row>
-        <Row className="row">
+        <Row className="bg-content-profile">
           <Col xs={24}> <label className="ps-3 mb-2">Địa chỉ hiện tại</label></Col>
           <Col xs={8} >
             <Form.Item
@@ -416,7 +415,7 @@ const Information = (props) => {
             </Form.Item>
           </Col>
         </Row>
-        <Row className="row">
+        <Row className="bg-content-profile">
           <Col xs={24}> <label className="ps-3 mb-2">Quê quán</label></Col>
           <Col xs={8} >
             <Form.Item
@@ -507,7 +506,7 @@ const Information = (props) => {
             </Form.Item>
           </Col>
         </Row>
-        <Row className="row">
+        <Row className="bg-content-profile">
           <Col xs={8} >
             <Form.Item
               name={"ABOBloodGroup"}

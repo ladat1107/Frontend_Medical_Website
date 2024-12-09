@@ -178,23 +178,35 @@
             .days {
                 display: grid;
                 grid-template-columns: repeat(7, 1fr);
-                gap: 0.5rem;
+                // gap: 0.5rem;
 
                 .day {
                     text-align: center;
-                    padding: 1rem;
-                    border-radius: 5px;
                     cursor: pointer;
                     background-color: #f9f9f9;
+                    padding: 20px 5px;
+                    font-weight: 600;
 
                     &.active {
-                        background-color: #00bfff;
-                        color: #fff;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+
+                        span {
+                            background-color: #00bfff;
+                            border-radius: 5px;
+                            color: #fff;
+
+                            text-align: center;
+                            width: 60%;
+                            height: 100%;
+
+                        }
                     }
 
                     &.disabled {
                         pointer-events: none;
-                        color: #ccc;
+                        color: #a09d9d;
                     }
                 }
             }

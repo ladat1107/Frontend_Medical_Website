@@ -5,9 +5,9 @@ const axiosInstance = axios.create({
     withCredentials: false,
 });
 export const apiService = {
-    getAllFolk() {
-        return axiosInstance.get(`https://api.nosomovo.xyz/ethnic/getalllist/`)
-    },
+    // getAllFolk() {
+    //     return axiosInstance.get(`https://api.nosomovo.xyz/ethnic/getalllist/`)
+    // },
     // getAllProvince() {
     //     return axiosInstance.get(`/province/getalllist/193`)
     // },

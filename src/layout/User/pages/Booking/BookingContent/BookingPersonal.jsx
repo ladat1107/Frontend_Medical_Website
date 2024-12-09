@@ -3,7 +3,7 @@ import "../Booking.scss"
 import { faLeftLong } from "@fortawesome/free-solid-svg-icons"
 import { Button, Col, DatePicker, Form, Input, Row, Select } from "antd"
 import dayjs from "dayjs"
-import { GENDER } from "@/constant/value"
+import { GENDER, SPECIAL_EXAMINATION } from "@/constant/value"
 import { apiService } from "@/services/apiService"
 import { useEffect, useState } from "react"
 import useQuery from "@/hooks/useQuery"
@@ -13,6 +13,7 @@ const BookingPersonal = (props) => {
     let [form] = Form.useForm();
     let profileData = props?.profile ? props.profile : useQuery(() => userService.getUserById({ id: "null" })).data?.DT;
     let messageError = 'Vui lòng nhập thông tin!';
+    let listSpecialExamination = Object.values(SPECIAL_EXAMINATION).map((item) => { return { value: item.value, label: item.label + (item?.description ? " (" + item.description + ")" : "") } });
     let currentResidentData = profileData?.currentResident?.split("%") || [];
     let [province, setProvince] = useState([]);
     let [listFolk, setListFolk] = useState([]);
@@ -84,8 +85,10 @@ const BookingPersonal = (props) => {
                 firstName: profile?.firstName || "",
                 email: profile?.email || "",
                 cid: profile?.cid || "",
+                symptom: profile?.symptom || "",
                 gender: +(profile?.gender || 0),
                 phoneNumber: profile?.phoneNumber || "",
+                special: profile?.special || "",
                 folk: profile?.folk || null,
                 province: +currentResidentData[3] || null,
                 district: +currentResidentData[2] || null,
@@ -111,6 +114,7 @@ const BookingPersonal = (props) => {
             gender: values.gender,
             folk: values.folk,
             symptom: values.symptom,
+            special: values.special,
             obFolk,
             obProvince,
             obDistrict,
@@ -217,7 +221,6 @@ const BookingPersonal = (props) => {
                                         } options={listFolk} />
                                 </Form.Item>
                             </Col>
-
                             <Col xs={24} md={12}>
                                 <Form.Item name="province" label="Tỉnh/ thành phố" rules={[{ required: true, message: messageError }]}>
                                     <Select
@@ -277,6 +280,14 @@ const BookingPersonal = (props) => {
                             <Col xs={24} md={12}>
                                 <Form.Item name="address" label="Địa chỉ nhà" rules={[{ required: true, message: messageError }]}>
                                     <Input className='input-register' placeholder='Nhập địa chỉ nhà' maxLength={50} />
+                                </Form.Item>
+                            </Col>
+                            <Col xs={24} md={12}>
+                                <Form.Item name="special" label="Ưu tiên" rules={[{ required: true, message: messageError }]}>
+                                    <Select
+                                        className='select-inf'
+                                        placeholder="Vui lòng chọn loại ưu tiên"
+                                        options={listSpecialExamination} />
                                 </Form.Item>
                             </Col>
                             <Col xs={24}>

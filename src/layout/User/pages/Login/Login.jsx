@@ -69,8 +69,8 @@ const Login = () => {
                 {isShow === open.login &&
                     <div className='modal-login'>
                         <span className="icon-back" onClick={() => navigate(PATHS.HOME.HOMEPAGE)}><FontAwesomeIcon icon={faArrowLeft} /> </span>
-                        <div className="circle-avatar"></div>
-                        <h2 className="login-title">Hoa Sen</h2>
+                        <div className="circle-avatar" onClick={() => navigate(PATHS.HOME.HOMEPAGE)}></div>
+                        <h2 className="login-title" onClick={() => navigate(PATHS.HOME.HOMEPAGE)}>Hoa Sen</h2>
                         <Form
                             name="basic"
                             form={form}

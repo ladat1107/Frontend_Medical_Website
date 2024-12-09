@@ -266,3 +266,30 @@ export const STATUS_HOSPITAL = {
         label: "Không duyệt"
     }
 }
+export const SPECIAL_EXAMINATION = {
+    NORMAL: {
+        value: "normal",
+        label: "Không thuộc dạng ưu tiên",
+        // description: ""
+    },
+    OLD: {
+        value: "old",
+        label: "Người già",
+        description: "Trên 75 tuổi",
+    },
+    CHILD: {
+        value: "children",
+        label: "Trẻ em",
+        description: "Dưới 6 tuổi",
+    },
+    PREGNANT: {
+        value: "pregnant",
+        label: "Phụ nữ mang thai",
+        // description: "Đang mang thai",
+    },
+    DISABLED: {
+        value: "disabled",
+        label: "Người khuyết tật",
+        // description: "Người khuyết tật",
+    }
+}

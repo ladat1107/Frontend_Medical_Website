@@ -30,6 +30,9 @@ const userService = {
   },
   confirmTokenBooking(data) {
     return axiosInstance.post(`/api/confirmTokenBooking`, data);
+  },
+  getAppoinment(query = "") {
+    return axiosInstance.get(`/api/getAppoinment`, { params: query });
   }
 };
 

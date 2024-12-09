@@ -22,10 +22,12 @@ const BookingCalendar = (props) => {
     useEffect(() => {
         if (dataSchedule) {
             let _list = dataSchedule?.DT || [];
-            let _listDate = data.map(date => {
-                let _schedules = _list.filter(item => item.date === date);
+            let _listDate = props?.doctor?.staffScheduleData?.map(date => {
+                let _schedules = _list.filter(item => item.date === dayjs(date.date).format("YYYY-MM-DD"));
+                // console.log(date);
                 return {
-                    date: date,
+                    date: dayjs(date.date).format("YYYY-MM-DD"),
+                    room: { id: date?.roomId, name: date?.scheduleRoomData?.name },
                     times: TIMESLOTS.map(item => {
                         // Kiểm tra nếu có bất kỳ _schedule nào trùng time và count >= 6
                         const isTimeUnavailable = _schedules.some(schedule =>
@@ -84,7 +86,7 @@ const BookingCalendar = (props) => {
                         }`}
                     onClick={() => isAvailable && handleDateClick(dateStr)}
                 >
-                    {day.date()}
+                    <span>{day.date()}</span>
                 </div>
             );
         });
@@ -97,7 +99,7 @@ const BookingCalendar = (props) => {
         return (
             <div className="time-slots">
                 {schedule?.times.map((slot, idx) => (
-                    <div key={idx} className="slot" onClick={() => props.next({ date: schedule.date, time: slot })}>
+                    <div key={idx} className="slot" onClick={() => props.next({ date: schedule.date, room: schedule.room, time: slot })}>
                         {slot.label}
                     </div>
                 ))
