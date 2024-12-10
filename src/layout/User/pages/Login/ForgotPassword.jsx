@@ -4,6 +4,7 @@ import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { Button, Form, Input, message } from "antd";
 import { handleForgotPassword } from "@/services/adminService";
 import { useState } from "react";
+import { PATHS } from "@/constant/path";
 const ForgotPassword = (props) => {
     let [form] = Form.useForm();
     let [text, setText] = useState(null);
@@ -22,7 +23,7 @@ const ForgotPassword = (props) => {
     return (
         <div className='forgot-pass'>
             <span className="icon-back" onClick={() => props.login()}><FontAwesomeIcon icon={faArrowLeft} /> </span>
-            <div className="circle-avatar"></div>
+            <div className="circle-avatar" onClick={() => navigate(PATHS.HOME.HOMEPAGE)}></div>
             <h2 className="login-title">Hoa Sen</h2>
             {text && <div className="text-success">{text}</div>}
             <Form

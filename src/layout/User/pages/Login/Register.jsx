@@ -5,6 +5,7 @@ import { Button, Col, Form, Input, message, Row } from "antd";
 import { faAddressCard, faEnvelope } from "@fortawesome/free-regular-svg-icons";
 import { handleRegisterUser } from "@/services/adminService";
 import { useState } from "react";
+import { PATHS } from "@/constant/path";
 
 const Register = (props) => {
     let [form] = Form.useForm();
@@ -26,7 +27,7 @@ const Register = (props) => {
     return (
         <div className='register'>
             <span className="icon-back" onClick={() => props.login()}><FontAwesomeIcon icon={faArrowLeft} /> </span>
-            <div className="circle-avatar"></div>
+            <div className="circle-avatar" onClick={() => navigate(PATHS.HOME.HOMEPAGE)}></div>
             <h2 className="login-title">Đăng ký</h2>
             {text && <div className="text-success"><b>{text}</b></div>}
             <Form

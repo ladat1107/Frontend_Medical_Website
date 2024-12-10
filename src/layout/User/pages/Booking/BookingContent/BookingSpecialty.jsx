@@ -59,7 +59,6 @@ const BookingSpecialty = (props) => {
                 }
 
             </div>
-
         </div>
     );
 }

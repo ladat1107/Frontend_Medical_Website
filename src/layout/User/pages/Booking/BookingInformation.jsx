@@ -1,7 +1,8 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "./Booking.scss"
-import { faHospital } from "@fortawesome/free-regular-svg-icons";
+import { faClock, faHospital } from "@fortawesome/free-regular-svg-icons";
 import { faBriefcaseMedical, faHandHoldingMedical } from "@fortawesome/free-solid-svg-icons";
+import { formatDateDD_MM } from "@/utils/formatDate";
 const BookingInformation = (props) => {
     return (
         <div className="booking-information ">
@@ -28,6 +29,15 @@ const BookingInformation = (props) => {
                     <div className="ms-2">
                         <div className="hospital-name">{props?.doctor?.position || BS}. {props?.doctor?.staffUserData.lastName + " " + props?.doctor?.staffUserData.firstName}</div>
 
+                    </div>
+                </div>}
+                {props?.schedule && <div className="card-body">
+                    <FontAwesomeIcon className="mt-1" icon={faClock} />
+                    <div className="ms-2">
+                        <div className="hospital-name">Thời gian: </div>
+                        <div className="hospital-address">
+                            Ngày {formatDateDD_MM(props.schedule.date)}   ({props.schedule.time.label})
+                        </div>
                     </div>
                 </div>}
 

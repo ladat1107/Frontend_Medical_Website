@@ -9,8 +9,8 @@ import { faLeftLong, faUserDoctor } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useMutation } from "@/hooks/useMutation";
 import Loading from "@/components/Loading/Loading";
-import { set } from "lodash";
 import dayjs from "dayjs";
+import "dayjs/locale/vi";
 
 const BookingDoctor = (props) => {
     let [specialtyId, setSpecialtyId] = useState(props.specialtyId);
@@ -72,6 +72,7 @@ const BookingDoctor = (props) => {
                         allowClear={true}
                         placeholder="Chọn ngày khám"
                         format={'DD/MM/YYYY'} style={{ width: "30%" }}
+                        disabledDate={(current) => current && current.valueOf() <= dayjs().endOf("day").valueOf()}
                     />
                 </div>
 
@@ -87,7 +88,10 @@ const BookingDoctor = (props) => {
                                     <span>Chuyên khoa:</span> {doctor?.staffSpecialtyData?.name || "Đa khoa"}
                                 </p>
                                 <p className={"schedule"}>
-                                    <span>Lịch khám:</span> {"Thứ 2, 4, 6"}
+                                    <span>Lịch khám: </span>
+                                    <span className="time"> {doctor?.staffScheduleData?.slice(0, 3).map(item =>
+                                        dayjs(item.date).locale('vi').format('dddd (DD-MM)')
+                                    ).join(", ")} {" ,....."}</span>
                                 </p>
                                 <p className={"price"}>
                                     <span>Giá khám:</span> {formatCurrency(doctor?.price || 0)}

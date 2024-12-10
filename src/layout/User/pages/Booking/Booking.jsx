@@ -6,6 +6,8 @@ import { useState } from "react";
 const Booking = () => {
     let [specialty, setSpecialty] = useState(null);
     let [doctor, setDoctor] = useState(null);
+    let [schedule, setSchedule] = useState(null);
+    let [profile, setProfile] = useState(null);    
     return (
         <div className={"bg"} >
             <Container>
@@ -13,14 +15,19 @@ const Booking = () => {
                     <div className="col-12 col-lg-3 py-2 pe-3">
                         <BookingInformation
                             specialty={specialty}
-                            doctor={doctor} />
+                            doctor={doctor}
+                            schedule={schedule} />
                     </div>
                     <div className="col-12 col-lg-9 py-2 ps-2">
                         <BookingContent
                             specialty={specialty}
                             setSpecialty={setSpecialty}
                             doctor={doctor}
-                            setDoctor={setDoctor} />
+                            setDoctor={setDoctor}
+                            schedule={schedule}
+                            setSchedule={setSchedule} 
+                            profile={profile}
+                            setProfile={setProfile}/>
                     </div>
                 </div>
             </Container>

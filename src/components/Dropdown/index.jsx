@@ -40,7 +40,7 @@ function Dropdown({ title, items }) {
           'aria-labelledby': 'dropdown-button',
         }}
       >
-        {items.map((item, index) => (
+        {items?.map((item, index) => (
           <MenuItem key={index} onClick={() => handleAction(item.action)}>
             {item.icon && <ListItemIcon>{item.icon}</ListItemIcon>}
             <p  >{item.title}</p>

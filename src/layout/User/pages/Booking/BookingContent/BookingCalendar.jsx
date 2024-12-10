@@ -3,31 +3,48 @@ import "../Booking.scss";
 import { faCircleLeft, faCircleRight, faLeftLong } from "@fortawesome/free-solid-svg-icons";
 import dayjs from "dayjs";
 import { useEffect, useState } from "react";
-import useDebounce from "@/hooks/useDebounce";
 import userService from "@/services/userService";
 import { useMutation } from "@/hooks/useMutation";
+import { primaryColorHome } from "@/style/variables";
+import { TIMESLOTS } from "@/constant/value";
 
-// Dữ liệu mẫu
-const scheduleData = [
-    { date: "2024-12-06", times: ["09:00 - 10:00", "10:00 - 11:00"] },
-    { date: "2024-12-09", times: ["13:00 - 14:00", "14:00 - 15:00"] },
-    { date: "2024-12-12", times: ["09:00 - 10:00", "15:00 - 16:00"] },
-];
 const BookingCalendar = (props) => {
-    let data = props?.doctor?.staffScheduleData.map(item => item.date);
+    let data = props?.doctor?.staffScheduleData.map(item => dayjs(item.date).format("YYYY-MM-DD"));
+    const minDate = dayjs(); // Hôm nay
+    const maxDate = dayjs(data[data.length - 1]);
     let [listSchedule, setListSchedule] = useState([]);
     const {
         data: dataSchedule,
         loading: loadingSchedule,
         execute: fetchSchedule,
     } = useMutation(() => userService.getScheduleApoinment({ date: data }));
+
     useEffect(() => {
-        if (dataSchedule) { setListSchedule(dataSchedule?.DT || []); }
+        if (dataSchedule) {
+            let _list = dataSchedule?.DT || [];
+            let _listDate = props?.doctor?.staffScheduleData?.map(date => {
+                let _schedules = _list.filter(item => item.date === dayjs(date.date).format("YYYY-MM-DD"));
+                // console.log(date);
+                return {
+                    date: dayjs(date.date).format("YYYY-MM-DD"),
+                    room: { id: date?.roomId, name: date?.scheduleRoomData?.name },
+                    times: TIMESLOTS.map(item => {
+                        // Kiểm tra nếu có bất kỳ _schedule nào trùng time và count >= 6
+                        const isTimeUnavailable = _schedules.some(schedule =>
+                            schedule.time === item.value && schedule.count >= 6
+                        );
+
+                        // Nếu thời gian không hợp lệ, trả về null, ngược lại trả về label
+                        return isTimeUnavailable ? null : item;
+                    }).filter(time => time !== null), // Lọc bỏ các giá trị null
+                }
+            });
+            setListSchedule(_listDate);
+        }
     }, [dataSchedule]);
     useEffect(() => {
         fetchSchedule();
     }, []);
-    console.log(listSchedule);
     const [currentMonth, setCurrentMonth] = useState(dayjs());
     const [selectedDate, setSelectedDate] = useState(null);
 
@@ -36,23 +53,31 @@ const BookingCalendar = (props) => {
     };
 
     const handleMonthChange = (direction) => {
-        setCurrentMonth((prev) =>
-            direction === "next" ? prev.add(1, "month") : prev.subtract(1, "month")
-        );
+        setCurrentMonth((prev) => {
+            setSelectedDate(null);
+            if (direction === "next" && prev.isBefore(maxDate, "month")) {
+                return prev.add(1, "month");
+            } else if (direction === "back" && prev.isAfter(minDate, "month")) {
+                return prev.subtract(1, "month");
+            }
+            return prev; // Không thay đổi nếu vượt giới hạn
+        });
     };
 
     const renderCalendar = () => {
         const startOfMonth = currentMonth.startOf("month");
         const endOfMonth = currentMonth.endOf("month");
+        const lastDateOfMonth = endOfMonth.date();
 
+        // Tạo danh sách ngày từ đầu tháng đến ngày lớn nhất trong tháng
         const daysInMonth = Array.from(
-            { length: endOfMonth.date() },
+            { length: lastDateOfMonth },
             (_, i) => startOfMonth.add(i, "day")
         );
 
         return daysInMonth.map((day) => {
             const dateStr = day.format("YYYY-MM-DD");
-            const isAvailable = scheduleData.some((item) => item.date === dateStr);
+            const isAvailable = listSchedule.some((item) => item.date === dateStr);
 
             return (
                 <div
@@ -61,7 +86,7 @@ const BookingCalendar = (props) => {
                         }`}
                     onClick={() => isAvailable && handleDateClick(dateStr)}
                 >
-                    {day.date()}
+                    <span>{day.date()}</span>
                 </div>
             );
         });
@@ -69,30 +94,38 @@ const BookingCalendar = (props) => {
 
     const renderTimeSlots = () => {
         if (!selectedDate) return null;
-
-        const schedule = scheduleData.find((item) => item.date === selectedDate);
+        const schedule = listSchedule.find((item) => item.date === selectedDate);
 
         return (
             <div className="time-slots">
                 {schedule?.times.map((slot, idx) => (
-                    <div key={idx} className="slot">
-                        {slot}
+                    <div key={idx} className="slot" onClick={() => props.next({ date: schedule.date, room: schedule.room, time: slot })}>
+                        {slot.label}
                     </div>
-                ))}
-            </div>
+                ))
+                }
+            </div >
         );
     };
     return (
         <div>
-            <div className="header">
+            <div className="header" >
                 <FontAwesomeIcon className='icon-back' icon={faLeftLong} onClick={() => { props.back() }} />
                 Vui lòng chọn ngày khám
             </div>
             <div className='content'>
                 <div className="month-booking">
-                    <FontAwesomeIcon icon={faCircleLeft} color="grey" onClick={() => handleMonthChange("back")} />
+                    <FontAwesomeIcon className="icon"
+                        icon={faCircleLeft}
+                        color={currentMonth.isAfter(minDate, "month") ? primaryColorHome : "lightgray"}
+                        onClick={() => currentMonth.isAfter(minDate, "month") && handleMonthChange("back")}
+                    />
                     <span>THÁNG {currentMonth.format("MM-YYYY")}</span>
-                    <FontAwesomeIcon className="icon-next" icon={faCircleRight} onClick={() => handleMonthChange("next")} />
+                    <FontAwesomeIcon className="icon"
+                        icon={faCircleRight}
+                        color={currentMonth.isBefore(maxDate, "month") ? primaryColorHome : "lightgray"}
+                        onClick={() => currentMonth.isBefore(maxDate, "month") && handleMonthChange("next")}
+                    />
                 </div>
                 <div className="days">{renderCalendar()}</div>
                 {renderTimeSlots()}

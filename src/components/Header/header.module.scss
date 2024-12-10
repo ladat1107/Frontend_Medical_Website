@@ -5,19 +5,24 @@
   display: flex;
   max-width: 1400px; // Chiều rộng tối đa của container
   margin: 0 auto; // Căn giữa container
-  padding: 20px; // Padding để tránh đụng lề màn hình
+  padding: 10px; // Padding để tránh đụng lề màn hình
   width: 100%;
 
   .header-img {
     width: 20%;
     @include center-flex;
+
+    img {
+      width: 65%;
+      cursor: pointer;
+    }
   }
 
   .header-content {
     width: 80%;
 
     .top-content {
-      margin-bottom: 25px;
+      margin-bottom: 10px;
       display: flex;
       justify-content: space-between;
 
@@ -59,6 +64,12 @@
           }
 
           @include center-flex;
+        }
+
+        .language {
+          font-size: 18px;
+          font-weight: 700;
+          color: #00b5f1;
         }
 
         .logo-account {

@@ -1,5 +1,6 @@
 import { updateProfilePassword } from "@/services/adminService";
 import { Button, Col, Form, Input, message, Row } from "antd";
+import "../Profile.scss";
 
 const Password = (props) => {
     let [form] = Form.useForm();
@@ -20,7 +21,7 @@ const Password = (props) => {
         form.resetFields();
     }
     return (
-        <div className='password-content row mb-0'>
+        <div className='password-content bg-content-profile mb-0'>
             <div className="text ps-4 mb-3">Đổi mật khẩu</div>
             <Form
                 layout={'horizontal'}

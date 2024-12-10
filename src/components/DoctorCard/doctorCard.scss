@@ -3,15 +3,13 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 0 15px;
-  padding-top: 30px;
-  padding-bottom: 20px;
+  padding: 30px 15px 20px 15px;
   border: 1px solid #e0e0e0;
   border-radius: 15px;
   background-color: #ffffff;
   box-shadow: 0 2px 8px rgba(0, 0.1, 0.2, 0.3);
   max-width: 400px;
-  margin: 0 10px;
+  margin: 0 20px;
 
   .avatar {
     width: 130px;
@@ -24,6 +22,7 @@
 
   .info {
     text-align: center;
+
     .name {
       font-size: 1.2rem;
       font-weight: 600;
@@ -36,7 +35,7 @@
       margin: 4px 0;
     }
 
-    
+
 
     .price {
       margin-top: 8px;
@@ -51,7 +50,7 @@
   }
 
   .line {
-     
+
     font-size: 0.9rem;
     padding: 5px 0;
     background: #ebf9fd;
@@ -59,19 +58,16 @@
     display: flex;
     justify-content: space-evenly;
     margin-bottom: 10px;
-    
-    .rating-right{
 
-    }
-    .rating-left{
-        
-    }
+    .rating-right {}
 
-   
+    .rating-left {}
+
+
   }
 
   .btn-explore {
-     
+
     width: 100%;
     border: solid 1px #00b5f1;
     margin-top: 20px;
@@ -82,11 +78,12 @@
     color: white;
     cursor: pointer;
     transition: all 0.3s ease-in;
+
     &:hover {
-        background-color: white;
-        color: #00b5f1;
+      background-color: white;
+      color: #00b5f1;
     }
-    
-  
-}
+
+
+  }
 }

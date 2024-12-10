@@ -5,20 +5,19 @@ import { useEffect, useState } from "react";
 import Information from "./section/Information";
 import Password from "./section/Password";
 import Notification from "./section/Notification";
-import { apiService } from "@/services/apiService";
 import useQuery from "@/hooks/useQuery";
 import StaffInfo from "./section/staff";
 import { EMIT } from "@/constant/value";
 import emitter from "@/utils/eventEmitter";
 import { useSelector } from "react-redux";
 import Loading from "@/components/Loading/Loading";
-import { set } from "lodash";
+import userService from "@/services/userService";
 const Profile = () => {
     let { user } = useSelector((state) => state.authen);
     let [profile, setProfile] = useState({});
     const [selectedItem, setSelectedItem] = useState(EMIT.EVENT_PROFILE.info);
     const [folks, setListfolks] = useState([]);
-    let { data: folkdata } = useQuery(() => apiService.getAllFolk())
+    let { data: folkdata } = useQuery(() => userService.getFolk())
     let [specialty, setSpecailty] = useState([]);
     let { data: specialtyData } = useQuery(() => getSpecialtySelect())
     let {
@@ -26,7 +25,7 @@ const Profile = () => {
         loading: listProfileLoading,
         execute: fetchProfile,
     } = useMutation((query) =>
-        getUserById(user.id)
+        getUserById(user?.id)
     )
     useEffect(() => {
         if (specialtyData && specialtyData?.DT?.length > 0) {
@@ -34,16 +33,15 @@ const Profile = () => {
         }
     }, [specialtyData])
     useEffect(() => {
-        if (folkdata?.length > 0) {
-            let _folk = folkdata.map((item) => {
+        if (folkdata) {
+            let _folk = folkdata.DT?.map((item) => {
                 return {
                     value: +item.id,
                     label: item.name
                 }
             })
+            console.log(_folk)
             setListfolks(_folk);
-        } else {
-            setListfolks([]);
         }
     }, [folkdata])
     useEffect(() => {
@@ -70,9 +68,9 @@ const Profile = () => {
     }
     return (
         <div className="staff-profile" >
-            {listProfileLoading ? <Loading /> : <div className="container row py-5 d-flex justify-content-start">
+            <div className="container d-flex justify-content-center">
                 <div className="right-profile col-10 ps-5">
-                    <div className="content">
+                    <div className="content-profile">
                         {selectedItem === EMIT.EVENT_PROFILE.info && profile?.id && folks.length > 0 &&
                             <Information
                                 page={EMIT.EVENT_PROFILE.info}
@@ -98,7 +96,8 @@ const Profile = () => {
                         {selectedItem === EMIT.EVENT_PROFILE.notifications && <Notification />}
                     </div>
                 </div>
-            </div>}
+            </div>
+
 
         </div >
     )

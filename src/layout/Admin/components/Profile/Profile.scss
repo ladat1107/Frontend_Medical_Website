@@ -15,7 +15,9 @@
         align-items: stretch;
 
         .right-profile {
-            .content {
+            padding-top: 40px;
+
+            .content-profile {
                 height: 100%;
                 background: $background-color;
 
@@ -42,7 +44,7 @@
                     padding: 0;
                 }
 
-                .row {
+                .bg-content-profile {
                     border-radius: 10px;
                     box-shadow: $box-shadow-content-admin;
                     background: white;
@@ -50,7 +52,7 @@
                     margin-bottom: 20px;
                 }
 
-                .information {
+                .information-profile {
                     .avatar {
                         display: flex;
                         justify-content: center;
@@ -95,6 +97,7 @@
                             font-weight: 500;
                             font-size: 1.1em;
                         }
+
                         padding: 0 0 5px 0;
                     }
 

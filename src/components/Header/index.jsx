@@ -8,9 +8,9 @@ import { PATHS } from "@/constant/path";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "@/redux/authenSlice";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCalendarCheck, faHospital } from "@fortawesome/free-regular-svg-icons";
-import { faStethoscope, faSyringe } from "@fortawesome/free-solid-svg-icons";
-import { TAGS } from "@/constant/value";
+import { faCalendarCheck, faHospital, } from "@fortawesome/free-regular-svg-icons";
+import { faStethoscope, faSyringe, faUser } from "@fortawesome/free-solid-svg-icons";
+import { TAGS } from "@/constant/value";;
 // Tạo instance của classnames với bind styles
 const cx = classNames.bind(styles);
 
@@ -53,14 +53,6 @@ function Header() {
       ]
     },
     {
-      title: "Hướng dẫn",
-      inner: [
-        { title: "medical", icon: null },
-        { title: "medical", icon: null },
-        { title: "medical", icon: null },
-      ],
-    },
-    {
       title: "Liên hệ ",
       inner: [
         { title: "medical", icon: null },
@@ -68,6 +60,14 @@ function Header() {
         { title: "medical", icon: null },
       ],
     },
+    (user ? {
+      title: (<div><FontAwesomeIcon icon={faUser} /> Tài khoản</div>),
+      inner: [
+        { title: "Thông tin cá nhân", icon: null, action: PATHS.HOME.PROFILE },
+        { title: "Lịch sử đặt hẹn", icon: null, action: PATHS.HOME.APPOINTMENT_LIST },
+        { title: "Hồ sơ khám bệnh", icon: null, action: PATHS.HOME.EXAMINATION_LIST },
+      ],
+    } : {})
   ];
 
   return (
@@ -75,7 +75,8 @@ function Header() {
       <div className={cx("wrapper")}>
         <div className={cx("header-img")}>
           <img
-            src="https://medpro.vn/_next/image?url=https%3A%2F%2Fbo-api.medpro.com.vn%2Fstatic%2Fimages%2Fmedpro%2Fweb%2Fheader_logo.svg&w=1920&q=75"
+            onClick={() => navigate(PATHS.HOME.HOMEPAGE)}
+            src="https://res.cloudinary.com/utejobhub/image/upload/v1733740053/KHOA_500_x_200_px_dp7on2.png"
             alt=""
           />
         </div>
@@ -102,15 +103,18 @@ function Header() {
             </div>
 
             <div className={cx("auth")}>
+              {
+                user && <div className={cx("language")}>
+                  {/* <Dropdown title="Language" items={items} /> */}
+                  Xin chào. {user.lastName + " " + user.firstName}
+                </div>
+              }
               {user ?
                 <div className={cx("account-btn", "header-text")} onClick={() => { dispatch(logout()), navigate(PATHS.HOME.LOGIN) }} >Đăng xuất</div>
                 :
                 <div className={cx("account-btn", "header-text")} onClick={() => navigate(PATHS.HOME.LOGIN)}>Đăng nhập</div>
               }
 
-              <div className={cx("language")}>
-                <Dropdown title="Language" items={items} />
-              </div>
             </div>
           </div>
 
@@ -118,11 +122,11 @@ function Header() {
             <div className={cx("hotline")}>
               <img
                 src="https://medpro.vn/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fhp.a16c51cc.svg&w=1920&q=75"
-                alt=""
+                alt="Logo Hoa Sen"
               />
               <div className={cx("hotline-text")}>
-                <p className="header-text" > Ho Tro Dat Kham</p>
-                <p style={{ fontSize: "24px", color: "#ffb54a" }} >0353366459</p>
+                <p className="header-text" >Hỗ trợ đặt khám</p>
+                <p style={{ fontSize: "20px", fontWeight: "700", color: "#ffb54a" }} >0353366459</p>
               </div>
             </div>
             <div className={cx("nav")}>
