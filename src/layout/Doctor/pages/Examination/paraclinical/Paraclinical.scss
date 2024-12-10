@@ -1,6 +1,77 @@
 .parac-container{
     font-family: 'Be Vietnam Pro', sans-serif;
     font-size: 14px;
+    min-height: 60vh;
+
+    .paraclinicals-action{
+        padding: 10px;
+        background: #EEEEEE;
+        border-radius: 10px;
+        position: relative;
+
+        .paraclinicals-list{
+
+            .paraclinicals-item{    
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+
+                p{
+                    background: white;
+                    padding: 5px 10px;
+                    border-radius: 10px;
+                    border: 1px solid #ccc;
+                    box-shadow: 2px 0px 4px #c5cacb;
+                    margin-bottom: 10px;
+                    width: 93%;
+                }
+
+                i{
+                    cursor: pointer;
+                    color: gray;
+
+                    &:hover{
+                        color: black;
+                    }
+                }
+
+            }
+        }
+        .search-results {
+            position: absolute;
+            left: 10px; // Match the padding of the parent container
+            right: 10px; // Match the padding of the parent container
+            top: calc(100% + 5px); // Position right above the input
+            max-height: 280px;
+            overflow-y: auto;
+            background: #fff;
+            border-radius: 5px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            z-index: 1100;
+            border: 1px solid #ccc;
+    
+            &:focus-visible {
+                display: none;
+            }
+        }
+        
+        .search-item {
+            padding: 10px;
+            cursor: pointer;
+            &:hover {
+                background-color: #f1f1f1;
+            }
+        }
+    }
+
+    .input-add-prac{
+        width: 100%;
+        padding: 5px 10px;
+        
+        &:focus{
+            outline: none;
+        }
+    }
 
     .row{
         display: flex;

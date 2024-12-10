@@ -7,12 +7,13 @@
   
     .ant-select {
       width: 100%;
-      background-color: #EDF6FF;
+      background-color: white !important;
   
       &-selector {
-        border: 1.5px solid #91c5f5 !important; // Remove border
+        border: 1.5px solid rgb(229, 229, 229) !important; // Remove border
         box-shadow: none !important; // Remove box-shadow
         background-color: transparent !important; // Make background transparent
+        padding: 5px 30px 5px 5px;
   
         &:hover {
           border-color: #40a9ff;
@@ -36,9 +37,11 @@
       }
 
       &-selection-item {
-        background-color: white !important;
+        background-color: #f5f8ff !important;
         border-color: #adc6ff !important;
         border-radius: 4px;
+        padding: 5px;
+        height: 30px;
         font-family: 'Be Vietnam Pro', sans-serif;
       }
   
@@ -65,12 +68,12 @@
         padding: 8px 12px;
   
         &-option-selected {
-          background-color: #EDF6FF !important;
+          background-color: white !important;
           font-weight: 600;
         }
   
         &-option-active {
-          background-color: #EDF6FF !important;
+          background-color: white !important;
         }
       }
     }

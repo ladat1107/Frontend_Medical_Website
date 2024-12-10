@@ -5,7 +5,7 @@ import { updateExamination } from '@/services/doctorService';
 import { message } from 'antd';
 import './PatientItem.scss';
 
-const PatientItem = ({ index, id, name, symptom, special, doctor, room, visit_status, downItem, onClickItem}) => {
+const PatientItem = ({ index, id, name, symptom, special, doctor, room, visit_status, downItem, onClickItem, sort}) => {
 
     const handleDownItem = async (event) => {
         event.stopPropagation();
@@ -65,14 +65,32 @@ const PatientItem = ({ index, id, name, symptom, special, doctor, room, visit_st
       onClickItem(id);
     }
 
+    const truncateText = (text, maxLength) => {
+      return text.length > maxLength ? text.slice(0, maxLength) + '...' : text;
+    };
+
     return (
-        <div className="patient-item mt-2 row" onClick={handleClickItem}>
-            <div className="col-1">
+        <div className="patient-item mt-2 row" style={{paddingRight: 0}} onClick={handleClickItem}>
+            {/* <div className="col-1">
                 <p>{index}</p>
-            </div>
-            <div className="col-3">
+            </div> */}
+              <div className="col-5 row">
+              <div className='col-2'>
+                <p>{index}</p>
+              </div>
+              <div className='col-10'>
                 <p className="bold-text">{name}</p>
-                <p className="sub-text">Triệu chứng: {symptom}</p>
+                <p className="sub-text">
+                  {truncateText(
+                    symptom === 'examination' 
+                      ? 'Dịch vụ: Khám bệnh' 
+                      : symptom === 'paraclinical' 
+                      ? 'Dịch vụ: Cận lâm sàng' 
+                      : `${symptom}`, 
+                    42 // Giới hạn ký tự tối đa
+                  )}
+                </p>
+              </div>
             </div>
             <div className="col-2 d-flex justify-content-center">
                 {SpecialText({ special })}
@@ -81,18 +99,17 @@ const PatientItem = ({ index, id, name, symptom, special, doctor, room, visit_st
                 <p className="bold-text">Bác sĩ</p>
                 <p className="sub-text">{doctor}</p>
             </div>
-            <div className="col-3">
-                <p className="bold-text">Phòng khám bệnh</p>
-                <p className="sub-text">{cutSuffix(room)}</p>
-            </div>
-            <div className="col-1 d-flex justify-content-end">
-              {visit_status === 0 && (
-                <i className="fa-solid fa-forward-fast fa-rotate-90 color-down" onClick={(event) => handleDownItem(event)}></i>
-              )}
-              {/* {visit_status === 1 && (
-                <i className="fa-solid fa-forward-fast fa-rotate-270 color-up"></i>
-              )} */}
-            </div>
+              <div className="col-3 row">
+                <div className='col-10'>
+                  <p className="bold-text">Phòng khám bệnh</p>
+                  <p className="sub-text">{cutSuffix(room)}</p>
+                </div>
+                    <div className="col-2 d-flex justify-content-end">
+                      {visit_status === 0 && (
+                        <i className="fa-solid fa-forward-fast fa-rotate-90 color-down" onClick={(event) => handleDownItem(event)}></i>
+                      )}
+                    </div>
+              </div>
         </div>
     );
 };
@@ -107,5 +124,6 @@ PatientItem.propTypes = {
     visit_status: PropTypes.number,
     downItem: PropTypes.func,
     onClickItem: PropTypes.func,
+    sort: PropTypes.bool,
 };
 export default PatientItem;

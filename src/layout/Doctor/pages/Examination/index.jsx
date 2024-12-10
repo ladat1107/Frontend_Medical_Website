@@ -9,6 +9,8 @@ import { useMutation } from "@/hooks/useMutation";
 import { convertDateTime } from "@/utils/formatDate";
 import { convertGender } from "@/utils/convertGender";
 import { useParams } from "react-router-dom";
+import { Modal, Spin } from "antd";
+import HistoryModal from "../../components/HistoryModal/HistoryModal";
 
 const Examination = () => {
     const { examId } = useParams();
@@ -22,6 +24,31 @@ const Examination = () => {
     const [prescriptionData, setPrescriptionData] = useState([]);
     const [totalParaclinical, setTotalParaclinical] = useState(0);
 
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
+
+    useEffect(() => {
+        if(isModalOpen) {
+            if (isModalOpen) {
+                document.body.style.overflow = 'hidden';
+            } else {
+                document.body.style.overflow = 'unset';
+            }
+    
+            return () => {
+                document.body.style.overflow = 'unset';
+            };
+        }
+    }, [isModalOpen]);
+
+    const showModal = () => {
+        setIsModalOpen(true);
+    };
+
+    const handleCancel = () => {
+        setIsModalOpen(false);
+    };
+
     useEffect(() => {
         if (examId) {  // Thêm check để đảm bảo có examId
             fetchExaminationData();
@@ -31,6 +58,7 @@ const Examination = () => {
     let refresh = () => {
         fetchExaminationData();
     }
+    
     let {
         data: dataExamination,
         loading: examinationLoading,
@@ -80,145 +108,169 @@ const Examination = () => {
     return (
         <>
             <div className="container">
-                {isLoading ? (
-                    <div>Loading...</div>
-                ) : (
-                    <>
-                        <div className="exam-content">
-                            <p className="exam-header">Thông tin bệnh nhân</p>
-                            <hr />
-                            <div className="row">
-                                {patientData && patientData.cid &&
-                                    <>
-                                        <div className="col-12 col-lg-5 mb-0">
-                                            <div className="row">
-                                                <div className="col-4">
-                                                    <p className="title">Họ tên</p>
-                                                </div>
-                                                <div className="col-8">
-                                                    <p className="info">
-                                                        {patientData.lastName + " " + patientData.firstName}
-                                                    </p>
-                                                </div>
-                                            </div>
-                                            <div className="row">
-                                                <div className="col-4">
-                                                    <p className="title">Ngày sinh</p>
-                                                </div>
-                                                <div className="col-8">
-                                                    <p className="info">{convertDateTime(patientData.dob)}</p>
-                                                </div>
-                                            </div>
-                                            <div className="row">
-                                                <div className="col-4">
-                                                    <p className="title">Giới tính</p>
-                                                </div>
-                                                <div className="col-8">
-                                                    <p className="info">{convertGender(patientData.gender)}</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="col-12 col-lg-5 mb-0">
-                                            <div className="row">
-                                                <div className="col-4">
-                                                    <p className="title">Số điện thoại</p>
-                                                </div>
-                                                <div className="col-8">
-                                                    <p className="info">{patientData.phoneNumber}</p>
-                                                </div>
-                                            </div>
-                                            <div className="row">
-                                                <div className="col-4">
-                                                    <p className="title">CCCD</p>
-                                                </div>
-                                                <div className="col-8">
-                                                    <p className="info">{patientData.cid}</p>
-                                                </div>
-                                            </div>
-                                            <div className="row">
-                                                <div className="col-4">
-                                                    <p className="title">Ghi chú</p>
-                                                </div>
-                                                <div className="col-8">
-                                                    <p className="info">??????</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </>
-                                }
-                            </div>
+                <div className="content">
+                    {isLoading ? (
+                        <div className="loading text-center">
+                            <Spin />
                         </div>
-                        <div className="exam-content">
-                            <p className="exam-header">Thông tin khám bệnh</p>
-                            <div className="radio-inputs row">
-                            <div className="col-6 col-lg-2 d-flex justify-content-center">
-                                <label className="radio">
-                                    <input type="radio" name="radio"
-                                        value="info"
-                                        defaultChecked={selectedRadio === 'info'}
-                                        onChange={handleRadioChange} />
-                                    <span className="name">
-                                        Thông tin khám
-                                    </span>
-                                </label>
-                            </div>
-                            <div className="col-6 col-lg-2 d-flex justify-content-center">
-                                <label className="radio">
-                                    <input type="radio" name="radio"
-                                        value="vitalsign"
-                                        onChange={handleRadioChange} />
-                                    <span className="name">Sinh hiệu</span>
-                                </label>
+                    ) : (
+                        <>
+                            <div className="exam-content">
+                                <div className="row">
+                                    <div className="col-10">
+                                        <p className="exam-header">Thông tin bệnh nhân</p>
+                                    </div>
+                                    <div className="col-2">
+                                        <button
+                                            onClick={showModal}
+                                            className='history-button'> 
+                                            Lịch sử khám bệnh
+                                        </button>
+                                    </div>
                                 </div>
-                                <div className="col-6 col-lg-2 d-flex justify-content-center">
-                                <label className="radio">
-                                    <input type="radio" name="radio"
-                                        value="paraclinical"
-                                        onChange={handleRadioChange} />
-                                    <span className="name">Cận lâm sàng</span>
-                                </label>
+                                <hr />
+                                <div className="row">
+                                    {patientData && patientData.cid &&
+                                        <>
+                                            <div className="col-12 col-lg-5 mb-0">
+                                                <div className="row">
+                                                    <div className="col-4">
+                                                        <p className="title">Họ tên</p>
+                                                    </div>
+                                                    <div className="col-8">
+                                                        <p className="info">
+                                                            {patientData.lastName + " " + patientData.firstName}
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                                <div className="row">
+                                                    <div className="col-4">
+                                                        <p className="title">Ngày sinh</p>
+                                                    </div>
+                                                    <div className="col-8">
+                                                        <p className="info">{convertDateTime(patientData.dob)}</p>
+                                                    </div>
+                                                </div>
+                                                <div className="row">
+                                                    <div className="col-4">
+                                                        <p className="title">Giới tính</p>
+                                                    </div>
+                                                    <div className="col-8">
+                                                        <p className="info">{convertGender(patientData.gender)}</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div className="col-12 col-lg-5 mb-0">
+                                                <div className="row">
+                                                    <div className="col-4">
+                                                        <p className="title">Số điện thoại</p>
+                                                    </div>
+                                                    <div className="col-8">
+                                                        <p className="info">{patientData.phoneNumber}</p>
+                                                    </div>
+                                                </div>
+                                                <div className="row">
+                                                    <div className="col-4">
+                                                        <p className="title">CCCD</p>
+                                                    </div>
+                                                    <div className="col-8">
+                                                        <p className="info">{patientData.cid}</p>
+                                                    </div>
+                                                </div>
+                                                <div className="row">
+                                                    <div className="col-4">
+                                                        <p className="title">BHYT:</p>
+                                                    </div>
+                                                    <div className="col-8">
+                                                        <p className="info">{patientData.userInsuranceData?.insuranceCode}</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </>
+                                    }
+                                </div>
                             </div>
-                            <div className="col-6 col-lg-2 d-flex justify-content-center">
-                                <label className="radio">
-                                    <input type="radio" name="radio"
-                                        value="prescription"
-                                        onChange={handleRadioChange} />
-                                    <span className="name">Đơn thuốc</span>
-                                </label>
+                            <div className="exam-content">
+                                <p className="exam-header">Thông tin khám bệnh</p>
+                                <div className="radio-inputs row">
+                                    <div className="col-6 col-lg-2 d-flex justify-content-center">
+                                        <label className="radio">
+                                            <input type="radio" name="radio"
+                                                value="info"
+                                                defaultChecked={selectedRadio === 'info'}
+                                                onChange={handleRadioChange} />
+                                            <span className="name">
+                                                Thông tin khám
+                                            </span>
+                                        </label>
+                                    </div>
+                                    <div className="col-6 col-lg-2 d-flex justify-content-center">
+                                        <label className="radio">
+                                            <input type="radio" name="radio"
+                                                value="vitalsign"
+                                                onChange={handleRadioChange} />
+                                            <span className="name">Sinh hiệu</span>
+                                        </label>
+                                        </div>
+                                        <div className="col-6 col-lg-2 d-flex justify-content-center">
+                                        <label className="radio">
+                                            <input type="radio" name="radio"
+                                                value="paraclinical"
+                                                onChange={handleRadioChange} />
+                                            <span className="name">Cận lâm sàng</span>
+                                        </label>
+                                    </div>
+                                    <div className="col-6 col-lg-2 d-flex justify-content-center">
+                                        <label className="radio">
+                                            <input type="radio" name="radio"
+                                                value="prescription"
+                                                onChange={handleRadioChange} />
+                                            <span className="name">Đơn thuốc</span>
+                                        </label>
+                                    </div>
+                                </div>
+                                <hr className="m-0" />
+                                <div className="radio-content">
+                                    {selectedRadio === 'info' && patientData && patientData.id && (
+                                        <ExamInfo
+                                            refresh={refresh}
+                                            examData={examinationData}
+                                        />
+                                    )}
+                                    {selectedRadio === 'vitalsign' && (
+                                        <VitalSign
+                                            refresh={refresh}
+                                            vitalSignData={vitalSignData}
+                                            examId={examinationData.id}
+                                        />
+                                    )}
+                                    {selectedRadio === 'paraclinical' && (
+                                        <Paraclinical
+                                            refresh={refresh}
+                                            listParaclinicals={paraclinicalData}
+                                            examinationId={examinationData.id}
+                                        />
+                                    )}
+                                    {selectedRadio === 'prescription' && (
+                                        <Prescription
+                                            refresh={refresh}
+                                            examinationId={examinationData.id}
+                                            paraclinicalPrice={totalParaclinical}
+                                        />
+                                    )}
+                                </div>
                             </div>
-                        </div>
-                            <hr className="m-0" />
-                            <div className="radio-content">
-                                {selectedRadio === 'info' && patientData && patientData.id && (
-                                    <ExamInfo
-                                        refresh={refresh}
-                                        examData={examinationData}
-                                    />
-                                )}
-                                {selectedRadio === 'vitalsign' && (
-                                    <VitalSign
-                                        refresh={refresh}
-                                        vitalSignData={vitalSignData}
-                                        examId={examinationData.id}
-                                    />
-                                )}
-                                {selectedRadio === 'paraclinical' && (
-                                    <Paraclinical
-                                        refresh={refresh}
-                                        listParaclinicals={paraclinicalData}
-                                        examinationId={examinationData.id}
-                                    />
-                                )}
-                                {selectedRadio === 'prescription' && (
-                                    <Prescription
-                                        refresh={refresh}
-                                        examinationId={examinationData.id}
-                                        paraclinicalPrice={totalParaclinical}
-                                    />
-                                )}
-                            </div>
-                        </div>
-                    </>
+                        </>
+                    )}
+                </div>
+                {!isLoading && (
+                    <div className="modal-history-content">
+                        <HistoryModal
+                            isModalOpen={isModalOpen}
+                            handleCancel={handleCancel}
+                            userId={patientData.id}
+                        />
+                    </div>
                 )}
             </div>
         </>

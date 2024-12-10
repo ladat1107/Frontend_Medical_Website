@@ -130,7 +130,8 @@ const ExamInfo = ({ examData, refresh }) => {
             price: formData.price,
             special: formData.special,
             paymentDoctorStatus: 1,
-            insuranceCoverage: 1
+            insuranceCoverage: 1,
+            status: 6,
         };
 
         try {
@@ -156,14 +157,14 @@ const ExamInfo = ({ examData, refresh }) => {
         <>
             {contextHolder}
             <div className="exam-container">
-                <div className="row">
+                {/* <div className="row">
                     <div className="col-4 mt-1 col-lg-2">
                         <p>Bác sĩ khám:</p>
                     </div>
                     <div className="col-8 mt-1 col-lg-4">
                         <p className="info">{formData.staffName}</p>
                     </div>
-                </div>
+                </div> */}
                 <div className="row">
                     <div className="col-4 mt-3 col-lg-2">
                         <p>Lý do vào viện:</p>

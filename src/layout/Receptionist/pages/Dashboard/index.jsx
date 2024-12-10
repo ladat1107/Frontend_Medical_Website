@@ -23,6 +23,7 @@ const ReceptionistDashboard = () => {
     const [time, setTime] = useState(null);
     const [search, setSearch] = useState('');
     const [status, setStatus] = useState(2);
+    const [listExam, setListExam] = useState([]);
 
     const [totalPatient, setTotalPatient] = useState(0);
     const [totalAppointment, setTotalAppointment] = useState(0);
@@ -79,7 +80,6 @@ const ReceptionistDashboard = () => {
     };
     const closeAddExam = () => setIsModalOpen(false);
 
-    const [listExam, setListExam] = useState([]);
 
     // #region Fetch data 
     const {
@@ -87,7 +87,7 @@ const ReceptionistDashboard = () => {
         loading: loadingExaminations,
         error: errorExaminations,
         execute: fetchExaminations,
-    } = useMutation(() => getExaminations(today, status, isAppointment, currentPage, pageSize, search, time))
+    } = useMutation(() => getExaminations(today, status, '', isAppointment, currentPage, pageSize, search, time))
 
     useEffect(() => {
         fetchExaminations();
@@ -138,6 +138,7 @@ const ReceptionistDashboard = () => {
             setExamId(id);
             setIsEditMode(true);
             setPatientData(selectedPatient);
+            console.log("selectedPatient", selectedPatient);
             
             setIsModalOpen(true);
         } else {
@@ -169,13 +170,14 @@ const ReceptionistDashboard = () => {
                                 index={index + 1}
                                 id={item.id}
                                 name={`${item.userExaminationData.lastName} ${item.userExaminationData.firstName}`}
-                                symptom={item.symptom}
+                                symptom={'Triệu chứng: ' + item.symptom}
                                 special={item.special}
                                 room={item.roomName}
                                 doctor={`${item.examinationStaffData.staffUserData.lastName} ${item.examinationStaffData.staffUserData.firstName}`}
                                 downItem={downItem}
                                 visit_status={item.visit_status}
                                 onClickItem={()=>handleClickItem(item.id)}
+                                sort={true}
                             />
                         ))
                     )}
@@ -207,13 +209,14 @@ const ReceptionistDashboard = () => {
                                 index={index + 1}
                                 id={item.id}
                                 name={`${item.userExaminationData.lastName} ${item.userExaminationData.firstName}`}
-                                symptom={item.symptom}
+                                symptom={'Triệu chứng: ' + item.symptom}
                                 special={item.special}
                                 room={item.roomName}
                                 doctor={`${item.examinationStaffData.staffUserData.lastName} ${item.examinationStaffData.staffUserData.firstName}`}
                                 downItem={downItem}
                                 visit_status={item.visit_status}
                                 onClickItem={()=>handleClickItem(item.id)}
+                                sort={true}
                             />
                         ))
                     )}
@@ -234,7 +237,7 @@ const ReceptionistDashboard = () => {
     return (
         <div className="dashboard-container">
             <div className="dashboard-header ms-1 row gap2">
-                <div className="col-3 statistical-item">
+                {/* <div className="col-3 statistical-item">
                     <div className="row">
                         <div className="col-7">
                             <div className="col-12 blur-text">
@@ -242,7 +245,7 @@ const ReceptionistDashboard = () => {
                             </div>
                             <div className="col-12 ms-2 inline">
                                 <p className="number inline orange number-text">87</p>
-                                {/* <p className="subtext inline">/100</p> */}
+                                <p className="subtext inline">/100</p> 
                             </div>
                             <div className="col-12 blur-text">
                                 <p className="subtext">Ngày {convertDateTime(new Date())}</p>
@@ -254,7 +257,7 @@ const ReceptionistDashboard = () => {
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> */}
                 <div className="col-3 statistical-item">
                     <div className="row">
                         <div className="col-7">
@@ -297,7 +300,7 @@ const ReceptionistDashboard = () => {
                 </div>
             </div>
             <div className="dashboard-action mt-4 row">
-                <div className="col-6 row">
+                <div className="col-7 row">
                     <div className="col-3">
                         <div className="action-item">
                             <Select className="select-box" defaultValue="appointment" onChange={handelSelectChange}>
@@ -322,7 +325,7 @@ const ReceptionistDashboard = () => {
                         </div>
                     </div>
                 </div>
-                <div className="col-6 d-flex justify-content-end" style={{padding: '0'}}>
+                <div className="col-5 d-flex justify-content-end" style={{padding: '0'}}>
                     <button className="find-button" onClick={() => openAddExam(null)} >Thêm bệnh nhân trực tiếp</button>
                 </div>
             </div>
@@ -344,12 +347,13 @@ const ReceptionistDashboard = () => {
                                         id={item.id}
                                         name={`${item.userExaminationData.lastName} ${item.userExaminationData.firstName}`}
                                         symptom={item.symptom}
-                                        special={item.special}
+                                        special={'Triệu chứng: ' + item.special}
                                         room={item.roomName}
                                         doctor={`${item.examinationStaffData.staffUserData.lastName} ${item.examinationStaffData.staffUserData.firstName}`}
                                         downItem={downItem}
                                         visit_status={item.visit_status}
                                         onClickItem={()=>handleClickItem(item.id)}
+                                        sort={true}
                                     />
                             )):(
                                 <div className="no-patient d-flex justify-content-center mt-2">

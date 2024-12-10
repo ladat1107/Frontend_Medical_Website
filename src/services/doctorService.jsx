@@ -55,17 +55,23 @@ const searchAppointmentsWithStaffId = (page, limit, staffId, search, from, to) =
 };
 
 // Examination
-export const getExaminations = async (date, status, is_appointment, page, limit, search, time) => {
+export const getExaminations = async (date, status, staffId, is_appointment, page, limit, search, time) => {
     try {
-        if (!time) time = '';
-
-        const response = await axios.get(`/api/getExaminations?date=${date}&status=${status}&is_appointment=${is_appointment}&page=${+page}&limit=${+limit}&search=${search}&time=${time}`);
+        if(!time) time = '';
+        if(!staffId) staffId = '';
+        
+        const response = await axios.get(`/api/getExaminations?date=${date}&status=${status}&staffId=${staffId}&is_appointment=${is_appointment}&page=${+page}&limit=${+limit}&search=${search}&time=${time}`);
         //console.log("Response:", response.data); 
         return response;
     } catch (error) {
         console.error("Error:", error);
         throw error;
     }
+}
+
+export const getListToPay = async (date, statusPay, page, limit, search) => {
+    const response = await axios.get(`/api/getListToPay?date=${date}&statusPay=${statusPay}&page=${+page}&limit=${+limit}&search=${search}`);
+    return response;
 }
 
 const getExaminationById = (id) => {
@@ -114,6 +120,11 @@ const getAllRoomTypes = () => {
     return axios.get(`/api/getAllServiceTypes`)
 }
 
+export const getServiceLaboratory = () => {
+    return axios.get(`/api/getServiceLaboratory`)
+}
+
+
 const getAllMedicinesForExam = () => {
     return axios.get(`/api/getAllMedicinesForExam`)
 }
@@ -146,6 +157,10 @@ const createOrUpdateParaclinical = async (data) => {
     }
 }
 
+export const createRequestParaclinical = async (data) => {
+    return axios.post(`/api/createRequestParaclinical`, data);
+}
+
 const deleteParaclinical = async (data) => {
     try {
         const response = await axios.delete(`/api/deleteParaclinical`, {
@@ -162,6 +177,30 @@ const deleteParaclinical = async (data) => {
     }
 }
 
+export const updateParaclinical = async (data) => {
+    const response = await axios.put(`/api/updateParaclinical`, data);
+    return response.data;
+}
+
+export const getParaclinicals = async (date, status, staffId, page, limit, search) => {
+    const response = await axios.get(`/api/getParaclinicals?date=${date}&status=${status}&staffId=${staffId}&page=${+page}&limit=${+limit}&search=${search}`);
+    return response;
+}
+
+export const getPrescriptions = async (date, status, staffId, page, limit, search) => {
+    const response = await axios.get(`/api/getPrescriptions?date=${date}&status=${status}&staffId=${staffId}&page=${+page}&limit=${+limit}&search=${search}`);
+    return response;
+}
+
+export const updatePrescription = async (data) => {
+    const response = await axios.put(`/api/updatePrescription`, data);
+    return response.data;
+}
+
+export const getMedicalHistories = async (userId) => {
+    const response = await axios.get(`/api/getMedicalHistories?userId=${userId}`);
+    return response;
+}
 
 //Prescription
 const getPrescriptionByExaminationId = async (examinationId) => {
