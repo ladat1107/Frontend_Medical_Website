@@ -20,7 +20,7 @@ const Blog = () => {
     <div className={cx("blog")}>
       <h3 className={cx("blog-title", "title-section")}>Tin tức y tế</h3>
       <div className={cx("blog-item-wrapper")}>
-        <div className={cx("blog-item-left")}>
+        <div className={cx("blog-item-left")} onClick={() => navigate(PATHS.HOME.HANDBOOK_DETAIL + "/" + listBlog[0].id)}>
           <img
             style={{ borderRadius: "10px" }}
             src={listBlog[0]?.image || "https://medpro.vn/_next/image?url=https%3A%2F%2Fcms.medpro.com.vn%2Fuploads%2F1732788380111_39096d0123.png&w=1920&q=75"}
@@ -37,7 +37,7 @@ const Blog = () => {
         </div>
         <div className={cx("blog-item-right")}>
           {listBlog.slice(1, 5).map((item, index) => (
-            <div className={cx("blog-inner-item")} key={index}>
+            <div className={cx("blog-inner-item")} key={index} onClick={() => navigate(PATHS.HOME.HANDBOOK_DETAIL + "/" + item.id)}>
               <img
                 style={{ width: "100%", height: "200px", borderRadius: "10px" }}
                 src={item?.image || "https://medpro.vn/_next/image?url=https%3A%2F%2Fcms.medpro.com.vn%2Fuploads%2F1732788380111_39096d0123.png&w=1920&q=75"}

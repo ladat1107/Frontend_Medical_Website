@@ -13,7 +13,7 @@ const DepartmentCard = ({image, address, name, shortDescription}) => {
 
            </div>
            <h4 className='departmentCard-title' >{name}</h4>
-           <p>{shortDescription || "Eum qui, provident ut deleniti obcaecati expedita, ipsam repellat repellendus culpa"} </p>
+           <p className='short-department'>{shortDescription || "Eum qui, provident ut deleniti obcaecati expedita, ipsam repellat repellendus culpa"} </p>
             </div>
             <div className='departmentCard-btn' >Tìm hiểu thêm</div>
     </div>
