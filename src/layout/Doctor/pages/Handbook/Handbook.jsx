@@ -139,7 +139,6 @@ const Handbook = () => {
                                     </div>
                                 </div>
                             </div>
-
                         </div>
                     </div>
                     {action === 1 &&
@@ -147,15 +146,10 @@ const Handbook = () => {
                             <div className="row">
                                 {listHandbook.length > 0 && listHandbook.map((item, index) => (
                                     <HandbookItem
+                                        key={index}
                                         data={item}
                                         index={index}
                                         handleUpdate={(id) => { setIdUpdate(id) }} />))}
-                            </div>
-                            <div>
-                                <Pagination align="center"
-                                    onChange={(page) => setCurrentPage(page)}
-                                    defaultCurrent={currentPage}
-                                    total={totalPages} />
                             </div>
                         </div>}
                     {action === 2 && (
@@ -169,6 +163,12 @@ const Handbook = () => {
                             />
                         </div>
                     )}
+                </div>
+                <div className='row'>
+                    <Pagination align="center"
+                        onChange={(page) => setCurrentPage(page)}
+                        defaultCurrent={currentPage}
+                        total={totalPages} />
                 </div>
             </div>
         </>

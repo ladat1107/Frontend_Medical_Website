@@ -14,7 +14,6 @@ import { ROLE } from '@/constant/role';
 const MenuSidebar = () => {
     let { user } = useSelector(state => state.authen);
     let dispatch = useDispatch();
-    let { user } = useSelector((state) => state.authen);
 
     const getMenuItem = () => {
         const items = [
