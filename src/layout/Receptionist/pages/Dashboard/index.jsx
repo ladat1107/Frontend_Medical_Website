@@ -305,7 +305,7 @@ const ReceptionistDashboard = () => {
                         <div className="action-item">
                             <Select className="select-box" defaultValue="appointment" onChange={handelSelectChange}>
                                 <Select.Option value="appointment">Hẹn khám</Select.Option>
-                                <Select.Option value="getnumber">Bốc số</Select.Option>
+                                <Select.Option value="getnumber">Đang chờ khám</Select.Option>
                             </Select>
                         </div>
                     </div>

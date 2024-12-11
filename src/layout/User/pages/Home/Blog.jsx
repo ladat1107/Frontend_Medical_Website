@@ -51,7 +51,7 @@ const Blog = () => {
           ))}
         </div>
       </div>
-      <div className={cx('btn-show-more')} onClick={() => navigate(PATHS.HOME.HANDBOOK_LIST)} >Xem tất cả</div>
+      <div className={cx('btn-show-more')} onClick={() => navigate(PATHS.HOME.HANDBOOK_LIST + '/3')} >Xem tất cả</div>
     </div>
   );
 };

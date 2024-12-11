@@ -94,6 +94,7 @@ const BookingPersonal = (props) => {
                 district: +currentResidentData[2] || null,
                 ward: +currentResidentData[1] || null,
                 address: currentResidentData[0] || "",
+                special: profile?.special || listSpecialExamination[0].value,
             })
         }
     }, [profileData])
