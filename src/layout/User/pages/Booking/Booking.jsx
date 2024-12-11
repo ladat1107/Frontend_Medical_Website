@@ -2,12 +2,24 @@ import "./Booking.scss";
 import Container from "@/components/Container";
 import BookingInformation from "./BookingInformation";
 import BookingContent from "./BookingContent/BookingContent";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { PATHS } from "@/constant/path";
 const Booking = () => {
+    let {user} = useSelector(state => state.authen);
     let [specialty, setSpecialty] = useState(null);
     let [doctor, setDoctor] = useState(null);
     let [schedule, setSchedule] = useState(null);
-    let [profile, setProfile] = useState(null);    
+    let [profile, setProfile] = useState(null);   
+    let navigate = useNavigate();
+    
+    useEffect(() => {
+        if (!user) {
+            navigate(PATHS.HOME.LOGIN);
+        }
+    }, []);
+
     return (
         <div className={"bg"} >
             <Container>

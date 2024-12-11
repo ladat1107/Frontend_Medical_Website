@@ -10,7 +10,7 @@ import { logout } from "@/redux/authenSlice";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCalendarCheck, faHospital, } from "@fortawesome/free-regular-svg-icons";
 import { faStethoscope, faSyringe, faUser } from "@fortawesome/free-solid-svg-icons";
-import { TAGS } from "@/constant/value";;
+import { TAGS } from "@/constant/value";
 // Tạo instance của classnames với bind styles
 const cx = classNames.bind(styles);
 

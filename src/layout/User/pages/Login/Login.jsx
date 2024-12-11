@@ -77,8 +77,8 @@ const Login = () => {
                             layout="vertical"
                             className="login-form mt-3"
                             initialValues={{
-                                email: 'doctorCuong@gmail.com',
-                                password: '123456'
+                                email: '',
+                                password: ''
                             }}
                             onFinish={onFinish}
                             onFinishFailed={onFinishFailed}>
@@ -95,14 +95,14 @@ const Login = () => {
                                 Đăng nhập
                             </Button>
                         </Form>
-                        <div className='line'></div>
+                        {/* <div className='line'></div> */}
                         <div className="social-login">
-                            <Button icon={<FacebookOutlined />} className="facebook-button">
+                            {/* <Button icon={<FacebookOutlined />} className="facebook-button">
                                 Đăng nhập với Facebook
                             </Button>
                             <Button icon={<FontAwesomeIcon icon={faGoogle} />} className="google-button">
                                 Đăng nhập với Google
-                            </Button>
+                            </Button> */}
                         </div>
                         <div className='register-text mt-3' onClick={() => setIsShow(open.register)}><span> <FontAwesomeIcon size='lg' className='me-2' icon={faAddressCard} /> Đăng ký tài khoản</span></div>
                     </div>

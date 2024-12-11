@@ -34,6 +34,7 @@ const HistoryModal = ({isModalOpen, handleCancel, userId}) => {
         if (dataHistory && dataHistory.DT) {
             setHistoryData(dataHistory.DT[0]);
             setIsLoading(false);
+            console.log(dataHistory.DT[0]);
         }
     }, [dataHistory, loadingHistory, errorHistory]);
 
@@ -65,20 +66,20 @@ const HistoryModal = ({isModalOpen, handleCancel, userId}) => {
                                     Họ và tên:
                                 </div>
                                 <div className="col-2">
-                                    {historyData.lastName + ' ' + historyData.firstName}
+                                    {historyData?.lastName + ' ' + historyData?.firstName}
                                 </div>
                                 <div className="col-2">
                                     Ngày sinh:
                                 </div>
                                 <div className="col-2">
-                                    {convertDateTime(historyData.dob)}
+                                    {convertDateTime(historyData?.dob)}
                                 </div>
                                 <div className="col-1"/>
                                 <div className="col-1">
                                     Giới tính:
                                 </div>
                                 <div className="col-2">
-                                    {convertGender(historyData.gender)}
+                                    {convertGender(historyData?.gender)}
                                 </div>
                             </div>
                             <div className="col-12 row mt-2">
@@ -86,20 +87,20 @@ const HistoryModal = ({isModalOpen, handleCancel, userId}) => {
                                     Số điện thoại:
                                 </div>
                                 <div className="col-2">
-                                    {historyData.phoneNumber}
+                                    {historyData?.phoneNumber}
                                 </div>
                                 <div className="col-2">
                                     Căn cước công dân:
                                 </div>
                                 <div className="col-2">
-                                    {historyData.cid}
+                                    {historyData?.cid}
                                 </div>
                                 <div className="col-1"/>
                                 <div className="col-1">
                                     Email:
                                 </div>
                                 <div className="col-2">
-                                    {historyData.email}
+                                    {historyData?.email}
                                 </div>
                             </div>
                             <div className="col-12 row mt-2">
@@ -107,13 +108,13 @@ const HistoryModal = ({isModalOpen, handleCancel, userId}) => {
                                     Dân tộc:
                                 </div>
                                 <div className="col-2">
-                                    {historyData.folkData.name}
+                                    {historyData.folkData?.name}
                                 </div>
                                 <div className="col-2">
                                     Địa chỉ:
                                 </div>
                                 <div className="col-6">
-                                    {historyData.address}
+                                    {historyData?.address}
                                 </div>
                             </div>
                         </div>
