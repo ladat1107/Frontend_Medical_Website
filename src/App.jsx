@@ -1,7 +1,5 @@
 import { ConfigProvider } from "antd";
 import MainLayout from "./layout/User/index";
-import ContactPage from "./layout/User/pages/Contact/index";
-import AdminHomePage from "./layout/Admin/pages/HomePage/HomePageAdmin";
 import HomePage from "./layout/User/pages/Home/index";
 import { Routes, Route } from "react-router-dom";
 import PrivateRoute from "./components/AuthComponent/PrivateRouter";
@@ -11,7 +9,6 @@ import DoctorLayout from "./layout/Doctor";
 import DoctorHomePage from "./layout/Doctor/pages/HomePage";
 import Appointment from "./layout/Doctor/pages/Appointment";
 import Examination from "./layout/Doctor/pages/Examination";
-import AdminLayoutTest from "./layout/Admin/AdminLayout";
 import DepartmentManage from "./layout/Admin/pages/DepartmentManage/DepartmentManage";
 import Room from "./layout/Admin/pages/Room/RoomManage";
 import ServiceOfRoom from "./layout/Admin/pages/ServiceOfRoom/ServiceOfRoomManage";
@@ -37,6 +34,8 @@ import Prescribe from "./layout/Receptionist/pages/Prescribe";
 import AppointmentList from "./layout/User/pages/AppointmentList/appoinmentList";
 import ProfileUser from "./layout/User/pages/ProfileUser/ProfileUser";
 import BlogDetail from "./layout/User/pages/BlogDetail/BlogDetail";
+import AdminDashboard from "./layout/Admin/pages/Dashboard/AdminDashboard";
+import AdminLayout from "./layout/Admin/AdminLayout";
 function App() {
   return (
     <ConfigProvider
@@ -60,8 +59,8 @@ function App() {
 
         <Route path={PATHS.HOME.LOGIN} element={<Login />} />
         <Route element={<PrivateRoute />}>
-          <Route element={<AdminLayoutTest />}>
-            <Route path={PATHS.ADMIN.DASHBOARD} element={<AdminHomePage />} />
+          <Route element={<AdminLayout />}>
+            <Route path={PATHS.ADMIN.DASHBOARD} element={<AdminDashboard />} />
             <Route path={PATHS.ADMIN.PATIENT_MANAGE} element={<PatientManage />} />
             <Route path={PATHS.ADMIN.STAFF_MANAGE} element={<StaffManage />} />
             <Route path={PATHS.ADMIN.DEPARTMENT_MANAGE} element={<DepartmentManage />} />

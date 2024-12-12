@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Layout, theme } from 'antd';
+import { Layout } from 'antd';
 import AdminFooter from './components/AdminFooter/AdminFooter';
 import AdminHeader from './components/AdminHeader/AdminHeader';
 import SideBar from './components/Sidebar/SidebarAdmin';
@@ -11,7 +11,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '@/redux/authenSlice';
 const { Content } = Layout;
 
-const AdminLayoutTest = () => {
+const AdminLayout = () => {
     const [collapsed, setCollapsed] = useState(false);
     let navigate = useNavigate();
     let { user } = useSelector((state) => state.authen);
@@ -47,4 +47,4 @@ const AdminLayoutTest = () => {
         </div >
     );
 };
-export default AdminLayoutTest;
+export default AdminLayout;
