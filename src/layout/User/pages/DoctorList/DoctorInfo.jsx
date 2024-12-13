@@ -41,9 +41,9 @@ const DoctorInfo = (props) => {
       </div>
       <div className={cx('list-item')} >
         {doctorList?.length > 0 && doctorList.map((item, index) => (
-          <div
-            key={index}>
+          <div key={index}>
             <DoctorCard
+              id={item?.staffUserData?.id}
               avatar={item?.staffUserData?.avatar}
               name={item?.staffUserData?.lastName + " " + item?.staffUserData?.firstName}
               specialty={item?.staffDepartmentData?.name}

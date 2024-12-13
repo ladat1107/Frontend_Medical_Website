@@ -55,7 +55,7 @@ const DoctorDetailHeader = (props) => {
               </div>
               <div className={cx('style-info')} >
                 <label htmlFor="">Giá Khám</label>
-                <span>{formatCurrency(data?.staffUserData?.price)}</span>
+                <span>{formatCurrency(data?.staffUserData?.price || 0)}</span>
               </div>
               <div className={cx('style-info')} >
                 <label htmlFor="">Lịch Khám</label>

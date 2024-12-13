@@ -21,6 +21,30 @@ const MenuSidebar = () => {
                 type: 'divider',
             },
             {
+                key: 'personalAdmin',
+                label: (<NavLink to={PATHS.STAFF.PROFILE}>Cá nhân</NavLink>), //style={{ color: selectedKeys === "sub2" ? "red" : "" }}
+                icon: <FontAwesomeIcon icon={faAddressCard} />,  // style={{ color: selectedKeys === "sub2" ? "red" : "" }}
+                children: [
+                    {
+                        key: 'personalAdmin1',
+                        label: 'Thông tin cá nhân',
+                        onClick: () => { emitter.emit(EMIT.EVENT_PROFILE.key, EMIT.EVENT_PROFILE.info); }
+                    },
+                    {
+                        key: 'personalAdmin2',
+                        label: 'Đổi mật khẩu',
+                        onClick: () => { emitter.emit(EMIT.EVENT_PROFILE.key, EMIT.EVENT_PROFILE.changePassword); }
+                    },
+                    {
+                        key: 'personal3',
+                        label: "Hồ sơ",
+                        onClick: () => {
+                            emitter.emit(EMIT.EVENT_PROFILE.key, EMIT.EVENT_PROFILE.staff);
+                        }
+                    }
+                ],
+            },
+            {
                 key: 'sub2',
                 label: (<NavLink to={PATHS.RECEPTIONIST.DASHBOARD}>Lịch hẹn</NavLink>),
                 icon: <i className="fa-solid fa-list"></i>,
@@ -80,14 +104,14 @@ const MenuSidebar = () => {
         return items.filter(item => {
             // Nếu item không có thuộc tính roles, luôn hiển thị
             if (!item.roles) return true;
-            
+
             // Kiểm tra nếu vai trò của user nằm trong danh sách roles của item
             return item.roles.includes(user.role);
         });
     }
 
     const items = getMenuItem();
-    
+
     const onClick = (e) => {
         // console.log('click ', e);
     };

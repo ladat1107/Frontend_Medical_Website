@@ -50,7 +50,7 @@ const DoctorDetail = () => {
           <DoctorDetailHeader data={doctor} />
           <DoctorDetailBody data={doctor} handbook={handbook} />
           <div className="mt-5"></div>
-          <DoctorRelated doctorList={doctorList} />
+          {doctorList.length > 0 && <DoctorRelated doctorList={doctorList} />}
         </Container>
       }
     </div>

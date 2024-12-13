@@ -47,7 +47,7 @@ const StaffInfo = (props) => {
     return (
         <>
             {isUpdate ?
-                <div className="staff-info-update row">
+                <div className="staff-info-update bg-content-profile">
                     <div className="text ps-4 mb-3">Hồ sơ nghề nghiệp</div>
                     <Form
                         form={form}
@@ -146,8 +146,8 @@ const StaffInfo = (props) => {
                     </Col>
                 </div>
                 :
-                <div className="staff-info-view">
-                    <div className="ps-4 row-1 d-flex  ">
+                <div className="staff-info-view ">
+                    <div className="ps-4 bg-content-profile d-flex  ">
                         <div className=" avatar ">
                             <img src={info?.avatar || LINK.AVATAR_NULL} alt="avatar" />
                         </div>
@@ -161,11 +161,11 @@ const StaffInfo = (props) => {
                                 onClick={() => { setIsUpdate(true) }}>Chỉnh sửa</Button></div>
                         </div>
                     </div>
-                    <div className="p-4  row-1">
+                    <div className="p-4 bg-content-profile">
                         <div className="text">Giới thiệu</div>
                         <div className="content mt-3">{info?.staffUserData?.shortDescription}</div>
                     </div>
-                    <div className="p-4  row-1 html mb-0">
+                    <div className="p-4 bg-content-profile html mb-0">
                         <div dangerouslySetInnerHTML={{ __html: info?.staffUserData?.staffDescriptionData?.htmlContent || "" }}></div>
                     </div>
                 </div>
