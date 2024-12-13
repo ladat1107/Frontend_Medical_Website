@@ -32,8 +32,8 @@ function Header() {
       title: "Dịch vụ",
       inner: [
         { title: "Đặt lịch khám", icon: <FontAwesomeIcon icon={faCalendarCheck} />, action: PATHS.HOME.BOOKING },
-        { title: "medical", icon: null },
-        { title: "medical", icon: null },
+        // { title: "medical", icon: null },
+        // { title: "medical", icon: null },
       ],
     },
     {

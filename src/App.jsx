@@ -58,7 +58,6 @@ function App() {
           <Route path={`${PATHS.HOME.HANDBOOK_DETAIL}/:id`} element={<BlogDetail />} />
           <Route path={`${PATHS.HOME.DEPARTMENT_DETAIL}/:id`} element={<DepartmentDetail />} />
         </Route>
-
         <Route path={PATHS.HOME.LOGIN} element={<Login />} />
         <Route element={<PrivateRoute />}>
           <Route element={<AdminLayout />}>

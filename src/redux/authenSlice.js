@@ -4,6 +4,7 @@ const initialState = {
     isLoggedIn: false,
     token: "",
     user: null,
+    rememberLogin: [],
 };
 export const authenSlice = createSlice({
     name: 'authen',
@@ -23,11 +24,28 @@ export const authenSlice = createSlice({
             state.token = "";
             state.user = null;
         },
+        addRememberLogin: (state, action) => {
+            if (!Array.isArray(state.rememberLogin)) {
+                state.rememberLogin = [];
+            }
+            
+            let array = [...state.rememberLogin];
+            if(array.length > 0){
+                array.forEach((item, index) => {
+                    if(item.email === action.payload.email){
+                        array.splice(index, 1);
+                    }
+                });
+            }
+
+            array.push(action.payload);
+            state.rememberLogin = array;
+        },
     },
 });
 
 // Export các action để sử dụng trong component
-export const { login, logout, setToken } = authenSlice.actions;
+export const { login, logout, setToken, addRememberLogin } = authenSlice.actions;
 
 // Export reducer để sử dụng trong store
 export default authenSlice.reducer;
