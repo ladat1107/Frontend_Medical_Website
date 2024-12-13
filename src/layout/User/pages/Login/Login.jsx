@@ -37,7 +37,7 @@ const Login = () => {
             password: account.password,
         });
     };
-    
+
 
     useEffect(() => {
         let confirmToken = queryParams.get('confirm');
@@ -72,7 +72,7 @@ const Login = () => {
         if (respone?.data?.EC === 0) {
             dispatch(login(respone.data.DT));
 
-            if(rememberMe){
+            if (rememberMe) {
                 let remember = {
                     email: values.email,
                     password: values.password
@@ -124,6 +124,7 @@ const Login = () => {
                             initialValues={{}}
                             onFinish={onFinish}
                             onFinishFailed={onFinishFailed}>
+                            {rememberLogins.length > 0 ?
                                 <Tooltip
                                     color='white'
                                     title={
@@ -146,23 +147,33 @@ const Login = () => {
                                     overlayClassName="saved-accounts-tooltip"
                                     onVisibleChange={(visible) => setShowSavedAccounts(visible)}
                                 >
-                                
-                            <Form.Item
-                                name="email"
-                                rules={[{ required: true, message: 'Vui lòng nhập email!' }]}
-                            >
+
+                                    <Form.Item
+                                        name="email"
+                                        rules={[{ required: true, message: 'Vui lòng nhập email!' }]}
+                                    >
+                                        <Input
+                                            className="input"
+                                            placeholder="Email"
+                                            onFocus={() => setShowSavedAccounts(true)}
+                                        /></Form.Item>
+                                </Tooltip> : <Form.Item
+                                    name="email"
+                                    rules={[{ required: true, message: 'Vui lòng nhập email!' }]}
+                                >
                                     <Input
                                         className="input"
                                         placeholder="Email"
-                                        onFocus={() => setShowSavedAccounts(true)} 
+                                        onFocus={() => setShowSavedAccounts(true)}
                                     /></Form.Item>
-                                </Tooltip>
+                            }
+
                             <Form.Item name="password" rules={[{ required: true, message: "Vui lòng nhập mật khẩu!" }]}>
                                 <Input.Password className='input' placeholder='Mật khẩu' width={100} />
                             </Form.Item>
                             <Row>
                                 <Col span={12}>
-                                    <Checkbox 
+                                    <Checkbox
                                         checked={rememberMe}
                                         onChange={() => setRememberMe(!rememberMe)}>
                                         Ghi nhớ tài khoản

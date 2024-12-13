@@ -1,6 +1,6 @@
 import React from "react";
 import { Breadcrumb } from "antd";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import classNames from "classnames/bind";
 import styles from "./doctorDetail.module.scss";
 import { LINK } from "@/constant/value";
@@ -11,6 +11,7 @@ import { primaryColorHome, seccondaryColorHome } from "@/style/variables";
 const cx = classNames.bind(styles);
 const DoctorDetailHeader = (props) => {
   let { data } = props;
+  let navigate = useNavigate()
   return (
     <div className={cx('doctor-header')} >
       <Breadcrumb style={{ marginBottom: "30px", fontSize: "14px", color: "#555", fontWeight: "700" }}>
@@ -54,7 +55,7 @@ const DoctorDetailHeader = (props) => {
               </div>
               <div className={cx('style-info')} >
                 <label htmlFor="">Giá Khám</label>
-                <span>{formatCurrency(data?.staffUserData?.price)}</span>
+                <span>{formatCurrency(data?.staffUserData?.price || 0)}</span>
               </div>
               <div className={cx('style-info')} >
                 <label htmlFor="">Lịch Khám</label>
@@ -75,7 +76,7 @@ const DoctorDetailHeader = (props) => {
             </div>
           </div>
 
-          <div className={cx('booking-btn')} >
+          <div className={cx('booking-btn')} onClick={() => { navigate(PATHS.HOME.BOOKING) }} >
             Đặt khám ngay
           </div>
         </div>

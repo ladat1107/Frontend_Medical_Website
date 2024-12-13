@@ -49,7 +49,8 @@ const DoctorDetail = () => {
         <Container>
           <DoctorDetailHeader data={doctor} />
           <DoctorDetailBody data={doctor} handbook={handbook} />
-          <DoctorRelated doctorList={doctorList} />
+          <div className="mt-5"></div>
+          {doctorList.length > 0 && <DoctorRelated doctorList={doctorList} />}
         </Container>
       }
     </div>

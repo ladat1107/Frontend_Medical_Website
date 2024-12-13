@@ -20,6 +20,8 @@
             .content-profile {
                 height: 100%;
                 background: $background-color;
+                display: flex;
+                justify-content: center;
 
                 .ant-form-item {
                     margin-bottom: 15px;
@@ -53,6 +55,8 @@
                 }
 
                 .information-profile {
+                    width: 80%;
+
                     .avatar {
                         display: flex;
                         justify-content: center;
@@ -78,6 +82,8 @@
                 }
 
                 .password-content {
+                    width: 100%;
+
                     .text {
                         font-size: 1.3em;
                         font-weight: 600;
@@ -110,7 +116,7 @@
                         font-weight: 600;
                     }
 
-                    .row-1 {
+                    .bg-content-profile {
                         border-radius: 10px;
                         box-shadow: $box-shadow-content-admin;
                         background: white;
@@ -136,8 +142,6 @@
                             flex-direction: column;
                             justify-content: left;
 
-
-
                             label {
                                 color: #003553;
                                 font-weight: 600;
@@ -155,6 +159,10 @@
                             font-size: 1.3em;
                             font-weight: 600;
                             margin: 20px 0;
+                        }
+
+                        ul {
+                            padding-left: 20px;
                         }
                     }
 

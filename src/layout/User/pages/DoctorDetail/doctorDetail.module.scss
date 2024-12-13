@@ -1,5 +1,5 @@
 // custom scroll bar for doctor-body
-
+@import "/src/style/variables.scss";
 // doctor header
 
 .bg {
@@ -87,6 +87,7 @@
         padding: 10px 35px;
         border-radius: 30px;
         color: white;
+        cursor: pointer;
       }
     }
   }
@@ -111,6 +112,7 @@
         box-shadow: 4px 8px 30px rgba(192, 202, 214, 0.35);
         line-height: 1.8;
         min-height: 350px;
+        text-align: justify;
 
         .title {
           margin-bottom: 8px;
@@ -128,12 +130,20 @@
       }
 
       .introduce-bottom {
+        text-align: justify;
         background-color: white;
         padding: 30px;
         border-radius: 16px;
         box-shadow: 4px 8px 30px rgba(192, 202, 214, 0.35);
         line-height: 1.8;
         min-height: 450px;
+
+        h2 {
+          margin: 20px 0 10px 0;
+          font-size: 20px;
+          font-weight: 700;
+          color: $primary-color-admin;
+        }
       }
     }
 

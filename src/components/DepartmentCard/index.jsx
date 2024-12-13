@@ -8,7 +8,7 @@ import { PATHS } from '@/constant/path';
 const DepartmentCard = ({ id, image, address, name, shortDescription }) => {
   let navigate = useNavigate()
   return (
-    <div className='departmentCard' onClick={() => { navigate(PATHS.HOME.DEPARTMENT_DETAIL + "/" + id) }} >
+    <div className='departmentCard'  >
 
       <div className='wrapper' >
         <div className='img' >
@@ -18,7 +18,7 @@ const DepartmentCard = ({ id, image, address, name, shortDescription }) => {
         <h4 className='departmentCard-title' >{name}</h4>
         <p className='short-department'>{shortDescription || "Eum qui, provident ut deleniti obcaecati expedita, ipsam repellat repellendus culpa"} </p>
       </div>
-      <div className='departmentCard-btn' >Tìm hiểu thêm</div>
+      <div className='departmentCard-btn' onClick={() => { navigate(PATHS.HOME.DEPARTMENT_DETAIL + "/" + id) }} >Tìm hiểu thêm</div>
     </div>
   )
 }

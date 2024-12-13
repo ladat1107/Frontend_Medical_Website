@@ -1,25 +1,37 @@
-import React from "react";
+import React, { useState } from "react";
 import classNames from "classnames/bind";
-import styles from "./doctorList.module.scss";
+import styles from "./departmentList.module.scss";
 // Tạo instance của classnames với bind styles
 const cx = classNames.bind(styles);
-import DoctorCard from "./Component";
-import { formatCurrency } from "@/utils/formatCurrency";
+import DepartmentCard from "@/components/DepartmentCard";
 import { useNavigate } from "react-router-dom";
 import { PATHS } from "@/constant/path";
 
-const DoctorInfo = (props) => {
-  let { doctorList } = props;
+const DepartmentInfo = (props) => {
+  let [departmentList, setListDepartment] = useState(props?.departmentList);
+  let [search, setSearch] = useState("");
   let navigate = useNavigate();
+  let handleChangrSearch = (e) => {
+    let _listDepartment = [...props?.departmentList];
+    setSearch(e.target.value);
+    if (e.target.value === "") {
+      setListDepartment(_listDepartment);
+      return;
+    }
+    let list = _listDepartment.filter((item) => item.name.toLowerCase().includes(e.target.value.toLowerCase()));
+    setListDepartment(list);
+  }
   return (
-    <div className={cx("doctor-info")}>
+    <div className={cx("department-info")}>
       <div className={cx("head-section")}>
         <div className="container-input">
           <input
             type="text"
-            placeholder="Tìm kiếm"
+            placeholder="Tìm kiếm khoa"
             name="text"
             className="input"
+            value={search}
+            onChange={(e) => handleChangrSearch(e)}
           />
           <svg
             fill="#000000"
@@ -36,25 +48,25 @@ const DoctorInfo = (props) => {
         </div>
         <div className={cx("btn-action")}>
           <div className={cx("action-left")}>Tư Vấn Ngay</div>
-          <div className={cx("action-right")} onClick={() => navigate(PATHS.HOME.BOOKING)}>Đặt lịch hẹn</div>
+          <div className={cx("action-right")} onClick={() => { navigate(PATHS.HOME.BOOKING) }}>Đặt lịch hẹn</div>
         </div>
       </div>
       <div className={cx('list-item')} >
-        {doctorList?.length > 0 && doctorList.map((item, index) => (
-          <div key={index}>
-            <DoctorCard
-              id={item?.staffUserData?.id}
-              avatar={item?.staffUserData?.avatar}
-              name={item?.staffUserData?.lastName + " " + item?.staffUserData?.firstName}
-              specialty={item?.staffDepartmentData?.name}
-              price={formatCurrency(item?.price || 0)}
-              visits={item?.examinationStaffData?.length || 0}
-              rating="4.8" />
+        {departmentList?.length > 0 && departmentList.map((item, index) => (
+          <div
+            className="col-3"
+            key={index}>
+            <DepartmentCard
+              id={item?.id}
+              image={item?.image}
+              name={item?.name}
+              shortDescription={item?.shortDescription}
+            />
           </div>
         ))}
       </div>
-    </div>
+    </div >
   );
 };
 
-export default DoctorInfo;
+export default DepartmentInfo;

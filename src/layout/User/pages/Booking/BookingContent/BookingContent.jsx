@@ -6,6 +6,7 @@ import BookingCalendar from "./BookingCalendar";
 import BookingPersonal from "./BookingPersonal";
 import BookingConfirm from "./BookingConfirm";
 import { useNavigate } from "react-router-dom";
+import { PATHS } from "@/constant/path";
 const content = {
     specialty: "specialty",
     doctor: "doctor",
@@ -14,6 +15,7 @@ const content = {
     confirm: "confirm",
 }
 const BookingContent = (props) => {
+    let navigate = useNavigate();
     let [currentContent, setCurrentContent] = useState(content.specialty);
     let specialty = props.specialty;
     let doctor = props.doctor;
@@ -36,13 +38,13 @@ const BookingContent = (props) => {
         setCurrentContent(content.confirm);
     }
     let handleStepConfirm = async () => {
-
     }
     return (
         <div>
             <div className="booking-content">
                 {currentContent === content.specialty && <BookingSpecialty
-                    next={handleStepSpecialty} />}
+                    next={handleStepSpecialty}
+                    back={() => { navigate(PATHS.HOME.HOMEPAGE) }} />}
                 {currentContent === content.doctor && <BookingDoctor
                     specialtyId={specialty?.id}
                     next={handleStepDoctor}

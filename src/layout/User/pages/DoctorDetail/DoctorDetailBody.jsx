@@ -14,7 +14,6 @@ const DoctorDetailBody = (props) => {
 
     return (
         <div className={cx('doctor-body')} >
-
             <div className={cx('wrapper')} >
                 <div className={cx('introduce')} >
                     <div className={cx('introduce-top')} >

@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faFilePen, faTrashCan } from '@fortawesome/free-solid-svg-icons'
-import DropdownMenu, { DropdownItem, DropdownItemGroup } from '@atlaskit/dropdown-menu';
-import MoreVerticalIcon from '@atlaskit/icon/glyph/more-vertical'
-import { IconButton } from '@atlaskit/button/new';
 import DeleteModal from '../Modal/DeleteModal';
 import './Dropdown.scss'
+import { Dropdown, Space } from 'antd';
+import { faEllipsisVertical } from '@fortawesome/free-solid-svg-icons';
 const DropdownAction = (props) => {
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     let handleDelete = () => {
@@ -17,24 +16,30 @@ const DropdownAction = (props) => {
     let handleUpdate = () => {
         props.action(props.data)
     }
+    let items = [
+        {
+            label: (<span className="update" > <FontAwesomeIcon className="me-1" icon={faFilePen} size="lg" /> Cập nhật</span>),
+            key: 'update-action',
+            onClick: () => { handleUpdate() }
+        },
+        {
+            label: (<span className="del"> <FontAwesomeIcon className="me-2" icon={faTrashCan} size="lg" /> Xóa</span>),
+            key: 'delete-action',
+            onClick: () => { handleDelete() }
+        },]
     return (
         <div>
-            <DropdownMenu
-                placement="left-start"
-                position="bottom left"
-                trigger={({ triggerRef, ...props }) => (
-                    <IconButton {...props} icon={MoreVerticalIcon} label="more" ref={triggerRef} />
-                )}
-                shouldRenderToParent>
-                <DropdownItemGroup >
-                    <DropdownItem onClick={() => { handleUpdate() }} >
-                        <span className="update" > <FontAwesomeIcon className="me-1" icon={faFilePen} size="lg" /> Cập nhật</span>
-                    </DropdownItem>
-                    <DropdownItem onClick={() => { handleDelete() }} >
-                        <span className="del"> <FontAwesomeIcon className="me-2" icon={faTrashCan} size="lg" /> Xóa</span>
-                    </DropdownItem>
-                </DropdownItemGroup>
-            </DropdownMenu>
+            <Dropdown
+                menu={{
+                    items,
+                }}
+                trigger={['click']}
+                overlayClassName="dropdownAction"
+                placement="bottomRight">
+                <Space>
+                    <FontAwesomeIcon icon={faEllipsisVertical} size='xl' />
+                </Space>
+            </Dropdown>
             <DeleteModal
                 show={showDeleteModal}
                 isShow={handleShow}
