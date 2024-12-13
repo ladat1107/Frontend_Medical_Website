@@ -212,9 +212,9 @@ const PresModal = ({ isOpen, onClose, onSusscess, presId, patientData }) => {
                             </div>
                         ))}
                     </div>
-                    <div className='col-12 d-flex flex-row mt-3'>
+                    <div className='col-12 d-flex flex-row mt-4'>
                         <div className='col-3 d-flex align-items-center'>
-                            <p style={{fontWeight: "600"}}>Ghi chú:</p>
+                            <p style={{fontWeight: "400"}}>Ghi chú:</p>
                         </div>
                         <div className='col-9'>
                             <p style={{
@@ -225,12 +225,12 @@ const PresModal = ({ isOpen, onClose, onSusscess, presId, patientData }) => {
                             }}>{data.infoPres.note}</p>
                         </div>
                     </div>
-                    <hr className='mt-4' style={{
+                    {/* <hr className='mt-4' style={{
                             borderStyle: 'dashed',
                             borderWidth: '1px',
                             borderColor: '#007BFF',
                             opacity: '1'
-                        }}/>
+                        }}/> */}
                     <div className='col-12 d-flex flex-row mt-3 mb-2'>
                         <div className='col-3 d-flex align-items-center'>
                             <p style={{fontWeight: "400"}}>Số BHYT:</p>

@@ -8,7 +8,7 @@ const DoctorFooter = () => {
                 textAlign: 'center',
             }}
         >
-            Ant Design ©{new Date().getFullYear()} Created by Ant UED
+            Hoa sen ©{new Date().getFullYear()} Created by D^2
         </Footer>
     );
 

@@ -189,25 +189,19 @@ const VitalSign = ({ vitalSignData, examId, refresh }) => {
                 </div>
                 <div className="row mt-3">
                     <div className="col-4 col-lg-9"></div>
-                    <div className="col-8 col-lg-3">
-                        <div className="row">
-                            <div className="col-6 padding5">
-                                <button
-                                    className={`restore-button ${!isChanged ? 'disabled' : ''}`}
-                                    onClick={handleRestoreButton}
-                                    disabled={!isChanged}>
-                                    Hoàn tác
-                                </button>
-                            </div>
-                            <div className="col-6 padding5">
-                                <button
-                                    className={`save-button ${!isChanged ? 'disabled' : ''}`}
-                                    onClick={handleSaveButton}
-                                    disabled={!isChanged}>
-                                    Lưu
-                                </button>
-                            </div>
-                        </div>
+                    <div className="col-8 col-lg-3 text-end">
+                        <button
+                            className={`restore-button ${!isChanged ? 'disabled' : ''}`}
+                            onClick={handleRestoreButton}
+                            disabled={!isChanged}>
+                            Hoàn tác
+                        </button>
+                        <button
+                            className={`save-button ${!isChanged ? 'disabled' : ''}`}
+                            onClick={handleSaveButton}
+                            disabled={!isChanged}>
+                            Lưu
+                        </button>
                     </div>
                 </div>
             </div>

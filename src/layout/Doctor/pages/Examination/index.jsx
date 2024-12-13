@@ -4,7 +4,7 @@ import VitalSign from "./Vitalsign";
 import Paraclinical from "./paraclinical";
 import Prescription from "./Prescription";
 import { useEffect, useState } from "react";
-import { getExaminationById, getUserByCid } from "@/services/doctorService";
+import { getAllDisease, getExaminationById, getUserByCid } from "@/services/doctorService";
 import { useMutation } from "@/hooks/useMutation";
 import { convertDateTime } from "@/utils/formatDate";
 import { convertGender } from "@/utils/convertGender";
@@ -23,7 +23,7 @@ const Examination = () => {
     const [paraclinicalData, setParaclinicalData] = useState([]);
     const [prescriptionData, setPrescriptionData] = useState([]);
     const [totalParaclinical, setTotalParaclinical] = useState(0);
-
+    const [comorbiditiesOptions, setComorbiditiesOptions] = useState([]);
     const [isModalOpen, setIsModalOpen] = useState(false);
 
 
@@ -41,6 +41,24 @@ const Examination = () => {
         }
     }, [isModalOpen]);
 
+    // Fetch comorbidities
+    const {
+        data: dataComorbidities,
+        loading: comorbiditiesLoading,
+        error: comorbiditiesError,
+        execute: fetchComorbidities,
+    } = useMutation(() => getAllDisease());
+
+    useEffect(() => {
+        if (dataComorbidities?.DT) {
+            const options = dataComorbidities.DT.map(item => ({
+                value: item.code,
+                label: item.disease,
+            }));
+            setComorbiditiesOptions(options);
+        }
+    }, [dataComorbidities]);
+
     const showModal = () => {
         setIsModalOpen(true);
     };
@@ -50,6 +68,7 @@ const Examination = () => {
     };
 
     useEffect(() => {
+        fetchComorbidities();
         if (examId) {  // Thêm check để đảm bảo có examId
             fetchExaminationData();
         }
@@ -77,13 +96,18 @@ const Examination = () => {
                 "price", "special", "insuranceCoverage"
             ];
 
+            const disease = dataExamination.DT?.diseaseName.split(" - ") || "";
+
             const formattedData = {
                 ...Object.fromEntries(fields.map(field => [field, dataExamination.DT[field] || ""])),
                 admissionDate: dataExamination.DT.admissionDate,
                 dischargeDate: dataExamination.DT.dischargeDate,
+                diseaseName: disease[0],
                 staffName: dataExamination.DT.examinationStaffData?.staffUserData?.lastName + " " +
                     dataExamination.DT.examinationStaffData?.staffUserData?.firstName || ""
             };
+
+            console.log(formattedData);
 
             const totalParaclinicalPrice = (dataExamination.DT.examinationResultParaclincalData || []).reduce(
                 (sum, item) => sum + (item.price || 0),
@@ -235,6 +259,7 @@ const Examination = () => {
                                         <ExamInfo
                                             refresh={refresh}
                                             examData={examinationData}
+                                            comorbiditiesOptions={comorbiditiesOptions}
                                         />
                                     )}
                                     {selectedRadio === 'vitalsign' && (

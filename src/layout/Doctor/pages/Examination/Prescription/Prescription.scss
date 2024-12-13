@@ -9,7 +9,6 @@
     .empty-list-message{
         font-family: 'Be Vietnam Pro', sans-serif;
         font-style: italic;
-        font-size: 16px;
         color: gray;
         margin: 0;
     }
@@ -45,37 +44,31 @@
     }    
 
     .add-button{
-        font-family: 'Be Vietnam Pro', sans-serif;
-        font-size: 14px;
-        background-color: #438EF3;
-        color: white;
-        font-weight: bold;
-        border: none;
-        width: 100%;
-        border-radius: 5px;
-        padding: 5px 15px;
+        background: white;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        padding: 5px 10px;
+        box-shadow: 2px 2px 4px #e6eaeb;
+        margin-right: 10px;
         cursor: pointer;
 
-        &:hover{
-            background-color: #1060ca;
+        &:hover {
+            box-shadow: 4px 4px 8px #e6eaeb, -4px -4px 8px #e6eaeb;
         }
     }
 
     .save-button {
-        font-family: 'Be Vietnam Pro', sans-serif;
-        background-color: #3AA472;
-        font-size: 14px;
+        background: #007BFF;
         color: white;
-        font-weight: bold;
         border: none;
-        border-radius: 5px;
-        padding: 5px 10px;
-        width: 80%;
+        border-radius: 10px;
+        padding: 5px 15px;
+        box-shadow: 2px 2px 4px #e6eaeb;
+        min-width: 80px;
         cursor: pointer;
-        transition: background-color 0.3s ease;
 
         &:hover {
-            background-color: #297853;
+            box-shadow: 4px 4px 8px #e6eaeb, -4px -4px 8px #e6eaeb;
         }
     }
 }

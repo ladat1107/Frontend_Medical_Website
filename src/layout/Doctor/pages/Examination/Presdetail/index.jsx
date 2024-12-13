@@ -34,8 +34,8 @@ const Presdetail = ({ id, presdetailData, onDelete, options, onChange }) => {
         <div className="presdetail-container">
             <div className="row center-content">
                 <div className='col-12 col-lg-4'>
-                    <div className='col-4 col-lg-12'>
-                        <p className='info'>Tên thuốc</p>
+                    <div className='col-4 mt-2 col-lg-12'>
+                        <p className='title'>Tên thuốc</p>
                     </div>
                     <div className='col-12 mt-1 col-lg-12'>
                         <SelectBox2
@@ -61,7 +61,7 @@ const Presdetail = ({ id, presdetailData, onDelete, options, onChange }) => {
                     <div className='row'>
                         <p className='title'>Đơn vị</p>
                     </div>
-                    <div className='row mt-1'>
+                    <div className='row mt-2'>
                         <p className='suptext'>{medicineUnit}</p>
                     </div>
                 </div>
@@ -69,7 +69,7 @@ const Presdetail = ({ id, presdetailData, onDelete, options, onChange }) => {
                     <div className='row'>
                         <p className='title'>Đơn giá</p>
                     </div>
-                    <div className='row mt-1'>
+                    <div className='row mt-2'>
                         <p className='suptext'>{selectedPrice.toLocaleString()}</p>  {/* Hiển thị giá */}
                     </div>
                 </div>
@@ -77,7 +77,7 @@ const Presdetail = ({ id, presdetailData, onDelete, options, onChange }) => {
                     <div className='row'>
                         <p className='title'>Liều dùng</p>
                     </div>
-                    <div className='row mt-1'>
+                    <div className='row mt-1 '>
                         <input
                             type="text"
                             className="input"

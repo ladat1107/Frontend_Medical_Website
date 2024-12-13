@@ -56,7 +56,6 @@ const HomePage = () => {
       </div>
       <Container>
         <Specialty />
-
         <Dowload />
         <Media />
         <VideoComponent />

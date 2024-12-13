@@ -122,7 +122,7 @@ const CreateHandbook = (props) => {
                     }}
                     autoComplete="on"
                 >
-                    <div className='row'>
+                    <div className='row mt-2 align-items-start'>
                         <div className='col-2'>
                             <p className='text-bold'>Tiêu đề:</p>
                         </div>
@@ -140,7 +140,7 @@ const CreateHandbook = (props) => {
                             </Form.Item>
                         </div>
                     </div>
-                    <div className='row mt-3'>
+                    <div className='row mt-3 align-items-start'>
                         <div className='col-2'>
                             <p className='text-bold'>Mô tả:</p>
                         </div>
@@ -151,7 +151,7 @@ const CreateHandbook = (props) => {
                                     <input
                                         type="text"
                                         defaultValue={form.getFieldValue('shortDescription')}
-                                        placeholder="Nhập tiêu đề..."
+                                        placeholder="Nhập mô tả..."
                                         maxLength={130} />
                                 </div>
                             </Form.Item>

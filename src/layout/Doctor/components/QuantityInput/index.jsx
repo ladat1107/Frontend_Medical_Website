@@ -32,6 +32,7 @@ const QuantityInput = ({ initialValue, min = 1, max = 100, step = 1, onChange })
         value={value}
         onChange={handleInputChange}
         className="input"
+        style={{ margin: '0px' }}
         min={min}
         max={max}
         step={step}
