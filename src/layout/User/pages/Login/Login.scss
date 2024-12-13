@@ -231,7 +231,28 @@
         }
     }
 
+    
 
 
 
+}
+
+
+.ant-tooltip-content{
+    width: 300px;
+
+    .saved-accounts{
+        color: black;
+        width: 100%;
+    
+        .saved-account-item{
+            padding: 10px;
+            cursor: pointer;
+
+            &:hover{
+                background-color: $hover-color-admin;
+
+            }
+        }
+    }
 }

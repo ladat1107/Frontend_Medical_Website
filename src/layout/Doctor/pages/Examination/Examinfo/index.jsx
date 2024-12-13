@@ -8,8 +8,9 @@ import { updateExamination, getAllDisease } from "@/services/doctorService";
 import MultiSelect from "@/layout/Doctor/components/MultiSelect";
 import { convertDateTime } from "@/utils/convertToTimestamp";
 import { notification } from 'antd';
+import SelectBox2 from "@/layout/Doctor/components/Selectbox";
 
-const ExamInfo = ({ examData, refresh }) => {
+const ExamInfo = ({ examData, refresh, comorbiditiesOptions }) => {
 
     const formatSafeDate = (dateString) => {
         if (!dateString) return new Date();
@@ -34,7 +35,7 @@ const ExamInfo = ({ examData, refresh }) => {
 
     const [initialFormData, setInitialFormData] = useState(formData);
     const [isChanged, setIsChanged] = useState(false);
-    const [comorbiditiesOptions, setComorbiditiesOptions] = useState([]);
+    // const [comorbiditiesOptions, setComorbiditiesOptions] = useState([]);
 
     // Notification
     const [api, contextHolder] = notification.useNotification();
@@ -51,28 +52,6 @@ const ExamInfo = ({ examData, refresh }) => {
         { value: '3', label: 'Phụ nữ mang thai' },
         { value: '4', label: 'Người khuyết tật' }
     ];
-
-    // Fetch comorbidities
-    const {
-        data: dataComorbidities,
-        loading: comorbiditiesLoading,
-        error: comorbiditiesError,
-        execute: fetchComorbidities,
-    } = useMutation(() => getAllDisease());
-
-    useEffect(() => {
-        fetchComorbidities();
-    }, []);
-
-    useEffect(() => {
-        if (dataComorbidities?.DT) {
-            const options = dataComorbidities.DT.map(item => ({
-                value: item.code,
-                label: item.disease,
-            }));
-            setComorbiditiesOptions(options);
-        }
-    }, [dataComorbidities]);
 
     // Check for changes
     useEffect(() => {
@@ -101,6 +80,17 @@ const ExamInfo = ({ examData, refresh }) => {
             comorbidities: value
         }));
     };
+
+    const constHandleDiseaseChange = (value) => {
+
+        const selectedOption = comorbiditiesOptions.find(option => option.value === value);
+        const label = selectedOption ? selectedOption.label : null;
+
+        setFormData(prev => ({
+            ...prev,
+            diseaseName: label
+        }));
+    }
 
     const openNotification = (message, type = 'info') => {
         api[type]({
@@ -190,10 +180,13 @@ const ExamInfo = ({ examData, refresh }) => {
                         <p>Tên bệnh chính:</p>
                     </div>
                     <div className="col-8 mt-3 col-lg-4">
-                        <input type="text" className="input"
+                        <SelectBox2
+                            className="select-box2"
+                            options={comorbiditiesOptions}
                             value={formData.diseaseName}
-                            onChange={handleInputChange('diseaseName')}
-                            placeholder="Mô tả chi tiết tên bệnh" />
+                            placeholder="Nhập tên bệnh"
+                            onChange={constHandleDiseaseChange}
+                        />
                     </div>
                     <div className="col-4 mt-3 col-lg-2">
                         <p>Bệnh đi kèm:</p>
@@ -268,27 +261,21 @@ const ExamInfo = ({ examData, refresh }) => {
                             onChange={handleInputChange('special')} />
                     </div>
                 </div>
-                <div className="row mt-3">
+                <div className="row mt-4">
                     <div className="col-4 col-lg-9"></div>
-                    <div className="col-8 col-lg-3">
-                        <div className="row">
-                            <div className="col-6 padding5">
-                                <button
-                                    className={`restore-button ${!isChanged ? 'disabled' : ''}`}
-                                    onClick={handleRestoreButton}
-                                    disabled={!isChanged}>
-                                    Hoàn tác
-                                </button>
-                            </div>
-                            <div className="col-6 padding5">
-                                <button
-                                    className={`save-button ${!isChanged ? 'disabled' : ''}`}
-                                    onClick={handleSaveButton}
-                                    disabled={!isChanged}>
-                                    Lưu
-                                </button>
-                            </div>
-                        </div>
+                    <div className="col-8 col-lg-3 text-end">
+                        <button
+                            className={`restore-button ${!isChanged ? 'disabled' : ''}`}
+                            onClick={handleRestoreButton}
+                            disabled={!isChanged}>
+                            Hoàn tác
+                        </button>
+                        <button
+                            className={`save-button ${!isChanged ? 'disabled' : ''}`}
+                            onClick={handleSaveButton}
+                            disabled={!isChanged}>
+                            Lưu
+                        </button>
                     </div>
                 </div>
             </div>
@@ -298,7 +285,8 @@ const ExamInfo = ({ examData, refresh }) => {
 
 ExamInfo.propTypes = {
     examData: PropTypes.object.isRequired,
-    refresh: PropTypes.func.isRequired
+    refresh: PropTypes.func.isRequired,
+    comorbiditiesOptions: PropTypes.array.isRequired,
 };
 
 export default ExamInfo;

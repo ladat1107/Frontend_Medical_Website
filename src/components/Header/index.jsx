@@ -32,8 +32,8 @@ function Header() {
       title: "Dịch vụ",
       inner: [
         { title: "Đặt lịch khám", icon: <FontAwesomeIcon icon={faCalendarCheck} />, action: PATHS.HOME.BOOKING },
-        { title: "medical", icon: null },
-        { title: "medical", icon: null },
+        // { title: "medical", icon: null },
+        // { title: "medical", icon: null },
       ],
     },
     {
@@ -60,14 +60,14 @@ function Header() {
         { title: "medical", icon: null },
       ],
     },
-    (user ? {
+    ...(user ? [{
       title: (<div><FontAwesomeIcon icon={faUser} /> Tài khoản</div>),
       inner: [
         { title: "Thông tin cá nhân", icon: null, action: PATHS.HOME.PROFILE },
         { title: "Lịch sử đặt hẹn", icon: null, action: PATHS.HOME.APPOINTMENT_LIST },
         { title: "Hồ sơ khám bệnh", icon: null, action: PATHS.HOME.EXAMINATION_LIST },
       ],
-    } : {})
+    }] : [])
   ];
 
   return (

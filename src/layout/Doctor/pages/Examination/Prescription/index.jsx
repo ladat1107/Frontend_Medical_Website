@@ -178,13 +178,18 @@ const Prescription = ({ examinationId, paraclinicalPrice, refresh }) => {
                                 ))
                             ) : (
                                 <div className="empty-list-message">
-                                    <div>Đơn thuốc trống</div>
-                                    <hr />
+                                    <p>Đơn thuốc trống</p>
                                 </div>
                             )}
                         </div>
                     </>
                 )}
+                <hr className='mt-2' style={{
+                    borderStyle: 'dashed',
+                    borderWidth: '1px',
+                    borderColor: '#007BFF',
+                    opacity: '1'
+                }}/>
                 <div className="row padding" style={{alignItems: "self-start"}}>
                     <div className='col-2'>
                         <p className='title'>Ghi chú:</p>
@@ -195,6 +200,7 @@ const Prescription = ({ examinationId, paraclinicalPrice, refresh }) => {
                             onChange={(e) => setNote(e.target.value)}
                             type="text"
                             className="input"
+                            style={{ minHeight: '100px' }}
                             placeholder="Nhập ghi chú" />
                     </div>
                 </div>
@@ -214,7 +220,7 @@ const Prescription = ({ examinationId, paraclinicalPrice, refresh }) => {
                         <p className='payment'>{paraclinicalPrice.toLocaleString()} VND</p>
                     </div>
                 </div> */}
-                <div className="row padding">
+                {/* <div className="row padding">
                     <div className='col-2'>
                         <p className='title'>BHYT thanh toán:</p>
                     </div>
@@ -230,7 +236,7 @@ const Prescription = ({ examinationId, paraclinicalPrice, refresh }) => {
                     <div className='col-10'>
                         <p className='payment'>{totalMoney.toLocaleString()} VND</p>
                     </div>
-                </div>
+                </div> */}
             </div>
         </>
     )

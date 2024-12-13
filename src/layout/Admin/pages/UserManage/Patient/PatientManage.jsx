@@ -16,6 +16,7 @@ import { LINK, TABLE } from "@/constant/value";
 import { Input, message } from "antd";
 import { SearchOutlined } from '@ant-design/icons';
 import Status from "@/layout/Admin/components/Status";
+import HistoryModal from "@/layout/Doctor/components/HistoryModal/HistoryModal";
 
 const PatientManage = () => {
     let [currentPage, setCurrentPage] = useState(1);
@@ -26,6 +27,10 @@ const PatientManage = () => {
     let [search, setSearch] = useState("");
     let [obUpdate, setObUpdate] = useState(null);
     let [showCreateUserModal, setShowCreateUserModal] = useState(false);
+    
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [modalId, setModalId] = useState(null);
+
     let arr = [2]
     let searchDebounce = "";
     let {
@@ -105,6 +110,20 @@ const PatientManage = () => {
             refresh();
         }
     }
+
+    const handelPatientClick = (item) => {
+        // console.log(item)
+        setModalId(item.id);
+        showModal();
+    }
+    const showModal = () => {
+        setIsModalOpen(true);
+    };
+
+    const handleCancel = () => {
+        setIsModalOpen(false);
+    };
+
     return (
         // listUserLoading ? <Loading /> :
         <div className='patient-manage'>
@@ -161,7 +180,7 @@ const PatientManage = () => {
                                         {
                                             listUser.map((item, index) => {
                                                 return (
-                                                    <tr key={index} className="bg-white border-b">
+                                                    <tr key={index} className="bg-white border-b" onClick={() => handelPatientClick(item)}>
                                                         <td>
                                                             <div className="">
                                                                 <Checkbox
@@ -231,9 +250,16 @@ const PatientManage = () => {
                     refresh={refresh}
                     table={TABLE.USER}
                     key={obUpdate ? obUpdate.id : "modal-closed"} />
-            </div >
+                <div className="modal-history-content">
+                    <HistoryModal
+                        isModalOpen={isModalOpen}
+                        handleCancel={handleCancel}
+                        userId={modalId}
+                    />
+                </div>
+            </div>
 
-        </div >
+        </div>
     );
 }
 

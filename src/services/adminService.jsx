@@ -158,3 +158,9 @@ export const createSchedule = (data) => {
 export const arrangeSchedule = (data) => {
     return axios.post(`/api/admin/arrangSchedule`, data)
 }
+
+
+// STATISTIC
+export const getStatisticalAppoinment = (query) => {
+    return axios.get(`/api/admin/getStatisticalAppoinment`, { params: query })
+}

@@ -4,6 +4,9 @@ const userService = {
   getDepartment(query = "") {
     return axiosInstance.get(`api/getDepartmenHome${query}`);
   },
+  getDepartmentId(query = "") {
+    return axiosInstance.get(`api/getDepartmentById`, { params: query });
+  },
   getDoctor(query = "") {
     return axiosInstance.get(`api/getDoctorHome`, { params: query });
   },

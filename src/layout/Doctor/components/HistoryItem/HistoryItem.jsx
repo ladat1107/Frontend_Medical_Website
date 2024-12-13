@@ -125,7 +125,7 @@ const HistoryItem = ({id, data}) => {
                             )}
                             {selectedRadio === `prescription + ${id}` && (
                                 <div className="mt-2">
-                                    {data.prescriptionExamData[0] ? (
+                                    {data.prescriptionExamData[0]?.prescriptionDetails.length > 0 ? (
                                         <table style={{ width: '100%', borderCollapse: 'collapse' }}>
                                             <thead>
                                                 <tr>
@@ -147,7 +147,7 @@ const HistoryItem = ({id, data}) => {
                                             </tbody>
                                         </table>
                                     ) : (
-                                        <div className="mt-3" style={{ textAlign: 'start' }}>Không thông tin đơn thuốc</div>
+                                        <div className="mt-3" style={{ textAlign: 'start' }}>Không có thông tin đơn thuốc</div>
                                     )}
                                 </div>
                             )}

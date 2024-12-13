@@ -11,10 +11,11 @@
       background-color: white !important;
 
       &-selector {
-        border: 1.5px solid rgb(229, 229, 229) !important; // Remove border
-        box-shadow: none !important; // Remove box-shadow
+        border: 1px solid #ccc !important; // Remove border
+        padding: 3px 30px 3px 10px; // Add padding
+        box-shadow: 2px 2px 4px #e6eaeb !important;
         background-color: white !important; // Make background transparent
-        border-radius: 8px !important; // Add border-radius
+        border-radius: 10px !important; // Add border-radius
 
         &:hover {
           border-color: #40a9ff;

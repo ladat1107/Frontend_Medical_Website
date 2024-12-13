@@ -20,6 +20,14 @@ const AdminHomePage = () => {
     const recentPatients = [
         { name: "Nguyễn Văn A", department: "Khoa Nội", time: "10:30 sáng" },
         { name: "Trần Thị B", department: "Khoa Sản", time: "11:00 sáng" },
+        { name: "Nguyễn Văn A", department: "Khoa Nội", time: "10:30 sáng" },
+        { name: "Trần Thị B", department: "Khoa Sản", time: "11:00 sáng" },
+        { name: "Nguyễn Văn A", department: "Khoa Nội", time: "10:30 sáng" },
+        { name: "Trần Thị B", department: "Khoa Sản", time: "11:00 sáng" },
+        { name: "Nguyễn Văn A", department: "Khoa Nội", time: "10:30 sáng" },
+        { name: "Trần Thị B", department: "Khoa Sản", time: "11:00 sáng" },
+        { name: "Nguyễn Văn A", department: "Khoa Nội", time: "10:30 sáng" },
+        { name: "Trần Thị B", department: "Khoa Sản", time: "11:00 sáng" },
     ];
 
     const chartData = {

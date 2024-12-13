@@ -36,6 +36,8 @@ export const PATHS = {
         HANDBOOK_DETAIL: "/handbookDetail",
         APPOINTMENT_LIST: "/appointmentList",
         EXAMINATION_LIST: "/examinationList",
+        DEPARTMENT_DETAIL: "/departmentDetail",
+        SPECIALTY_DETAIL: "/specialtyDetail",
         PROFILE: "/user-profile",
         BOOKING: "/make-appointment",
         LOGIN: "/login",

@@ -17,7 +17,7 @@ const DoctorInfo = (props) => {
         <div className="container-input">
           <input
             type="text"
-            placeholder="Search"
+            placeholder="Tìm kiếm"
             name="text"
             className="input"
           />
