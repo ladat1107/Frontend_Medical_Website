@@ -12,7 +12,6 @@ const DepartmentRelated = (props) => {
   let { doctorList } = props;
   return (
     <div className={cx('body-list-department')}  >
-
       <div className={cx('slider-section')} >
         <div className={cx('title-top')} >
           <h3>Bác sĩ cùng chuyên khoa</h3>

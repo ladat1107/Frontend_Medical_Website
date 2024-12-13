@@ -37,6 +37,7 @@ import BlogDetail from "./layout/User/pages/BlogDetail/BlogDetail";
 import AdminDashboard from "./layout/Admin/pages/Dashboard/AdminDashboard";
 import AdminLayout from "./layout/Admin/AdminLayout";
 import DepartmentDetail from "./layout/User/pages/DepartmentDetail/DepartmentDetail";
+import DepartmentList from "./layout/User/pages/DepartmentList";
 function App() {
   return (
     <ConfigProvider
@@ -51,6 +52,7 @@ function App() {
           <Route index element={<HomePage />} />
           <Route path={`${PATHS.HOME.DOCTOR_DETAIL}/:id`} element={<DoctorDetail />} />
           <Route path={PATHS.HOME.DOCTOR_LIST} element={<DoctorList />} />
+          <Route path={PATHS.HOME.DEPARTMENT_LIST} element={<DepartmentList />} />
           <Route path={PATHS.HOME.BOOKING} element={<Booking />} />
           <Route path={`${PATHS.HOME.HANDBOOK_LIST}/:id`} element={<BlogList />} />
           <Route path={PATHS.HOME.PROFILE} element={<ProfileUser />} />

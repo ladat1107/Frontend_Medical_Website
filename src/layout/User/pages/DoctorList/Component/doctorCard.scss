@@ -6,7 +6,6 @@
   box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
   overflow: hidden;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
-  cursor: pointer;
   width: 300px;
   height: 450px;
 
@@ -27,6 +26,7 @@
     text-align: center;
     color: white;
     font-size: 16px;
+    cursor: pointer;
   }
 
   &__avatar {
@@ -57,7 +57,6 @@
       font-size: 1rem;
       color: #6c757d;
       margin: 0.5rem 0 !important;
-
     }
 
     &__details {

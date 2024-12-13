@@ -40,7 +40,9 @@ function Header() {
       title: "Bệnh viện",
       inner: [
         { title: "Bác sĩ", icon: <FontAwesomeIcon icon={faSyringe} />, action: PATHS.HOME.DOCTOR_LIST },
-        { title: "Khoa", icon: <FontAwesomeIcon icon={faHospital} /> },
+        {
+          title: "Khoa", icon: <FontAwesomeIcon icon={faHospital} />, action: PATHS.HOME.DEPARTMENT_LIST
+        },
         { title: "Chuyên khoa", icon: <FontAwesomeIcon icon={faStethoscope} /> },
       ],
     },
@@ -65,7 +67,6 @@ function Header() {
       inner: [
         { title: "Thông tin cá nhân", icon: null, action: PATHS.HOME.PROFILE },
         { title: "Lịch sử đặt hẹn", icon: null, action: PATHS.HOME.APPOINTMENT_LIST },
-        { title: "Hồ sơ khám bệnh", icon: null, action: PATHS.HOME.EXAMINATION_LIST },
       ],
     }] : [])
   ];

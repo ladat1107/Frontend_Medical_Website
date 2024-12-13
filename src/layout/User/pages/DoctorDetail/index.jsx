@@ -49,6 +49,7 @@ const DoctorDetail = () => {
         <Container>
           <DoctorDetailHeader data={doctor} />
           <DoctorDetailBody data={doctor} handbook={handbook} />
+          <div className="mt-5"></div>
           <DoctorRelated doctorList={doctorList} />
         </Container>
       }
