@@ -6,17 +6,19 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { PATHS } from "@/constant/path";
+import { message } from "antd";
 const Booking = () => {
-    let {user} = useSelector(state => state.authen);
+    let { user } = useSelector(state => state.authen);
     let [specialty, setSpecialty] = useState(null);
     let [doctor, setDoctor] = useState(null);
     let [schedule, setSchedule] = useState(null);
-    let [profile, setProfile] = useState(null);   
+    let [profile, setProfile] = useState(null);
     let navigate = useNavigate();
-    
+
     useEffect(() => {
         if (!user) {
             navigate(PATHS.HOME.LOGIN);
+            message.info("Vui lòng đăng nhập để đặt lịch hẹn");
         }
     }, []);
 
@@ -37,9 +39,9 @@ const Booking = () => {
                             doctor={doctor}
                             setDoctor={setDoctor}
                             schedule={schedule}
-                            setSchedule={setSchedule} 
+                            setSchedule={setSchedule}
                             profile={profile}
-                            setProfile={setProfile}/>
+                            setProfile={setProfile} />
                     </div>
                 </div>
             </Container>

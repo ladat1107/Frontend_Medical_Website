@@ -118,7 +118,7 @@ const DeleteModal = (props) => {
                     <Button key="cancel" onClick={() => handleClose()}>
                         Hủy
                     </Button>,
-                    <Button key="submit" style={{ background: "#003a8c", color: "#ffffff", border: "none" }} onClick={() => handleLock()}>
+                    <Button key="submit" style={{ background: "#F1B14D", color: "#ffffff", border: "none" }} onClick={() => handleLock()}>
                         Khóa
                     </Button>,
                     <Button key="submit" style={{ background: "#f5222d", color: "#ffffff", border: "none" }} onClick={() => handleDelete()}>
@@ -129,28 +129,6 @@ const DeleteModal = (props) => {
                 <p> {messageContent}</p>
 
             </Modal>
-            {/* <Modal
-                show={props.show}
-                onHide={handleClose}
-                backdrop="static"
-                keyboard={false}
-            >
-                <Modal.Header closeButton>
-                    <Modal.Title>XÁC NHẬN</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                    {messageContent}
-                </Modal.Body>
-                <Modal.Footer>
-                    <Button variant="secondary" onClick={handleClose}>
-                        Đóng
-                    </Button>
-                    <Button variant="warning" onClick={() => { handleLock() }}>
-                        Khóa
-                    </Button>
-                    <Button variant="danger" onClick={() => { handleDelete() }}>Xóa</Button>
-                </Modal.Footer>
-            </Modal> */}
         </>
     );
 };

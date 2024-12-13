@@ -33,7 +33,7 @@ const BookingSpecialty = (props) => {
     return (
         <div>
             <div className="header">
-                <FontAwesomeIcon className='icon-back' icon={faLeftLong} />
+                <FontAwesomeIcon className='icon-back' icon={faLeftLong} onClick={() => { props.back() }} />
                 Vui lòng chọn chuyên khoa
             </div>
             <div className='content'>

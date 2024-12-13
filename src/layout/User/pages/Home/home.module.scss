@@ -1,4 +1,5 @@
 /* home.module.scss */
+@import "/src/style/variables.scss";
 
 .bg-banner {
   background-image: url("https://cdn.medpro.vn/prod-partner/92b6d682-4b5a-4c94-ac54-97a077c0c6c5-homepage_banner.webp");
@@ -15,6 +16,7 @@
 //banner section
 .banner {
   text-align: center;
+
   h2 {
     font-size: 34px;
     font-weight: 700;
@@ -35,31 +37,39 @@
   .specialty-title {
     margin-bottom: 30px;
   }
+
   .specialty-list {
     display: flex;
     flex-wrap: wrap;
-    gap: 20px;
-    justify-content: space-between;
+    justify-content: flex-start;
+    gap: 25px;
+
     .specialty-item {
-      max-width: 120px;
+      width: 120px;
+      height: 180px;
       text-align: center;
-      padding: 10px;
+      padding: 15px;
       display: flex;
       flex-direction: column;
-      gap: 10px;
       align-items: center;
+
+      .text {
+        font-size: 18px;
+      }
     }
   }
+
   .show-more-btn {
-    margin: 20px auto 0; /* Center horizontally */
+    margin: 20px auto 0;
     padding: 10px 20px;
-    background-color: #5294da;
+    background-color: $primary-color;
     color: white;
     border: none;
-    border-radius: 5px;
+    border-radius: 8px;
     cursor: pointer;
     font-size: 16px;
-    display: block; /* Ensures the button takes the full width of its container */
+    display: block;
+    /* Ensures the button takes the full width of its container */
     text-align: center;
 
     &:hover {
@@ -75,14 +85,17 @@
   width: 100%;
   margin: 20px 0;
   padding: 100px 0;
-  background: linear-gradient(
-    180deg,
-    #fff 0%,
-    /* Bắt đầu màu trắng từ 0% */ #e8f4fd 10%,
-    /* Màu trắng chiếm 10% */ #ebf2ff 90%,
-    /* Màu gradient bắt đầu hiện từ 90% */ #fff 100%
+  background: linear-gradient(180deg,
+      #fff 0%,
+      /* Bắt đầu màu trắng từ 0% */
+      #e8f4fd 10%,
+      /* Màu trắng chiếm 10% */
+      #ebf2ff 90%,
+      /* Màu gradient bắt đầu hiện từ 90% */
+      #fff 100%
       /* Màu trắng lại xuất hiện ở cuối */
-  );
+    );
+
   .ourTeam {
     .ourTeam-title {
       margin-bottom: 30px;
@@ -95,14 +108,17 @@
 .colab {
   padding: 50px;
   margin-bottom: 30px;
+
   .colab-title {
     margin-bottom: 30px;
   }
 }
+
 //department
 
 .department {
   margin-bottom: 100px;
+
   .department-title {
     margin-bottom: 30px;
   }
@@ -112,14 +128,17 @@
 .bg-statistical {
   background-color: rgb(232, 244, 253);
   padding: 100px 0;
-  background: linear-gradient(
-    180deg,
-    #fff 0%,
-    /* Bắt đầu màu trắng từ 0% */ #e8f4fd 10%,
-    /* Màu trắng chiếm 10% */ #ebf2ff 90%,
-    /* Màu gradient bắt đầu hiện từ 90% */ #fff 100%
+  background: linear-gradient(180deg,
+      #fff 0%,
+      /* Bắt đầu màu trắng từ 0% */
+      #e8f4fd 10%,
+      /* Màu trắng chiếm 10% */
+      #ebf2ff 90%,
+      /* Màu gradient bắt đầu hiện từ 90% */
+      #fff 100%
       /* Màu trắng lại xuất hiện ở cuối */
-  );
+    );
+
   .statistical {
     display: flex;
     justify-content: space-around;
@@ -131,6 +150,7 @@
     .statistical-item {
       text-align: center;
       max-width: 120px;
+
       p {
         font-weight: 700;
       }
@@ -184,11 +204,14 @@
 
       &.left {
         text-align: right;
+
         .text {
           margin-left: auto;
         }
+
         .icon {
           width: 32%;
+
           img {
             width: 100%;
           }
@@ -197,18 +220,23 @@
 
       &.right {
         text-align: left;
+
         .text {
           margin-right: auto;
         }
+
         .icon {
           width: 32%;
+
           img {
             width: 100%;
           }
         }
       }
+
       &.reverse {
-        flex-direction: row-reverse; /* Đổi vị trí: icon bên phải */
+        flex-direction: row-reverse;
+        /* Đổi vị trí: icon bên phải */
       }
     }
 
@@ -249,9 +277,11 @@
 //media
 .media {
   margin-top: 100px;
+
   .media-title {
     margin-bottom: 40px;
   }
+
   .media-img {
     display: flex;
     flex-wrap: wrap; // Cho phép phần tử xuống dòng khi hết không gian
@@ -283,8 +313,10 @@
     border-radius: 30px;
     cursor: pointer;
   }
+
   padding: 50px 0;
   margin-bottom: 50px;
+
   span {
     display: block;
     margin: 10px 0;
@@ -293,19 +325,23 @@
     font-size: 13px;
     line-height: 15px;
   }
+
   .blog-title {
     margin-bottom: 20px;
   }
+
   .blog-item-wrapper {
     margin-bottom: 30px;
     gap: 25px;
     display: flex;
+
     .blog-item-left {
       width: 40%;
       background-color: white;
       padding: 20px;
       border-radius: 20px;
       cursor: pointer;
+
       .content {
         margin-top: 20px;
         min-height: 300px;
@@ -315,15 +351,17 @@
         }
       }
     }
+
     .blog-item-right {
       min-height: 300px;
       width: 60%;
       display: grid;
-      grid-template-columns: repeat(
-        2,
-        1fr
-      ); /* 2 cột, mỗi cột chiếm 1 phần đều nhau */
-      gap: 20px; /* Khoảng cách giữa các item */
+      grid-template-columns: repeat(2,
+          1fr);
+      /* 2 cột, mỗi cột chiếm 1 phần đều nhau */
+      gap: 20px;
+
+      /* Khoảng cách giữa các item */
       .blog-inner-item {
         background-color: white;
 
@@ -331,6 +369,7 @@
           font-size: 18px;
           margin: 10px 0;
         }
+
         padding: 20px;
         border-radius: 20px;
         cursor: pointer;

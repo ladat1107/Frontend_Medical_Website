@@ -14,10 +14,10 @@ const Specialty = () => {
 
   const listSpecialty = specialtyData?.DT || [];
 
-  
+
   const [showAll, setShowAll] = useState(false);
 
-  const itemsToShow = showAll ? listSpecialty : listSpecialty.slice(0,16);
+  const itemsToShow = showAll ? listSpecialty : listSpecialty.slice(0, 16);
 
   return (
     <div className={cx('specialty')}>
@@ -26,19 +26,19 @@ const Specialty = () => {
         {itemsToShow.map((item, index) => (
           <div key={index} className={cx('specialty-item')}>
             <img src={item.image} alt="" />
-            <p className="secondary-text">{item.name}</p>
+            <p className="text mt-3">{item.name}</p>
           </div>
         ))}
       </div>
       {listSpecialty.length > 0 && (
         <div className={cx('show-more-container')}>
-        <button
-          className={cx('show-more-btn')}
-          onClick={() => setShowAll((prev) => !prev)}
-        >
-          {showAll ? 'Show Less' : 'Show More'}
-        </button>
-      </div>
+          <button
+            className={cx('show-more-btn')}
+            onClick={() => setShowAll((prev) => !prev)}
+          >
+            {showAll ? 'Show Less' : 'Show More'}
+          </button>
+        </div>
       )}
     </div>
   );
