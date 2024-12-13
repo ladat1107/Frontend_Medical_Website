@@ -6,7 +6,7 @@ const cx = classNames.bind(styles);
 import Container from "@/components/Container";
 import DoctorDetailHeader from "./DoctorDetailHeader";
 import DoctorDetailBody from "./DoctorDetailBody";
-import DoctorDetailRelated from "../BlogDetail/section/BlogRelated";
+import DoctorRelated from "./DoctorRelated";
 import { useLocation, useParams } from "react-router-dom";
 import userService from "@/services/userService";
 import { useMutation } from "@/hooks/useMutation";
@@ -49,7 +49,7 @@ const DoctorDetail = () => {
         <Container>
           <DoctorDetailHeader data={doctor} />
           <DoctorDetailBody data={doctor} handbook={handbook} />
-          <DoctorDetailRelated doctorList={doctorList} />
+          <DoctorRelated doctorList={doctorList} />
         </Container>
       }
     </div>

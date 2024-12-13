@@ -36,6 +36,7 @@ import ProfileUser from "./layout/User/pages/ProfileUser/ProfileUser";
 import BlogDetail from "./layout/User/pages/BlogDetail/BlogDetail";
 import AdminDashboard from "./layout/Admin/pages/Dashboard/AdminDashboard";
 import AdminLayout from "./layout/Admin/AdminLayout";
+import DepartmentDetail from "./layout/User/pages/DepartmentDetail/DepartmentDetail";
 function App() {
   return (
     <ConfigProvider
@@ -55,6 +56,7 @@ function App() {
           <Route path={PATHS.HOME.PROFILE} element={<ProfileUser />} />
           <Route path={PATHS.HOME.APPOINTMENT_LIST} element={<AppointmentList />} />
           <Route path={`${PATHS.HOME.HANDBOOK_DETAIL}/:id`} element={<BlogDetail />} />
+          <Route path={`${PATHS.HOME.DEPARTMENT_DETAIL}/:id`} element={<DepartmentDetail />} />
         </Route>
 
         <Route path={PATHS.HOME.LOGIN} element={<Login />} />
