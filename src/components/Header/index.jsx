@@ -107,7 +107,7 @@ function Header() {
               {
                 user && <div className={cx("language")}>
                   {/* <Dropdown title="Language" items={items} /> */}
-                  Xin chào. {user.lastName + " " + user.firstName}
+                  Chào. {user.firstName}
                 </div>
               }
               {user ?

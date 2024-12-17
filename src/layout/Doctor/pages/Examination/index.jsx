@@ -28,13 +28,13 @@ const Examination = () => {
 
 
     useEffect(() => {
-        if(isModalOpen) {
+        if (isModalOpen) {
             if (isModalOpen) {
                 document.body.style.overflow = 'hidden';
             } else {
                 document.body.style.overflow = 'unset';
             }
-    
+
             return () => {
                 document.body.style.overflow = 'unset';
             };
@@ -77,7 +77,7 @@ const Examination = () => {
     let refresh = () => {
         fetchExaminationData();
     }
-    
+
     let {
         data: dataExamination,
         loading: examinationLoading,
@@ -96,7 +96,7 @@ const Examination = () => {
                 "price", "special", "insuranceCoverage"
             ];
 
-            const disease = dataExamination.DT?.diseaseName.split(" - ") || "";
+            const disease = dataExamination.DT?.diseaseName?.split(" - ") || "";
 
             const formattedData = {
                 ...Object.fromEntries(fields.map(field => [field, dataExamination.DT[field] || ""])),
@@ -147,7 +147,7 @@ const Examination = () => {
                                     <div className="col-2">
                                         <button
                                             onClick={showModal}
-                                            className='history-button'> 
+                                            className='history-button'>
                                             Lịch sử khám bệnh
                                         </button>
                                     </div>
@@ -235,8 +235,8 @@ const Examination = () => {
                                                 onChange={handleRadioChange} />
                                             <span className="name">Sinh hiệu</span>
                                         </label>
-                                        </div>
-                                        <div className="col-6 col-lg-2 d-flex justify-content-center">
+                                    </div>
+                                    <div className="col-6 col-lg-2 d-flex justify-content-center">
                                         <label className="radio">
                                             <input type="radio" name="radio"
                                                 value="paraclinical"

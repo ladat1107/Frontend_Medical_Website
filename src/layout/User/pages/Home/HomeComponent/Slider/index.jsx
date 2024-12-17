@@ -46,7 +46,7 @@ const SliderComponent = ({ type = "service", numberShow = 6, autoplayProps, dot 
           } else if (type === 'advertisement') {
             return (
               <div className="item-advertisement" key={index} >
-                <img src="https://medpro.vn/_next/image?url=https%3A%2F%2Fcdn.medpro.vn%2Fprod-partner%2Fce76da74-5584-451b-b417-c3b68ce49cfa-viettel_money_banner_fb_1180x310_copy2_copy.png&w=1200&q=100" alt="" />
+                <img src={item || "https://medpro.vn/_next/image?url=https%3A%2F%2Fcdn.medpro.vn%2Fprod-partner%2Fce76da74-5584-451b-b417-c3b68ce49cfa-viettel_money_banner_fb_1180x310_copy2_copy.png&w=1200&q=100"} alt="" />
               </div>
             )
           } else if (type = 'department') {

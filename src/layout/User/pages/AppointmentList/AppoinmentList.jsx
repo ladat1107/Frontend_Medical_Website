@@ -12,6 +12,7 @@ import { faBriefcaseMedical, faLocationDot, faMapLocationDot, faMobileScreen, fa
 import { TIMESLOTS } from "@/constant/value";
 import dayjs from "dayjs";
 import { PATHS } from "@/constant/path";
+import { useMutation } from "@/hooks/useMutation";
 const AppointmentList = () => {
     const location = useLocation();
     let navigate = useNavigate();
@@ -19,7 +20,8 @@ const AppointmentList = () => {
     const queryParams = new URLSearchParams(location.search);
     const {
         data: appoinmentData,
-    } = useQuery(() => userService.getAppoinment({ status: 2 }));
+        execute: getAppoinment,
+    } = useMutation(() => userService.getAppoinment({ status: 2 }));
 
     useEffect(() => {
         let confirmToken = queryParams.get('confirm');
@@ -37,6 +39,9 @@ const AppointmentList = () => {
             fetchConfirmAsync();
         }
     }, []);
+    useEffect(() => {
+        getAppoinment();
+    }, [location]);
     useEffect(() => {
         if (appoinmentData) {
             setListAppoinment(appoinmentData.DT);

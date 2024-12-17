@@ -15,11 +15,11 @@ const DepartmentRelated = (props) => {
 
       <div className={cx('slider-section')} >
         <div className={cx('title-top')} >
-          <h3>Bác sĩ cùng chuyên khoa</h3>
+          <h3>Bác sĩ cùng khoa</h3>
           <span className={cx('line')} ></span>
         </div>
         <div className={cx('wrapper')} >
-          <SliderComponent type='doctor' numberShow={4} dot={false} listData={listStaff} autoplayProps={true} />
+          <SliderComponent type='doctor' numberShow={listStaff?.length > 4 ? 4 : listStaff?.length} dot={false} listData={listStaff} autoplayProps={true} />
         </div>
       </div>
     </div>
