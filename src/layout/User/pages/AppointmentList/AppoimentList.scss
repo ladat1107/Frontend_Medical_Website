@@ -70,12 +70,24 @@
                 border: none;
                 border-radius: 8px;
                 cursor: pointer;
+                margin-left: 10px;
 
                 &.delete {
                     background: #ff4d4f;
                     color: white;
                 }
 
+                &.checkout {
+                    background: $primary-color;
+                    color: white;
+                }
+            }
+
+            .status-success {
+                color: #42c600;
+                font-weight: 700;
+                font-size: 20px;
+                margin-right: 20px;
             }
 
         }

@@ -45,6 +45,9 @@ const userService = {
       params: { id: data.id },
     });
   },
+  checkOutAppointment(query = "") {
+    return axiosInstance.get(`/api/paymentExaminationMomo`, { params: query });
+  }
 };
 
 export default userService

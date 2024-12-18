@@ -16,6 +16,7 @@ export const TABLE = {
     SERVICE: "SERVICE",
     ROOM: "ROOM",
     SPECIALTY: "SPECIALTY",
+    EXAMINATION: "EXAMINATION",
 }
 export const TAGS = [
     {
