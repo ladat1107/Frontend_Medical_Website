@@ -17,7 +17,6 @@ const Cashier = () => {
     const [patientData, setPatientData] = useState({});
     const [examId, setExamId] = useState(0);
     const [type, setType] = useState('examination');
-
     const isAppointment = 0;
 
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -60,7 +59,7 @@ const Cashier = () => {
         loading: loadingExaminations,
         error: errorExaminations,
         execute: fetchExaminations,
-    } = useMutation(() => getListToPay('2024-12-08T11:28:55.426Z', statusPay, currentPage, pageSize, search))
+    } = useMutation(() => getListToPay(today, statusPay, currentPage, pageSize, search))
 
     useEffect(() => {
         fetchExaminations();
@@ -93,10 +92,10 @@ const Cashier = () => {
                     </div>
                     <div className="col-6">
                         <p className="search-title">Tìm kiếm đơn khám</p>
-                        <input type="text" className="search-box" 
-                                placeholder="Nhập tên bệnh nhân để tìm kiếm..." 
-                                value={search}
-                                onChange={handleSearch}/>
+                        <input type="text" className="search-box"
+                            placeholder="Nhập tên bệnh nhân để tìm kiếm..."
+                            value={search}
+                            onChange={handleSearch} />
                     </div>
                 </div>
                 <div className="appointment-container mt-3 row">
@@ -108,45 +107,45 @@ const Cashier = () => {
                             <div className="loading">
                                 <Spin />
                             </div>
-                        ) : ( listExam && listExam.length > 0 ? listExam.map((item, index) => (
-                                <div key={index}> 
-                                    {item.type === 'examination' ? (
-                                        <PatientItem
-                                            key={item.data.id + index}
-                                            index={index + 1}
-                                            id={item.data.id}
-                                            name={`${item.data.userExaminationData.lastName} ${item.data.userExaminationData.firstName}`}
-                                            symptom={item.type}
-                                            special={item.data.special}
-                                            room={item.data.roomName}
-                                            doctor={`${item.data.examinationStaffData.staffUserData.lastName} ${item.data.examinationStaffData.staffUserData.firstName}`}
-                                            downItem={downItem}
-                                            visit_status={item.data.visit_status}
-                                            onClickItem={()=>handlePay(index)}
-                                            sort={false}
-                                        />
-                                    ) : item.type === 'paraclinical' ? (
-                                        <PatientItem
-                                            key={item.data.id + index}
-                                            index={index + 1}
-                                            id={item.data.id}
-                                            name={`${item.data.userExaminationData.lastName} ${item.data.userExaminationData.firstName}`}
-                                            symptom={item.type}
-                                            special={item.data.special}
-                                            room={""}
-                                            doctor={""}
-                                            downItem={downItem}
-                                            visit_status={item.data.visit_status}
-                                            onClickItem={()=>handlePay(index)}
-                                            sort={false}
-                                        />
-                                    ) : null}
-                                </div>
-                            )):(
-                                <div className="no-patient d-flex justify-content-center mt-2">
-                                    <p>Không tìm thấy bệnh nhân!</p>
-                                </div>
-                            )
+                        ) : (listExam && listExam.length > 0 ? listExam.map((item, index) => (
+                            <div key={index}>
+                                {item.type === 'examination' ? (
+                                    <PatientItem
+                                        key={item.data.id + index}
+                                        index={index + 1}
+                                        id={item.data.id}
+                                        name={`${item.data.userExaminationData.lastName} ${item.data.userExaminationData.firstName}`}
+                                        symptom={item.type}
+                                        special={item.data.special}
+                                        room={item.data.roomName}
+                                        doctor={`${item.data.examinationStaffData.staffUserData.lastName} ${item.data.examinationStaffData.staffUserData.firstName}`}
+                                        downItem={downItem}
+                                        visit_status={item.data.visit_status}
+                                        onClickItem={() => handlePay(index)}
+                                        sort={false}
+                                    />
+                                ) : item.type === 'paraclinical' ? (
+                                    <PatientItem
+                                        key={item.data.id + index}
+                                        index={index + 1}
+                                        id={item.data.id}
+                                        name={`${item.data.userExaminationData.lastName} ${item.data.userExaminationData.firstName}`}
+                                        symptom={item.type}
+                                        special={item.data.special}
+                                        room={""}
+                                        doctor={""}
+                                        downItem={downItem}
+                                        visit_status={item.data.visit_status}
+                                        onClickItem={() => handlePay(index)}
+                                        sort={false}
+                                    />
+                                ) : null}
+                            </div>
+                        )) : (
+                            <div className="no-patient d-flex justify-content-center mt-2">
+                                <p>Không tìm thấy bệnh nhân!</p>
+                            </div>
+                        )
                         )}
                     </div>
                     <div className='row mt-3'>
@@ -163,7 +162,7 @@ const Cashier = () => {
                 </div>
                 {listExam.length > 0 &&
                     <PayModal
-                        key={patientData? patientData.id + " " + Date.now() : "modal-closed"}
+                        key={patientData ? patientData.id + " " + Date.now() : "modal-closed"}
                         isOpen={isModalOpen}
                         onClose={closePay}
                         onPaySusscess={onPaySusscess}

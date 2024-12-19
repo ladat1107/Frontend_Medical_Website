@@ -57,9 +57,9 @@ const searchAppointmentsWithStaffId = (page, limit, staffId, search, from, to) =
 // Examination
 export const getExaminations = async (date, status, staffId, is_appointment, page, limit, search, time) => {
     try {
-        if(!time) time = '';
-        if(!staffId) staffId = '';
-        
+        if (!time) time = '';
+        if (!staffId) staffId = '';
+
         const response = await axios.get(`/api/getExaminations?date=${date}&status=${status}&staffId=${staffId}&is_appointment=${is_appointment}&page=${+page}&limit=${+limit}&search=${search}&time=${time}`);
         //console.log("Response:", response.data); 
         return response;
@@ -107,6 +107,12 @@ const updateExamination = async (data) => {
     }
 };
 
+export const checkOutParaclinical = (data) => {
+    return axios.post(`/api/paymentParaclinicalMomo`, data);
+}
+export const checkOutExamination = (data) => {
+    return axios.post(`/api/paymentExaminationMomo`, data);
+}
 
 const getDiseaseByName = (name) => {
     return axios.get(`/api/getDiseaseByName?name=${name}`)

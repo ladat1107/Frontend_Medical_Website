@@ -46,8 +46,8 @@ const userService = {
     });
   },
   checkOutAppointment(query = "") {
-    return axiosInstance.get(`/api/paymentExaminationMomo`, { params: query });
-  }
+    return axiosInstance.get(`/api/paymentAppoinmentMomo`, { params: query });
+  },
 };
 
 export default userService

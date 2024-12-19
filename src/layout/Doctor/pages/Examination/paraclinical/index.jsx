@@ -64,8 +64,7 @@ const Paraclinical = ({ listParaclinicals, examinationId, refresh }) => {
             refresh();
             setSelectedParaclinicals([]);
         } else {
-            message.error('Tạo yêu cầu xét nghiệm thất bại!');
-            console.error("Error creating paraclinical request:", response);
+            message.error(response.data.EM);
         }
     }
 
@@ -78,7 +77,6 @@ const Paraclinical = ({ listParaclinicals, examinationId, refresh }) => {
     const filteredParaclinicals = paracOptions.filter(paraclinical =>
         paraclinical.label.toLowerCase().includes(inputParac.toLowerCase())
     );
-
     useEffect(() => {
         fetchParaclinical();
         const handleClickOutside = (event) => {
@@ -104,15 +102,15 @@ const Paraclinical = ({ listParaclinicals, examinationId, refresh }) => {
             return;
         }
 
-        const isDuplicate = paracDetails.some(detail => 
-            detail.paraclinical === paraclinical.id 
+        const isDuplicate = paracDetails.some(detail =>
+            detail.paraclinical === paraclinical.id
         );
 
         if (isDuplicate) {
             message.warning('Xét nghiệm đã tồn tại trong danh sách!');
             return;
         }
-    
+
         setSelectedParaclinicals((prevSelected) => [
             ...prevSelected,
             paraclinical
@@ -120,8 +118,8 @@ const Paraclinical = ({ listParaclinicals, examinationId, refresh }) => {
         setInputParac('');
         setShowSearchResults(false);
     };
-    
-    const handleRemoveParaclinical  = (id) => {
+
+    const handleRemoveParaclinical = (id) => {
         setSelectedParaclinicals(selectedParaclinicals.filter(item => item.id !== id));
     };
 
@@ -129,8 +127,8 @@ const Paraclinical = ({ listParaclinicals, examinationId, refresh }) => {
         <>
             <div className="parac-container">
                 <div className='exam-info mt-4'>
-                    <div 
-                        ref={paraclinicalContainerRef} 
+                    <div
+                        ref={paraclinicalContainerRef}
                         className='paraclinicals-action'
                     >
                         <div className='paraclinicals-list'>
@@ -140,7 +138,7 @@ const Paraclinical = ({ listParaclinicals, examinationId, refresh }) => {
                                     className={`paraclinicals-item mb-2 ${shakeId === comorbidity.id ? 'shake' : ''}`}
                                 >
                                     <p>{comorbidity.label}</p>
-                                    <i 
+                                    <i
                                         className="fa-solid me-2 fa-times"
                                         onClick={() => handleRemoveParaclinical(comorbidity.id)}
                                     ></i>
@@ -160,15 +158,15 @@ const Paraclinical = ({ listParaclinicals, examinationId, refresh }) => {
                         />
                         {/* Hiển thị danh sách bệnh đi kèm khi có kết quả tìm kiếm */}
                         {showSearchResults && inputParac && (
-                            <div 
+                            <div
                                 ref={searchResultsRef}
                                 className='search-results'
                             >
                                 {filteredParaclinicals.map(paraclinical => (
-                                    <div 
+                                    <div
                                         key={paraclinical.id}
                                         className='search-item'
-                                        onClick={() => handleSelectParaclinical (paraclinical)}
+                                        onClick={() => handleSelectParaclinical(paraclinical)}
                                     >
                                         {paraclinical.label}
                                     </div>
