@@ -1,7 +1,7 @@
 import { message, Modal } from "antd";
 import "./ConfirmModal.scss";
 import { useEffect, useState } from "react";
-import { TABLE, TIMESLOTS } from "@/constant/value";
+import { STATUS_BE, TABLE, TIMESLOTS } from "@/constant/value";
 import userService from "@/services/userService";
 import { formatDate } from "@/utils/formatDate";
 
@@ -13,7 +13,16 @@ const ConfirmModal = (props) => {
     }
     useEffect(() => {
         if (props.table === TABLE.EXAMINATION) {
-            setMessageContent("Xác nhận xóa lịch hẹn lúc " + TIMESLOTS[data?.time - 1]?.label + " ngày " + formatDate(data?.admissionDate || new Date()) + " ?")
+            if (data?.paymentId && data?.paymentDoctorStatus === +STATUS_BE.ACTIVE) {
+                setMessageContent(
+                    "Lưu ý: <strong>Bạn đã thanh toán cho lịch hẹn này, xóa lịch hẹn sẽ được hoàn lại 80% số tiền đã thanh toán.</strong> <br />" +
+                    "Xác nhận xóa lịch hẹn lúc " + TIMESLOTS[data?.time - 1]?.label +
+                    " ngày " + formatDate(data?.admissionDate || new Date()) + " ?"
+                );
+            }
+            else {
+                setMessageContent("Xác nhận xóa lịch hẹn lúc " + TIMESLOTS[data?.time - 1]?.label + " ngày " + formatDate(data?.admissionDate || new Date()) + " ?")
+            }
         }
     }, [props.data])
     let handleDelete = async () => {
@@ -42,7 +51,7 @@ const ConfirmModal = (props) => {
             cancelText="Đóng"
             maskClosable={false}
         >
-            <p> {messageContent}</p>
+            <div dangerouslySetInnerHTML={{ __html: messageContent }} />
         </Modal>
     )
 }

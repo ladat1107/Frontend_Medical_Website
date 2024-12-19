@@ -33,7 +33,7 @@ const DepartmentDetailHeader = (props) => {
         <>
             <Breadcrumb items={breadcrumbItems} className="custom-breadcrumb" />
             <div className="department-detail-user-header row">
-                <div className="col-4">
+                <div className="col-3">
                     <div className="hospital-info">
                         <div className="img-star">
                             <img src={departmentDetail?.image || ""} alt="" />
@@ -45,12 +45,12 @@ const DepartmentDetailHeader = (props) => {
                         <div className="text-location px-3">
                             <div>
                                 <FontAwesomeIcon className="icon" icon={faLocationDot} />
-                                <span> Cơ sở 215 Hồng Bàng, Phường 11, Quận 5, TP.HCM</span>
+                                <span> Cơ sở 215 Hồng Bàng, Phường 11, Quận 5, TP.HCM - {departmentDetail?.address}</span>
                             </div>
-                            <div>
+                            {/* <div>
                                 <FontAwesomeIcon className="icon" icon={faClock} />
                                 <span>Thứ 2 - Thứ 7 (6:30 - 19:00)</span>
-                            </div>
+                            </div> */}
                             <div>
                                 <FontAwesomeIcon className="icon" icon={faPhone} />
                                 <span>0353366459</span>
@@ -60,13 +60,15 @@ const DepartmentDetailHeader = (props) => {
                     </div>
                     <div className="image-ri">
                         <img src={departmentDetail?.deanDepartmentData?.staffUserData?.avatar || "https://medpro.vn/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fbn.da13f84b.png&w=1920&q=75"} />
+                        <div> <span className="article-date">Trưởng khoa</span>
+                            <span className="article-author"> - {departmentDetail?.deanDepartmentData?.position}. {departmentDetail?.deanDepartmentData?.staffUserData?.lastName + " " + departmentDetail?.deanDepartmentData?.staffUserData?.firstName}</span></div>
                     </div>
                     <div className="map-deparment">
                         <GoogleMap />
                     </div>
                 </div>
 
-                <div className="department-detail-user-content col-8">
+                <div className="department-detail-user-content col-9">
                     <div className="slide-department">
                         <SliderComponent
                             type="advertisement"

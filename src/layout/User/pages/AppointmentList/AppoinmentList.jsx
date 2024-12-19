@@ -8,7 +8,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAddressCard, faCalendarCheck, faCircleUser, faClock, faEnvelope } from "@fortawesome/free-regular-svg-icons";
 import { formatDate } from "@/utils/formatDate";
 import { faBriefcaseMedical, faLocationDot, faMobileScreen, faVenusMars } from "@fortawesome/free-solid-svg-icons";
-import { STATUS, TABLE, TIMESLOTS } from "@/constant/value";
+import { STATUS, STATUS_BE, TABLE, TIMESLOTS } from "@/constant/value";
 import dayjs from "dayjs";
 import { PATHS } from "@/constant/path";
 import { useMutation } from "@/hooks/useMutation";
@@ -138,15 +138,22 @@ const AppointmentList = () => {
                                     </div>
                                 </div>
                                 <div className="patient-actions">
-                                    {profile?.paymentDoctorStatus === STATUS[1].value ?
+                                    {profile?.status === STATUS_BE.INACTIVE &&  //Đã hủy
+                                        <span className="btn cancel">{profile?.paymentId ? "Đã hoàn tiền" : "Đã hủy"}</span>}
+                                    {profile?.status !== STATUS_BE.INACTIVE && profile?.status !== STATUS_BE.PENDING && <span className="status-success">Đã khám</span>  //Đã xác nhận}
+                                    }
+                                    {profile?.status === STATUS_BE.PENDING &&  //Chờ xác nhận}
                                         <>
-                                            <button className="btn checkout" onClick={() => { handleCheckOut(profile) }}>Thanh toán</button>
-                                            {!dayjs(profile?.admissionDate).isBefore(dayjs().add(1, 'day').startOf('day')) && <button className="btn delete" onClick={() => { setObAppoinment(profile), setShow(true) }}>Hủy lịch hẹn</button>}
-                                        </>
-                                        :
-                                        <span className="status-success">Đã thanh toán</span>}
-
+                                            {profile?.paymentId && +profile?.paymentDoctorStatus === +STATUS_BE.ACTIVE ?  //Đã thanh toán (tiền bác sĩ=1 và đã có mã thanh toán)
+                                                <span className="status-success">Đã thanh toán</span>
+                                                :
+                                                <button className="btn checkout" onClick={() => { handleCheckOut(profile) }}>Thanh toán</button>
+                                            }
+                                            {// Không hiện nút hủy lịch hẹn nếu lịch hẹn đã qua
+                                                !dayjs(profile?.admissionDate).isBefore(dayjs().add(1, 'day').startOf('day')) && <button className="btn delete" onClick={() => { setObAppoinment(profile), setShow(true) }}>Hủy lịch hẹn</button>}
+                                        </>}
                                 </div>
+
                             </div>
                         ))}
                     </div>

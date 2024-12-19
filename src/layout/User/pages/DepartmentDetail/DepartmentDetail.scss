@@ -80,17 +80,28 @@
                     padding: 8px 20px;
                     font-size: 1em;
                     font-weight: 700;
+                    cursor: pointer;
                 }
             }
         }
 
         .image-ri {
             margin-top: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
 
             img {
                 height: 90%;
                 margin: auto;
                 border-radius: 15px;
+                margin-bottom: 10px;
+            }
+
+            span {
+                font-size: 1em;
+                font-weight: 700;
+                color: $main-text-color;
             }
         }
 
@@ -109,6 +120,8 @@
 
             .slide-department {
                 width: 100%;
+                border-radius: 15px;
+                padding: 0;
 
                 img {
                     width: 100%;
@@ -160,12 +173,12 @@
             .article-content {
                 background: white;
                 box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
-                padding: 20px;
+                padding: 20px 5px;
                 border-radius: 15px;
-
                 margin-bottom: 20px;
 
                 .markdown {
+                    padding: 20px;
                     font-size: 1rem;
                     line-height: 2px;
                     text-align: justify;
