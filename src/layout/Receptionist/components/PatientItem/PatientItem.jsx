@@ -70,7 +70,7 @@ const PatientItem = ({ index, id, name, symptom, special, doctor, room, visit_st
     };
 
     return (
-        <div className="patient-item mt-2 row" style={{paddingRight: 0}} onClick={handleClickItem}>
+        <div className="patient-item mt-2 row text-start" style={{paddingRight: 0}} onClick={handleClickItem}>
             {/* <div className="col-1">
                 <p>{index}</p>
             </div> */}
@@ -104,11 +104,11 @@ const PatientItem = ({ index, id, name, symptom, special, doctor, room, visit_st
                   <p className="bold-text">Phòng khám bệnh</p>
                   <p className="sub-text">{cutSuffix(room)}</p>
                 </div>
-                    <div className="col-2 d-flex justify-content-end">
-                      {visit_status === 0 && (
-                        <i className="fa-solid fa-forward-fast fa-rotate-90 color-down" onClick={(event) => handleDownItem(event)}></i>
-                      )}
-                    </div>
+                {/* <div className="col-2 d-flex justify-content-end">
+                  {visit_status === 0 && (
+                    <i className="fa-solid fa-forward-fast fa-rotate-90 color-down" onClick={(event) => handleDownItem(event)}></i>
+                  )}
+                </div> */}
               </div>
         </div>
     );

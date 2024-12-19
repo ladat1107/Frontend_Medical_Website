@@ -207,6 +207,11 @@ const getPrescriptionByExaminationId = async (examinationId) => {
     return axios.get(`/api/getPrescriptionByExaminationId?examinationId=${examinationId}`)
 }
 
+export const updateListPayParaclinicals = async (data) => {
+    const response = await axios.put(`/api/updateListPayParaclinicals`, data);
+    return response.data;
+}
+
 const upsertPrescription = async (data) => {
     try {
         const response = await axios.post(`/api/upsertPrescription`, data);

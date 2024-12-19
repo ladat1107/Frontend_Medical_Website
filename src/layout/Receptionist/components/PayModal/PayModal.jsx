@@ -3,7 +3,7 @@ import { PropTypes } from 'prop-types';
 import { useEffect, useState } from 'react';
 import { formatCurrency } from '@/utils/formatCurrency';
 import { getThirdDigitFromLeft } from '@/utils/numberSeries';
-import { updateExamination, updateParaclinical } from '@/services/doctorService';
+import { updateExamination, updateListPayParaclinicals, updateParaclinical } from '@/services/doctorService';
 import './PayModal.scss';
 
 const PayModal = ({ isOpen, onClose, onPaySusscess, examId, type, patientData }) => {
@@ -14,7 +14,8 @@ const PayModal = ({ isOpen, onClose, onPaySusscess, examId, type, patientData })
         infouser: { firstName: '', lastName: '', cid: '' },
         infostaff: { firstName: '', lastName: '', position: '' },
         price: 0,
-        description: ''
+        description: '',
+        paraclinicalItems: []
     });
 
     
@@ -46,24 +47,24 @@ const PayModal = ({ isOpen, onClose, onPaySusscess, examId, type, patientData })
             setInsurance(patientData?.insuaranceCode || '');
             setInsuranceCoverage(patientData?.insuranceCoverage || null);
         } else {
-            newSpecial = patientData?.examinationResultParaclincalData?.special || 'normal';
+            newSpecial = patientData?.special || 'normal';
             newData = {
                 infouser: {
-                    firstName: patientData?.examinationResultParaclincalData?.userExaminationData?.firstName,
-                    lastName: patientData?.examinationResultParaclincalData?.userExaminationData?.lastName,
-                    cid: patientData?.examinationResultParaclincalData?.userExaminationData?.cid,
+                    firstName: patientData?.userExaminationData?.firstName,
+                    lastName: patientData?.userExaminationData?.lastName,
+                    cid: patientData?.userExaminationData?.cid,
                 },
-                infostaff: {
-                    firstName: patientData?.doctorParaclinicalData?.staffUserData?.firstName,
-                    lastName: patientData?.doctorParaclinicalData?.staffUserData?.lastName,
-                    position: patientData?.doctorParaclinicalData?.position,
-                },
-                price: patientData?.price,
-                description: patientData?.paracName,
+                // infostaff: {
+                //     firstName: patientData?.doctorParaclinicalData?.staffUserData?.firstName,
+                //     lastName: patientData?.doctorParaclinicalData?.staffUserData?.lastName,
+                //     position: patientData?.doctorParaclinicalData?.position,
+                // },
+                price: patientData?.totalParaclinicalPrice,
+                paraclinicalItems: patientData?.paraclinicalItems,
             };
 
-            setInsurance(patientData?.examinationResultParaclincalData?.insuaranceCode || '');
-            setInsuranceCoverage(patientData?.examinationResultParaclincalData?.insuranceCoverage || null);
+            setInsurance(patientData?.insuaranceCode || '');
+            setInsuranceCoverage(patientData?.insuranceCoverage || null);
         }
 
         setSpecial(newSpecial);
@@ -85,6 +86,7 @@ const PayModal = ({ isOpen, onClose, onPaySusscess, examId, type, patientData })
     }, [isOpen]);
 
     const handlePay = async () => {
+      
         try {
             let paymentData = {};
 
@@ -107,19 +109,22 @@ const PayModal = ({ isOpen, onClose, onPaySusscess, examId, type, patientData })
                     message.error('Cập nhật bệnh nhân thất bại!');
                 }
             } else if (type === 'paraclinical') {
-                paymentData = {
-                    id: examId,
-                    status: 5
-                };
 
-                const response = await updateParaclinical(paymentData);
-    
-                if (response.EC === 0 && response.DT.includes(1)) {
-                    message.success('Cập nhật bệnh nhân thành công!');
-                    onPaySusscess();
-                    resetForm();
-                    onClose();
-                } else {
+                try{
+
+                    const ids = patientData.paraclinicalItems.map(item => item.id);
+                    const response = await updateListPayParaclinicals({ids});
+
+                    console.log(response);
+                    if(response.EC === 0){
+                        message.success('Cập nhật bệnh nhân thành công');
+                        onPaySusscess();
+                        resetForm();
+                        onClose();
+                    } else {
+                        message.error('Cập nhật bệnh nhân thất bại');
+                    }
+                } catch (error) {
                     message.error('Cập nhật bệnh nhân thất bại!');
                 }
             }
@@ -212,23 +217,54 @@ const PayModal = ({ isOpen, onClose, onPaySusscess, examId, type, patientData })
                         </div>
                     </div>
                     <hr className='mt-4'/>
-                    <div className='col-12 d-flex flex-row'>
-                        <div className='col-3 d-flex align-items-center'>
-                            <p style={{fontWeight: "400"}}>Bác sĩ:</p>
-                        </div>
-                        <div className='col-8'>
-                            <p>{data.infostaff.position + ' ' + data.infostaff.lastName + ' ' + data.infostaff.firstName}</p>
-                        </div>
-                    </div>
-                    <div className='col-12 d-flex flex-row mt-3'>
-                        <div className='col-3 d-flex align-items-center'>
-                            <p style={{fontWeight: "400"}}>Mô tả:</p>
-                        </div>
-                        <div className='col-8' style={{color: "#008EFF", fontWeight: '600'}}>
-                            <p>{data.description}</p>
-                        </div>
-                    </div>
-                    <hr className='mt-4'/>
+                    {type === 'examination' ? (
+                        <>
+                            <div className='col-12 d-flex flex-row'>
+                                <div className='col-3 d-flex align-items-center'>
+                                    <p style={{fontWeight: "400"}}>Bác sĩ:</p>
+                                </div>
+                                <div className='col-8'>
+                                    <p>{data.infostaff.position + ' ' + data.infostaff.lastName + ' ' + data.infostaff.firstName}</p>
+                                </div>
+                            </div>
+                            <div className='col-12 d-flex flex-row mt-3'>
+                                <div className='col-3 d-flex align-items-center'>
+                                    <p style={{fontWeight: "400"}}>Mô tả:</p>
+                                </div>
+                                <div className='col-8' style={{color: "#008EFF", fontWeight: '600'}}>
+                                    <p>{data.description}</p>
+                                </div>
+                            </div>
+                            <hr className='mt-4'/>
+                        </>
+                    ): (
+                        <>
+                            {data?.paraclinicalItems.length > 0 && data.paraclinicalItems.map((item, index) => (
+                                <div className='col-12 d-flex flex-column mb-3 pres-item' key={index}>
+                                    <div className='col-12 d-flex align-items-center'>
+                                        <p style={{fontWeight: "500", color: "#007BFF"}}>Cận lâm sàng: {item?.paracName}</p>
+                                    </div>
+                                    <div className='col-12 mt-2 mb-1 d-flex align-items-start'>
+                                        <div className='col-3'>
+                                            <p className='text-start' style={{
+                                                width: "100%", 
+                                                wordWrap: "break-word",
+                                                overflowWrap: "break-word", 
+                                                whiteSpace: "normal"
+                                            }}>Bác sĩ: {item?.doctorInfo?.doctorName}</p>
+                                        </div>
+                                        <div className='col-6 d-flex align-items-center'>
+                                            <p className='text-end' style={{fontWeight: "400", width: '100%'}}>Phòng: {item?.roomInfo?.name}</p>
+                                        </div>
+                                        <div className='col-1'/>
+                                        <div className='col-2 d-flex align-items-center'>
+                                            <p>Giá: {formatCurrency(item?.price)}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            ))}
+                        </>
+                    )}
                     <div className='col-12 d-flex flex-row mt-3 mb-2'>
                         <div className='col-3 d-flex align-items-center'>
                             <p style={{fontWeight: "400"}}>Số BHYT:</p>
@@ -242,7 +278,7 @@ const PayModal = ({ isOpen, onClose, onPaySusscess, examId, type, patientData })
                         <div className='col-2 d-flex align-items-center'>
                             <p style={{fontWeight: "400"}}>Mức hưởng:</p>
                         </div>
-                        <div className='col-2'>
+                        <div className='col-2 d-flex align-items-center'>
                             <p>
                                 {insuranceCoverage === 0 ? '' : insuranceCoverage}
                             </p>
