@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { remove } from 'lodash';
 
 const initialState = {
     isLoggedIn: false,
@@ -11,7 +12,6 @@ export const authenSlice = createSlice({
     initialState,
     reducers: {
         setToken: (state, action) => {
-            console.log("action.payload", action.payload);
             state.token = action.payload;
         },
         login: (state, action) => {
@@ -28,11 +28,11 @@ export const authenSlice = createSlice({
             if (!Array.isArray(state.rememberLogin)) {
                 state.rememberLogin = [];
             }
-            
+
             let array = [...state.rememberLogin];
-            if(array.length > 0){
+            if (array.length > 0) {
                 array.forEach((item, index) => {
-                    if(item.email === action.payload.email){
+                    if (item.email === action.payload.email) {
                         array.splice(index, 1);
                     }
                 });
@@ -41,11 +41,16 @@ export const authenSlice = createSlice({
             array.push(action.payload);
             state.rememberLogin = array;
         },
+        removeRememberAccount: (state, action) => {
+            let array = [...state.rememberLogin];
+            let newArray = array.filter(item => item.email !== action.payload.email);
+            state.rememberLogin = newArray;
+        }
     },
 });
 
 // Export các action để sử dụng trong component
-export const { login, logout, setToken, addRememberLogin } = authenSlice.actions;
+export const { login, logout, setToken, addRememberLogin, removeRememberAccount } = authenSlice.actions;
 
 // Export reducer để sử dụng trong store
 export default authenSlice.reducer;

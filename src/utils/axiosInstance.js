@@ -34,8 +34,7 @@ axiosInstance.interceptors.response.use(
       originalRequest._retry = true;
       try {
         // Gọi API để cập nhật token mới
-        const res = await axiosInstance.get("/refreshToken");
-        console.log("res", res);
+        const res = await axiosInstance.get("/api/refreshToken");
         if (res?.data?.EC === 0) {
           let newToken = res.data.DT;
           store.dispatch(setToken(newToken));

@@ -6,6 +6,7 @@ import 'react-markdown-editor-lite/lib/index.css';
 import { LINK, POSITION } from "@/constant/value";
 import { profileUpdateStaff } from "@/services/adminService";
 import { formatCurrency } from "@/utils/formatCurrency";
+import ParseHtml from "@/components/ParseHtml";
 let mdParser = new MarkdownIt(/* Markdown-it options */);
 const { TextArea } = Input;
 
@@ -166,7 +167,8 @@ const StaffInfo = (props) => {
                         <div className="content mt-3">{info?.staffUserData?.shortDescription}</div>
                     </div>
                     <div className="p-4 bg-content-profile html mb-0">
-                        <div dangerouslySetInnerHTML={{ __html: info?.staffUserData?.staffDescriptionData?.htmlContent || "" }}></div>
+                        <ParseHtml htmlString={info?.staffUserData?.staffDescriptionData?.htmlContent} />
+
                     </div>
                 </div>
             }

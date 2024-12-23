@@ -120,7 +120,6 @@ const PayModal = ({ isOpen, onClose, onPaySusscess, examId, type, patientData })
                 }
 
             } else if (type === 'paraclinical') {
-
                 try {
                     const ids = patientData.paraclinicalItems.map(item => item.id);
                     if (paymentMethod === optionRadio.cash) {
@@ -203,9 +202,7 @@ const PayModal = ({ isOpen, onClose, onPaySusscess, examId, type, patientData })
     };
 
     if (!isOpen) return null;
-    const handlePaymentChange = (value) => {
-        setPaymentMethod(value);
-    };
+
     return (
         <div className="payment-container">
             <div className="payment-content">
@@ -322,7 +319,7 @@ const PayModal = ({ isOpen, onClose, onPaySusscess, examId, type, patientData })
                                             type="radio"
                                             value={optionRadio.cash}
                                             checked={paymentMethod === optionRadio.cash}
-                                            onChange={() => handlePaymentChange(optionRadio.cash)}
+                                            onChange={() => setPaymentMethod(optionRadio.cash)}
                                         />
                                         Tiền mặt
                                     </label>
@@ -332,7 +329,7 @@ const PayModal = ({ isOpen, onClose, onPaySusscess, examId, type, patientData })
                                             type="radio"
                                             value={optionRadio.transfer}
                                             checked={paymentMethod === optionRadio.transfer}
-                                            onChange={() => handlePaymentChange(optionRadio.transfer)}
+                                            onChange={() => setPaymentMethod(optionRadio.transfer)}
                                         />
                                         Chuyển khoản
                                     </label>

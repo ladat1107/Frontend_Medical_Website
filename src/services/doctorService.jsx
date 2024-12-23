@@ -107,11 +107,15 @@ const updateExamination = async (data) => {
     }
 };
 
+
 export const checkOutParaclinical = (data) => {
     return axios.post(`/api/paymentParaclinicalMomo`, data);
 }
 export const checkOutExamination = (data) => {
     return axios.post(`/api/paymentExaminationMomo`, data);
+}
+export const checkOutPrescription = (data) => {
+    return axios.post(`/api/paymentPrescriptionMomo`, data);
 }
 
 const getDiseaseByName = (name) => {

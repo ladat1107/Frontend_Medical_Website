@@ -34,7 +34,6 @@ const HistoryModal = ({isModalOpen, handleCancel, userId}) => {
         if (dataHistory && dataHistory.DT) {
             setHistoryData(dataHistory.DT[0]);
             setIsLoading(false);
-            console.log(dataHistory.DT[0]);
         }
     }, [dataHistory, loadingHistory, errorHistory]);
 

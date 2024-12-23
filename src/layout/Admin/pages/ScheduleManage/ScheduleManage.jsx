@@ -101,7 +101,7 @@ const ScheduleManage = () => {
                             onChange={(value) => setCurrentWeek(value)} />
                         <Button className="mx-2" onClick={() => { refresh() }}>Làm mới</Button>
                         <Button className="mx-2" onClick={() => setPdfExport(true)}>
-                            Xuất PDF
+                            Xuất Excel
                         </Button>
                     </div>
                     {departments.length > 0 && schedules.schedule?.length > 0 ?

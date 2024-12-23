@@ -1,11 +1,10 @@
-
+import "./Parse.scss";
 
 const ParseHtml = ({ htmlString }) => {
-    return (
-      <div dangerouslySetInnerHTML={{ __html: htmlString }} />
-    );
-  };
-  
-  
+  return (
+    <div className="html-content" dangerouslySetInnerHTML={{ __html: htmlString }} />
+  );
+};
+
+
 export default ParseHtml;
-  

@@ -198,17 +198,17 @@ const ScheduleTable = (props) => {
 
                 // Thêm thông tin các ngày trong tuần vào hàng này
                 daysOfWeek.forEach((date) => {
-                    const formattedDate = date.format("YYYY-MM-DD");
+                    const formattedDate = formatDate1(date);
                     const shiftsForDate = shifts[0]?.filter(
                         (shift) =>
                             shift.roomId === room.id &&
-                            shift.date === formattedDate
+                            shift.date === date.format("YYYY-MM-DD")
                     );
                     row[formattedDate] = shiftsForDate?.length
                         ? shiftsForDate
                             ?.map(
                                 (shift) =>
-                                    `${shift.roleId === ROLE.DOCTOR ? 'BS' : 'NV'}: ${shift.doctor}`
+                                    `${shift.roleId === ROLE.DOCTOR ? 'BS' : 'DD'}: ${shift.doctor}`
                             )
                             .join(', ')
                         : "Trống"; // Nếu không có ca trực
@@ -221,8 +221,7 @@ const ScheduleTable = (props) => {
         XLSX.utils.book_append_sheet(workbook, worksheet, "Lịch trực");
 
         // Xuất file Excel
-        XLSX.writeFile(workbook, `Lich_truc_${formatDate(new Date())}
-    }.xlsx`);
+        XLSX.writeFile(workbook, `Lich_truc_${dayjs().format("DD-MM-YYYY")}.xlsx`);
     };
 
     return (

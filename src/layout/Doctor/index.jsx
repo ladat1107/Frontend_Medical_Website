@@ -13,6 +13,7 @@ const { Content } = Layout;
 
 const DoctorLayout = () => {
     const [collapsed, setCollapsed] = useState(false);
+    const [screenWidth, setScreenWidth] = useState(window.innerWidth);
     let { user } = useSelector((state) => state.authen);
     let dispatch = useDispatch();
     let navigate = useNavigate();
@@ -24,21 +25,31 @@ const DoctorLayout = () => {
             navigate(PATHS.HOME.LOGIN);
         }
     }, [location]);
-    const {
-        token: { colorBgContainer, borderRadiusLG },
-    } = theme.useToken();
 
+    // Cập nhật kích thước màn hình khi thay đổi
+    useEffect(() => {
+        const handleResize = () => {
+            setScreenWidth(window.innerWidth);
+        };
+
+        window.addEventListener('resize', handleResize);
+
+        // Cleanup để gỡ bỏ sự kiện khi component bị hủy
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        };
+    }, []);
     const action = (value) => {
         setCollapsed(value);
     }
-
+    const isMobileView = screenWidth < 700;
     return (
         <>
             <div className='doctor-content'>
                 <Layout>
                     <SideBar open={collapsed}
                         action={action} />
-                    <Layout>
+                    <Layout style={{ marginLeft: !isMobileView && !collapsed ? 250 : 0 }}>
                         <DoctorHeader
                             open={collapsed}
                             action={action} />
@@ -46,8 +57,6 @@ const DoctorLayout = () => {
                             <Content
                                 style={{
                                     margin: '24px 16px 0',
-                                    borderRadius: borderRadiusLG,
-                                    backgroundcolor: colorBgContainer,
                                 }}>
                                 <Outlet />
                             </Content>
