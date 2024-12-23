@@ -40,7 +40,6 @@ const Profile = () => {
                     label: item.name
                 }
             })
-            console.log(_folk)
             setListfolks(_folk);
         }
     }, [folkdata])

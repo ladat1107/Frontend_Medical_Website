@@ -2,7 +2,7 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "../Booking.scss";
 import { faEnvelope, faIdCard, faLeftLong, faMarsAndVenus, faPeopleGroup, faMobileScreenButton, faHandHoldingMedical, faMapMarkerAlt } from "@fortawesome/free-solid-svg-icons";
-import { faUser, faCalendarCheck } from "@fortawesome/free-regular-svg-icons";
+import { faUser, faCalendarCheck, faEnvelopeOpen, faCircleCheck } from "@fortawesome/free-regular-svg-icons";
 import { formatDate, formatDateDD_MM } from "@/utils/formatDate";
 import { formatCurrency } from "@/utils/formatCurrency";
 import { Button, message } from "antd";
@@ -10,8 +10,11 @@ import { useState } from "react";
 import userService from "@/services/userService";
 import { set } from "lodash";
 import Loading from "@/components/Loading/Loading";
+import { useNavigate } from "react-router-dom";
+import { PATHS } from "@/constant/path";
 
 const BookingConfirm = (props) => {
+    let navigate = useNavigate();
     let [isConfirm, setIsConfirm] = useState(false);
     let profile = props?.profile;
     let doctor = props?.doctor;
@@ -32,6 +35,9 @@ const BookingConfirm = (props) => {
             message.error(respone.data.EM)
         }
     }
+    let handleViewMail = () => {
+        window.location.href = "https://mail.google.com/mail/u/0/#inbox"
+    }
     return (
         <>
             <div className="header">
@@ -39,7 +45,15 @@ const BookingConfirm = (props) => {
                 Xác nhận thông tin
             </div>
             {isConfirm ? <div className="content">
-                <div className="title-success">Đặt lịch thành công. Vui lòng kiểm tra email để xác nhận lịch khám</div>
+
+                <div className="title-success">
+                    <FontAwesomeIcon icon={faCircleCheck} className="icon" />
+                    <span> Đặt lịch thành công. Vui lòng kiểm tra email để xác nhận lịch khám !</span>
+                </div>
+                <div className="mt-5 d-flex justify-content-center">
+                    <button className="btn home" onClick={() => { navigate(PATHS.HOME.HOMEPAGE) }}>Trang chủ</button>
+                    <button className="btn email" onClick={() => handleViewMail()}> <FontAwesomeIcon className="me-1" icon={faEnvelopeOpen} /> Xem email</button>
+                </div>
             </div> :
                 <div className="content">
                     {isLoading === true ? <div className="loading"><Loading /></div> :

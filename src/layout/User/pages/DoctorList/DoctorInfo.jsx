@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import classNames from "classnames/bind";
 import styles from "./doctorList.module.scss";
 // Tạo instance của classnames với bind styles
@@ -7,17 +7,42 @@ import DoctorCard from "./Component";
 import { formatCurrency } from "@/utils/formatCurrency";
 import { useNavigate } from "react-router-dom";
 import { PATHS } from "@/constant/path";
+import PaginationUser from "@/components/Pagination/Pagination";
+import userService from "@/services/userService";
+import { useMutation } from "@/hooks/useMutation";
+import useDebounce from "@/hooks/useDebounce";
 
-const DoctorInfo = (props) => {
-  let { doctorList } = props;
+const DoctorInfo = () => {
+  let [pageSize, setPageSize] = useState({ currentPage: 1, pageSize: 12 });
+  let [total, setTotal] = useState(0);
+  let [doctorList, setDoctorList] = useState([]);
+  let [search, setSearch] = useState('');
+  let searchDebounce = useDebounce(search || "", 500);
+  const {
+    data: doctorData,
+    loading: doctorLoading,
+    execute: getDoctor,
+  } = useMutation(() => userService.getDoctor({ limit: pageSize.pageSize, page: pageSize.currentPage, search: searchDebounce }));
+  useEffect(() => {
+    getDoctor();
+  }, [searchDebounce, pageSize]);
+  useEffect(() => {
+    if (doctorData?.EC === 0) {
+      setDoctorList(doctorData?.DT?.rows || []);
+      setTotal(doctorData?.DT?.count || 0);
+    }
+  }, [doctorData]);
   let navigate = useNavigate();
+  console.log(doctorList);
   return (
     <div className={cx("doctor-info")}>
       <div className={cx("head-section")}>
         <div className="container-input">
           <input
+            onChange={(e) => setSearch(e.target.value)}
+            // value={search}
             type="text"
-            placeholder="Tìm kiếm"
+            placeholder="Tìm kiếm bác sĩ"
             name="text"
             className="input"
           />
@@ -53,7 +78,16 @@ const DoctorInfo = (props) => {
           </div>
         ))}
       </div>
+      <div>
+        <PaginationUser
+          currentPage={pageSize.currentPage}
+          pageSize={pageSize.pageSize}
+          total={total}
+          handlePageChange={(page, size) => setPageSize({ currentPage: page, pageSize: size })}
+        />
+      </div>
     </div>
+
   );
 };
 

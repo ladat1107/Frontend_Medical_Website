@@ -1,15 +1,20 @@
-import { PropTypes } from 'prop-types';import { useEffect, useState } from 'react';
+import { PropTypes } from 'prop-types'; import { useEffect, useState } from 'react';
 import '../../../components/PayModal/PayModal.scss';
 import { formatCurrency } from '@/utils/formatCurrency';
 import { getThirdDigitFromLeft } from '@/utils/numberSeries';
 import { message } from 'antd';
-import { updatePrescription } from '@/services/doctorService';
+import { checkOutPrescription, updatePrescription } from '@/services/doctorService';
+import { STATUS_BE } from '@/constant/value';
+let optionRadio = {
+    cash: 'cash',
+    transfer: 'transfer'
+}
 
 const PresModal = ({ isOpen, onClose, onSusscess, presId, patientData }) => {
     const [special, setSpecial] = useState('normal');
     const [insurance, setInsurance] = useState('');
     const [insuranceCoverage, setInsuranceCoverage] = useState(null);
-
+    let [paymentMethod, setPaymentMethod] = useState(optionRadio.cash);
 
     const [data, setData] = useState({
         infouser: { firstName: '', lastName: '', cid: '' },
@@ -38,7 +43,7 @@ const PresModal = ({ isOpen, onClose, onSusscess, presId, patientData }) => {
         let newSpecial = 'normal';
         let newData = {};
 
-        
+
         newSpecial = patientData?.special || 'normal';
         newData = {
             infouser: {
@@ -54,7 +59,7 @@ const PresModal = ({ isOpen, onClose, onSusscess, presId, patientData }) => {
             price: patientData?.prescriptionExamData[0].totalMoney,
             // paracName: patientData?.paraclinicalData?.name,
         };
-        
+
         setInsurance(patientData?.insuaranceCode || '');
         setInsuranceCoverage(patientData?.insuranceCoverage || null);
         setSpecial(newSpecial);
@@ -75,7 +80,6 @@ const PresModal = ({ isOpen, onClose, onSusscess, presId, patientData }) => {
 
     const handlePay = async () => {
         try {
-
             let presData = {
                 id: presId,
                 status: 2,
@@ -86,18 +90,25 @@ const PresModal = ({ isOpen, onClose, onSusscess, presId, patientData }) => {
                 }
             };
 
-            const responseExam = await updatePrescription(presData);
-
-            console.log(responseExam);
-
-            if (responseExam.EC === 0 && responseExam.DT.includes(1)) {
-                message.success('Cập nhật đơn thuốc thành công!');
-                onSusscess();
-                onClose();
+            if (paymentMethod === optionRadio.cash) {
+                console.log('cash', presData);
+                const responseExam = await updatePrescription(presData);
+                if (responseExam.EC === 0 && responseExam.DT.includes(1)) {
+                    message.success('Cập nhật đơn thuốc thành công!');
+                    onSusscess();
+                    onClose();
+                } else {
+                    message.error('Cập nhật đơn thuốc thất bại!');
+                }
             } else {
-                message.error('Cập nhật đơn thuốc thất bại!');
+                const response = await checkOutPrescription(presData);
+                if (response.data.EC === 0) {
+                    window.location.href = response?.data?.DT?.shortLink;
+                } else {
+                    message.error(response.data.EM);
+                }
             }
-        
+
         } catch (error) {
             console.log(error);
             message.error('Cập nhật đơn thuốc thất bại!');
@@ -113,7 +124,7 @@ const PresModal = ({ isOpen, onClose, onSusscess, presId, patientData }) => {
     const SpecialText = ({ special }) => {
         let specialClass = '';
         let specialText = '';
-      
+
         switch (special) {
             case 'normal':
                 specialClass = 'special';
@@ -138,7 +149,7 @@ const PresModal = ({ isOpen, onClose, onSusscess, presId, patientData }) => {
             default:
                 specialClass = 'special';
         }
-      
+
         return <p className={`special ${specialClass}`}>{specialText}</p>;
     };
 
@@ -154,7 +165,7 @@ const PresModal = ({ isOpen, onClose, onSusscess, presId, patientData }) => {
                 <div className='row'>
                     <div className='col-12 d-flex flex-row'>
                         <div className='col-3'>
-                            <p style={{fontWeight: "400"}}>Bệnh nhân:</p>
+                            <p style={{ fontWeight: "400" }}>Bệnh nhân:</p>
                         </div>
                         <div className='col-8'>
                             <p>{data.infouser.lastName + ' ' + data.infouser.firstName}</p>
@@ -162,48 +173,48 @@ const PresModal = ({ isOpen, onClose, onSusscess, presId, patientData }) => {
                     </div>
                     <div className='col-12 d-flex flex-row mt-3'>
                         <div className='col-3 d-flex align-items-center'>
-                            <p style={{fontWeight: "400"}}>CCCD/CMND:</p>
+                            <p style={{ fontWeight: "400" }}>CCCD/CMND:</p>
                         </div>
                         <div className='col-3'>
                             <p>{data.infouser.cid}</p>
                         </div>
-                        <div className='col-1'/>
+                        <div className='col-1' />
                         <div className='col-2 d-flex align-items-center'>
-                            <p style={{fontWeight: "400"}}>Ưu tiên:</p>
+                            <p style={{ fontWeight: "400" }}>Ưu tiên:</p>
                         </div>
                         <div className='col-3'>
                             {SpecialText({ special })}
                         </div>
                     </div>
                     <hr className='mt-4' style={{
-                            borderStyle: 'dashed',
-                            borderWidth: '1px',
-                            borderColor: '#007BFF',
-                            opacity: '1'
-                        }}/>
+                        borderStyle: 'dashed',
+                        borderWidth: '1px',
+                        borderColor: '#007BFF',
+                        opacity: '1'
+                    }} />
                     <div className='col-12 d-flex flex-row mt-1'>
                         <div className='col-3 d-flex align-items-center'>
-                            <p style={{fontWeight: "600"}}>Đơn thuốc:</p>
+                            <p style={{ fontWeight: "600" }}>Đơn thuốc:</p>
                         </div>
                     </div>
                     <div className='col-12 d-flex flex-column'>
                         {data.infoPres.prescriptionDetails.map((item, index) => (
                             <div className='col-12 d-flex flex-column mt-2 pres-item' key={index}>
                                 <div className='col-12 d-flex align-items-center'>
-                                    <p style={{fontWeight: "500", color: "#007BFF"}}>Tên thuốc: {item.name}</p>
+                                    <p style={{ fontWeight: "500", color: "#007BFF" }}>Tên thuốc: {item.name}</p>
                                 </div>
                                 <div className='col-12 d-flex align-items-start'>
                                     <div className='col-7'>
                                         <p className='text-start' style={{
-                                            width: "100%", 
+                                            width: "100%",
                                             wordWrap: "break-word", // Cho phép từ dài được xuống dòng
                                             overflowWrap: "break-word", // Tương tự wordWrap, hỗ trợ trình duyệt cũ
                                             whiteSpace: "normal" // Cho phép văn bản xuống dòng
                                         }}>Liều dùng: {item.PrescriptionDetail.dosage}</p>
                                     </div>
-                                    <div className='col-1'/>
+                                    <div className='col-1' />
                                     <div className='col-2 d-flex align-items-center'>
-                                        <p style={{fontWeight: "400"}}>Số lượng: {item.PrescriptionDetail.quantity}</p>
+                                        <p style={{ fontWeight: "400" }}>Số lượng: {item.PrescriptionDetail.quantity}</p>
                                     </div>
                                     <div className='col-2 d-flex align-items-center'>
                                         <p>Giá: {formatCurrency(item.price)}</p>
@@ -214,15 +225,15 @@ const PresModal = ({ isOpen, onClose, onSusscess, presId, patientData }) => {
                     </div>
                     <div className='col-12 d-flex flex-row mt-4'>
                         <div className='col-3 d-flex align-items-center'>
-                            <p style={{fontWeight: "400"}}>Ghi chú:</p>
+                            <p style={{ fontWeight: "400" }}>Ghi chú:</p>
                         </div>
                         <div className='col-9'>
                             <p style={{
-                                width: "100%", 
+                                width: "100%",
                                 wordWrap: "break-word", // Cho phép từ dài được xuống dòng
                                 overflowWrap: "break-word", // Tương tự wordWrap, hỗ trợ trình duyệt cũ
                                 whiteSpace: "normal" // Cho phép văn bản xuống dòng
-                            }}>{data.infoPres.note}</p>
+                            }}>{data?.infoPres?.note || "Không có"}</p>
                         </div>
                     </div>
                     {/* <hr className='mt-4' style={{
@@ -233,16 +244,16 @@ const PresModal = ({ isOpen, onClose, onSusscess, presId, patientData }) => {
                         }}/> */}
                     <div className='col-12 d-flex flex-row mt-3 mb-2'>
                         <div className='col-3 d-flex align-items-center'>
-                            <p style={{fontWeight: "400"}}>Số BHYT:</p>
+                            <p style={{ fontWeight: "400" }}>Số BHYT:</p>
                         </div>
                         <div className='col-3'>
-                            <input className='input-add-exam' style={{width: "93%"}} maxLength={10}
+                            <input className='input-add-exam' style={{ width: "93%" }} maxLength={10}
                                 type='text' value={insurance} onChange={handleInsuaranceChange}
                                 placeholder='Nhập số BHYT...' />
                         </div>
-                        <div className='col-1'/>
+                        <div className='col-1' />
                         <div className='col-2 d-flex align-items-center'>
-                            <p style={{fontWeight: "400"}}>Mức hưởng:</p>
+                            <p style={{ fontWeight: "400" }}>Mức hưởng:</p>
                         </div>
                         <div className='col-2'>
                             <p>
@@ -252,18 +263,37 @@ const PresModal = ({ isOpen, onClose, onSusscess, presId, patientData }) => {
                     </div>
                     <div className='col-12 d-flex flex-row mt-3'>
                         <div className='col-3 d-flex align-items-center'>
-                            <p style={{fontWeight: "400"}}>Giá thuốc:</p>
+                            <p style={{ fontWeight: "400" }}>Giá thuốc:</p>
                         </div>
                         <div className='col-3'>
                             <p>{formatCurrency(data.price)}</p>
                         </div>
-                        <div className='col-1'/>
-                        {/* <div className='col-2 d-flex align-items-center'>
-                            <p style={{fontWeight: "400"}}>Thanh toán:</p>
+                        <div className='col-1' />
+                        <div className='col-5 d-flex'>
+                            {+patientData?.status === STATUS_BE.PAID ? <div>Đã thanh toán</div> :
+                                <>
+                                    <label className='me-5'>
+                                        <input
+                                            className='radio'
+                                            type="radio"
+                                            value={optionRadio.cash}
+                                            checked={paymentMethod === optionRadio.cash}
+                                            onChange={() => setPaymentMethod(optionRadio.cash)}
+                                        />
+                                        Tiền mặt
+                                    </label>
+                                    <label className='ms-4' >
+                                        <input
+                                            className='radio'
+                                            type="radio"
+                                            value={optionRadio.transfer}
+                                            checked={paymentMethod === optionRadio.transfer}
+                                            onChange={() => setPaymentMethod(optionRadio.transfer)}
+                                        />
+                                        Chuyển khoản
+                                    </label>
+                                </>}
                         </div>
-                        <div className='col-3'>
-                            <p>Chưa tính</p>
-                        </div> */}
                     </div>
                 </div>
                 <div className='payment-footer mt-2'>

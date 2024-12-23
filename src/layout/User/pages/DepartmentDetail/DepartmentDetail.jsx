@@ -33,7 +33,7 @@ const DepartmentDetail = () => {
     //     }
     // }
     return (
-        <div className={'bg-white'} >
+        <div className={'bg'} >
             {department && listStaff &&
                 <Container>
                     <div className="department-detail-user">

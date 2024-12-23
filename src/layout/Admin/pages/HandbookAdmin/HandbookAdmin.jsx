@@ -114,10 +114,8 @@ const HandbookAdmin = () => {
                                     total={totalPages} />
                             </div>
                         </div>}
-
                 </div>
             </div>
-
         </div>
 
     )

@@ -147,7 +147,6 @@ export const getHandbookAdmin = (page, limit, search, status, filter) => {
     return axios.get(`/api/admin/getHandbookAdmin?page=${+page}&limit=${+limit}&search=${search}&status=${status}&filter=${filter}`)
 }
 
-
 // SCHEDULE MANAGEMENT
 export const getSchedule = (query) => {
     return axios.get(`/api/admin/getAllSchedules`, { params: query })

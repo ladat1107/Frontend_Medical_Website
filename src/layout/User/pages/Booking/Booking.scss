@@ -408,11 +408,43 @@
             }
 
             .title-success {
-                font-size: 17px;
-                font-weight: 600;
-                color: green;
-                margin: 20px auto;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                 color: #1fc006;
+                margin-top: 30px;
+
+                .icon {
+                    font-size: 60px;
+                  //  color: #3ae937;
+                }
+
+                span {
+                  //  color: $main-text-color;
+                    font-size: 17px;
+                    font-weight: 600;
+                    margin: 15px auto;
+                }
+            }
+
+            .btn {
+                padding: 5px 15px;
+                border-radius: 8px;
                 text-align: center;
+                cursor: pointer;
+                margin: auto 10px;
+                font-size: 14px;
+
+                &.email {
+                    background-color: $primary-color;
+                    color: white;
+                }
+
+                &.home {
+                    background-color: white;
+                    color: $primary-color;
+                    border: 2px solid $primary-color;
+                }
             }
         }
 

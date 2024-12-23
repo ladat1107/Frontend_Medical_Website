@@ -69,13 +69,36 @@
                 padding: 8px 12px;
                 border: none;
                 border-radius: 8px;
-                cursor: pointer;
+                margin-left: 10px;
+                cursor: default;
 
                 &.delete {
-                    background: #ff4d4f;
+                    background: #ff0004;
                     color: white;
+                    cursor: pointer;
                 }
 
+                &.checkout {
+                    background: $primary-color;
+                    color: white;
+                    cursor: pointer;
+                }
+
+                &.cancel {
+                    background: white;
+                    color: red;
+                    border: 2px solid red;
+
+                }
+            }
+
+            .status-success {
+                user-select: none;
+                font-weight: 700;
+                font-size: 18px;
+                padding: 8px 12px;
+                color: $secondary-color;
+                text-align: center;
             }
 
         }

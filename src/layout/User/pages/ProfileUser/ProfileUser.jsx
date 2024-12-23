@@ -9,18 +9,18 @@ import { useSelector } from "react-redux";
 
 const ProfileUser = () => {
 
-    let {user} = useSelector(state => state.authen);
+    let { user } = useSelector(state => state.authen);
     const [isModalOpen, setIsModalOpen] = useState(false);
 
 
     useEffect(() => {
-        if(isModalOpen) {
+        if (isModalOpen) {
             if (isModalOpen) {
                 document.body.style.overflow = 'hidden';
             } else {
                 document.body.style.overflow = 'unset';
             }
-    
+
             return () => {
                 document.body.style.overflow = 'unset';
             };
@@ -34,7 +34,6 @@ const ProfileUser = () => {
     const handleCancel = () => {
         setIsModalOpen(false);
     };
-
     return (
         <div className="profile-user">
             <div className="header-profile-user">

@@ -1,32 +1,141 @@
 @import "/src/style/variables.scss";
 
 .department-detail-user {
-    .department-detail-user-header {
+    .custom-breadcrumb {
+        a {
+            font-weight: 500;
+            color: $main-text-color;
+            font-size: 1em;
+        }
 
-        .imghead {
-            padding: 15px auto;
-            display: flex;
-            justify-content: center;
-            background: rgb(233, 250, 255);
-            border-radius: 15px;
 
-            img {
-                width: 300px;
-                height: 300px;
-                object-fit: cover;
-                border-radius: 50%;
+        &:hover {
+            a {
+                background: none !important;
             }
 
         }
 
-        .department-detail-user-content {
-            margin-top: 60px;
+        .breadcrumb-last {
+            color: $primary-color;
+            font-weight: 700;
+            cursor: pointer;
+        }
+    }
+
+    .department-detail-user-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: start;
+
+        .hospital-info {
+            background: white;
+            border-radius: 15px;
+            margin-top: 15px;
+            padding: 10px;
+            box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+
             display: flex;
-            align-items: start;
+            flex-direction: column;
+
+            .img-star {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                width: 100%;
+
+                img {
+                    width: 150px;
+                    height: 150px;
+                    border-radius: 50%;
+                    margin-bottom: 15px;
+                }
+
+                span {
+                    font-size: 1.1em;
+                    font-weight: 700;
+                    color: #FADB14;
+                }
+            }
+
+            .text-location {
+                .icon {
+                    margin-top: 10px;
+                    color: #f0bd46;
+                    margin-right: 10px;
+                }
+
+                span {
+                    color: $main-text-color;
+                    font-weight: 400;
+                    font-size: 1em;
+                }
+
+                .btn-booking {
+                    margin-top: 15px;
+                    text-align: center;
+                    color: white;
+                    background-color: #00B5F1;
+                    border-radius: 30px;
+                    padding: 8px 20px;
+                    font-size: 1em;
+                    font-weight: 700;
+                    cursor: pointer;
+                }
+            }
+        }
+
+        .image-ri {
+            margin-top: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+
+            img {
+                height: 90%;
+                margin: auto;
+                border-radius: 15px;
+                margin-bottom: 10px;
+            }
+
+            span {
+                font-size: 1em;
+                font-weight: 700;
+                color: $main-text-color;
+            }
+        }
+
+        .map-deparment {
+            width: 100%;
+            height: 400px;
+            margin-top: 20px;
+            border-radius: 30px;
+            box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+        }
+
+        .department-detail-user-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+
+            .slide-department {
+                width: 100%;
+                border-radius: 15px;
+                padding: 0;
+
+                img {
+                    width: 100%;
+                    height: 410px;
+                    border-radius: 15px;
+                }
+            }
 
             .content-handbook {
+                background: white;
+                box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
                 padding: 20px;
                 border-radius: 15px;
+                max-height: 320px;
 
                 .article-title {
                     font-size: 2rem;
@@ -57,15 +166,25 @@
                     padding-left: 15px;
                     margin-bottom: 15px;
                     color: #666;
+                    text-align: justify;
                 }
+            }
 
-                .article-content {
+            .article-content {
+                background: white;
+                box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+                padding: 20px 5px;
+                border-radius: 15px;
+                margin-bottom: 20px;
 
+                .markdown {
+                    padding: 20px;
                     font-size: 1rem;
                     line-height: 2px;
-                    margin-bottom: 20px;
                     text-align: justify;
                     line-height: 1.6;
+                    max-height: 700px;
+                    overflow: auto;
 
                     h2,
                     h3,
@@ -109,16 +228,9 @@
                         font-weight: bold;
                     }
                 }
-
-
-
             }
 
-            .image-ri {
-                img {
-                    border-radius: 15px;
-                }
-            }
+
         }
     }
 

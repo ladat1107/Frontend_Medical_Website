@@ -13,6 +13,7 @@ const { Content } = Layout;
 
 const AdminLayout = () => {
     const [collapsed, setCollapsed] = useState(false);
+    const [screenWidth, setScreenWidth] = useState(window.innerWidth);
     let navigate = useNavigate();
     let { user } = useSelector((state) => state.authen);
     let dispatch = useDispatch();
@@ -22,17 +23,31 @@ const AdminLayout = () => {
             dispatch(logout());
             navigate(PATHS.HOME.LOGIN);
         }
-    }, [location]);
+    }, [location, user.role, dispatch, navigate]);
+    // Cập nhật kích thước màn hình khi thay đổi
+    useEffect(() => {
+        const handleResize = () => {
+            setScreenWidth(window.innerWidth);
+        };
+
+        window.addEventListener('resize', handleResize);
+
+        // Cleanup để gỡ bỏ sự kiện khi component bị hủy
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        };
+    }, []);
     const action = (value) => {
         setCollapsed(value);
     }
+    const isMobileView = screenWidth < 700;
     return (
         <div className='admin-content'>
             <Layout>
                 <SideBar
                     open={collapsed}
                     action={action} />
-                <Layout>
+                <Layout style={{ marginLeft: !isMobileView && !collapsed ? 250 : 0 }}>
                     <AdminHeader
                         open={collapsed}
                         action={action} />

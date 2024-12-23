@@ -54,7 +54,7 @@ const DepartmentInfo = (props) => {
       <div className={cx('list-item')} >
         {departmentList?.length > 0 && departmentList.map((item, index) => (
           <div
-            className="col-3"
+            className="col-3 px-2 mb-2"
             key={index}>
             <DepartmentCard
               id={item?.id}

@@ -4,22 +4,28 @@ import userService from "@/services/userService";
 import { message } from "antd";
 import { useEffect, useState } from "react";
 import Container from "@/components/Container";
-import useQuery from "@/hooks/useQuery";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAddressCard, faCalendarCheck, faCircleUser, faClock, faEnvelope } from "@fortawesome/free-regular-svg-icons";
 import { formatDate } from "@/utils/formatDate";
-import { faBriefcaseMedical, faLocationDot, faMapLocationDot, faMobileScreen, faVenusMars } from "@fortawesome/free-solid-svg-icons";
-import { TIMESLOTS } from "@/constant/value";
+import { faBriefcaseMedical, faLocationDot, faMobileScreen, faVenusMars } from "@fortawesome/free-solid-svg-icons";
+import { STATUS, STATUS_BE, TABLE, TIMESLOTS } from "@/constant/value";
 import dayjs from "dayjs";
 import { PATHS } from "@/constant/path";
+import { useMutation } from "@/hooks/useMutation";
+import ConfirmModal from "../../components/ConfirmModal/confirmModal";
+
+
 const AppointmentList = () => {
+    let [show, setShow] = useState(false);
+    let [obAppoinment, setObAppoinment] = useState(null);
     const location = useLocation();
     let navigate = useNavigate();
     let [listAppoinment, setListAppoinment] = useState([]);
     const queryParams = new URLSearchParams(location.search);
     const {
         data: appoinmentData,
-    } = useQuery(() => userService.getAppoinment({ status: 2 }));
+        execute: getAppoinment,
+    } = useMutation(() => userService.getAppoinment({ status: 2 }));
 
     useEffect(() => {
         let confirmToken = queryParams.get('confirm');
@@ -38,18 +44,24 @@ const AppointmentList = () => {
         }
     }, []);
     useEffect(() => {
+        getAppoinment();
+    }, [location]);
+    useEffect(() => {
         if (appoinmentData) {
             setListAppoinment(appoinmentData.DT);
         }
     }, [appoinmentData]);
-    let handleCancel = async (profile) => {
-        const response = await userService.cancelAppoinment(profile);
+    let handleCheckOut = async (profile) => {
+        const response = await userService.checkOutAppointment({ id: profile.id });
         if (response?.data?.EC === 0) {
-            message.success(response?.data?.EM);
-            setListAppoinment(listAppoinment.filter((item) => item.id !== profile.id));
+            window.location.href = response?.data?.DT?.shortLink;
         } else {
             message.error(response?.data?.EM);
         }
+    }
+    let refresh = () => {
+        setObAppoinment(null);
+        getAppoinment();
     }
     return (
         <div className="bg-white" >
@@ -125,15 +137,35 @@ const AppointmentList = () => {
                                         <span className="c"> {profile?.symptom || "Chưa cập nhật"}</span>
                                     </div>
                                 </div>
-                                {dayjs(profile?.admissionDate).isSame(dayjs(), "day") ? <div></div> : <div className="patient-actions">
-                                    <button className="btn delete" onClick={() => handleCancel(profile)}>Hủy lịch hẹn</button>
-                                </div>}
+                                <div className="patient-actions">
+                                    {profile?.status === STATUS_BE.INACTIVE &&  //Đã hủy
+                                        <span className="btn cancel">{profile?.paymentId ? "Đã hoàn tiền" : "Đã hủy"}</span>}
+                                    {profile?.status !== STATUS_BE.INACTIVE && profile?.status !== STATUS_BE.PENDING && <span className="status-success">Đã khám</span>  //Đã xác nhận}
+                                    }
+                                    {profile?.status === STATUS_BE.PENDING &&  //Chờ xác nhận}
+                                        <>
+                                            {profile?.paymentId && +profile?.paymentDoctorStatus === +STATUS_BE.ACTIVE ?  //Đã thanh toán (tiền bác sĩ=1 và đã có mã thanh toán)
+                                                <span className="status-success">Đã thanh toán</span>
+                                                :
+                                                <button className="btn checkout" onClick={() => { handleCheckOut(profile) }}>Thanh toán</button>
+                                            }
+                                            {// Không hiện nút hủy lịch hẹn nếu lịch hẹn đã qua
+                                                !dayjs(profile?.admissionDate).isBefore(dayjs().add(1, 'day').startOf('day')) && <button className="btn delete" onClick={() => { setObAppoinment(profile), setShow(true) }}>Hủy lịch hẹn</button>}
+                                        </>}
+                                </div>
 
                             </div>
                         ))}
                     </div>
                 </div>
             </Container>
+            <ConfirmModal
+                show={show}
+                isShow={(value) => setShow(value)}
+                data={obAppoinment}
+                refresh={refresh}
+                table={TABLE.EXAMINATION}
+                key={obAppoinment ? obAppoinment.id + " " + Date.now() : "modal-closed"} />
         </div>
     );
 }

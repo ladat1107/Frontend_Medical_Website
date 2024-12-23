@@ -77,7 +77,7 @@ const DoctorDetailHeader = (props) => {
           </div>
 
           <div className={cx('booking-btn')} onClick={() => { navigate(PATHS.HOME.BOOKING) }} >
-            Đặt khám ngay
+            Đặt lịch
           </div>
         </div>
       </div>

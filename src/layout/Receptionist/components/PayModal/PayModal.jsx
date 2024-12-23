@@ -3,10 +3,15 @@ import { PropTypes } from 'prop-types';
 import { useEffect, useState } from 'react';
 import { formatCurrency } from '@/utils/formatCurrency';
 import { getThirdDigitFromLeft } from '@/utils/numberSeries';
-import { updateExamination, updateParaclinical } from '@/services/doctorService';
+import { checkOutExamination, checkOutParaclinical, updateExamination, updateListPayParaclinicals } from '@/services/doctorService';
 import './PayModal.scss';
-
+import { STATUS_BE } from '@/constant/value';
+let optionRadio = {
+    cash: 'cash',
+    transfer: 'transfer'
+}
 const PayModal = ({ isOpen, onClose, onPaySusscess, examId, type, patientData }) => {
+    const [paymentMethod, setPaymentMethod] = useState(optionRadio.cash);
     const [insurance, setInsurance] = useState('');
     const [insuranceCoverage, setInsuranceCoverage] = useState(null);
     const [special, setSpecial] = useState('normal');
@@ -14,10 +19,9 @@ const PayModal = ({ isOpen, onClose, onPaySusscess, examId, type, patientData })
         infouser: { firstName: '', lastName: '', cid: '' },
         infostaff: { firstName: '', lastName: '', position: '' },
         price: 0,
-        description: ''
+        description: '',
+        paraclinicalItems: []
     });
-
-    
 
     // Use useEffect to set initial data when component mounts or patientData changes
     useEffect(() => {
@@ -46,24 +50,24 @@ const PayModal = ({ isOpen, onClose, onPaySusscess, examId, type, patientData })
             setInsurance(patientData?.insuaranceCode || '');
             setInsuranceCoverage(patientData?.insuranceCoverage || null);
         } else {
-            newSpecial = patientData?.examinationResultParaclincalData?.special || 'normal';
+            newSpecial = patientData?.special || 'normal';
             newData = {
                 infouser: {
-                    firstName: patientData?.examinationResultParaclincalData?.userExaminationData?.firstName,
-                    lastName: patientData?.examinationResultParaclincalData?.userExaminationData?.lastName,
-                    cid: patientData?.examinationResultParaclincalData?.userExaminationData?.cid,
+                    firstName: patientData?.userExaminationData?.firstName,
+                    lastName: patientData?.userExaminationData?.lastName,
+                    cid: patientData?.userExaminationData?.cid,
                 },
-                infostaff: {
-                    firstName: patientData?.doctorParaclinicalData?.staffUserData?.firstName,
-                    lastName: patientData?.doctorParaclinicalData?.staffUserData?.lastName,
-                    position: patientData?.doctorParaclinicalData?.position,
-                },
-                price: patientData?.price,
-                description: patientData?.paracName,
+                // infostaff: {
+                //     firstName: patientData?.doctorParaclinicalData?.staffUserData?.firstName,
+                //     lastName: patientData?.doctorParaclinicalData?.staffUserData?.lastName,
+                //     position: patientData?.doctorParaclinicalData?.position,
+                // },
+                price: patientData?.totalParaclinicalPrice,
+                paraclinicalItems: patientData?.paraclinicalItems,
             };
 
-            setInsurance(patientData?.examinationResultParaclincalData?.insuaranceCode || '');
-            setInsuranceCoverage(patientData?.examinationResultParaclincalData?.insuranceCoverage || null);
+            setInsurance(patientData?.insuaranceCode || '');
+            setInsuranceCoverage(patientData?.insuranceCoverage || null);
         }
 
         setSpecial(newSpecial);
@@ -85,45 +89,64 @@ const PayModal = ({ isOpen, onClose, onPaySusscess, examId, type, patientData })
     }, [isOpen]);
 
     const handlePay = async () => {
+
         try {
             let paymentData = {};
 
-            if(type === 'examination') {
+            if (type === 'examination') {
                 paymentData = {
                     id: examId,
                     insuranceCoverage: insuranceCoverage || null,
                     insuaranceCode: insurance,
                     status: 5
                 };
-
-                const response = await updateExamination(paymentData);
-    
-                if (response.EC === 0 && response.DT.includes(1)) {
-                    message.success('Cập nhật bệnh nhân thành công!');
-                    onPaySusscess();
-                    resetForm();
-                    onClose();
+                if (paymentMethod === optionRadio.cash) {
+                    const response = await updateExamination(paymentData);
+                    if (response.EC === 0 && response.DT.includes(1)) {
+                        message.success('Cập nhật bệnh nhân thành công!');
+                        onPaySusscess();
+                        resetForm();
+                        onClose();
+                    } else {
+                        message.error('Cập nhật bệnh nhân thất bại!');
+                    }
                 } else {
-                    message.error('Cập nhật bệnh nhân thất bại!');
+                    let response = await checkOutExamination(paymentData);
+                    if (response.data.EC === 0) {
+                        window.location.href = response?.data?.DT?.shortLink;
+                    } else {
+                        message.error(response.data.EM);
+                    }
                 }
-            } else if (type === 'paraclinical') {
-                paymentData = {
-                    id: examId,
-                    status: 5
-                };
 
-                const response = await updateParaclinical(paymentData);
-    
-                if (response.EC === 0 && response.DT.includes(1)) {
-                    message.success('Cập nhật bệnh nhân thành công!');
-                    onPaySusscess();
-                    resetForm();
-                    onClose();
-                } else {
+            } else if (type === 'paraclinical') {
+                try {
+                    const ids = patientData.paraclinicalItems.map(item => item.id);
+                    if (paymentMethod === optionRadio.cash) {
+                        const response = await updateListPayParaclinicals({ ids });
+
+                        if (response.EC === 0) {
+                            message.success('Cập nhật bệnh nhân thành công');
+                            onPaySusscess();
+                            resetForm();
+                            onClose();
+                        } else {
+                            message.error('Cập nhật bệnh nhân thất bại');
+                        }
+                    } else {
+                        const response = await checkOutParaclinical({ ids });
+
+                        if (response.data.EC === 0) {
+                            window.location.href = response?.data?.DT?.shortLink;
+                        } else {
+                            message.error(response.data.EM);
+                        }
+                    }
+                } catch (error) {
                     message.error('Cập nhật bệnh nhân thất bại!');
                 }
             }
-        
+
         } catch (error) {
             console.log(error);
             message.error('Cập nhật bệnh nhân thất bại!');
@@ -149,7 +172,7 @@ const PayModal = ({ isOpen, onClose, onPaySusscess, examId, type, patientData })
     const SpecialText = ({ special }) => {
         let specialClass = '';
         let specialText = '';
-      
+
         switch (special) {
             case 'normal':
                 specialClass = 'special';
@@ -174,7 +197,7 @@ const PayModal = ({ isOpen, onClose, onPaySusscess, examId, type, patientData })
             default:
                 specialClass = 'special';
         }
-      
+
         return <p className={`special ${specialClass}`}>{specialText}</p>;
     };
 
@@ -190,7 +213,7 @@ const PayModal = ({ isOpen, onClose, onPaySusscess, examId, type, patientData })
                 <div className='row'>
                     <div className='col-12 d-flex flex-row'>
                         <div className='col-3'>
-                            <p style={{fontWeight: "400"}}>Bệnh nhân:</p>
+                            <p style={{ fontWeight: "400" }}>Bệnh nhân:</p>
                         </div>
                         <div className='col-8'>
                             <p>{data.infouser.lastName + ' ' + data.infouser.firstName}</p>
@@ -198,51 +221,82 @@ const PayModal = ({ isOpen, onClose, onPaySusscess, examId, type, patientData })
                     </div>
                     <div className='col-12 d-flex flex-row mt-3'>
                         <div className='col-3 d-flex align-items-center'>
-                            <p style={{fontWeight: "400"}}>CCCD/CMND:</p>
+                            <p style={{ fontWeight: "400" }}>CCCD/CMND:</p>
                         </div>
                         <div className='col-3'>
                             <p>{data.infouser.cid}</p>
                         </div>
-                        <div className='col-1'/>
+                        <div className='col-1' />
                         <div className='col-2 d-flex align-items-center'>
-                            <p style={{fontWeight: "400"}}>Ưu tiên:</p>
+                            <p style={{ fontWeight: "400" }}>Ưu tiên:</p>
                         </div>
                         <div className='col-3'>
                             {SpecialText({ special })}
                         </div>
                     </div>
-                    <hr className='mt-4'/>
-                    <div className='col-12 d-flex flex-row'>
-                        <div className='col-3 d-flex align-items-center'>
-                            <p style={{fontWeight: "400"}}>Bác sĩ:</p>
-                        </div>
-                        <div className='col-8'>
-                            <p>{data.infostaff.position + ' ' + data.infostaff.lastName + ' ' + data.infostaff.firstName}</p>
-                        </div>
-                    </div>
-                    <div className='col-12 d-flex flex-row mt-3'>
-                        <div className='col-3 d-flex align-items-center'>
-                            <p style={{fontWeight: "400"}}>Mô tả:</p>
-                        </div>
-                        <div className='col-8' style={{color: "#008EFF", fontWeight: '600'}}>
-                            <p>{data.description}</p>
-                        </div>
-                    </div>
-                    <hr className='mt-4'/>
+                    <hr className='mt-4' />
+                    {type === 'examination' ? (
+                        <>
+                            <div className='col-12 d-flex flex-row'>
+                                <div className='col-3 d-flex align-items-center'>
+                                    <p style={{ fontWeight: "400" }}>Bác sĩ:</p>
+                                </div>
+                                <div className='col-8'>
+                                    <p>{data.infostaff.position + ' ' + data.infostaff.lastName + ' ' + data.infostaff.firstName}</p>
+                                </div>
+                            </div>
+                            <div className='col-12 d-flex flex-row mt-3'>
+                                <div className='col-3 d-flex align-items-center'>
+                                    <p style={{ fontWeight: "400" }}>Mô tả:</p>
+                                </div>
+                                <div className='col-8' style={{ color: "#008EFF", fontWeight: '600' }}>
+                                    <p>{data.description}</p>
+                                </div>
+                            </div>
+                            <hr className='mt-4' />
+                        </>
+                    ) : (
+                        <>
+                            {data?.paraclinicalItems.length > 0 && data.paraclinicalItems.map((item, index) => (
+                                <div className='col-12 d-flex flex-column mb-3 pres-item' key={index}>
+                                    <div className='col-12 d-flex align-items-center'>
+                                        <p style={{ fontWeight: "500", color: "#007BFF" }}>Cận lâm sàng: {item?.paracName}</p>
+                                    </div>
+                                    <div className='col-12 mt-2 mb-1 d-flex align-items-start'>
+                                        <div className='col-3'>
+                                            <p className='text-start' style={{
+                                                width: "100%",
+                                                wordWrap: "break-word",
+                                                overflowWrap: "break-word",
+                                                whiteSpace: "normal"
+                                            }}>Bác sĩ: {item?.doctorInfo?.doctorName}</p>
+                                        </div>
+                                        <div className='col-6 d-flex align-items-center'>
+                                            <p className='text-end' style={{ fontWeight: "400", width: '100%' }}>Phòng: {item?.roomInfo?.name}</p>
+                                        </div>
+                                        <div className='col-1' />
+                                        <div className='col-2 d-flex align-items-center'>
+                                            <p>Giá: {formatCurrency(item?.price)}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            ))}
+                        </>
+                    )}
                     <div className='col-12 d-flex flex-row mt-3 mb-2'>
                         <div className='col-3 d-flex align-items-center'>
-                            <p style={{fontWeight: "400"}}>Số BHYT:</p>
+                            <p style={{ fontWeight: "400" }}>Số BHYT:</p>
                         </div>
                         <div className='col-3'>
-                            <input className='input-add-exam' style={{width: "93%"}} maxLength={10}
+                            <input className='input-add-exam' style={{ width: "93%" }} maxLength={10}
                                 type='text' value={insurance} onChange={handleInsuaranceChange}
                                 placeholder='Nhập số BHYT...' />
                         </div>
-                        <div className='col-1'/>
+                        <div className='col-1' />
                         <div className='col-2 d-flex align-items-center'>
-                            <p style={{fontWeight: "400"}}>Mức hưởng:</p>
+                            <p style={{ fontWeight: "400" }}>Mức hưởng:</p>
                         </div>
-                        <div className='col-2'>
+                        <div className='col-2 d-flex align-items-center'>
                             <p>
                                 {insuranceCoverage === 0 ? '' : insuranceCoverage}
                             </p>
@@ -250,23 +304,45 @@ const PayModal = ({ isOpen, onClose, onPaySusscess, examId, type, patientData })
                     </div>
                     <div className='col-12 d-flex flex-row mt-3'>
                         <div className='col-3 d-flex align-items-center'>
-                            <p style={{fontWeight: "400"}}>Giá khám:</p>
+                            <p style={{ fontWeight: "400" }}>Giá khám:</p>
                         </div>
                         <div className='col-3'>
                             <p>{formatCurrency(data.price)}</p>
                         </div>
-                        <div className='col-1'/>
-                        {/* <div className='col-2 d-flex align-items-center'>
-                            <p style={{fontWeight: "400"}}>Thanh toán:</p>
+                        <div className='col-1' />
+                        <div className='col-5 d-flex'>
+                            {+patientData?.status === STATUS_BE.PAID ? <div>Đã thanh toán</div> :
+                                <>
+                                    <label className='me-5'>
+                                        <input
+                                            className='radio'
+                                            type="radio"
+                                            value={optionRadio.cash}
+                                            checked={paymentMethod === optionRadio.cash}
+                                            onChange={() => setPaymentMethod(optionRadio.cash)}
+                                        />
+                                        Tiền mặt
+                                    </label>
+                                    <label className='ms-4' >
+                                        <input
+                                            className='radio'
+                                            type="radio"
+                                            value={optionRadio.transfer}
+                                            checked={paymentMethod === optionRadio.transfer}
+                                            onChange={() => setPaymentMethod(optionRadio.transfer)}
+                                        />
+                                        Chuyển khoản
+                                    </label>
+                                </>}
                         </div>
-                        <div className='col-3'>
-                            <p>Chưa tính</p>
-                        </div> */}
                     </div>
                 </div>
                 <div className='payment-footer mt-4'>
                     <button className="close-user-btn" onClick={onClose}>Đóng</button>
-                    <button className='payment-btn' onClick={handlePay}>Hoàn thành</button>
+                    {+patientData?.status === STATUS_BE.PAID ? <></>
+                        :
+                        <button className='payment-btn' onClick={handlePay}>Hoàn thành</button>
+                    }
                 </div>
             </div>
         </div>
