@@ -17,9 +17,9 @@ const HeadBlogList = (props) => {
     <div className={cx("head-blog-list")}>
       <ul className={cx("nav-cate")}>
         <li>CẨM NANG Y TẾ</li>
-        <li className={cx({ active: props.id === 2 })}>{TAGS[2].label}</li>
-        <li className={cx({ active: props.id === 4 })}>{TAGS[4].label}</li>
-        <li className={cx({ active: props.id === 5 })}>{TAGS[5].label}</li>
+        <li className={cx({ active: props.id === 2 })} onClick={() => navigate(`${PATHS.HOME.HANDBOOK_LIST}/${TAGS[2].value}`)}>{TAGS[2].label}</li>
+        <li className={cx({ active: props.id === 4 })} onClick={() => navigate(`${PATHS.HOME.HANDBOOK_LIST}/${TAGS[4].value}`)}>{TAGS[4].label}</li>
+        <li className={cx({ active: props.id === 5 })} onClick={() => navigate(`${PATHS.HOME.HANDBOOK_LIST}/${TAGS[5].value}`)}>{TAGS[5].label}</li>
       </ul>
 
       <div className={cx("blog-list-body")}>

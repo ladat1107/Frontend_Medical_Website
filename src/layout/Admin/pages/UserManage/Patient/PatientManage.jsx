@@ -27,7 +27,7 @@ const PatientManage = () => {
     let [search, setSearch] = useState("");
     let [obUpdate, setObUpdate] = useState(null);
     let [showCreateUserModal, setShowCreateUserModal] = useState(false);
-    
+
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [modalId, setModalId] = useState(null);
 
@@ -180,7 +180,7 @@ const PatientManage = () => {
                                         {
                                             listUser.map((item, index) => {
                                                 return (
-                                                    <tr key={index} className="bg-white border-b" onClick={() => handelPatientClick(item)}>
+                                                    <tr key={index} className="bg-white border-b">
                                                         <td>
                                                             <div className="">
                                                                 <Checkbox
@@ -189,14 +189,14 @@ const PatientManage = () => {
                                                                     size="small"
                                                                 /></div>
                                                         </td>
-                                                        <th scope="row" className="ps-2 py-3 min-content-width g-0">
+                                                        <th scope="row" className="ps-2 py-3 min-content-width g-0" onClick={() => handelPatientClick(item)}>
                                                             <img className="image" src={item.avatar || LINK.AVATAR_NULL} alt="Jese image" />
                                                             <div className="ps-2 email ">
                                                                 <div className="fw-semibold">{item.lastName + " " + item.firstName}</div>
                                                                 <div className="fw-normal">{item.email}</div>
                                                             </div>
                                                         </th>
-                                                        <td className="text-center px-2 py-3">
+                                                        <td className="text-center px-2 py-3" >
                                                             {item?.userRoleData?.name || "Khác"}
                                                         </td>
                                                         <td className="text-center px-1 py-3">

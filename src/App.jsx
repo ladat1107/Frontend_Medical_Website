@@ -38,6 +38,7 @@ import AdminDashboard from "./layout/Admin/pages/Dashboard/AdminDashboard";
 import AdminLayout from "./layout/Admin/AdminLayout";
 import DepartmentDetail from "./layout/User/pages/DepartmentDetail/DepartmentDetail";
 import DepartmentList from "./layout/User/pages/DepartmentList";
+import Instruction from "./layout/User/pages/Instruction/Instruction";
 function App() {
   return (
     <ConfigProvider
@@ -59,6 +60,7 @@ function App() {
           <Route path={PATHS.HOME.APPOINTMENT_LIST} element={<AppointmentList />} />
           <Route path={`${PATHS.HOME.HANDBOOK_DETAIL}/:id`} element={<BlogDetail />} />
           <Route path={`${PATHS.HOME.DEPARTMENT_DETAIL}/:id`} element={<DepartmentDetail />} />
+          <Route path={PATHS.HOME.INSTRUCTION} element={<Instruction />} />
         </Route>
         <Route path={PATHS.HOME.LOGIN} element={<Login />} />
         <Route element={<PrivateRoute />}>

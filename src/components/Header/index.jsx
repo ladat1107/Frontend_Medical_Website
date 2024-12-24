@@ -55,11 +55,9 @@ function Header() {
       ]
     },
     {
-      title: "Liên hệ ",
+      title: "Hướng dẫn",
       inner: [
-        { title: "medical", icon: null },
-        { title: "medical", icon: null },
-        { title: "medical", icon: null },
+        { title: "Các tài khoản", icon: null, action: PATHS.HOME.INSTRUCTION },
       ],
     },
     ...(user ? [{

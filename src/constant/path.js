@@ -41,6 +41,7 @@ export const PATHS = {
         SPECIALTY_DETAIL: "/specialtyDetail",
         PROFILE: "/user-profile",
         BOOKING: "/make-appointment",
+        INSTRUCTION: "/instruction",
         LOGIN: "/login",
     }
 }
