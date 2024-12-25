@@ -144,7 +144,7 @@ const AppointmentList = () => {
                                     }
                                     {profile?.status === STATUS_BE.PENDING &&  //Chờ xác nhận}
                                         <>
-                                            {profile?.paymentId && +profile?.paymentDoctorStatus === +STATUS_BE.ACTIVE ?  //Đã thanh toán (tiền bác sĩ=1 và đã có mã thanh toán)
+                                            {profile?.paymentId ?  //Đã thanh toán (tiền bác sĩ=1 và đã có mã thanh toán)
                                                 <span className="status-success">Đã thanh toán</span>
                                                 :
                                                 <button className="btn checkout" onClick={() => { handleCheckOut(profile) }}>Thanh toán</button>
