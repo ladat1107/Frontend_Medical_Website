@@ -107,9 +107,11 @@ const HistoryItem = ({id, data}) => {
                                                     </div>
                                                     <div className="col-12 col-lg-8">
                                                         <p><strong>Hình ảnh: </strong>
+                                                        {item.image && 
                                                             <span 
                                                                 onClick={() => zoomImage(item.image)} 
-                                                                style={{ fontStyle: 'italic', textDecoration: 'underline', color: '#007BFF', cursor: 'pointer' }}>Nhấn để xem</span>
+                                                                style={{ fontStyle: 'italic', textDecoration: 'underline', color: '#007BFF', cursor: 'pointer' }}>Nhấn để xem
+                                                            </span>}
                                                         </p>
                                                     </div>
                                                     <div className="col-12 col-lg-12">
